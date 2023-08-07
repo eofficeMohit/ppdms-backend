@@ -21,7 +21,8 @@ use App\Http\Controllers\API\RegisterController;
 
 Route::controller(RegisterController::class)->group(function(){
     Route::post('register', 'register');
-    Route::post('login', 'login');
+    Route::post('Validate-mobile', 'ValidateMobile');
+    Route::post('Validate-mobile-otp', 'ValidateMobileOtp');
 });
 
 
