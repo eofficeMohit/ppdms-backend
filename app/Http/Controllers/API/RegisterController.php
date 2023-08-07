@@ -1,0 +1,132 @@
+<?php
+namespace App\Http\Controllers\API;
+use Illuminate\Http\Request;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\User;
+use App\Models\UserOtp;
+use Illuminate\Support\Facades\Auth;
+use Validator;
+use Illuminate\Http\JsonResponse;
+class RegisterController extends BaseController
+{
+    /**
+     * Register api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request): JsonResponse
+    {
+        // dd('hiihihhihi');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+        ]);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+        $success['name'] =  $user->name;
+        return $this->sendResponse($success, 'User register successfully.');
+    }
+    /**
+     * Validate Mobile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ValidateMobile(Request $request): JsonResponse
+    {
+        /* Validate Login Data */
+        $validator = Validator::make($request->all(), [
+            'mobile_number' => 'required|numeric|digits:10'
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        /* Generate An OTP */
+        $userOtp = $this->generateOtp($request->mobile_number);
+        /* Send An OTP */
+        // $userOtp->sendSMS($request->mobile_no);
+        if($userOtp){
+            $success['userOtp'] =  $userOtp;
+            return $this->sendResponse($success, 'Otp generated successfully.');
+        }
+        else{
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }
+    }
+
+    /**
+     * Validate Mobile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ValidateMobileOtp(Request $request): JsonResponse
+    {
+        /* Validate Login Data */
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'otp' => 'required|numeric|digits:6',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        /* Validation Logic */
+        $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
+        $now = now();
+        if (!$userOtp) {
+            return $this->sendError('Unauthorised.', ['error'=>'Your OTP is not correct']);
+        }else if($userOtp && $now->isAfter($userOtp->expire_at)){
+            return $this->sendError('Unauthorised.', ['error'=>'Your OTP has been expired']);
+        }
+        $user = User::whereId($request->user_id)->first();
+        if($user){
+            $userOtp->update([
+                'expire_at' => now()
+            ]);
+            Auth::login($user);
+            $user = Auth::user();
+            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['mobile_number'] =  $user->mobile_number;
+            return $this->sendResponse($success, 'User login successfully.');
+        }else{
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }
+    }
+
+        /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+     public function generateOtp($mobile_number)
+     {
+         $user = User::where('mobile_number', $mobile_number)->first();
+         /* User Does not Have Any Existing OTP */
+         $now = now();
+         if(!empty($user)){
+            $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
+            if($userOtp && $now->isBefore($userOtp->expire_at)){
+                return $userOtp;
+            }
+         }else{
+            $user = User::create(['mobile_number' => $mobile_number]);
+         }
+
+         /* Create a New OTP */
+         return UserOtp::create([
+             'user_id' => $user->id,
+             'mobile_number'=>$mobile_number,
+             'otp' => rand(123456, 999999),
+             'expire_at' => $now->addMinutes(10)
+         ]);
+     }
+}
