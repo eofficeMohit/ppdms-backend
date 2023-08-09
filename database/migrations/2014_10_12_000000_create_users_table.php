@@ -19,8 +19,27 @@ return new class extends Migration
             $table->string('alternate_mobile')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('designation')->nullable();
+            $table->string('office_name')->nullable();
+            $table->string('dept_name')->nullable();
+            $table->string('ac_code')->nullable();
+            $table->string('api_key')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('district_id')->nullable();
+            $table->string('category')->nullable();
+            $table->integer('start_from')->nullable();
+            $table->string('dest')->nullable();
+            $table->string('other_name')->nullable();
+            $table->string('last_pass')->nullable();
+            $table->string('sec_last_pass')->nullable();
+            $table->string('third_last_pass')->nullable();
+            $table->boolean('ac_active')->default(false)->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

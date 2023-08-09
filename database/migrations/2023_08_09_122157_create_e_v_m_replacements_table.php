@@ -11,27 +11,32 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('poll_interrupteds', function (Blueprint $table) {
+        Schema::create('e_v_m_replacements', function (Blueprint $table) {
             $table->id();
-            $table->integer('acc_code')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('booth_id')->nullable();
-            $table->string('stop_time')->nullable();
-            $table->string('resume_time')->nullable();
-            $table->datetime('lastupdated_stop_time')->nullable();
-            $table->datetime('lastupdated_resume_time')->nullable();
-            $table->unsignedBigInteger('added_by')->nullable();
+            $table->integer('acc_code')->nullable();
+            $table->string('old_CU_no')->nullable();
+            $table->string('old_BU_no')->nullable();
+            $table->string('old_VVPAT_no')->nullable();
+            $table->string('new_CU_no')->nullable();
+            $table->string('new_BU_no')->nullable();
+            $table->string('new_VVPAT_no')->nullable();
+            $table->tinyInteger('status')->default(0)->nullable();
+            $table->dateTime('added_on')->nullable();
+            $table->dateTime('last_up_dated_on')->nullable();
             $table->unsignedBigInteger('role_id')->nullable();
-            $table->string('reason')->nullable();
-            $table->datetime('added_on')->nullable();
-            $table->datetime('last_updated_on')->nullable();
-            $table->string('resume_show')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('activity')->nullable();
+            $table->string('item_cu')->nullable();
+            $table->string('item_bu')->nullable();
+            $table->string('item_vvpat')->nullable();
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');
-            $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -42,6 +47,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('poll_interrupteds');
+        Schema::dropIfExists('e_v_m_replacements');
     }
 };
