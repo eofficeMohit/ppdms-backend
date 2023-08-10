@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('st_code');
             $table->integer('asmb_code');
             $table->string('ac_type');
+            $table->string('pc_type');
             $table->integer('pc_no');
             $table->unsignedBigInteger('district_id');
             $table->unsignedBigInteger('state_id');

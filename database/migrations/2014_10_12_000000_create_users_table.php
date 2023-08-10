@@ -4,12 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -24,8 +26,6 @@ return new class extends Migration
             $table->string('dept_name')->nullable();
             $table->string('ac_code')->nullable();
             $table->string('api_key')->nullable();
-            $table->unsignedBigInteger('state_id')->nullable();
-            $table->unsignedBigInteger('district_id')->nullable();
             $table->string('category')->nullable();
             $table->integer('start_from')->nullable();
             $table->string('dest')->nullable();
@@ -35,8 +35,7 @@ return new class extends Migration
             $table->string('third_last_pass')->nullable();
             $table->boolean('ac_active')->default(false)->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
-            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
+            $table->integer('no_of_login_attempts')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -45,9 +44,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('users');
     }
-};
+}

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('booth_name_uni')->nullable();
             $table->boolean('has_auxy_ps')->default(false)->nullable();
             $table->string('booth_no_auxy')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
