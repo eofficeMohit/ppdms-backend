@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('booths', function (Blueprint $table) {
             $table->id();
-            $table->string('St_Code');
-            $table->integer('acCode');
+            $table->integer('ac_code');
             $table->string('booth_no');
-            $table->integer('tot_voters');
-            $table->index('district_id');
-            $table->index('state_id');
-            $table->index('user_id');
-            $table->string('booth_name');
-            $table->string('booth_name_uni');
-            $table->string('has_auxy_ps');
-            $table->string('booth_no_auxy');
+            $table->integer('tot_voters')->nullable();
+            $table->unsignedBigInteger('district_id');
+            $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('booth_name')->nullable();
+            $table->string('booth_name_uni')->nullable();
+            $table->boolean('has_auxy_ps')->default(false)->nullable();
+            $table->string('booth_no_auxy')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
