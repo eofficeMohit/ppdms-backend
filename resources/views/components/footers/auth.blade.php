@@ -8,14 +8,14 @@
 
                     </script>,
                     made with <i class="fa fa-heart"></i> by
-                    <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a> &
-                    <a href="https://www.updivision.com" class="font-weight-bold" target="_blank"> UPDIVISION</a>
-                    for a better web.
+                    <a href="#" class="font-weight-bold" target="_blank">National Informatic </a>
+                    <a href="#" class="font-weight-bold" target="_blank">Centre </a>
+                    Election's Monitoring System.
                 </div>
             </div>
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative
                             Tim</a>
                     </li>
@@ -32,7 +32,7 @@
                     <li class="nav-item">
                         <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
                             target="_blank">License</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

@@ -5,7 +5,7 @@
     <div class="card shadow-lg">
         <div class="card-header pb-0 pt-3">
             <div class="float-start">
-                <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+                <h5 class="mt-3 mb-0">Configurator</h5>
                 <p>See our dashboard options.</p>
             </div>
             <div class="float-end mt-4">
@@ -38,7 +38,7 @@
             <!-- Sidenav Type -->
             <div class="mt-3">
                 <h6 class="mb-0">Sidenav Type</h6>
-                <p class="text-sm">Choose between 2 different sidenav types.</p>
+                <p class="text-sm">Choose between 3 different sidenav types.</p>
             </div>
             <div class="d-flex">
                 <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
@@ -57,6 +57,12 @@
                         onclick="navbarFixed(this)">
                 </div>
             </div>
+            <div class="d-flex my-4">
+                <h6 class="mb-0">Sidenav Mini</h6>
+                <div class="form-check form-switch ps-0 ms-auto my-auto">
+                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarMinimize" onclick="navbarMinimize(this)">
+                </div>
+                </div>
             <hr class="horizontal dark my-3">
             <div class="mt-2 d-flex">
                 <h6 class="mb-0">Light / Dark</h6>
@@ -66,7 +72,7 @@
                 </div>
             </div>
             <hr class="horizontal dark my-sm-4">
-            <a class="btn btn-outline-dark w-100" href="../../documentation/getting-started/installation.html">View documentation</a>
+            {{-- <a class="btn btn-outline-dark w-100" href="../../documentation/getting-started/installation.html">View documentation</a>
             <div class="w-100 text-center">
                 <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard-laravel"
                     data-icon="octicon-star" data-size="large" data-show-count="true"
@@ -80,7 +86,7 @@
                     class="btn btn-dark mb-0 me-2" target="_blank">
                     <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

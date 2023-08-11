@@ -2,19 +2,19 @@
     <div class="container">
         <div class="row align-items-center justify-content-lg-between">
             <div class="col-12 col-md-6 my-auto">
-                <div class="copyright text-center text-sm text-white text-lg-start">
+                <div class="copyright text-center text-sm text-muted text-lg-start">
                     © <script>
                         document.write(new Date().getFullYear())
 
                     </script>,
-                    made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                    <a href="https://www.creative-tim.com" class="font-weight-bold text-white" target="_blank">Creative
-                        Tim</a> & <a href="https://www.updivision.com" class="font-weight-bold text-white" target="_blank">UPDIVISION</a>
-                    for a better web.
+                    made with <i class="fa fa-heart"></i> by
+                    <a href="#" class="font-weight-bold" target="_blank">National Informatic </a>
+                    <a href="#" class="font-weight-bold" target="_blank">Centre </a>
+                    Election's Monitoring System.
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                {{-- <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
                         <a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative
                             Tim</a>
@@ -33,7 +33,7 @@
                         <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white"
                             target="_blank">License</a>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
     </div>

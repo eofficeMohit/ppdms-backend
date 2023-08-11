@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/favicon.png">
     <title>
-        Material Dashboard 2 by Creative Tim
+        EMS Dashboard
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -32,7 +32,7 @@
                 aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
                     <img src="{{ asset('assets') }}/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-                    <span class="ms-1 font-weight-bold text-white">Material Dashboard 2 Laravel</span>
+                    <span class="ms-1 font-weight-bold text-white">EMS Dashboard</span>
                 </a>
         </div>
         <hr class="horizontal light mt-0 mb-2">
@@ -829,19 +829,19 @@
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
                         <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-end">
+                            <div class="copyright text-center text-sm text-muted text-lg-start">
                                 © <script>
                                     document.write(new Date().getFullYear())
 
                                 </script>,
                                 made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
-                                    Tim & UPDIVISION</a>
-                                for a better web.
+                                <a href="#" class="font-weight-bold" target="_blank">National Informatic </a>
+                                <a href="#" class="font-weight-bold" target="_blank">Centre </a>
+                                Election's Monitoring System.
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            {{-- <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                                 <li class="nav-item">
                                     <a href="https://www.creative-tim.com" class="nav-link text-muted"
                                         target="_blank">Creative Tim</a>
@@ -858,7 +858,7 @@
                                     <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
                                         target="_blank">License</a>
                                 </li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>
@@ -872,7 +872,7 @@
         <div class="card shadow-lg">
             <div class="card-header pb-0 pt-3">
                 <div class="float-end">
-                    <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+                    <h5 class="mt-3 mb-0">MConfigurator</h5>
                     <p>See our dashboard options.</p>
                 </div>
                 <div class="float-start mt-4">
@@ -907,7 +907,7 @@
                 <!-- Sidenav Type -->
                 <div class="mt-3">
                     <h6 class="mb-0">Sidenav Type</h6>
-                    <p class="text-sm">Choose between 2 different sidenav types.</p>
+                    <p class="text-sm">Choose between  different sidenav types.</p>
                 </div>
                 <div class="d-flex">
                     <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
@@ -935,8 +935,8 @@
                     </div>
                 </div>
                 <hr class="horizontal dark my-sm-4">
-                <a class="btn btn-outline-dark w-100" href="">View documentation</a>
-                <div class="w-100 text-center">
+                {{-- <a class="btn btn-outline-dark w-100" href="">View documentation</a> --}}
+                {{-- <div class="w-100 text-center">
                     <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard"
                         data-icon="octicon-star" data-size="large" data-show-count="true"
                         aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
@@ -949,7 +949,7 @@
                         class="btn btn-dark mb-0 me-2" target="_blank">
                         <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
