@@ -11,16 +11,16 @@ class ProfileController extends Controller
         return view('pages.profile');
     }
 
-    public function update()
+    public function update(Request $request)
     {
-            
+
         $user = request()->user();
         $attributes = request()->validate([
             'email' => 'required|email|unique:users,email,'.$user->id,
             'name' => 'required',
-            'phone' => 'required|max:10',
-            'about' => 'required:max:150',
-            'location' => 'required'
+            'mobile_number' => 'required|max:10',
+            'designation' => 'required',
+            'office_name' => 'required'
         ]);
 
         auth()->user()->update($attributes);

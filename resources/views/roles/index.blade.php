@@ -11,34 +11,40 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong> Role Management Listings and control their CRUD Functionality.
-                                       </strong> </h6>
+                                <h6 class="text-white mx-3"><strong>Roles Add, Edit, Delete and listings features are
+                                        functional!</strong></h6>
                             </div>
                         </div>
-                        {{-- <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Role Management</h6>
-                        </div> --}}
-                        {{-- <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"> --}}
-                            <div class="me-3 my-3 text-end">
-                                @can('role-create')
-                                    <a class="btn bg-gradient-dark mb-0" href="{{ route('roles.create') }}"> Create New Role</a>
-                                @endcan
+                        <div class=" me-3 my-3 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('roles.create') }}"><i
+                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                Role</a>
+                        </div>
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success">
+                                <p>{{ $message }}</p>
                             </div>
-                            <div class="card-body px-0 pb-2">
-                                @if ($message = Session::get('success'))
-                                    <div class="alert alert-success">
-                                        <p>{{ $message }}</p>
-                                    </div>
-                                @endif
-                                <div class="table-responsive p-0">
-                                    <table class="table align-items-center mb-0">
+                        @endif
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                            <th class="text-secondary opacity-7" width="280px">Action</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                ID
+                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                NAME</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                CREATION DATE
+                                            </th>
+                                            <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
                                         @foreach ($roles as $key => $role)
                                         <tr>
                                             <td>
@@ -55,28 +61,47 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <p class="mb-0 text-sm">{{ $role->created_at }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td class="align-middle">
-                                                <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}" data-original-title="" title="Show">Show</a>
-                                                @can('role-edit')
-                                                    <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}" data-original-title="" title="Edit">Edit</a>
+                                                @can('role-show')
+                                                    <a rel="tooltip" class="btn btn-info btn-link"
+                                                    href="{{ route('roles.show',$role->id) }}" data-original-title="show Role"
+                                                    title="show User">
+                                                    <i class="material-icons">visibility</i>
+                                                    <div class="ripple-container"></div>
+                                                    </a>
+                                                @endcan
+                                                 @can('role-edit')
+                                                    <a rel="tooltip" class="btn btn-success btn-link"
+                                                        href="{{ route('roles.edit',$role->id) }}" data-original-title="Edit Role"
+                                                        title="Edit User">
+                                                        <i class="material-icons">edit</i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
                                                 @endcan
                                                 @can('role-delete')
                                                     {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-link']) !!}
+                                                        {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
                                                     {!! Form::close() !!}
                                                 @endcan
                                             </td>
                                         </tr>
                                         @endforeach
-                                    </table>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-center">
+                                    {!! $roles->links() !!}
                                 </div>
-                            <div class="d-flex justify-content-center">
-                                {!! $roles->links() !!}
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <x-footers.auth></x-footers.auth>
         </div>
@@ -84,3 +109,4 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+

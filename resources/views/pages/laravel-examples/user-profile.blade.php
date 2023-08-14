@@ -7,8 +7,10 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-                style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
-                <span class="mask  bg-gradient-primary  opacity-6"></span>
+            style="background-image: url('/assets/img/election_dashboard.jpeg');"
+                {{-- style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');" --}}
+                >
+                <span class="mask opacity-6"></span>
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row gx-4 mb-2">
@@ -24,7 +26,7 @@
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                CEO / Co-Founder
+                                {{ auth()->user()->roles[0]->name }}
                             </p>
                         </div>
                     </div>
@@ -87,10 +89,14 @@
                                     </div>
                                 </div>
                         @endif
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
                         <form method='POST' action='{{ route('user-profile') }}'>
                             @csrf
-                            <div class="row">
-                                
+                            <div class="row">           
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Email address</label>
                                     <input type="email" name="email" class="form-control border border-2 p-2" value='{{ old('email', auth()->user()->email) }}'>
@@ -108,27 +114,28 @@
                                 </div>
                                
                                 <div class="mb-3 col-md-6">
-                                    <label class="form-label">Phone</label>
-                                    <input type="number" name="phone" class="form-control border border-2 p-2" value='{{ old('phone', auth()->user()->phone) }}'>
-                                    @error('phone')
+                                    <label class="form-label">Mobile Number</label>
+                                    <input type="number" name="mobile_number" class="form-control border border-2 p-2" value='{{ old('mobile_number', auth()->user()->mobile_number) }}'>
+                                    @error('mobile_number')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
                                 
                                 <div class="mb-3 col-md-6">
-                                    <label class="form-label">Location</label>
-                                    <input type="text" name="location" class="form-control border border-2 p-2" value='{{ old('location', auth()->user()->location) }}'>
-                                    @error('location')
+                                    <label class="form-label">Designation</label>
+                                    <input type="text" name="designation" class="form-control border border-2 p-2" value='{{ old('designation', auth()->user()->designation) }}'>
+                                    @error('designation')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
                                 
                                 <div class="mb-3 col-md-12">
-                                    <label for="floatingTextarea2">About</label>
-                                    <textarea class="form-control border border-2 p-2"
-                                        placeholder=" Say something about yourself" id="floatingTextarea2" name="about"
-                                        rows="4" cols="50">{{ old('about', auth()->user()->about) }}</textarea>
-                                        @error('about')
+                                    <label for="floatingTextarea2">Office Name</label>
+                                    <input type="text" name="office_name" class="form-control border border-2 p-2" value='{{ old('office_name', auth()->user()->office_name) }}'>
+                                    {{-- <textarea class="form-control border border-2 p-2"
+                                        placeholder=" Say something about yourself" id="floatingTextarea2" name="office_name"
+                                        rows="4" cols="50">{{ old('office_name', auth()->user()->office_name) }}</textarea> --}}
+                                        @error('office_name')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                         @enderror
                                 </div>
