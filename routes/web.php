@@ -75,9 +75,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('static-sign-up', function () {
 		return view('pages.static-sign-up');
 	})->name('static-sign-up');
-	// Route::get('user-management', function () {
-	// 	return view('pages.laravel-examples.user-management');
-	// })->name('user-management');
+	Route::get('user-management', function () {
+		return view('pages.laravel-examples.user-management');
+	})->name('user-management');
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
