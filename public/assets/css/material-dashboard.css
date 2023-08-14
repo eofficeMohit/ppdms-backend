@@ -13186,7 +13186,7 @@ background-image: linear-gradient(195deg,#153589,#263EAE);
         top: 0;
         content: "";
         border-radius: 0.5rem;
-        background-image: linear-gradient(195deg, #EC407A, #D81B60);
+        background-image: linear-gradient(195deg, #6677cc, #6677cc);
         opacity: .85; }
     .rotating-card-container .card .front {
       z-index: 2;
@@ -13846,7 +13846,7 @@ body.dark-version {
     margin-top: 0.25rem;
     position: relative; }
     .form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked, .form-check:not(.form-switch) .form-check-input[type="radio"]:checked {
-      border-color: #e91e63; }
+      border-color: #6677cc; }
   .form-check:not(.form-switch) .form-check-input[type="checkbox"] {
     background-image: none; }
     .form-check:not(.form-switch) .form-check-input[type="checkbox"]:after {
@@ -13863,7 +13863,7 @@ body.dark-version {
       font-size: 0.67rem;
       opacity: 0; }
     .form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
-      background: #e91e63; }
+      background: #6677cc; }
       .form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked:after {
         opacity: 1; }
   .form-check:not(.form-switch) .form-check-input[type="radio"] {
@@ -16212,7 +16212,7 @@ p {
   position: relative;
   z-index: 1; }
   .text-gradient.text-primary {
-    background-image: linear-gradient(195deg, #EC407A, #D81B60); }
+    background-image: linear-gradient(195deg, #6677cc, #6677cc); }
   .text-gradient.text-info {
     background-image: linear-gradient(195deg, #49a3f1, #1A73E8); }
   .text-gradient.text-success {
