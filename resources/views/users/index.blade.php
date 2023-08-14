@@ -11,7 +11,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong> Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Users Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
@@ -96,6 +96,12 @@
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $user->created_at }}</span>
                                             </td>
                                             <td class="align-middle">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('users.show',$user->id) }}" data-original-title="show User"
+                                                title="show User">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                            </a>
                                                 <a rel="tooltip" class="btn btn-success btn-link"
                                                     href="{{ route('users.edit',$user->id) }}" data-original-title="Edit User"
                                                     title="Edit User">
@@ -103,13 +109,8 @@
                                                     <div class="ripple-container"></div>
                                                 </a>
                                                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-link']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
                                                 {!! Form::close() !!}
-                                                {{-- <button type="button" class="btn btn-danger btn-link"
-                                                data-original-title="" title="">
-                                                <i class="material-icons">close</i>
-                                                <div class="ripple-container"></div>
-                                            </button> --}}
                                             </td>
                                         </tr>
                                         @endforeach
