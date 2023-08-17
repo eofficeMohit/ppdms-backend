@@ -11,7 +11,7 @@
         </div>
         <main class="main-content  mt-0">
             <div class="page-header align-items-start min-vh-100"
-            style="background-image: url('/assets/img/election_dashboard.jpeg');">
+            style="background-image: url('../public/assets/img/election_dashboard.jpeg');;">
                 <span class="mask opacity-6"></span>
                 <div class="container mt-5">
                     <div class="row signin-margin">

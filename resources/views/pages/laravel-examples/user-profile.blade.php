@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-            style="background-image: url('/assets/img/election_dashboard.jpeg');"
+            style="background-image: url('../public/assets/img/election_dashboard.jpeg');;"
                 {{-- style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');" --}}
                 >
                 <span class="mask opacity-6"></span>
@@ -96,7 +96,7 @@
                     @endif
                         <form method='POST' action='{{ route('user-profile') }}'>
                             @csrf
-                            <div class="row">           
+                            <div class="row">
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Email address</label>
                                     <input type="email" name="email" class="form-control border border-2 p-2" value='{{ old('email', auth()->user()->email) }}'>
@@ -104,7 +104,7 @@
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
                                 </div>
-                                
+
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Name</label>
                                     <input type="text" name="name" class="form-control border border-2 p-2" value='{{ old('name', auth()->user()->name) }}'>
@@ -112,7 +112,7 @@
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
                                 </div>
-                               
+
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Mobile Number</label>
                                     <input type="number" name="mobile_number" class="form-control border border-2 p-2" value='{{ old('mobile_number', auth()->user()->mobile_number) }}'>
@@ -120,7 +120,7 @@
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
-                                
+
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Designation</label>
                                     <input type="text" name="designation" class="form-control border border-2 p-2" value='{{ old('designation', auth()->user()->designation) }}'>
@@ -128,7 +128,7 @@
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
-                                
+
                                 <div class="mb-3 col-md-12">
                                     <label for="floatingTextarea2">Office Name</label>
                                     <input type="text" name="office_name" class="form-control border border-2 p-2" value='{{ old('office_name', auth()->user()->office_name) }}'>
