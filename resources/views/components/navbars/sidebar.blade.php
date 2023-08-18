@@ -18,6 +18,71 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Dashboard Users</h6>
             </li>
             <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'roles' ? ' active bg-gradient-primary' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">pages</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Masters</span>
+                </a>
+                <div class="collapse {{ $activePage == 'roles' ? 'show' : '' }} {{ $activePage == 'permissions' ? 'show' : '' }}" id="pagesExamples" style="">
+                    <ul class="nav ms-4">
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'roles' ? ' active bg-gradient-primary' : '' }}"
+                                href="{{ route('roles.index') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">people</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Roles</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}"
+                                href="{{ route('permissions.index') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">person</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Permissions</span>
+                            </a>
+                        </li>
+                        {{-- multiple toggle --}}
+                        {{-- <li class="nav-item ">
+                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}" data-bs-toggle="collapse" aria-expanded="false" href="#accountExample">
+                                <span class="sidenav-mini-icon"> A </span>
+                                <span class="sidenav-normal"> Roles <b class="caret"></b></span>
+                            </a>
+                            <div class="collapse " id="accountExample">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="https://argon-dashboard-pro-laravel.creative-tim.com/pages/account/settings">
+                                            <span class="sidenav-mini-icon text-xs"> S </span>
+                                            <span class="sidenav-normal"> Settings </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="https://argon-dashboard-pro-laravel.creative-tim.com/pages/account/billing">
+                                            <span class="sidenav-mini-icon text-xs"> B </span>
+                                            <span class="sidenav-normal"> Billing </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="https://argon-dashboard-pro-laravel.creative-tim.com/pages/account/invoice">
+                                            <span class="sidenav-mini-icon text-xs"> I </span>
+                                            <span class="sidenav-normal"> Invoice </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="https://argon-dashboard-pro-laravel.creative-tim.com/pages/account/security">
+                                            <span class="sidenav-mini-icon text-xs"> S </span>
+                                            <span class="sidenav-normal"> Security </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> --}}
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'user-profile' ? 'active bg-gradient-primary' : '' }} "
                     href="{{ route('user-profile') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -63,33 +128,6 @@
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
                     <span class="nav-link-text ms-1">Tables</span>
-                </a>
-            </li> --}}
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'roles' ? ' active bg-gradient-primary' : '' }}  "
-                    href="{{ route('roles.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">people</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Roles</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}  "
-                    href="{{ route('permissions.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Permissions</span>
-                </a>
-            </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'billing' ? ' active bg-gradient-primary' : '' }}  "
-                    href="{{ route('billing') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">receipt_long</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Billing</span>
                 </a>
             </li> --}}
             <li class="nav-item">
