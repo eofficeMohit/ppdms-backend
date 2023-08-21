@@ -6,7 +6,7 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-            style="background-image:  url('../assets/img/election_dashboard.jpeg'); background-size: cover;">
+            style="background-image:  url('../public/assets/img/election_dashboard.jpeg'); background-size: cover;">
 
                 <span class="mask  bg-gradient-primary  opacity-6"></span>
             </div>

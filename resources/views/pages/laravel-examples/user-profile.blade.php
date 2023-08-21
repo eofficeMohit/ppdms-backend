@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-            style="background-image: url('../assets/img/election_dashboard.jpeg');">
+            style="background-image: url('../public/assets/img/election_dashboard.jpeg');">
                 <span class="mask opacity-6"></span>
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
