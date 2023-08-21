@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers\API;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Requests;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,7 @@ class RegisterController extends BaseController
      */
     public function register(Request $request): JsonResponse
     {
-        // dd('hiihihhihi');
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -40,15 +42,13 @@ class RegisterController extends BaseController
      */
     public function ValidateMobile(Request $request): JsonResponse
     {
-        /* Validate Login Data */
-        $validator = Validator::make($request->all(), [
+         /* Validate Login Data */
+         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required|numeric|digits:10'
         ]);
-
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
         /* Send An OTP */
