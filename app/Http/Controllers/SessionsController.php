@@ -43,7 +43,7 @@ class SessionsController extends Controller
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             session()->regenerate();
             return redirect()->intended('/dashboard')
-                        ->withSuccess('Signed in');
+                        ->withSuccess('Signed in to Dashboard.');
         }else{
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
