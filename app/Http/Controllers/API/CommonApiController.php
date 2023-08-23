@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\UserOtp;
@@ -11,32 +12,32 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
 
-class RegisterController extends BaseController
+class CommonApiController extends BaseController
 {
     /**
-     * Register api
+     * User profile api
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request): JsonResponse
+    public function userProfile(Request $request): JsonResponse
     {
+        try {
+            if($request->bearerToken()){
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-        ]);
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
-        $success['token_type'] = 'Bearer';
-        $success['name'] =  $user->name;
+                $user = User::
+                with(['userBooths'])->find($token->tokenable_id);
+                dd($user);
+            }
+
+          } catch (\Exception $e) {
+              return $e->getMessage();
+          }
+
         return $this->sendResponse($success, 'User register successfully.');
+
+        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
     }
     /**
      * Validate Mobile api
