@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('poll_interrupteds', function (Blueprint $table) {
             $table->id();
-            $table->integer('acc_code')->nullable();
+            $table->unsignedBigInteger('assemble_id')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('booth_id')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->datetime('added_on')->nullable();
             $table->datetime('last_updated_on')->nullable();
             $table->string('resume_show')->nullable();
+            $table->foreign('assemble_id')->references('id')->on('assemblies')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');

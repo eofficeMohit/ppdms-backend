@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('polled_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('district_id')->nullable();
+            $table->unsignedBigInteger('assemble_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('booth_id')->nullable();
             $table->integer('ac_code')->nullable();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->dateTime('date_time_received')->nullable();
             $table->string('ip_address')->nullable();
             $table->string('ip_host')->nullable();
+            $table->foreign('assemble_id')->references('id')->on('assemblies')->onDelete('cascade');
             $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
