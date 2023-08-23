@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\AssemblyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
+	//Route::resource('manage-assembly', AssemblyController::class);
 });
 
 
@@ -83,3 +85,10 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
 });
+Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+
