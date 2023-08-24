@@ -19,27 +19,16 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
-        // $attributes = request()->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required'
-        // ]);
-
-        // if (! auth()->attempt($attributes)) {
-        //     throw ValidationException::withMessages([
-        //         'email' => 'Your provided credentials could not be verified.'
-        //     ]);
-        // }
-
-        // session()->regenerate();
-
-        // return redirect('/dashboard');
+    //  dd($request);
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
+        // dd(\Auth::attempt($credentials));
         if (\Auth::attempt($credentials)) {
+
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             session()->regenerate();
             return redirect()->intended('/dashboard')
