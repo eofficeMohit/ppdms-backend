@@ -109,10 +109,10 @@ class CommonApiController extends BaseController
                 $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])->find($data->id);
 
                 $success['access_token']=$hashedTooken;
-                $success['state_id']=$data->electionState->name;
-                $success['district_id']=$data->electionDistrict->name;
-                $success['booth_id']=$data->electionBooth->booth_name;
-                $success['assemble_id']=$data->electionAssembly->asmb_name;
+                $success['state_name']=$data->electionState->name;
+                $success['district_name']=$data->electionDistrict->name;
+                $success['booth_name']=$data->electionBooth->booth_name;
+                $success['assemble_name']=$data->electionAssembly->asmb_name;
                 if($data->is_party_dispatch == 1){
                     $success['is_party_dispatch']=  'Yes';
                 }else{
