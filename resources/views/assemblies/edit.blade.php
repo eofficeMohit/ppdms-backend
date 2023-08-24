@@ -1,23 +1,23 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-    <x-navbars.sidebar activePage="users"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="assemblies"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="User Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Assembly Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-md-12 mt-4">
                     <div class="card">
                         <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">User Management</h6>
+                            <h6 class="mb-0">Assembly Management</h6>
                         </div>
                         <div class="card-body pt-4 p-3">
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
-                                    <h3>Edit User</h3>
+                                    <h3>Edit Assembly</h3>
                                         <div class="col-12 text-end">
-                                            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                                            <a class="btn btn-primary" href="{{ route('assemblies') }}"> Back</a>
                                         </div>
                                 </div>
                             </div>
@@ -36,42 +36,86 @@
                                     </ul>
                                 </div>
                             @endif
-                            {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+                            {!! Form::model($assembly, ['method' => 'PATCH','route' => ['assemblies.update', $assembly->id]]) !!}
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Name:</strong>
-                                        {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>ST Code:</strong>
+                                            {!! Form::text('st_code', null, array('placeholder' => 'ST Code','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>ASMB Code:</strong>
+                                            {!! Form::text('asmb_code', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>AC Type:</strong>
+                                            {!! Form::text('ac_type', null, array('placeholder' => 'AC Type','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>PC Type:</strong>
+                                            {!! Form::text('pc_type', null, array('placeholder' => 'PC Type','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>PC Number:</strong>
+                                            {!! Form::text('pc_no', null, array('placeholder' => 'PC Number','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>State:</strong>
+                                            <select class="form-control" id="state_id" name="state_id">
+                                                @foreach($states as $key => $value)
+                                                    <option value="{{ $key }}" {{ $key == $assembly->state_id ? 'selected' : '' }}>{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>District:</strong>
+                                            <select class="form-control" id="district_id" name="district_id">
+                                               <option value="">Select District</option>
+                                                @foreach($districts as $key => $value)
+                                                    <option value="{{ $key }}" {{ $key == $assembly->district_id ? 'selected' : '' }}>{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>ASMB Name:</strong>
+                                            {!! Form::text('asmb_name', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>AC Name Uni:</strong>
+                                            {!! Form::text('ac_name_uni', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>Status:</strong>
+                                            <select class="form-control" name="status">
+                                                <option value="1" {{ 1 == $assembly->status ? 'selected' : '' }}>ON</option>
+                                                <option value="0" {{ 0 == $assembly->status ? 'selected' : '' }}>OFF</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Email:</strong>
-                                        {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Password:</strong>
-                                        {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Confirm Password:</strong>
-                                        {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Role:</strong>
-                                        {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -84,3 +128,26 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('state_id').addEventListener('change', function() {
+        var selectedOption = this.value;
+        jQuery('#district_id').find('option').not(':first').remove();
+        // Make an AJAX request
+        axios.get('{{ route('assemblies.getStates') }}', {
+            params: {
+                selectedOption: selectedOption
+            }
+        })
+        .then(function(response) {
+            console.log(response.data);
+            // Iterate through the response and append data to the container
+            response.data.forEach(function(value) {
+                jQuery('#district_id').append(jQuery('<option>').val(value.id).text(value.name))
+            });
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+    });
+</script>

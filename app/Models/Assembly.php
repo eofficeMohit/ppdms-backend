@@ -20,4 +20,14 @@ class Assembly extends Model
     protected $fillable = [
         'st_code', 'asmb_code', 'ac_type', 'pc_type','pc_no','district_id','state_id','asmb_name','ac_name_uni','status'
     ];
+
+    public function state()
+    {
+        return $this->hasOne(State::class,'state_id');
+    }
+
+    public function district()
+    {
+        return $this->hasOne(District::class,'district_id');
+    }
 }

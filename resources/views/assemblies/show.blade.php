@@ -12,74 +12,123 @@
                         <div class="card-header pb-0 px-3">
                             <h6 class="mb-0">Assembly Management</h6>
                         </div>
-                        <div class="card-body pt-4 p-3">
+                        <div class="card-body pt-2 p-3">
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
-                                    <h3>Show Assembly</h3>
                                         <div class="col-12 text-end">
                                             <a class="btn btn-primary" href="{{ route('assemblies') }}"> Back</a>
                                         </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>ST Code:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->st_code }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>AC Type:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->ac_type }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>PC Type:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->pc_type }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>PC Number:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->pc_no }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>ASMB Code:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->asmb_code }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>District:</strong>
-                                        {{ $assembly->district_id }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        {{ $districts[0] }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>State:</strong>
-                                        {{ $assembly->state_id }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        {{ $state[0]; }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>ASMB Name:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->asmb_name }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>AC Name:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
                                         {{ $assembly->ac_name_uni }}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         <strong>Status:</strong>
-                                        {{ $assembly->status }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        @if($assembly->status == 1)
+                                            <span type="button" class="badge bg-success tips"
+                                                data-bs-toggle="popover" title="ON">
+                                                ON
+                                            </span>
+                                        @else
+                                            <span type="button" class="badge bg-danger tips"
+                                                data-bs-toggle="popover" title="OFF">
+                                                OFF
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

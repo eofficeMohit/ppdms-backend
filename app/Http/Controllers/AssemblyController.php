@@ -36,14 +36,14 @@ class AssemblyController extends Controller
     {
         $this->validate($request, [
             'st_code' => 'required',
-            'asmb_code' => 'required',
+            'asmb_code' => 'required|numeric',
             'ac_type' => 'required',
             'pc_type' => 'required',
-            'pc_no' => 'required',
+            'pc_no' => 'required|numeric',
             'district_id' => 'required',
             'state_id' => 'required',
             'asmb_name' => 'required',
-            'ac_name_uni' => 'required',
+            'ac_name_uni' => 'required|numeric',
             'status' => 'required',
         ]);
         $input = $request->all();
@@ -59,24 +59,46 @@ class AssemblyController extends Controller
     public function show($id): View
     {
         $assembly = Assembly::find($id);
-        //$district_id = $assembly->pluck('district_id');
-        return view('assemblies.show',compact('assembly'));
+        $state_id = $assembly->state_id;
+        $district_id = $assembly->district_id;
+        $districts = District::where('id',$district_id)->pluck('name');
+        $state = State::where('id',$state_id)->pluck('name');
+        return view('assemblies.show',compact('assembly','state','districts'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Assembly $assembly)
+    public function edit($id): View
     {
-        //
+        $assembly = Assembly::find($id);
+        $states = State::pluck('name','id')->all();
+        $districts = District::pluck('name','id')->all();
+        return view('assemblies.edit',compact('assembly','states','districts'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Assembly $assembly)
+    public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $this->validate($request, [
+            'st_code' => 'required',
+            'asmb_code' => 'required|numeric',
+            'ac_type' => 'required',
+            'pc_type' => 'required',
+            'pc_no' => 'required|numeric',
+            'district_id' => 'required',
+            'state_id' => 'required',
+            'asmb_name' => 'required',
+            'ac_name_uni' => 'required|numeric',
+            'status' => 'required',
+        ]);
+        $input = $request->all();
+        $assembly = Assembly::find($id);
+        $assembly->update($input);
+        return redirect()->route('assemblies')
+                        ->with('success','Assembly updated successfully');
     }
 
     /**
@@ -87,5 +109,15 @@ class AssemblyController extends Controller
         Assembly::find($id)->delete();
         return redirect()->route('assemblies')
                         ->with('success','Assembly deleted successfully');
+    }
+
+    public function getStates(Request $request)
+    {
+        $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
+    
+        // Fetch data based on the selected option
+        $data = District::where('state_id', $selectedOption)->get();
+    
+        return response()->json($data);
     }
 }

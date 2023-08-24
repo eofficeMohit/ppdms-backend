@@ -1,9 +1,9 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-    <x-navbars.sidebar activePage="manage-assembly"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="booth"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Assembly Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Booth Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,14 +11,14 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Assembly Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Booth Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
                         <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Assembly</a>
+                                Booth</a>
                         </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -36,20 +36,20 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ST CODE
+                                                AC CODE
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                ASMB CODE</th>
+                                                Booth Number</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                AC TYPE</th>
+                                                Total Votars</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PC TYPE</th>
+                                                Booth Name</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PC NO
+                                                Status
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
@@ -68,42 +68,42 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <h6 class="mb-0 text-sm">{{ $user->st_code }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $user->ac_code }}</h6>
                                                     </div>
 
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $user->asmb_code }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $user->booth_no }}</h6>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $user->ac_type }}
+                                                <p class="text-xs text-secondary mb-0">{{ $user->tot_voters }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $user->pc_type }}
+                                            <p class="text-xs text-secondary mb-0">{{ $user->booth_name }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->pc_no }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->status }}</span>
                                             </td>
                                             <td class="align-middle">
                                                 <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('assemblies.show',$user->id) }}" data-original-title="show User"
+                                                href="{{ route('booth.show',$user->id) }}" data-original-title="show User"
                                                 title="Show Assembly">
                                                 <i class="material-icons">visibility</i>
                                                 <div class="ripple-container"></div>
                                             </a>
                                                 <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('assemblies.edit',$user->id) }}" data-original-title="Edit User"
+                                                    href="{{ route('booth.edit',$user->id) }}" data-original-title="Edit User"
                                                     title="Edit Assembly">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['assemblies.destroy', $user->id],'style'=>'display:inline']) !!}
+                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $user->id],'style'=>'display:inline']) !!}
                                                     {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
                                                 {!! Form::close() !!}
                                             </td>
