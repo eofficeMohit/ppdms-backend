@@ -12,7 +12,7 @@ class Assembly extends Model
 
     use HasFactory;
 
-    //protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
     /**
      * Write code on Method
      *

@@ -114,7 +114,7 @@
                                                 @endif
                                             </td>
                                             <td class="align-middle">
-                                                Under progress....
+                                                <p class="badge bg-danger">Under Progress....</p>
                                                 {{-- <a rel="tooltip" class="btn btn-info btn-link"
                                                 href="{{ route('booth.show',$booth->id) }}" data-original-title="show booth"
                                                 title="Show Assembly">

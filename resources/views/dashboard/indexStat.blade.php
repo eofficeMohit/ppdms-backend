@@ -146,7 +146,9 @@
                     </div>
                 </div>
             </div> --}}
-
+            <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
+<p class="badge bg-danger">Under Progress....</p>
+            </div>
             <div class="row mb-4">
                 <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
                     <div class="card">
@@ -169,7 +171,7 @@
                                       <th>Status</th>
                                     </tr>
                                 </thead>
-                            
+
                                 <tbody>
                                     <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
                                        <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
@@ -179,40 +181,40 @@
                                         <td>SP</td>
                                           <td>new</td>
                                     </tr>
-                                        
+
                                     <tr>
                                         <td colspan="12" class="hiddenRow">
-                                                        <div class="accordian-body collapse" id="demo1"> 
+                                                        <div class="accordian-body collapse" id="demo1">
                                           <table class="table table-striped">
                                                   <thead>
                                                     <tr class="info">
                                                                                 <th>Job</th>
                                                                                 <th>Company</th>
-                                                                                <th>Salary</th>		
-                                                                                <th>Date On</th>	
-                                                                                <th>Date off</th>	
-                                                                                <th>Action</th>	
+                                                                                <th>Salary</th>
+                                                                                <th>Date On</th>
+                                                                                <th>Date off</th>
+                                                                                <th>Action</th>
                                                                             </tr>
-                                                                        </thead>	
-                                                                      
+                                                                        </thead>
+
                                                                         <tbody>
-                                                                            
+
                                                     <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
                                                                                 <td> <a href="#">Enginner Software</a></td>
                                                                                 <td>Google</td>
                                                                                 <td>U$8.00000 </td>
                                                                                 <td> 2016/09/27</td>
                                                                                 <td> 2017/09/27</td>
-                                                                                <td> 
+                                                                                <td>
                                                                                     <a href="#" class="btn btn-default btn-sm">
                                                                               <i class="glyphicon glyphicon-cog"></i>
                                                                                         </a>
                                                                                 </td>
                                                                             </tr>
-                                                                            
+
                                                                              <tr>
                                         <td colspan="12" class="hiddenRow">
-                                                        <div class="accordian-body collapse" id="demo10"> 
+                                                        <div class="accordian-body collapse" id="demo10">
                                           <table class="table table-striped">
                                                   <thead>
                                                     <tr>
@@ -244,11 +246,11 @@
                                                                             </tr>
                                                   </tbody>
                                                </table>
-                                          
-                                          </div> 
+
+                                          </div>
                                       </td>
                                     </tr>
-                                                                                                                                    
+
                                                     <tr>
                                                                                 <td>Scrum Master</td>
                                                                                 <td>Google</td>
@@ -260,8 +262,8 @@
                                                                                         </a>
                                                                                 </td>
                                                                             </tr>
-                                                                            
-                                                                                    
+
+
                                                     <tr>
                                                                                 <td>Back-end</td>
                                                                                 <td>Google</td>
@@ -273,8 +275,8 @@
                                                                                         </a>
                                                                                 </td>
                                                                             </tr>
-                                                                            
-                                                                                    
+
+
                                                     <tr>
                                                                                 <td>Front-end</td>
                                                                                 <td>Google</td>
@@ -286,17 +288,17 @@
                                                                                         </a>
                                                                                 </td>
                                                                             </tr>
-                                                            
-                                           
+
+
                                                   </tbody>
                                                </table>
-                                          
-                                          </div> 
+
+                                          </div>
                                       </td>
                                     </tr>
-                                  
-                                  
-                                        
+
+
+
                                     <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
                                          <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                                          <td>Silvio</td>
@@ -322,9 +324,9 @@
                                 </tbody>
                             </table>
                                         </div>
-                                    
-                                      </div> 
-                                    
+
+                                      </div>
+
                                   </div>
                                 <div class="col-lg-6 col-5 my-auto text-end">
                                     <div class="dropdown float-lg-end pe-4">
@@ -669,7 +671,7 @@
 
 
 
-            
+
             <div class="row mb-4">
                 <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
                     <div class="card">

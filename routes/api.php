@@ -31,6 +31,8 @@ Route::middleware('auth:sanctum')->group( function () {
     // Route::resource('users', UsersController::class);
     Route::controller(CommonApiController::class)->group(function(){
         Route::post('user-profile-details', 'userProfile');
+        Route::get('get-user-Booths', 'getBooths');
+        Route::post('party-dispatch', 'partyDispatch');
     });
 });
 
