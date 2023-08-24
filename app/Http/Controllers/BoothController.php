@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Booth;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class BoothController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) :View
     {
-        //
+        $data = Booth::latest()->paginate(20);
+        return view('booth.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
     /**

@@ -32,7 +32,7 @@
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">people</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Roles</span>
+                                <span class="nav-link-text ms-1">Manage Roles</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -41,7 +41,25 @@
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">person</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Permissions</span>
+                                <span class="nav-link-text ms-1">Manage Permissions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'assemblies' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('assemblies') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">assignment</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage Assemblies</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('booth') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage Booths</span>
                             </a>
                         </li>
                         {{-- multiple toggle --}}
@@ -139,6 +157,7 @@
                     <span class="nav-link-text ms-1">Virtual Reality</span>
                 </a>
             </li>
+
             {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-primary' : '' }}  "
                     href="{{ route('rtl') }}">
