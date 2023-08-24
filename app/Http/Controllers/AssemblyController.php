@@ -15,8 +15,8 @@ class AssemblyController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Assembly::latest()->paginate(3);
-        return view('assemblies.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 3);
+        $data = Assembly::latest()->paginate(20);
+        return view('assemblies.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
     /**
@@ -114,10 +114,10 @@ class AssemblyController extends Controller
     public function getStates(Request $request)
     {
         $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
-    
+
         // Fetch data based on the selected option
         $data = District::where('state_id', $selectedOption)->get();
-    
+
         return response()->json($data);
     }
 }

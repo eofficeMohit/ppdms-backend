@@ -41,6 +41,9 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB CODE</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                ASMB Name</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 AC TYPE</th>
@@ -55,7 +58,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if(! $data->isEmpty()) 
+                                    @if(! $data->isEmpty())
                                         @foreach ($data as $key => $user)
                                         <tr>
                                             <td>
@@ -76,6 +79,14 @@
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">{{ $user->asmb_code }}</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                    <h6 class="mb-0 text-sm">{{ $user->asmb_name }}</h6>
+                                                    </div>
 
                                                 </div>
                                             </td>
@@ -120,8 +131,8 @@
 
                                                 </div>
                                             </td>
-                                        </tr>       
-                                    @endif    
+                                        </tr>
+                                    @endif
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center">

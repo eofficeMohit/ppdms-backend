@@ -15,11 +15,11 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        <div class=" me-3 my-3 text-end">
+                        {{-- <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 Booth</a>
-                        </div>
+                        </div> --}}
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -35,10 +35,6 @@
                                                 ID
                                             </th>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                AC CODE
-                                            </th>
-                                            <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Booth Number</th>
                                             <th
@@ -47,6 +43,12 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Booth Name</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Latitude</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Longitude</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
@@ -55,8 +57,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if(! $data->isEmpty()) 
-                                        @foreach ($data as $key => $user)
+                                    @if(! $data->isEmpty())
+                                        @foreach ($data as $key => $booth)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -65,47 +67,69 @@
                                                     </div>
                                                 </div>
                                             </td>
+
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_no }}</h6>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-xs text-secondary mb-0">{{ $booth->tot_voters }}
+                                                </p>
+                                            </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <h6 class="mb-0 text-sm">{{ $user->ac_code }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_name }}</h6>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                            {{-- <td class="align-middle text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ $booth->booth_name }}
+                                                </p>
+                                            </td> --}}
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                    <h6 class="mb-0 text-sm">{{ $booth->latitude }}</h6>
                                                     </div>
 
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $user->booth_no }}</h6>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                    <h6 class="mb-0 text-sm">{{ $booth->longitude }}</h6>
+                                                    </div>
 
                                                 </div>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $user->tot_voters }}
-                                                </p>
-                                            </td>
                                             <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $user->booth_name }}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->status }}</span>
+                                                @if($booth->status ==1)
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
+                                                @else
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
+                                                @endif
                                             </td>
                                             <td class="align-middle">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('booth.show',$user->id) }}" data-original-title="show User"
+                                                Under progress....
+                                                {{-- <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('booth.show',$booth->id) }}" data-original-title="show booth"
                                                 title="Show Assembly">
                                                 <i class="material-icons">visibility</i>
                                                 <div class="ripple-container"></div>
                                             </a>
                                                 <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('booth.edit',$user->id) }}" data-original-title="Edit User"
+                                                    href="{{ route('booth.edit',$booth->id) }}" data-original-title="Edit booth"
                                                     title="Edit Assembly">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $user->id],'style'=>'display:inline']) !!}
+                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $booth->id],'style'=>'display:inline']) !!}
                                                     {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
+                                                {!! Form::close() !!} --}}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -120,8 +144,8 @@
 
                                                 </div>
                                             </td>
-                                        </tr>       
-                                    @endif    
+                                        </tr>
+                                    @endif
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center">
