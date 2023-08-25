@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('election_infos', function (Blueprint $table) {
             $table->id();
-            $table->integer('ac_code');
+            $table->unsignedBigInteger('assemble_id')->nullable();
             $table->unsignedBigInteger('district_id');
             $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('booth_id');
@@ -49,6 +49,7 @@ return new class extends Migration
             $table->dateTime('battery_removed_last_updated')->nullable();
             $table->tinyInteger('is_evm_switch_off')->default(0)->nullable();
             $table->dateTime('is_evm_switch_off_last_updated')->nullable();
+            $table->foreign('assemble_id')->references('id')->on('assemblies')->onDelete('cascade');
             $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');

@@ -36,6 +36,12 @@ class CreateUsersTable extends Migration
             $table->boolean('ac_active')->default(false)->nullable();
             $table->tinyInteger('status')->default(0);
             $table->integer('no_of_login_attempts')->nullable();
+            $table->unsignedBigInteger('assemble_id')->nullable();
+            $table->unsignedBigInteger('district_id')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->foreign('assemble_id')->references('id')->on('assemblies')->onDelete('cascade');
+            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

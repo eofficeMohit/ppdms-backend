@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('booth_id')->nullable();
-            $table->integer('acc_code')->nullable();
+            $table->unsignedBigInteger('assemble_id')->nullable();
             $table->string('old_CU_no')->nullable();
             $table->string('old_BU_no')->nullable();
             $table->string('old_VVPAT_no')->nullable();
@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('item_cu')->nullable();
             $table->string('item_bu')->nullable();
             $table->string('item_vvpat')->nullable();
+            $table->foreign('assemble_id')->references('id')->on('assemblies')->onDelete('cascade');
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');

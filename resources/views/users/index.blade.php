@@ -43,7 +43,8 @@
                                                 NAME</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                EMAIL</th>
+                                                MOBILE NUMBER</th>
+
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ROLE</th>
@@ -80,7 +81,7 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $user->email }}
+                                                <p class="text-xs text-secondary mb-0">{{ $user->mobile_number }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">

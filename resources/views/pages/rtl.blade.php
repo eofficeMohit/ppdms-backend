@@ -31,7 +31,7 @@
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute start-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-                    <img src="{{ asset('assets') }}/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+                    <img src="{{ asset('assets') }}/img/favicon.jpeg" class="navbar-brand-img h-100" alt="main_logo">
                     <span class="ms-1 font-weight-bold text-white">EMS Dashboard</span>
                 </a>
         </div>
@@ -911,7 +911,7 @@
                 </div>
                 <div class="d-flex">
                     <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
-                        onclick="sidebarType(this)">Blue</button>
+                        onclick="sidebarType(this)">Orange</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent"
                         onclick="sidebarType(this)">Transparent</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 me-2" data-class="bg-white"

@@ -7,7 +7,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-            <img src="{{ asset('assets') }}/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+            <img src="{{ asset('assets') }}/img/favicon.jpeg" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-2 font-weight-bold text-white">EMS Dashboard</span>
         </a>
     </div>
@@ -32,7 +32,7 @@
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">people</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Roles</span>
+                                <span class="nav-link-text ms-1">Manage Roles</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -41,7 +41,25 @@
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">person</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Permissions</span>
+                                <span class="nav-link-text ms-1">Manage Permissions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'assemblies' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('assemblies') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">assignment</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage Assemblies</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('booth') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage Booths</span>
                             </a>
                         </li>
                         {{-- multiple toggle --}}
@@ -139,6 +157,7 @@
                     <span class="nav-link-text ms-1">Virtual Reality</span>
                 </a>
             </li>
+
             {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-primary' : '' }}  "
                     href="{{ route('rtl') }}">

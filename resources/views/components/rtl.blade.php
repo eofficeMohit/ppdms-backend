@@ -31,7 +31,7 @@
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute start-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-                    <img src="{{ asset('assets') }}/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+                    <img src="{{ asset('assets') }}/img/favicon.jpeg" class="navbar-brand-img h-100" alt="main_logo">
                     <span class="ms-1 font-weight-bold text-white">EMS Dashboard</span>
                 </a>
         </div>
@@ -911,11 +911,11 @@
                 </div>
                 <div class="d-flex">
                     <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
-                        onclick="background-image: linear-gradient(195deg,#153589,#263EAE);(this)">Blue</button>
+                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">Blue</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent"
-                        onclick="background-image: linear-gradient(195deg,#153589,#263EAE);(this)">Transparent</button>
+                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">Transparent</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 me-2" data-class="bg-white"
-                        onclick="background-image: linear-gradient(195deg,#153589,#263EAE);(this)">White</button>
+                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">White</button>
                 </div>
                 <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
                 <!-- Navbar Fixed -->
