@@ -11,6 +11,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BoothController;
+use App\Http\Controllers\ElectionInfoController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\StateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -103,3 +106,10 @@ Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.ed
 Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
 Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
 Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
+
+Route::get('/states', [StateController::class, 'index'])->name('states');
+Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+
+Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');

@@ -58,12 +58,8 @@ class AssemblyController extends Controller
      */
     public function show($id): View
     {
-        $assembly = Assembly::find($id);
-        $state_id = $assembly->state_id;
-        $district_id = $assembly->district_id;
-        $districts = District::where('id',$district_id)->pluck('name');
-        $state = State::where('id',$state_id)->pluck('name');
-        return view('assemblies.show',compact('assembly','state','districts'));
+        $assembly = Assembly::where('id', $id)->with('state','district')->first();
+        return view('assemblies.show',compact('assembly'));
     }
 
     /**

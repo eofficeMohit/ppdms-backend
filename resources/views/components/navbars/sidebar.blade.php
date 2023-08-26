@@ -62,6 +62,33 @@
                                 <span class="nav-link-text ms-1">Manage Booths</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'states' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('states') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage States</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'districts' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('districts') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage Districts</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('election-info') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Election Info</span>
+                            </a>
+                        </li>
                         {{-- multiple toggle --}}
                         {{-- <li class="nav-item ">
                             <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}" data-bs-toggle="collapse" aria-expanded="false" href="#accountExample">

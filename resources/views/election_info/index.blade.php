@@ -1,9 +1,9 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-    <x-navbars.sidebar activePage="booth"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="election-info"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Booth Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Election Info Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,15 +11,15 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Booth Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Election Info Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
+                        {{-- <div class=" me-3 my-3 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 Booth</a>
-                        </div>
+                        </div> --}}
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -36,29 +36,30 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Booth Number</th>
+                                                Booth</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Total Votars</th>
+                                                Districts</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Booth Name</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Latitude</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Longitude</th>
+                                                State</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Status
+                                                Is Party Reached </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Is Poll Started
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Voting
+                                            </th>
+                                            {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $booth)
+                                        @foreach ($data as $key => $election)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -70,65 +71,40 @@
 
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_no }}</h6>
+                                                    <p class="mb-0 text-sm">{{ $election->booth->booth_name }}</p>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $booth->tot_voters }}
+                                                <p class="text-xs text-secondary mb-0">{{ $election->district->name }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_name }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            {{-- <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $booth->booth_name }}
-                                                </p>
-                                            </td> --}}
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->latitude }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->longitude }}</h6>
+                                                    <p class="mb-0 text-sm">{{ $election->state->name }}</p>
                                                     </div>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                @if($booth->status ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
+                                                @if($election->is_party_reached ==1)
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
                                                 @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
                                                 @endif
                                             </td>
-                                            <td class="align-middle">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('booth.show',$booth->id) }}" data-original-title="show booth"
-                                                title="Show Assembly">
-                                                <i class="material-icons">visibility</i>
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('booth.edit',$booth->id) }}" data-original-title="Edit booth"
-                                                    title="Edit Assembly">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $booth->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}                                            </td>
+                                            <td class="align-middle text-center">
+                                                @if($election->is_poll_started ==1)
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
+                                                @else
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
+                                                @endif
+                                            </td>
+                                            <td class="align-middle text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ $election->voting }}
+                                                </p>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     @else
