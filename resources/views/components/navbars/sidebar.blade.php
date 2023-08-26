@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed   {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">pages</i>
                     </div>
