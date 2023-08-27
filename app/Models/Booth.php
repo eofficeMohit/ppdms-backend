@@ -15,8 +15,19 @@ class Booth extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function assemblyBooths(): BelongsTo
+    public function assembly(): BelongsTo
     {
-        return $this->belongsTo(Assembly::class, 'id', 'assemble_id');
+        return $this->hasOne(Assembly::class, 'id', 'assemble_id');
     }
+
+    public function state()
+    {
+        return $this->hasOne(State::class,'state_id');
+    }
+
+    public function district()
+    {
+        return $this->hasOne(District::class,'district_id');
+    }
+
 }
