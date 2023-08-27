@@ -5,7 +5,7 @@
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div class="row">
+            <div class="row card_event">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
@@ -14,15 +14,19 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Votes Polled/Total Voters</p>
-                                <h4 class="mb-0">15567/24637</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Votes Polled</strong></p>
+                                <h4 class="mb-0">15567</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Voters</strong></p>
+                                <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
                                 lask week</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -33,15 +37,19 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Party DIspatch</p>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
                                 <h4 class="mb-0">2,300</h4>
                             </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
                                 lask month</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -52,15 +60,19 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Party Reached</p>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
                                 <h4 class="mb-0">3,462</h4>
                             </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than
                                 yesterday</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
@@ -71,20 +83,24 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Mock-Poll Started</p>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
                                 <h4 class="mb-0">3,430</h4>
                             </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than
                                 yesterday</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="col-lg-12 col-md-12 mt-4 mb-4">
                     <div class="card z-index-2 ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
@@ -94,17 +110,17 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 ">Website Views</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
-                            <hr class="dark horizontal">
+                            <h6 class="mb-0 ">Party Dispatched</h6>
+                            {{-- <p class="text-sm ">Last Campaign Performance</p> --}}
+                            {{-- <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <i class="material-icons text-sm my-auto me-1">schedule</i>
                                 <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                {{-- <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2  ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
@@ -144,15 +160,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row mb-4">
-                <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+                <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Projects</h6>
+                                    <h6>Party Dispatch</h6>
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-check text-info" aria-hidden="true"></i>
                                         <span class="font-weight-bold ms-1">30 done</span> this month
@@ -482,7 +498,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                {{-- <div class="col-lg-4 col-md-6">
                     <div class="card h-100">
                         <div class="card-header pb-0">
                             <h6>Orders overview</h6>
@@ -559,7 +575,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <x-footers.auth></x-footers.auth>
         </div>
@@ -574,9 +590,9 @@
         new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                labels: ["JAL", "PAT", "SAN", "SAS", "SBS", "SAR", "GDS"],
                 datasets: [{
-                    label: "Sales",
+                    label: "EVENTS",
                     tension: 0.4,
                     borderWidth: 0,
                     borderRadius: 4,

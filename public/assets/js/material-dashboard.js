@@ -205,7 +205,7 @@ function sidebarType(a) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
-    if (navbarBrandImg.includes('favicon.jpeg')) {
+    if (navbarBrandImg.includes('next-gen.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
     }
@@ -222,7 +222,7 @@ function sidebarType(a) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
-    if (navbarBrandImg.includes('favicon.jpeg')) {
+    if (navbarBrandImg.includes('next-gen.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
       navbarBrand.src = navbarBrandImgNew;
     }

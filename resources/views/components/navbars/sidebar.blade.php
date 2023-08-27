@@ -7,18 +7,18 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-            <img src="{{ asset('assets') }}/img/favicon.jpeg" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-2 font-weight-bold text-white">EMS Dashboard</span>
+            <img src="{{ asset('assets') }}/img/next-gen.png" class="navbar-brand-img h-100" alt="main_logo">
+            {{-- <span class="ms-2 font-weight-bold text-white"></span> --}}
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <li class="nav-item mt-3">
+            {{-- <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Dashboard Users</h6>
-            </li>
+            </li> --}}
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active ' : '' }} "
                     href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'dashboard-stat' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'dashboard-stat' ? ' active ' : '' }} "
                     href="{{ route('dashboard.stat') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-primary' : '' }} "  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active ' : '' }} {{ $activePage == 'districts' ? ' active ' : '' }} {{ $activePage == 'booth' ? ' active ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active ' : '' }} {{ $activePage == 'election-info' ? ' active ' : '' }} "  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">pages</i>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }}"  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'manage-assembly' ? ' active ' : '' }}  "
                                 href="{{ route('assemblies') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">assignment</i>
@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'booth' ? ' active ' : '' }}  "
                                 href="{{ route('booth') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -63,7 +63,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'sector-officer' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'sector-officer' ? ' active ' : '' }}  "
                                 href="{{ route('booth') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -72,7 +72,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'parliamentary' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'parliamentary' ? ' active ' : '' }}  "
                                 href="{{ route('booth') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -81,7 +81,7 @@
                             </a>
                         </li>
                         {{-- <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'district' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'district' ? ' active ' : '' }}  "
                                 href="{{ route('booth') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -90,7 +90,7 @@
                             </a> --}}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'states' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'states' ? ' active ' : '' }}  "
                                 href="{{ route('states') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -99,7 +99,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'districts' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'districts' ? ' active ' : '' }}  "
                                 href="{{ route('districts') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -108,17 +108,17 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-primary' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active ' : '' }}  "
                                 href="{{ route('election-info') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Election Info</span>
+                                <span class="nav-link-text ms-1">Events</span>
                             </a>
                         </li>
                         {{-- multiple toggle --}}
                         {{-- <li class="nav-item ">
-                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}" data-bs-toggle="collapse" aria-expanded="false" href="#accountExample">
+                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active ' : '' }}" data-bs-toggle="collapse" aria-expanded="false" href="#accountExample">
                                 <span class="sidenav-mini-icon"> A </span>
                                 <span class="sidenav-normal"> Roles <b class="caret"></b></span>
                             </a>
@@ -156,7 +156,7 @@
             </li>
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'roles' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'users' ? ' active bg-gradient-primary' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'permissions' ? ' active ' : '' }} {{ $activePage == 'roles' ? ' active ' : '' }} {{ $activePage == 'users' ? ' active ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">pages</i>
                     </div>
@@ -165,7 +165,7 @@
                 <div class="collapse {{ $activePage == 'roles' ? 'show' : '' }} {{ $activePage == 'permissions' ? 'show' : '' }} {{ $activePage == 'users' ? 'show' : '' }}"  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'users' ? ' active bg-gradient-primary' : '' }} "
+                            <a class="nav-link text-white {{ $activePage == 'users' ? ' active ' : '' }} "
                                 href="{{ route('users.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">people</i>
@@ -174,7 +174,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'roles' ? ' active bg-gradient-primary' : '' }}"
+                            <a class="nav-link text-white {{ $activePage == 'roles' ? ' active ' : '' }}"
                                 href="{{ route('roles.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center"></i>
@@ -183,7 +183,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-primary' : '' }}"
+                            <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active ' : '' }}"
                                 href="{{ route('permissions.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">person</i>
@@ -195,7 +195,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'user-profile' ? 'active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'user-profile' ? 'active ' : '' }} "
                     href="{{ route('user-profile') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
@@ -209,7 +209,7 @@
             </li>
 
             {{-- <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'tables' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'tables' ? ' active ' : '' }} "
                     href="{{ route('tables') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
@@ -218,7 +218,7 @@
                 </a>
             </li> --}}
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'virtual-reality' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'virtual-reality' ? ' active ' : '' }}  "
                     href="{{ route('virtual-reality') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">view_in_ar</i>
@@ -228,7 +228,7 @@
             </li>
 
             {{-- <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active ' : '' }}  "
                     href="{{ route('rtl') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
@@ -237,7 +237,7 @@
                 </a>
             </li> --}}
             {{-- <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'notifications' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'notifications' ? ' active ' : '' }}  "
                     href="{{ route('notifications') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">notifications</i>
@@ -249,7 +249,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active ' : '' }}  "
                     href="{{ route('profile') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>

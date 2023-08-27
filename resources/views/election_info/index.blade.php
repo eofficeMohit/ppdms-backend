@@ -3,7 +3,7 @@
     <x-navbars.sidebar activePage="election-info"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Election Info Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Events Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,7 +11,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Election Info Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Events Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>

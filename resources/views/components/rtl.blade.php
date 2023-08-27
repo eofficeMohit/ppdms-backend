@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/favicon.jpeg">
-    <link rel="icon" type="image/jpeg" href="{{ asset('assets') }}/img/favicon.jpeg">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/next-gen.png">
+    <link rel="icon" type="image/jpeg" href="{{ asset('assets') }}/img/next-gen.png">
     <title>
-        EMS Dashboard
+        NeXtGeN DiSe-EMS Dashboard
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -31,8 +31,8 @@
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute start-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-                    <img src="{{ asset('assets') }}/img/favicon.jpeg" class="navbar-brand-img h-100" alt="main_logo">
-                    <span class="ms-1 font-weight-bold text-white">EMS Dashboard</span>
+                    <img src="{{ asset('assets') }}/img/next-gen.png" class="navbar-brand-img h-100" alt="main_logo">
+                    <span class="ms-1 font-weight-bold text-white">NeXtGeN DiSe-EMS Dashboard</span>
                 </a>
         </div>
         <hr class="horizontal light mt-0 mb-2">
@@ -834,10 +834,10 @@
                                     document.write(new Date().getFullYear())
 
                                 </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="#" class="font-weight-bold" target="_blank">National Informatic </a>
-                                <a href="#" class="font-weight-bold" target="_blank">Centre </a>
-                                Election's Monitoring System.
+                                {{-- made with <i class="fa fa-heart"></i> by --}}
+                                <a href="#" class="font-weight-bold" target="_blank">National Informatic Centre</a>
+                                {{-- <a href="#" class="font-weight-bold" target="_blank"> </a> --}}
+                                {{-- Election's Monitoring System. --}}
                             </div>
                         </div>
                         <div class="col-lg-6">
