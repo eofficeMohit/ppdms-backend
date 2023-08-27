@@ -36,13 +36,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-primary' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-primary' : '' }} "  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">pages</i>
                     </div>
                     <span class="nav-link-text ms-1">Masters</span>
                 </a>
-                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }}"  id="pagesExamples" style="">
+                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }}"  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'manage-assembly' ? ' active bg-gradient-primary' : '' }}  "
@@ -80,22 +80,31 @@
                                 <span class="nav-link-text ms-1">Manage Parliamentary</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'district' ? ' active bg-gradient-primary' : '' }}  "
                                 href="{{ route('booth') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage District</span>
-                            </a>
+                            </a> --}}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'state' ? ' active bg-gradient-primary' : '' }}  "
-                                href="{{ route('booth') }}">
+                            <a class="nav-link text-white {{ $activePage == 'states' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('states') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage State</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'districts' ? ' active bg-gradient-primary' : '' }}  "
+                                href="{{ route('districts') }}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Manage District</span>
                             </a>
                         </li>
                         <li class="nav-item">
