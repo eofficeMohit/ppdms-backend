@@ -3,7 +3,7 @@
     <x-navbars.sidebar activePage="election-info"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Election Info Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Events Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,15 +11,14 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Election Info Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Events Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        {{-- <div class=" me-3 my-3 text-end">
+                        <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Booth</a>
-                        </div> --}}
+                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
+                        </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -54,7 +53,7 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Voting
                                             </th>
-                                            {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th> --}}
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,6 +103,14 @@
                                             <td class="align-middle text-center">
                                             <p class="text-xs text-secondary mb-0">{{ $election->voting }}
                                                 </p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('election-info.edit',$election->id) }}" data-original-title="Edit User"
+                                                    title="Edit Eelction Info">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
                                             </td>
                                         </tr>
                                         @endforeach

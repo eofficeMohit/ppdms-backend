@@ -98,6 +98,9 @@ Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('as
 Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
 Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
 Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
+Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
+
 
 Route::get('/booth', [BoothController::class, 'index'])->name('booth');
 Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
@@ -113,3 +116,7 @@ Route::get('/districts', [DistrictController::class, 'index'])->name('districts'
 Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
 
 Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])->name('election-info.edit');
+Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
+Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
+Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
