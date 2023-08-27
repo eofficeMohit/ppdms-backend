@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ElectionInfo;
+use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class ElectionInfoController extends Controller
+class DistrictController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request) :View
     {
-        $data = ElectionInfo::with('state','district','booth')->latest()->paginate(20);
-        return view('election_info.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        $data = District::with('state')->latest()->paginate(20);
+        return view('district.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
-
-    /**
+        /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -37,7 +33,7 @@ class ElectionInfoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ElectionInfo $electionInfo)
+    public function show(District $district)
     {
         //
     }
@@ -45,7 +41,7 @@ class ElectionInfoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ElectionInfo $electionInfo)
+    public function edit(District $district)
     {
         //
     }
@@ -53,7 +49,7 @@ class ElectionInfoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ElectionInfo $electionInfo)
+    public function update(Request $request, District $district)
     {
         //
     }
@@ -61,8 +57,20 @@ class ElectionInfoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ElectionInfo $electionInfo)
+    public function destroy(District $district)
     {
         //
+    }
+    public function updateStatus(Request $request)
+    {
+
+        $district = District::find($request->id);
+
+        $district->status = $request->status;
+
+        $district->save();
+
+        return response()->json(['success'=>'Status change successfully.']);
+
     }
 }

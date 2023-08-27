@@ -11,6 +11,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BoothController;
+use App\Http\Controllers\ElectionInfoController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\StateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +37,31 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
-	//Route::resource('manage-assembly', AssemblyController::class);
+
+	Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+	Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+	Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+	Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+	Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+	Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
+	Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+	Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+
+	Route::get('/booth', [BoothController::class, 'index'])->name('booth');
+	Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
+	Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
+	Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
+	Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
+	Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
+	Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
+
+	Route::get('/states', [StateController::class, 'index'])->name('states');
+	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+	Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+	Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+
+	Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+
 });
 
 
@@ -85,21 +112,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+	
 });
 
-Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
-Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
-Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
-Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
-Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
-Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
-Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
-Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
-
-Route::get('/booth', [BoothController::class, 'index'])->name('booth');
-Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
-Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
-Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
-Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
-Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
-Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
