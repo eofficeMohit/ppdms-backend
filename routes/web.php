@@ -38,29 +38,36 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
 
-	Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
-	Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
-	Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
-	Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
-	Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
-	Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
-	Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
-	Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
+Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
+Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
 
-	Route::get('/booth', [BoothController::class, 'index'])->name('booth');
-	Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
-	Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
-	Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
-	Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
-	Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
-	Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
 
-	Route::get('/states', [StateController::class, 'index'])->name('states');
-	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
-	Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
-	Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+Route::get('/booth', [BoothController::class, 'index'])->name('booth');
+Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
+Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
+Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
+Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
+Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
+Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
 
-	Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+Route::get('/states', [StateController::class, 'index'])->name('states');
+Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+
+Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])->name('election-info.edit');
+Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
+Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
+Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 
 });
 
@@ -114,4 +121,3 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('user-profile');
 	
 });
-

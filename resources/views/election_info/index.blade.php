@@ -15,11 +15,10 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        {{-- <div class=" me-3 my-3 text-end">
+                        <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Booth</a>
-                        </div> --}}
+                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
+                        </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -54,7 +53,7 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Voting
                                             </th>
-                                            {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th> --}}
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,6 +103,14 @@
                                             <td class="align-middle text-center">
                                             <p class="text-xs text-secondary mb-0">{{ $election->voting }}
                                                 </p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('election-info.edit',$election->id) }}" data-original-title="Edit User"
+                                                    title="Edit Eelction Info">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
                                             </td>
                                         </tr>
                                         @endforeach

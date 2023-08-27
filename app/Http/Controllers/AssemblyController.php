@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Assembly;
 use App\Models\State;
 use App\Models\District;
+use App\Models\Booth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -110,10 +111,20 @@ class AssemblyController extends Controller
     public function getStates(Request $request)
     {
         $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
-
-        // Fetch data based on the selected option
         $data = District::where('state_id', $selectedOption)->get();
+        return response()->json($data);
+    }
 
+    public function getAssemblies(Request $request)
+    {
+        $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
+        $data = Assembly::where('district_id', $selectedOption)->get();
+        return response()->json($data);
+    }
+    public function getBooths(Request $request)
+    {
+        $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
+        $data = Booth::where('assemble_id', $selectedOption)->get();
         return response()->json($data);
     }
 }
