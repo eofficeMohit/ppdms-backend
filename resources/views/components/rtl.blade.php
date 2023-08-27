@@ -911,11 +911,11 @@
                 </div>
                 <div class="d-flex">
                     <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
-                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">Blue</button>
+                        onclick="background-image: linear-gradient(195deg,#00275f,#fc7800);;(this)">Blue</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent"
-                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">Transparent</button>
+                        onclick="background-image: linear-gradient(195deg,#00275f,#fc7800);;(this)">Transparent</button>
                     <button class="btn bg-gradient-dark px-3 mb-2 me-2" data-class="bg-white"
-                        onclick="background-image: linear-gradient(195deg,#fc7800,#fc7800);(this)">White</button>
+                        onclick="background-image: linear-gradient(195deg,#00275f,#fc7800);;(this)">White</button>
                 </div>
                 <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
                 <!-- Navbar Fixed -->

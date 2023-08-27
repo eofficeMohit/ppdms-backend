@@ -42,8 +42,7 @@
             </div>
             <div class="d-flex">
                 <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark"
-                    onclick="sidebarType(this)">Orange</button>
-                <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent"
+                    onclick="sidebarType(this)">Dark</button>                <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent"
                     onclick="sidebarType(this)">Transparent</button>
                 <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-white"
                     onclick="sidebarType(this)">White</button>
