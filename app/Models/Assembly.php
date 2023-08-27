@@ -24,12 +24,12 @@ class Assembly extends Model
 
     public function state()
     {
-        return $this->hasOne(State::class,'state_id');
+        return $this->belongsTo(State::class);
     }
 
     public function district()
     {
-        return $this->hasOne(District::class,'district_id');
+        return $this->belongsTo(District::class);
     }
 
         /**

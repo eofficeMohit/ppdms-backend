@@ -9,25 +9,34 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Booth extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'booth_no', 'tot_voters', 'booth_name','booth_name_uni','district_id','state_id','assemble_id','user_id','latitude','longitude','status'
+    ];
     /**
      * Get the assembly that owns the booths
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function assembly(): BelongsTo
-    {
-        return $this->hasOne(Assembly::class, 'id', 'assemble_id');
-    }
 
     public function state()
     {
-        return $this->hasOne(State::class,'state_id');
+        return $this->belongsTo(State::class);
     }
 
     public function district()
     {
-        return $this->hasOne(District::class,'district_id');
+        return $this->belongsTo(District::class);
+    }
+
+    public function assembly()
+    {
+        return $this->belongsTo(Assembly::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+
     }
 
 }

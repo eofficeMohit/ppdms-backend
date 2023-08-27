@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $districts[0] }}
+                                        {{ $assembly->district->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $state[0]; }}
+                                        {{ $assembly->state->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -119,15 +119,9 @@
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
                                         @if($assembly->status == 1)
-                                            <span type="button" class="badge bg-success tips"
-                                                data-bs-toggle="popover" title="ON">
-                                                ON
-                                            </span>
+                                        <span class=" text-xs font-weight-bold badge bg-success">Active</span>
                                         @else
-                                            <span type="button" class="badge bg-danger tips"
-                                                data-bs-toggle="popover" title="OFF">
-                                                OFF
-                                            </span>
+                                        <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
                                         @endif
                                     </div>
                                 </div>

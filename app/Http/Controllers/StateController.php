@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ElectionInfo;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class ElectionInfoController extends Controller
+class StateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request) :View
     {
-        $data = ElectionInfo::with('state','district','booth')->latest()->paginate(20);
-        return view('election_info.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        $data = State::latest()->paginate(20);
+        return view('state.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
-    /**
+        /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -37,7 +34,7 @@ class ElectionInfoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ElectionInfo $electionInfo)
+    public function show(State $state)
     {
         //
     }
@@ -45,7 +42,7 @@ class ElectionInfoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ElectionInfo $electionInfo)
+    public function edit(State $state)
     {
         //
     }
@@ -53,7 +50,7 @@ class ElectionInfoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ElectionInfo $electionInfo)
+    public function update(Request $request, State $state)
     {
         //
     }
@@ -61,8 +58,21 @@ class ElectionInfoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ElectionInfo $electionInfo)
+    public function destroy(State $state)
     {
         //
+    }
+
+    public function updateStatus(Request $request)
+    {
+
+        $state = State::find($request->id);
+
+        $state->status = $request->status;
+
+        $state->save();
+
+        return response()->json(['success'=>'Status change successfully.']);
+
     }
 }

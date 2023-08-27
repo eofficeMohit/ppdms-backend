@@ -39,32 +39,26 @@
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <strong>AC Code:</strong>
-                                            {!! Form::text('ac_code', null, array('placeholder' => 'ST Code','class' => 'form-control')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
                                             <strong>Booth Number:</strong>
-                                            {!! Form::text('booth_no', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            {!! Form::text('booth_no', null, array('placeholder' => 'Booth Number','class' => 'form-control')) !!}
                                         </div>
-                                    </div>
+                                    </div>  
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Total Voters:</strong>
-                                            {!! Form::text('tot_voters', null, array('placeholder' => 'AC Type','class' => 'form-control')) !!}
+                                            {!! Form::text('tot_voters', null, array('placeholder' => 'Total Voters','class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Name:</strong>
-                                            {!! Form::text('booth_name', null, array('placeholder' => 'PC Type','class' => 'form-control')) !!}
+                                            {!! Form::text('booth_name', null, array('placeholder' => 'Booth Name','class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Name Uni:</strong>
-                                            {!! Form::text('booth_name_uni', null, array('placeholder' => 'PC Number','class' => 'form-control')) !!}
+                                            {!! Form::text('booth_name_uni', null, array('placeholder' => 'Booth Name Uni','class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -89,7 +83,7 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Assembly:</strong>
-                                            <select class="form-control" id="assembly_id" name="assembly_id">
+                                            <select class="form-control" id="assemble_id" name="assemble_id">
                                                 <option value="">Select Assembly</option>
                                                 @foreach($assembly as $key => $value)
                                                     <option value="{{ $key }}">{{ $value }}</option>
@@ -111,13 +105,13 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Latitude:</strong>
-                                            {!! Form::text('latitude', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            {!! Form::text('latitude', null, array('placeholder' => 'Booth Latitude','class' => 'form-control')) !!}
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Longitude</strong>
-                                            {!! Form::text('longitude', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            {!! Form::text('longitude', null, array('placeholder' => 'Booth Longitude','class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">

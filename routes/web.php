@@ -11,6 +11,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BoothController;
+use App\Http\Controllers\ElectionInfoController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\StateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,8 +37,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
-	//Route::resource('manage-assembly', AssemblyController::class);
-
 
 	Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
 	Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
@@ -52,7 +53,15 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
 	Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
 	Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
-	Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy');
+	Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
+
+	Route::get('/states', [StateController::class, 'index'])->name('states');
+	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+	Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+	Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+
+	Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+
 });
 
 
@@ -103,7 +112,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+	
 });
-
- // Delete a task
 

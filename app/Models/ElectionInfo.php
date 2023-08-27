@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ElectionInfo extends Model
 {
     use HasFactory;
-
      /**
      * Write code on Method
      *
@@ -62,5 +61,26 @@ class ElectionInfo extends Model
     public function electionAssembly(): BelongsTo
     {
         return $this->belongsTo(Assembly::class, 'assemble_id', 'id');
+    }
+    
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function assembly()
+    {
+        return $this->belongsTo(Assembly::class);
+    }
+    
+    public function booth()
+    {
+        return $this->belongsTo(Booth::class);
+
     }
 }
