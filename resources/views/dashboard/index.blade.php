@@ -5,7 +5,7 @@
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div class="row">
+            <div class="row card_event">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
@@ -14,15 +14,19 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Votes Polled/Total Voters</p>
-                                <h4 class="mb-0">15567/24637</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Votes Polled</strong></p>
+                                <h4 class="mb-0">15567</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Voters</strong></p>
+                                <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
                                 lask week</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -33,15 +37,19 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Party DIspatch</p>
-                                <h4 class="mb-0">2,300</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
+                                <h4 class="mb-0">{{$total_party_dispatch}}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
                                 lask month</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -52,15 +60,19 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Party Reached</p>
-                                <h4 class="mb-0">3,462</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
+                                <h4 class="mb-0">{{$total_party_reached}}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than
                                 yesterday</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
@@ -71,20 +83,24 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Mock-Poll Started</p>
-                                <h4 class="mb-0">3,430</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
+                                <h4 class="mb-0">{{$total_mock_poll_started}}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
+                        {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
                             <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than
                                 yesterday</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="col-lg-12 col-md-12 mt-4 mb-4">
                     <div class="card z-index-2 ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
@@ -94,17 +110,17 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 ">Website Views</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
-                            <hr class="dark horizontal">
+                            <h6 class="mb-0 ">Party Dispatched</h6>
+                            {{-- <p class="text-sm ">Last Campaign Performance</p> --}}
+                            {{-- <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <i class="material-icons text-sm my-auto me-1">schedule</i>
                                 <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                {{-- <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2  ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
@@ -144,18 +160,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row mb-4">
-                <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+                <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Projects</h6>
+                                    <h6>Assemblies Listings</h6>
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-check text-info" aria-hidden="true"></i>
-                                        <span class="font-weight-bold ms-1">30 done</span> this month
+                                        <span class="font-weight-bold ms-1">Latest</span> 20 Assemblies
                                     </p>
                                 </div>
                                 <div class="col-lg-6 col-5 my-auto text-end">
@@ -184,19 +200,86 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Companies</th>
+                                                St Code</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Members</th>
+                                                ASSEMBLY NAME</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Budget</th>
+                                                AC TYPE</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Completion</th>
+                                                PC NO</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                STATE</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                DISTRICT</th>
+                                                
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if(! $assemblies->isEmpty())
+                                            @foreach ($assemblies as $key => $assembly)
+                                            <tr>
+                                                {{-- <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <p class="mb-0 text-sm">{{ ++$i }}</p>
+                                                        </div>
+                                                    </div>
+                                                </td> --}}
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div>
+                                                        <h6 class="mb-0 text-sm">{{ $assembly->st_code }}</h6>
+                                                        </div>
+    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div>
+                                                        <h6 class="mb-0 text-sm">{{ $assembly->asmb_name }}</h6>
+                                                        </div>
+    
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <h6 class="text-xs text-secondary mb-0">{{ $assembly->ac_type }}
+                                                    </h6>
+                                                </td>
+                                               
+                                                <td class="align-middle text-center">
+                                                    <h6 class="text-xs text-secondary mb-0">{{ $assembly->pc_no }}
+                                                    </h6>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <h6 class="text-xs text-secondary mb-0">{{ $assembly->state->name }}
+                                                    </h6>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <h6 class="text-xs text-secondary mb-0">{{ $assembly->district->name }}
+                                                    </h6>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <div class="d-flex text-center">
+                                                        <div>
+                                                        <p class="mb-0 text-sm">No Record's Found.</p>
+                                                        </div>
+    
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                    {{-- <tbody>
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -476,13 +559,13 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> --}}
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                {{-- <div class="col-lg-4 col-md-6">
                     <div class="card h-100">
                         <div class="card-header pb-0">
                             <h6>Orders overview</h6>
@@ -559,7 +642,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <x-footers.auth></x-footers.auth>
         </div>
@@ -574,9 +657,9 @@
         new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                labels: ["JAL", "PAT", "SAN", "SAS", "SBS", "SAR", "GDS"],
                 datasets: [{
-                    label: "Sales",
+                    label: "EVENTS",
                     tension: 0.4,
                     borderWidth: 0,
                     borderRadius: 4,
@@ -650,170 +733,170 @@
         });
 
 
-        var ctx2 = document.getElementById("chart-line").getContext("2d");
+        // var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-        new Chart(ctx2, {
-            type: "line",
-            data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                    label: "Mobile apps",
-                    tension: 0,
-                    borderWidth: 0,
-                    pointRadius: 5,
-                    pointBackgroundColor: "rgba(255, 255, 255, .8)",
-                    pointBorderColor: "transparent",
-                    borderColor: "rgba(255, 255, 255, .8)",
-                    borderColor: "rgba(255, 255, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: true,
-                    data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-                    maxBarThickness: 6
+        // // new Chart(ctx2, {
+        // //     type: "line",
+        // //     data: {
+        // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        // //         datasets: [{
+        // //             label: "Mobile apps",
+        // //             tension: 0,
+        // //             borderWidth: 0,
+        // //             pointRadius: 5,
+        // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
+        // //             pointBorderColor: "transparent",
+        // //             borderColor: "rgba(255, 255, 255, .8)",
+        // //             borderColor: "rgba(255, 255, 255, .8)",
+        // //             borderWidth: 4,
+        // //             backgroundColor: "transparent",
+        // //             fill: true,
+        // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+        // //             maxBarThickness: 6
 
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5],
-                            color: 'rgba(255, 255, 255, .2)'
-                        },
-                        ticks: {
-                            display: true,
-                            color: '#f8f9fa',
-                            padding: 10,
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: false,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        },
-                        ticks: {
-                            display: true,
-                            color: '#f8f9fa',
-                            padding: 10,
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                },
-            },
-        });
+        // //         }],
+        // //     },
+        // //     options: {
+        // //         responsive: true,
+        // //         maintainAspectRatio: false,
+        // //         plugins: {
+        // //             legend: {
+        // //                 display: false,
+        // //             }
+        // //         },
+        // //         interaction: {
+        // //             intersect: false,
+        // //             mode: 'index',
+        // //         },
+        // //         scales: {
+        // //             y: {
+        // //                 grid: {
+        // //                     drawBorder: false,
+        // //                     display: true,
+        // //                     drawOnChartArea: true,
+        // //                     drawTicks: false,
+        // //                     borderDash: [5, 5],
+        // //                     color: 'rgba(255, 255, 255, .2)'
+        // //                 },
+        // //                 ticks: {
+        // //                     display: true,
+        // //                     color: '#f8f9fa',
+        // //                     padding: 10,
+        // //                     font: {
+        // //                         size: 14,
+        // //                         weight: 300,
+        // //                         family: "Roboto",
+        // //                         style: 'normal',
+        // //                         lineHeight: 2
+        // //                     },
+        // //                 }
+        // //             },
+        // //             x: {
+        // //                 grid: {
+        // //                     drawBorder: false,
+        // //                     display: false,
+        // //                     drawOnChartArea: false,
+        // //                     drawTicks: false,
+        // //                     borderDash: [5, 5]
+        // //                 },
+        // //                 ticks: {
+        // //                     display: true,
+        // //                     color: '#f8f9fa',
+        // //                     padding: 10,
+        // //                     font: {
+        // //                         size: 14,
+        // //                         weight: 300,
+        // //                         family: "Roboto",
+        // //                         style: 'normal',
+        // //                         lineHeight: 2
+        // //                     },
+        // //                 }
+        // //             },
+        // //         },
+        // //     },
+        // // });
 
-        var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+        // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 
-        new Chart(ctx3, {
-            type: "line",
-            data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                    label: "Mobile apps",
-                    tension: 0,
-                    borderWidth: 0,
-                    pointRadius: 5,
-                    pointBackgroundColor: "rgba(255, 255, 255, .8)",
-                    pointBorderColor: "transparent",
-                    borderColor: "rgba(255, 255, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: true,
-                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                    maxBarThickness: 6
+        // new Chart(ctx3, {
+        //     type: "line",
+        //     data: {
+        //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        //         datasets: [{
+        //             label: "Mobile apps",
+        //             tension: 0,
+        //             borderWidth: 0,
+        //             pointRadius: 5,
+        //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
+        //             pointBorderColor: "transparent",
+        //             borderColor: "rgba(255, 255, 255, .8)",
+        //             borderWidth: 4,
+        //             backgroundColor: "transparent",
+        //             fill: true,
+        //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+        //             maxBarThickness: 6
 
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5],
-                            color: 'rgba(255, 255, 255, .2)'
-                        },
-                        ticks: {
-                            display: true,
-                            padding: 10,
-                            color: '#f8f9fa',
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: false,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        },
-                        ticks: {
-                            display: true,
-                            color: '#f8f9fa',
-                            padding: 10,
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                },
-            },
-        });
+        //         }],
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         maintainAspectRatio: false,
+        //         plugins: {
+        //             legend: {
+        //                 display: false,
+        //             }
+        //         },
+        //         interaction: {
+        //             intersect: false,
+        //             mode: 'index',
+        //         },
+        //         scales: {
+        //             y: {
+        //                 grid: {
+        //                     drawBorder: false,
+        //                     display: true,
+        //                     drawOnChartArea: true,
+        //                     drawTicks: false,
+        //                     borderDash: [5, 5],
+        //                     color: 'rgba(255, 255, 255, .2)'
+        //                 },
+        //                 ticks: {
+        //                     display: true,
+        //                     padding: 10,
+        //                     color: '#f8f9fa',
+        //                     font: {
+        //                         size: 14,
+        //                         weight: 300,
+        //                         family: "Roboto",
+        //                         style: 'normal',
+        //                         lineHeight: 2
+        //                     },
+        //                 }
+        //             },
+        //             x: {
+        //                 grid: {
+        //                     drawBorder: false,
+        //                     display: false,
+        //                     drawOnChartArea: false,
+        //                     drawTicks: false,
+        //                     borderDash: [5, 5]
+        //                 },
+        //                 ticks: {
+        //                     display: true,
+        //                     color: '#f8f9fa',
+        //                     padding: 10,
+        //                     font: {
+        //                         size: 14,
+        //                         weight: 300,
+        //                         family: "Roboto",
+        //                         style: 'normal',
+        //                         lineHeight: 2
+        //                     },
+        //                 }
+        //             },
+        //         },
+        //     },
+        // });
 
     </script>
     @endpush

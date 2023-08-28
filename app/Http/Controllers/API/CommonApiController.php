@@ -31,7 +31,7 @@ class CommonApiController extends BaseController
                 $user = User::with(['userAssemblies','userState','userDistrict'])->find($token->tokenable_id);
                 $assemblyBooths =Booth::where('user_id',$user->id)->take(10)->pluck('id')->implode(',');
 
-                $success['user_image'] = asset('assets/img/favicon.jpeg') ?? asset('public/assets/img/favicon.jpeg');
+                $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
                 $success['user_name'] = rtrim($user->name," ") ?? '';
                 $success['state'] = $user->userState->name ?? '';
                 $success['district'] = $user->userDistrict->name ?? '';
@@ -67,7 +67,7 @@ class CommonApiController extends BaseController
                     $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
                     ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
                     ->where('district_id',$userBooth->district_id)->latest()->first();
-                    // dd($electionInfo->is_party_reached);
+
                     if($electionInfo){
                         $is_party_reached=$electionInfo->is_party_reached;
                         $is_poll_started=$electionInfo->is_poll_started;

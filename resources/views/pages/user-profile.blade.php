@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-            style="background-image: url('../assets/img/next-gen.png');">
+            style="background-image: url('../assets/img/background-image: linear-gradient(195deg, #20bf0e 0%, #20bf0e 100%);');">
                 <span class="mask opacity-6"></span>
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">

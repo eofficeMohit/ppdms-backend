@@ -7,10 +7,10 @@
                         document.write(new Date().getFullYear())
 
                     </script>,
-                    made with <i class="fa fa-heart"></i> by
-                    <a href="#" class="font-weight-bold" target="_blank">National Informatic </a>
-                    <a href="#" class="font-weight-bold" target="_blank">Centre </a>
-                    Election's Monitoring System.
+                   {{-- made with <i class="fa fa-heart"></i> by --}}
+                   <a href="#" class="font-weight-bold" target="_blank">National Informatic Centre</a>
+                   {{-- <a href="#" class="font-weight-bold" target="_blank"> </a> --}}
+                   {{-- Election's Monitoring System. --}}
                 </div>
             </div>
             <div class="col-lg-6">
