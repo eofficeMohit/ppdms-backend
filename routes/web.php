@@ -14,6 +14,7 @@ use App\Http\Controllers\BoothController;
 use App\Http\Controllers\ElectionInfoController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -120,3 +121,11 @@ Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])-
 Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
 Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
+
+Route::get('/events', [EventController::class, 'index'])->name('events');
+Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
+Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
