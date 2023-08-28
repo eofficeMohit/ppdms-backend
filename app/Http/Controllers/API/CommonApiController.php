@@ -29,7 +29,7 @@ class CommonApiController extends BaseController
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
                 $user = User::with(['userAssemblies','userState','userDistrict'])->find($token->tokenable_id);
-                $assemblyBooths =Booth::where('user_id',$user->id)->take(10)->pluck('id')->implode(',');
+                $assemblyBooths =Booth::where('user_id',$user->id)->take(10)->pluck('booth_no')->implode(',');
 
                 $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
                 $success['user_name'] = rtrim($user->name," ") ?? '';
