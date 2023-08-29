@@ -3,8 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\BoothController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,11 +26,80 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
+	//Route::resource('manage-assembly', AssemblyController::class);
 });
+
+
+Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])->middleware('auth')->name('dashboard.stat');
+Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
+Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
+Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
+Route::post('reset-password', [SessionsController::class, 'update'])->middleware('guest')->name('password.update');
+Route::get('verify', function () {
+	return view('sessions.password.verify');
+})->middleware('guest')->name('verify');
+Route::get('/reset-password/{token}', function ($token) {
+	return view('sessions.password.reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
+Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('billing', function () {
+		return view('pages.billing');
+	})->name('billing');
+	Route::get('tables', function () {
+		return view('pages.tables');
+	})->name('tables');
+	Route::get('rtl', function () {
+		return view('pages.rtl');
+	})->name('rtl');
+	Route::get('virtual-reality', function () {
+		return view('pages.virtual-reality');
+	})->name('virtual-reality');
+	Route::get('notifications', function () {
+		return view('pages.notifications');
+	})->name('notifications');
+	Route::get('static-sign-in', function () {
+		return view('pages.static-sign-in');
+	})->name('static-sign-in');
+	Route::get('static-sign-up', function () {
+		return view('pages.static-sign-up');
+	})->name('static-sign-up');
+	Route::get('user-management', function () {
+		return view('pages.laravel-examples.user-management');
+	})->name('user-management');
+	Route::get('user-profile', function () {
+		return view('pages.laravel-examples.user-profile');
+	})->name('user-profile');
+});
+
+Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
+Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+
+Route::get('/booth', [BoothController::class, 'index'])->name('booth');
+Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
+Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
+Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
+Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
+Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
+Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task

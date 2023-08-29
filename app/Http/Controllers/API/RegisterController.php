@@ -1,12 +1,16 @@
 <?php
 namespace App\Http\Controllers\API;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Requests;
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\UserLogin;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
+
 class RegisterController extends BaseController
 {
     /**
@@ -16,7 +20,7 @@ class RegisterController extends BaseController
      */
     public function register(Request $request): JsonResponse
     {
-        // dd('hiihihhihi');
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -29,7 +33,8 @@ class RegisterController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+        $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
+        $success['token_type'] = 'Bearer';
         $success['name'] =  $user->name;
         return $this->sendResponse($success, 'User register successfully.');
     }
@@ -40,21 +45,22 @@ class RegisterController extends BaseController
      */
     public function ValidateMobile(Request $request): JsonResponse
     {
-        /* Validate Login Data */
-        $validator = Validator::make($request->all(), [
+         /* Validate Login Data */
+         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required|numeric|digits:10'
         ]);
-
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
         /* Send An OTP */
         // $userOtp->sendSMS($request->mobile_no);
         if($userOtp){
+            // dd($userOtp['id']);
+            unset($userOtp['id']);
             $success['userOtp'] =  $userOtp;
+
             return $this->sendResponse($success, 'Otp generated successfully.');
         }
         else{
@@ -73,11 +79,30 @@ class RegisterController extends BaseController
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
             'otp' => 'required|numeric|digits:6',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'ip_address' => 'required|ipv4',
+            'login_type' => 'required|in:web,app',
+            'device_type' => 'required',
+            'device_token' => 'required',
+            'device_mac_address'=>'required|mac_address',
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        /* Login Details */
+       $user_logins= UserLogin::create([
+            'user_id' => $request->user_id,
+            'latitude'=>$request->latitude,
+            'longitude' =>$request->longitude,
+            'ip_address' => $request->ip_address,
+            'login_type' => $request->login_type,
+            'device_type' => $request->device_type,
+            'device_token' => $request->device_token,
+            'device_mac_address'=> $request->device_mac_address
+        ]);
 
         /* Validation Logic */
         $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
@@ -92,17 +117,25 @@ class RegisterController extends BaseController
             $userOtp->update([
                 'expire_at' => now()
             ]);
+            $user_logins->update([
+                'status' => 1,
+                'last_login' => now(),
+            ]);
             Auth::login($user);
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
+            $success['token_type'] = 'Bearer';
             $success['mobile_number'] =  $user->mobile_number;
             return $this->sendResponse($success, 'User login successfully.');
         }else{
+            $user_logins->update([
+                'status' => 0
+            ]);
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
 
-        /**
+    /**
      * Write code on Method
      *
      * @return response()
@@ -129,4 +162,5 @@ class RegisterController extends BaseController
              'expire_at' => $now->addMinutes(10)
          ]);
      }
+
 }
