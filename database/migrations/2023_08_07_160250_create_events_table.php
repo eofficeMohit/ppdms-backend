@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
 			$table->string('event_name');
-			$table->integer('event_sequence')->default(0)->nullable();
-			$table->dateTime('event_start_date')->nullable();
-			$table->dateTime('event_end_date')->nullable();
+			$table->integer('event_sequence')->unique();
+			$table->dateTime('start_date_time')->nullable();
+			$table->dateTime('end_date_time')->nullable();
 			$table->tinyInteger('status')->default(0);
             $table->timestamps();
 			$table->softDeletes();

@@ -32,8 +32,8 @@ class EventController extends Controller
         $this->validate($request, [
             'event_name' => 'required|unique:events,event_name',
             'event_sequence' => 'required|numeric|unique:events,event_sequence',
-            'event_start_date' => 'required',
-            'event_end_date' => 'required|after:event_start_date',
+            'start_date_time' => 'required',
+            'end_date_time' => 'required|after:event_start_date',
             'status' => 'required|in:0,1'
         ]);
         $input = $request->all();

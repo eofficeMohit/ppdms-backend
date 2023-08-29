@@ -41,33 +41,33 @@
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>Event Name:</strong>
-                                        {!! Form::text('event_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                        {!! Form::text('event_name', null, array('placeholder' => 'Event name','class' => 'form-control')) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>Event Sequence:</strong>
-                                        {!! Form::text('event_sequence', null, array('placeholder' => 'Sequence','class' => 'form-control')) !!}
+                                        {!! Form::number('event_sequence', null, array('placeholder' => 'Sequence number ','class' => 'form-control')) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>Event Start Date:</strong>
-                                        {!! Form::text('event_start_date', null, array('placeholder' => '2023-05-23','class' => 'datetimepicker form-control')) !!}
+                                        {!! Form::input('dateTime-local', 'start_date_time', now(), ['id' => 'start_date_time', 'class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>Event End Date:</strong>
-                                        {!! Form::text('event_end_date', null, array('placeholder' => '2023-05-23','class' => 'datetimepicker form-control')) !!}
+                                        {!! Form::input('dateTime-local', 'end_date_time', now(), ['id' => 'end_date_time', 'class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>Status:</strong>
                                         <select class="form-control" name="status">
-                                            <option value="1">ON</option>
-                                            <option value="0">OFF</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">In-Active</option>
                                         </select>
                                     </div>
                                 </div>
