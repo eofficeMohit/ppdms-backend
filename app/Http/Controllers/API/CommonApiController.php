@@ -125,7 +125,7 @@ class CommonApiController extends BaseController
                         'is_evm_switch_off' => $is_evm_switch_off,
                     );
                 }
-
+                
                 return $this->sendResponse($success, 'User all booths.');
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
