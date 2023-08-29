@@ -39,11 +39,14 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Name</th>
+                                                NAME</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                STATE CODE</th>
                                             
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Status
+                                                STATUS
                                             </th>
                                         </tr>
                                     </thead>
@@ -62,6 +65,12 @@
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">{{ $state->name }}</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $state->st_code }}</h6>
 
                                                 </div>
                                             </td>

@@ -38,7 +38,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
-                                <h4 class="mb-0">{{$total_party_dispatch}}</h4>
+                                <h4 class="mb-0">{{$total_party_dispatch ?? 0}}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>

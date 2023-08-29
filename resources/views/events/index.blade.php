@@ -77,7 +77,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <p class="mb-0 text-sm">{{ $event->event_start_date }}</p>
+                                                    <p class="mb-0 text-sm">{{ $event->start_date_time }}</p>
                                                     </div>
 
                                                 </div>
@@ -85,16 +85,16 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <p class="mb-0 text-sm">{{ $event->event_end_date }}</p>
+                                                    <p class="mb-0 text-sm">{{ $event->end_date_time }}</p>
                                                     </div>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
                                                 @if($event->status ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
                                                 @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
                                                 @endif
                                             </td>
                                             <td class="align-middle text-center">

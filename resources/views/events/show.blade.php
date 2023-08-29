@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $event->event_start_date }}
+                                        {{ $event->start_date_time }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $event->event_end_date; }}
+                                        {{ $event->end_date_time; }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
