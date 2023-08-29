@@ -57,3 +57,13 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.error{
+  font-size: 14px !important;
+  color: red !important;
+  margin-left: 0px !important;
+}
+
+.form-control{
+  color: #495057 !important;
+}

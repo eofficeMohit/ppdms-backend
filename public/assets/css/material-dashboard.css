@@ -13876,8 +13876,8 @@ body.dark-version {
       height: 0.8375rem;
       border-radius: 50%;
      background-image: linear-gradient(195deg, #148808 0%, #148808 100%); , var(--bs-gradient);
-      opacity: 0 px;
-      left: 0 px;
+      opacity: 0px;
+      left: 0px;
       right: 0;
       top: 0;
       bottom: 0;

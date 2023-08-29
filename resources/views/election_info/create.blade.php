@@ -3,19 +3,19 @@
     <x-navbars.sidebar activePage="election-info"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Event Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Election Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-md-12 mt-4">
                     <div class="card">
                         <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Event Management</h6>
+                            <h6 class="mb-0">Election Management</h6>
                         </div>
                         <div class="card-body pt-4 p-3">
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
-                                    <h3>Create New Event</h3>
+                                    <h3>Create New E-Info</h3>
                                         <div class="col-12 text-end">
                                             <a class="btn btn-primary" href="{{ route('election-info') }}"> Back</a>
                                         </div>
