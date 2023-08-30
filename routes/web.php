@@ -14,6 +14,7 @@ use App\Http\Controllers\BoothController;
 use App\Http\Controllers\ElectionInfoController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,6 +51,18 @@ Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssembli
 Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
 
 
+Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
+Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
+Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
+
+
 Route::get('/booth', [BoothController::class, 'index'])->name('booth');
 Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
 Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
@@ -68,6 +81,14 @@ Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])-
 Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
 Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
+
+Route::get('/events', [EventController::class, 'index'])->name('events');
+Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
+Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
 });
 

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
+        Schema::create('parliaments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('st_code')->nullable();
+            $table->string('pc_no')->nullable();
+            $table->string('pc_name')->nullable();
+            $table->string('pc_type')->nullable();
+            $table->unsignedBigInteger('state_id');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('states');
+        Schema::dropIfExists('parliaments');
     }
 };

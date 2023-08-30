@@ -1,9 +1,9 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-    <x-navbars.sidebar activePage="election-info"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="events"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Election Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Events Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,13 +11,13 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Election Info Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Events Add, Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
                         <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New E-Info</a>
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('event.create') }}"><i
+                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
                         </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -35,30 +35,26 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Booth</th>
+                                                Event Name</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Districts</th>
+                                                Event Sequence</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                State</th>
+                                                Event Started At</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Is Party Reached </th>
+                                                Event Ended At </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Is Poll Started
-                                            </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Voting
+                                                Status
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $election)
+                                        @foreach ($data as $key => $event)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -70,47 +66,53 @@
 
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $election->booth->booth_name }}</p>
+                                                    <p class="mb-0 text-sm">{{ $event->event_name }}</p>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $election->district->name }}
+                                                <p class="text-xs text-secondary mb-0">{{ $event->event_sequence }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <p class="mb-0 text-sm">{{ $election->state->name }}</p>
+                                                    <p class="mb-0 text-sm">{{ $event->start_date_time }}</p>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                    <p class="mb-0 text-sm">{{ $event->end_date_time }}</p>
                                                     </div>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                @if($election->is_party_reached ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
+                                                @if($event->status ==1)
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
                                                 @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
                                                 @endif
                                             </td>
                                             <td class="align-middle text-center">
-                                                @if($election->is_poll_started ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
-                                                @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
-                                                @endif
-                                            </td>
-                                            <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $election->voting }}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                    href="{{ route('event.show',$event->id) }}" data-original-title="show event"
+                                                    title="Show Event">
+                                                    <i class="material-icons">visibility</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
                                                 <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('election-info.edit',$election->id) }}" data-original-title="Edit User"
-                                                    title="Edit Eelction Info">
+                                                    href="{{ route('event.edit',$event->id) }}" data-original-title="Edit Event"
+                                                    title="Edit Event">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
+                                                {!! Form::open(['method' => 'DELETE','route' => ['event.destroy', $event->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
                                             </td>
                                         </tr>
                                         @endforeach

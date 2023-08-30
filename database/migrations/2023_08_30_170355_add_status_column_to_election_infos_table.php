@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('st_code')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('election_infos', function (Blueprint $table) {
+            $table->tinyInteger('status')->default(0);
         });
     }
 
@@ -25,6 +21,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('states');
+        Schema::table('election_infos', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
+
+        
     }
 };

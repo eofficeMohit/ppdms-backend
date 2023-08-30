@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('st_code')->nullable();
+			$table->string('event_name');
+			$table->integer('event_sequence')->unique();
+			$table->dateTime('start_date_time')->nullable();
+			$table->dateTime('end_date_time')->nullable();
+			$table->tinyInteger('status')->default(0);
             $table->timestamps();
-            $table->softDeletes();
+			$table->softDeletes();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('states');
+        Schema::dropIfExists('events');
     }
 };
