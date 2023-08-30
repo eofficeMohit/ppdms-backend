@@ -54,6 +54,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::controller(CommonApiController::class)->group(function(){
         Route::post('user-profile-details', 'userProfile');
         Route::get('get-user-Booths', 'getBooths');
+        Route::get('get-events', 'getEvents');
         Route::post('event-update', 'eventUpdate');
     });
 });

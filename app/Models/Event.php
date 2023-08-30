@@ -12,4 +12,8 @@ class Event extends Model
     protected $fillable = [
         'event_name', 'event_sequence', 'start_date_time', 'end_date_time','status','created_at','updated_at'
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }

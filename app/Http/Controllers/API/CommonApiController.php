@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\Booth;
 use App\Models\UserLogin;
+use App\Models\Event;
 use App\Models\ElectionInfo;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -134,6 +135,42 @@ class CommonApiController extends BaseController
           }
     }
 
+         /**
+     * User profile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getEvents(Request $request): JsonResponse
+    {
+        try {
+            if($request->bearerToken()){
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                $events = Event::orderby('event_sequence')->get();
+
+                foreach($events as $event){
+                    $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',1)->count();
+                    $notUpdatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',0)->count();
+                    $success[]=array(
+                        'event_id'=>$event->id,
+                        'event_name'=>$event->event_name,
+                        'event_sequence'=>$event->event_sequence,
+                        'status'=>$event->status,
+                        'start_date_time'=>$event->start_date_time,
+                        'end_date_time'=>$event->end_date_time,
+                        'updated_events'=>$updatedEvents,
+                        'not_updated_events'=>$notUpdatedEvents,
+                    );
+                }              
+                return $this->sendResponse($success, 'All Events.');
+            }
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+          } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
+          }
+    }
+
     /**
      * User profile api
      *
@@ -153,127 +190,49 @@ class CommonApiController extends BaseController
                         'district_id' => 'required|numeric|exists:districts,id',
                         'booth_id' => 'required|numeric|exists:booths,id',
                         'assemble_id' => 'required|numeric|exists:assemblies,id',
-                        'is_party_dispatch' =>'required_without_all:is_party_reached,is_poll_started,is_poll_ended,
-                        is_nopolling,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_party_reached' => 'required_without_all:is_party_dispatch,is_poll_started,is_poll_ended,
-                        is_nopolling,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_poll_started' =>'required_without_all:is_party_dispatch,is_party_reached,is_poll_ended,
-                        is_nopolling,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_poll_ended' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_nopolling' =>  'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_poll_ended,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_mockpoll_done' =>  'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,voter_in_queue,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'voter_in_queue' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,polling_party_left,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'polling_party_left' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,evm_deposited,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'evm_deposited' =>  'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,is_booth_capt,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_booth_capt' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_law_prob' =>  'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_booth_capt,is_evm_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_evm_prob' =>'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_booth_capt,is_law_prob,is_mockpoll_clear,is_battery_removed,is_evm_switch_off',
-                        'is_mockpoll_clear' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_booth_capt,is_law_prob,is_evm_prob,is_battery_removed,is_evm_switch_off',
-                        'is_battery_removed' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_booth_capt,is_law_prob,is_evm_prob,is_mockpoll_clear,is_evm_switch_off',
-                        'is_evm_switch_off' => 'required_without_all:is_party_dispatch,is_party_reached,is_poll_started,
-                        is_nopolling,is_mockpoll_done,is_poll_ended,voter_in_queue,polling_party_left,evm_deposited,
-                        is_booth_capt,is_law_prob,is_evm_prob,is_mockpoll_clear,is_battery_removed',
+                        'event_id' => 'required|numeric|exists:events,id',
+                        'status'=>'required|numeric|in:0,1'
                     ]);
 
                     if($validator->fails()){
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
 
+                    // $check_booth_user=Booth::where('user_id',$token->tokenable_id)->exists();
+                    
+                    // if($check_booth_user===true){
+                    //     dd('yes');
+                    // }else{
+                    //     dd('no');
+                    // }
+
                 $data = $request->all();
-               if(\Request::exists('is_party_dispatch')){
-                    $data['dispatch_last_updated'] = now();
-               }
-               if(\Request::exists('is_party_reached')){
-                    $data['reached_last_updated'] = now();
+                if($request->event_id > 1){
+                    $check_next_event =ElectionInfo::where('event_id',$request->event_id++)->where('status',1)->exists();
+                    if($check_next_event ===true){
+                        return $this->sendError('Validation Error.', 'Previous event is already locked you cannot procced with this event now.');
+                    }
+    
+                    // $check_previous_event =ElectionInfo::where('event_id',$request->event_id--)->where('status',0)->exists();
+                    // if($check_previous_event ===false){
+                    //     return $this->sendError('Validation Error.', 'Previous event is not completed yet, you cannot preceed further.');
+                    // }
                 }
-                if(\Request::exists('is_poll_started')){
-                    $data['started_last_updated'] = now();
-                }
-                if(\Request::exists('is_poll_ended')){
-                    $data['ended_last_updated'] = now();
-                }
-                if(\Request::exists('is_nopolling')){
-                    $data['nopolling_last_updated'] = now();
-                }
-                if(\Request::exists('is_mockpoll_done')){
-                    $data['mockpoll_last_updated'] = now();
-                }
-                if(\Request::exists('voter_in_queue')){
-                    $data['voter_in_queue_last_updated'] = now();
-                }
-                if(\Request::exists('polling_party_left')){
-                    $data['polling_party_left_last_updated'] = now();
-                }
-                if(\Request::exists('evm_deposited')){
-                    $data['evm_deposited_last_updated'] = now();
-                }
-                if(\Request::exists('is_booth_capt')){
-                    $data['booth_capt_last_updated'] = now();
-                }
-                if(\Request::exists('is_law_prob')){
-                    $data['law_prob_last_updated'] = now();
-                }
-                if(\Request::exists('is_evm_prob')){
-                    $data['evm_prob_last_updated'] = now();
-                }
-                if(\Request::exists('is_mockpoll_clear')){
-                    $data['mockpollclear_last_updated'] = now();
-                }
-                if(\Request::exists('is_battery_removed')){
-                    $data['battery_removed_last_updated'] = now();
-                }
-
-                if(\Request::exists('is_evm_switch_off')){
-                    $data['is_evm_switch_off_last_updated'] = now();
-                }
-                
-                $data = ElectionInfo::create($data);
-
-                $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])->find($data->id);
-
              
-                $success['events']=$electionInfo;
+                $data = ElectionInfo::create($data);
+              
+                $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
+
+
                 $success['events']['state_name']=$electionInfo->electionState->name;
                 $success['events']['district_name']=$electionInfo->electionDistrict->name;
                 $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name;
                 $success['events']['booth_name']=$electionInfo->electionBooth->booth_name;
+                $success['events']['event_name']=$electionInfo->electionEvent->event_name;
+                $success['events']['event_status']=$electionInfo->status;
                 $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type;
-                $success['events']['pc_type']=$electionInfo->electionAssembly->pc_type;
-                $success['events']['st_code']=$electionInfo->electionAssembly->st_code;
+                $success['events']['st_code']=$electionInfo->electionState->st_code;
                 $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code;
-
-                unset($success['events']['id']);
-                unset($success['events']['deleted_at']);
-                
-                unset($success['events']['electionAssembly']);
-                unset($success['events']['electionBooth']);
-                unset($success['events']['electionDistrict']);
-                unset($success['events']['electionState']);
                 
                 return $this->sendResponse($success, 'Event updated successfully.');
             }
