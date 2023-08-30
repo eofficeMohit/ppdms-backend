@@ -35,8 +35,8 @@
                                     @endforeach
                                     </ul>
                                 </div>
-                            @endif
-                            {!! Form::open(array('route' => 'election-info.store','method'=>'POST')) !!}
+                            @endif 
+                            {!! Form::open(array('route' => 'election-info.store','method'=>'POST','id'=>'elecInfoForm')) !!}
                             <div class="row">
                                     
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -82,57 +82,13 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <strong>Party Dispatch:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input  value="1" name="is_party_dispatch" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Party Reached:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_party_reached" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Setup of Polling Station:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="polling_station_setup" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Mockpoll Done:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_mockpoll_done" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Poll Started:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_poll_started" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
+                                            <strong>Event:</strong>
+                                            <select class="form-control" id="event_id" name="event_id">
+                                               <option value="">Select Event</option>
+                                                @foreach($events as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -143,74 +99,11 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <strong>Voters in Queue at 6 PM:</strong>
-                                            {!! Form::text('voter_in_queue', null, array('placeholder' => 'Voter In Queue','class' => 'form-control')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Poll Ended:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_poll_ended" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Machine Closed & EVM Switched Off:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_evm_switch_off" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Party Departed from PS:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_booth_capt" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Party Reached at Collection Centre:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_law_prob" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>EVM Deposited:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_evm_prob" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Poll Interrupted:</strong>
-                                            <p>
-                                            <label class="switch">
-                                                <input value="1" name="is_mockpoll_clear" class="toggle_state_cls" type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            </p>
+                                            <strong>Status:</strong>
+                                            <select class="form-control" id="status" name="status">
+                                                <option value="1">ON</option>
+                                                <option value="0">OFF</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="clearfix">
@@ -291,5 +184,48 @@
             console.error(error);
         });
     });
-    
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#elecInfoForm").validate({
+            rules: {
+                state_id: {
+                    required: true
+                },
+                district_id: {
+                    required: true
+                },
+                booth_id: {
+                    required: true
+                },
+                assemble_id: {
+                    required: true
+                },
+                event_id: {
+                    required: true
+                },
+                // Define rules for other fields
+            },
+            messages: {
+                state_id: {
+                    required: "State is required field."
+                },
+                district_id: {
+                    required: "District is required field.",
+                },
+                booth_id: {
+                    required: "Booth is required field.",
+                },
+                assemble_id: {
+                    required: "Assembly is required field.",
+                },
+                event_id: {
+                    required: "Event is required field.",
+                },
+                // Define custom error messages for other fields
+            }
+        });
+    });
+</script>    
