@@ -71,7 +71,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div>
-                                                    <h6 class="mb-0 text-sm">{{ $user->st_code }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $user->state->st_code }}</h6>
                                                     </div>
 
                                                 </div>
@@ -95,11 +95,11 @@
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $user->pc_type }}
+                                            <p class="text-xs text-secondary mb-0">{{ $user->parliament->pc_type ?? '' }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->pc_no }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->parliament->pc_no ?? ''}}</span>
                                             </td>
                                             <td class="align-middle">
                                                 <a rel="tooltip" class="btn btn-info btn-link"
