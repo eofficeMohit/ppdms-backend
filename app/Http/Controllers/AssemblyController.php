@@ -16,7 +16,7 @@ class AssemblyController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Assembly::latest()->paginate(20);
+        $data = Assembly::with(['state','parliament'])->latest()->paginate(20);
         return view('assemblies.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 

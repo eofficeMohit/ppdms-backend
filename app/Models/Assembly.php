@@ -19,7 +19,7 @@ class Assembly extends Model
      * @return response()
      */
     protected $fillable = [
-        'st_code', 'asmb_code', 'ac_type', 'pc_type','pc_no','district_id','state_id','asmb_name','ac_name_uni','status'
+        'st_code', 'asmb_code', 'ac_type', 'pc_type','pc_id','district_id','state_id','asmb_name','ac_name_uni','status'
     ];
 
     public function state()
@@ -30,6 +30,11 @@ class Assembly extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function parliament()
+    {
+        return $this->belongsTo(Parliament::class, 'pc_id', 'id');
     }
 
         /**
