@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
-	Route::resource('parliament', ParliamentController::class);
+	Route::resource('parliaments', ParliamentController::class);
 
 Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
 Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');

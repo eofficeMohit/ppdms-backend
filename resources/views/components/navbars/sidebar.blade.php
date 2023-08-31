@@ -36,13 +36,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-dark ' : '' }} "  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">install_desktop</i>
                     </div>
                     <span class="nav-link-text ms-1">Masters</span>
                 </a>
-                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }}"  id="pagesExamples" style="">
+                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }} {{ $activePage == 'parliament' ? 'show' : '' }}"  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }}  "
@@ -72,12 +72,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'parliamentary' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('booth') }}">
+                            <a class="nav-link text-white {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }}  "
+                                href="{{ route('parliaments.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">cottage</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Manage Parliamentary</span>
+                                <span class="nav-link-text ms-1">Manage Parliament</span>
                             </a>
                         </li>
                         {{-- <li class="nav-item">

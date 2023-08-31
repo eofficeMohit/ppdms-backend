@@ -91,6 +91,23 @@
                                             </select>
                                         </div>
                                     </div>
+                                    {{-- <div class="col-xs-12 col-sm-12 col-md-12"> --}}
+                                        {{-- <div class="form-group"> --}}
+                                                
+                                                @foreach($events as $key => $value)
+                                                    <strong>{{$value}}:</strong>   
+                                                    <div class="row"> 
+                                                        <div class="col-md-6">
+                                                        <label class="switch">
+                                                            <input data-id="{{ $election_info->event_id }}" class="toggle_state_cls" type="checkbox" {{ $election_info->event_id ? 'checked' : '' }}>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                        {{-- </div> --}}
+                                    {{-- </div>  --}}
+                                   
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Voter Turnout:</strong>
