@@ -59,23 +59,28 @@ class CommonApiController extends BaseController
                 $hashedTooken = $request->bearerToken();
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
+                 /* Validate event Data */
+                 $validator = Validator::make($request->all(), [
+                    'event_id' => 'required|numeric|exists:events,id'
+                ]);
+
+                if($validator->fails()){
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
                 $user = User::find($token->tokenable_id);
                 $userBooths =Booth::where('user_id',$user->id)->get();
-
+// dd($request->has('event_id'));
 
                 foreach($userBooths as $userBooth){
-                    $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
-                    ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
-                    ->where('district_id',$userBooth->district_id)->latest()->first();
+                        $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
+                        ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
+                        ->where('district_id',$userBooth->district_id)->where('event_id',$request->event_id)->latest()->first();
 
-                    if(!empty($electionInfo)){
-                        $event_id=$electionInfo->event_id;
-                        $event_status=$electionInfo->status;
-                    }else{
-                        $event_id='';
-                        $event_status='';
-                    }
-
+                        if(!empty($electionInfo)){
+                            $event_id=$electionInfo->event_id;
+                            $event_status=$electionInfo->status;
+                        }
                     $success[]=array(
                         'id'=>$userBooth->id,
                         'booth_no'=>$userBooth->booth_no,
