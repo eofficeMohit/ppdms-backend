@@ -71,4 +71,10 @@ class ElectionInfo extends Model
         return $this->belongsTo(Booth::class);
 
     }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+
+    }
 }

@@ -81,6 +81,10 @@ Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])-
 Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
 Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
+Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
+Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
+
+
 
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
