@@ -15,7 +15,7 @@ class ElectionInfo extends Model
      * @return response()
      */
     protected $fillable = [
-        'assemble_id', 'district_id', 'state_id', 'booth_id','event_id','pc_no','voting','voting_last_updated','status','created_at','updated_at'
+        'assemble_id', 'district_id', 'state_id', 'booth_id','user_id','event_id','pc_no','voting','voting_last_updated','status','created_at','updated_at'
     ];
 
     protected $casts = [
@@ -69,6 +69,12 @@ class ElectionInfo extends Model
     public function booth()
     {
         return $this->belongsTo(Booth::class);
+
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
 
     }
 }

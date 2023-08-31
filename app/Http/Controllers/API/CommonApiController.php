@@ -62,46 +62,20 @@ class CommonApiController extends BaseController
                 $user = User::find($token->tokenable_id);
                 $userBooths =Booth::where('user_id',$user->id)->get();
 
-                $success=array();
-                $is_party_dispatch="";
+
                 foreach($userBooths as $userBooth){
                     $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
                     ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
                     ->where('district_id',$userBooth->district_id)->latest()->first();
 
-                    if($electionInfo){
-                        $is_party_reached=$electionInfo->is_party_reached;
-                        $is_poll_started=$electionInfo->is_poll_started;
-                        $is_poll_ended=$electionInfo->is_poll_ended;
-                        $is_nopolling=$electionInfo->is_nopolling;
-                        $is_party_dispatch=$electionInfo->is_party_dispatch;
-                        $is_mockpoll_done=$electionInfo->is_mockpoll_done;
-                        $voter_in_queue=$electionInfo->voter_in_queue;
-                        $polling_party_left=$electionInfo->polling_party_left;
-                        $evm_deposited=$electionInfo->evm_deposited;
-                        $is_booth_capt=$electionInfo->is_booth_capt;
-                        $is_law_prob=$electionInfo->is_law_prob;
-                        $is_evm_prob=$electionInfo->is_evm_prob;
-                        $is_mockpoll_clear=$electionInfo->is_mockpoll_clear;
-                        $is_battery_removed=$electionInfo->is_battery_removed;
-                        $is_evm_switch_off=$electionInfo->is_evm_switch_off;
+                    if(!empty($electionInfo)){
+                        $event_id=$electionInfo->event_id;
+                        $event_status=$electionInfo->status;
                     }else{
-                        $is_party_reached='false';
-                        $is_poll_started='false';
-                        $is_poll_ended='false';
-                        $is_nopolling='false';
-                        $is_party_dispatch='false';
-                        $is_mockpoll_done='false';
-                        $voter_in_queue='false';
-                        $polling_party_left='false';
-                        $evm_deposited='false';
-                        $is_booth_capt='false';
-                        $is_law_prob='false';
-                        $is_evm_prob='false';
-                        $is_mockpoll_clear='false';
-                        $is_battery_removed='false';
-                        $is_evm_switch_off='false';
+                        $event_id='';
+                        $event_status='';
                     }
+
                     $success[]=array(
                         'id'=>$userBooth->id,
                         'booth_no'=>$userBooth->booth_no,
@@ -109,21 +83,8 @@ class CommonApiController extends BaseController
                         'assemble_id'=>$userBooth->assemble_id,
                         'state_id'=>$userBooth->state_id,
                         'district_id'=>$userBooth->district_id,
-                        'is_party_reached' => $is_party_reached,
-                        'is_poll_started' => $is_poll_started,
-                        'is_poll_ended' => $is_poll_ended,
-                        'is_nopolling' => $is_nopolling,
-                        'is_party_dispatch' => $is_party_dispatch,
-                        'is_mockpoll_done' => $is_mockpoll_done,
-                        'voter_in_queue' => $voter_in_queue,
-                        'polling_party_left' => $polling_party_left,
-                        'evm_deposited' => $evm_deposited,
-                        'is_booth_capt' => $is_booth_capt,
-                        'is_law_prob' => $is_law_prob,
-                        'is_evm_prob' =>$is_evm_prob,
-                        'is_mockpoll_clear' => $is_mockpoll_clear,
-                        'is_battery_removed' =>$is_battery_removed,
-                        'is_evm_switch_off' => $is_evm_switch_off,
+                        'event_id'=>$event_id ?? '',
+                        'event_status'=>$event_status ?? '',
                     );
                 }
                 
@@ -218,7 +179,7 @@ class CommonApiController extends BaseController
                     //     return $this->sendError('Validation Error.', 'Previous event is not completed yet, you cannot preceed further.');
                     // }
                 }
-             
+                $data['user_id']=\Auth::id();
                 $data = ElectionInfo::create($data);
               
                 $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
