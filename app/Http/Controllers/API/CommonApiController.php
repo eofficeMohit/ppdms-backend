@@ -179,7 +179,7 @@ class CommonApiController extends BaseController
                     //     return $this->sendError('Validation Error.', 'Previous event is not completed yet, you cannot preceed further.');
                     // }
                 }
-             
+                $data['user_id']=\Auth::id();
                 $data = ElectionInfo::create($data);
               
                 $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
