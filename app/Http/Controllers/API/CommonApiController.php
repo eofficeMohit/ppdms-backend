@@ -70,17 +70,20 @@ class CommonApiController extends BaseController
 
                 $user = User::find($token->tokenable_id);
                 $userBooths =Booth::where('user_id',$user->id)->get();
-                
 
                 foreach($userBooths as $userBooth){
                         $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
                         ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
                         ->where('district_id',$userBooth->district_id)->where('event_id',$request->event_id)->latest()->first();
 
-                        if(!empty($electionInfo)){
-                            $event_id=$electionInfo->event_id;
-                            $event_status=$electionInfo->status;
-                        }
+                    if(!empty($electionInfo)){
+                        $event_id=$electionInfo->event_id;
+                        $event_status=$electionInfo->status;
+                    }
+                    else{
+                        $event_id='';
+                        $event_status='';
+                    }
                     $success[]=array(
                         'id'=>$userBooth->id,
                         'booth_no'=>$userBooth->booth_no,
