@@ -84,7 +84,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0">15567</h4>
+                                <h4 class="mb-0">0</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>

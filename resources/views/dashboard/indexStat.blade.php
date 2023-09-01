@@ -18,7 +18,7 @@ div#map {
     {{-- <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar> --}}
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Dashboard statistics"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="BoothWatch Live"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             {{-- <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
