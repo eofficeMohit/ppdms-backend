@@ -15,10 +15,12 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('event-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('event.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
                         </div>
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -104,15 +106,19 @@
                                                     <i class="material-icons">visibility</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
+                                                @can('event-edit')
                                                 <a rel="tooltip" class="btn btn-success btn-link"
                                                     href="{{ route('event.edit',$event->id) }}" data-original-title="Edit Event"
                                                     title="Edit Event">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
+                                                @endcan
+                                                @can('event-delete')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['event.destroy', $event->id],'style'=>'display:inline']) !!}
                                                     {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
                                                 {!! Form::close() !!}
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

@@ -24,7 +24,7 @@
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                {{ auth()->user()->roles[0]->name }}
+                               {{-- {{ auth()->user()->roles[0]->name }} --}}
                             </p>
                         </div>
                     </div>

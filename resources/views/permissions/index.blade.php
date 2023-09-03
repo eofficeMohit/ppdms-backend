@@ -15,11 +15,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('permission-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('permissions.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                     Permission</a>
                         </div>
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -70,15 +72,19 @@
                                                 <i class="material-icons">visibility</i>
                                                 <div class="ripple-container"></div>
                                                  </a>
+                                                @can('permission-edit')
                                                 <a rel="tooltip" class="btn btn-success btn-link"
                                                     href="{{ route('permissions.edit',$permission->id) }}" data-original-title="Edit Permission"
                                                     title="Edit User">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
+                                                @endcan
+                                                @can('permission-delete')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
                                                     {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
                                                 {!! Form::close() !!}
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

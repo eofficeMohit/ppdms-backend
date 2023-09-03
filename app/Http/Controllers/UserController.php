@@ -17,7 +17,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): View
-    {
+    {   
         $data = User::latest()->paginate(20);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 20);
@@ -47,7 +47,7 @@ class UserController extends Controller
             'roles' => 'required'
         ]);
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        //$input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
         return redirect()->route('users.index')

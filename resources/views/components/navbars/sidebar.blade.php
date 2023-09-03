@@ -44,6 +44,7 @@
                 </a>
                 <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }} {{ $activePage == 'parliament' ? 'show' : '' }}"  id="pagesExamples" style="">
                     <ul class="nav ms-4">
+                        @can('assembly-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('assemblies') }}">
@@ -53,6 +54,8 @@
                                 <span class="nav-link-text ms-1">Manage Assemblies</span>
                             </a>
                         </li>
+                        @endcan
+                        @can('booth-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('booth') }}">
@@ -62,6 +65,7 @@
                                 <span class="nav-link-text ms-1">Manage Booths</span>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'sector-officer' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('booth') }}">
@@ -107,6 +111,7 @@
                                 <span class="nav-link-text ms-1">Manage District</span>
                             </a>
                         </li>
+                        @can('event-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'events' ? ' active bg-gradient-dark' : '' }}  "
                                 href="{{ route('events') }}">
@@ -116,6 +121,7 @@
                                 <span class="nav-link-text ms-1">Manage Events</span>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
                                 href="{{ route('election-info') }}">
@@ -165,14 +171,15 @@
             </li>
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'permissions' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'roles' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'users' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples1" class="nav-link text-white collapsed {{ $activePage == 'permissions' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'roles' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'users' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">supervised_user_circle</i>
                     </div>
                     <span class="nav-link-text ms-1">User Management</span>
                 </a>
-                <div class="collapse {{ $activePage == 'roles' ? 'show' : '' }} {{ $activePage == 'permissions' ? 'show' : '' }} {{ $activePage == 'users' ? 'show' : '' }}"  id="pagesExamples" style="">
+                <div class="collapse {{ $activePage == 'roles' ? 'show' : '' }} {{ $activePage == 'permissions' ? 'show' : '' }} {{ $activePage == 'users' ? 'show' : '' }}"  id="pagesExamples1" style="">
                     <ul class="nav ms-4">
+                        @can('user-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'users' ? ' active bg-gradient-dark ' : '' }} "
                                 href="{{ route('users.index') }}">
@@ -182,6 +189,8 @@
                                 <span class="nav-link-text ms-1">Manage User</span>
                             </a>
                         </li>
+                        @endcan
+                        @can('role-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'roles' ? ' active bg-gradient-dark ' : '' }}"
                                 href="{{ route('roles.index') }}">
@@ -191,6 +200,8 @@
                                 <span class="nav-link-text ms-1">Manage Roles</span>
                             </a>
                         </li>
+                        @endcan
+                        @can('permission-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-dark ' : '' }}"
                                 href="{{ route('permissions.index') }}">
@@ -200,6 +211,7 @@
                                 <span class="nav-link-text ms-1">Manage Permissions</span>
                             </a>
                         </li>
+                        @endcan
                     </ul>
                 </div>
             </li>
