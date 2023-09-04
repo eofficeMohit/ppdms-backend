@@ -15,11 +15,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('role-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('roles.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 Role</a>
                         </div>
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>

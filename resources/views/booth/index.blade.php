@@ -15,11 +15,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('booth-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 Booth</a>
                         </div>
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -121,15 +123,20 @@
                                                 <i class="material-icons">visibility</i>
                                                 <div class="ripple-container"></div>
                                             </a>
+                                                @can('booth-edit')
                                                 <a rel="tooltip" class="btn btn-success btn-link"
                                                     href="{{ route('booth.edit',$booth->id) }}" data-original-title="Edit booth"
                                                     title="Edit Assembly">
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
+                                                @endcan
+                                                @can('booth-delete')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $booth->id],'style'=>'display:inline']) !!}
                                                     {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}                                            </td>
+                                                {!! Form::close() !!}
+                                                @endcan
+                                            </td>
                                         </tr>
                                         @endforeach
                                     @else
