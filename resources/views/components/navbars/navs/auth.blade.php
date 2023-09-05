@@ -1,5 +1,5 @@
 @props(['titlePage'])
-
+@php( $notifications = \App\Models\Notification::all()->where('user_id','1')->where('seen','0'))
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
     navbar-scroll="true">
     <div class="container-fluid py-1 px-3">
@@ -16,7 +16,7 @@
                     <label class="form-label">Search...</label>
                     <input type="text" class="form-control">
                 </div>
-            </div>
+            </div> 
             <form method="POST" action="{{ route('logout') }}" class="d-none" id="logout-form">
                 @csrf
             </form>
@@ -50,6 +50,7 @@
                     </a>
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
+                        @foreach($notifications as $notification)
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
@@ -58,17 +59,21 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">New message</span> from Laur
+                                            <span class="font-weight-bold">{{ $notification->title }}</span> {{ $notification->message }}
                                         </h6>
                                         <p class="text-xs text-secondary mb-0">
                                             <i class="fa fa-clock me-1"></i>
-                                            13 minutes ago
+                                            {{ $notification->created_at }}
+                                        </p>
+                                        <p class="text-xs text-secondary mb-0">
+                                            <a class=""><i class="fa fa-check me-1">Mark As Read</i></a>
                                         </p>
                                     </div>
                                 </div>
                             </a>
                         </li>
-                        <li class="mb-2">
+                        @endforeach
+                       {{-- <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
@@ -123,7 +128,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             </ul>

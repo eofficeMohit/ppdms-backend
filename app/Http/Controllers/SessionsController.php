@@ -6,6 +6,7 @@ Use Str;
 Use Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Models\User;
+use App\Models\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
@@ -31,6 +32,15 @@ class SessionsController extends Controller
 
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             session()->regenerate();
+            $user_id = auth()->user()->id;
+            $last_login = date('Y-m-d H:i:s');
+            $condition = ['user_id' => $user_id];
+            $data = [
+                'user_id' => $user_id,
+                'last_login' => $last_login,
+                'device_type' => "web",
+            ];
+            UserLogin::updateOrInsert($condition, $data);
             return redirect()->intended('/dashboard')
                         ->withSuccess('Signed in to Dashboard.');
         }else{
@@ -84,8 +94,10 @@ class SessionsController extends Controller
 
     public function destroy()
     {
+        $user_id = auth()->user()->id;
+        $last_login = date('Y-m-d H:i:s');
         auth()->logout();
-
+        UserLogin::where('user_id', $user_id)->update(array('last_logout' => $last_login));
         return redirect('/sign-in');
     }
 

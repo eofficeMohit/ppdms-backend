@@ -36,11 +36,11 @@ class AssemblyController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'st_code' => 'required',
+            //'st_code' => 'required',
             'asmb_code' => 'required|numeric',
             'ac_type' => 'required',
-            'pc_type' => 'required',
-            'pc_no' => 'required|numeric',
+            //'pc_type' => 'required',
+            'pc_id' => 'required|numeric',
             'district_id' => 'required',
             'state_id' => 'required',
             'asmb_name' => 'required',

@@ -8,10 +8,11 @@ use App\Models\District;
 use App\Models\Booth;
 use App\Models\Assembly;
 use App\Models\Event;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-  
+      
 class ElectionInfoController extends Controller
 {
     /**
@@ -59,6 +60,18 @@ class ElectionInfoController extends Controller
             }
         }
         $Events = ElectionInfo::create($input);
+        if($input['event_id'] == 1){
+            $user_id = auth()->user()->id;
+            $data = array();
+            $data['user_id'] = $user_id;
+            $data['title'] = "Event Changed.";
+            $data['message'] = "Event is updated by user.";
+            $data['notification_type'] = "web";
+            $data['notification_for'] = "Event";
+            $data['notification_for_ref'] = $input['event_id'];
+            $data['notification_to'] = 1;
+            $Notifications = Notification::create($data);
+        }
         return redirect()->route('election-info')
                         ->with('success','Events created successfully');
     }
