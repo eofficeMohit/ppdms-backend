@@ -1,44 +1,21 @@
-<style type="text/css">
-    body {
-    background: #edf2f7;
-    padding: 50px;
-}
-div#map {
-    border: 4px solid #fff;
-    border-radius: 10px;
-    box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-  100px 100px 80px rgba(0, 0, 0, 0.07);
-}
-  </style>
+
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
-    {{-- <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar> --}}
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="BoothWatch Live"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            {{-- <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-            </div> --}}
-              
-            {{-- <div class="row mb-4">
-                <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-                    <div class="card"> --}}
-                        <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto;"></div>
-
-                    {{-- </div>
-                </div>
-            </div> --}}
-            <x-footers.auth></x-footers.auth>
+            <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto;">
+            </div>
+            <x-footers.auth>
+            </x-footers.auth>
         </div>
     </main>
     <x-plugins></x-plugins>
     </div>
     @push('js')
-    <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVrEx24ZfFiUpqeVW_1h2vwCqZT3aBZnk&callback=initMap" async
   defer></script>
