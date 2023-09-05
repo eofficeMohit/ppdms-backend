@@ -16,7 +16,7 @@ class AssemblyController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Assembly::latest()->paginate(20);
+        $data = Assembly::with(['state','parliament'])->latest()->paginate(20);
         return view('assemblies.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
@@ -36,11 +36,11 @@ class AssemblyController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'st_code' => 'required',
+            //'st_code' => 'required',
             'asmb_code' => 'required|numeric',
             'ac_type' => 'required',
-            'pc_type' => 'required',
-            'pc_no' => 'required|numeric',
+            //'pc_type' => 'required',
+            'pc_id' => 'required|numeric',
             'district_id' => 'required',
             'state_id' => 'required',
             'asmb_name' => 'required',
