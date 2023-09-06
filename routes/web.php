@@ -16,6 +16,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParliamentController;
+use App\Http\Controllers\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,18 +44,6 @@ Route::group(['middleware' => ['auth']], function() {
 	
 	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');   
 	Route::resource('parliaments', ParliamentController::class);
-
-Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
-Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
-Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
-Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
-Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
-Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
-Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
-Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
-Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
-Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
-
 
 Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
 Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
@@ -99,6 +88,7 @@ Route::post('/event/store', [EventController::class, 'store'])->name('event.stor
 Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 });
 
 
@@ -134,9 +124,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('virtual-reality', function () {
 		return view('pages.virtual-reality');
 	})->name('virtual-reality');
-	Route::get('notifications', function () {
+	/*Route::get('notifications', function () {
 		return view('pages.notifications');
-	})->name('notifications');
+	})->name('notifications');*/
 	Route::get('static-sign-in', function () {
 		return view('pages.static-sign-in');
 	})->name('static-sign-in');

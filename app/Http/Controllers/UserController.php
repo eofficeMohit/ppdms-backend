@@ -3,6 +3,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\State;
+use App\Models\District;
+use App\Models\Assembly;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -40,21 +43,27 @@ class UserController extends Controller
     public function create(): View
     {
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $states = State::pluck('name','id')->all();
+        return view('users.create',compact('roles','states'));
     }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */  
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'mobile_number' => 'required|numeric|digits:10|unique:users,mobile_number',
+            'password' => 'required|same:confirm_password',
+            'state_id' => 'required|numeric',
+            'district_id' => 'required|numeric',
+            'assemble_id' => 'required|numeric',
+            'roles' => 'required',
+            'status' => 'required|numeric|in:0,1',
         ]);
         $input = $request->all();
         //$input['password'] = Hash::make($input['password']);
@@ -65,13 +74,13 @@ class UserController extends Controller
     }
     /**
      * Display the specified resource.
-     *
+     *  
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id): View
     {
-        $user = User::find($id);
+        $user = User::where('id',$id)->with('userState','userDistrict','userAssemblies')->first();
         return view('users.show',compact('user'));
     }
     /**
@@ -85,7 +94,10 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.edit',compact('user','roles','userRole'));
+        $states = State::pluck('name','id')->all();
+        $districts = District::pluck('name','id')->all();
+        $assembly = Assembly::pluck('asmb_name','id')->all();
+        return view('users.edit',compact('user','roles','userRole','states','districts','assembly'));
     }
     /**
      * Update the specified resource in storage.
@@ -99,8 +111,13 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
+            'mobile_number' => 'required|numeric|digits:10|unique:users,mobile_number,'.$id,
             'password' => 'same:confirm-password',
-            'roles' => 'required'
+            'state_id' => 'required|numeric',
+            'district_id' => 'required|numeric',
+            'assemble_id' => 'required|numeric',
+            'roles' => 'required',
+            'status' => 'required|numeric|in:0,1',
         ]);
         $input = $request->all();
         if(!empty($input['password'])){ 

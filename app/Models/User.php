@@ -45,7 +45,7 @@ class User extends Authenticatable
         'ac_active',
         'status',
         'no_of_login_attempts',
-        'assmble_id',
+        'assemble_id',
         'district_id',
         'state_id',
         'remember_token',
