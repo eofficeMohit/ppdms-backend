@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
+
+	
+	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');   
 	Route::resource('parliaments', ParliamentController::class);
 
 Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks

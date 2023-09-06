@@ -84,10 +84,10 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0">15567</h4>
+                                <h4 class="mb-0">0</h4>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Total Voters</strong></p>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
                                 <h4 class="mb-0">24637</h4>
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                                             State</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Voting </th>
+                                            Status </th>
                                         </tr>
                                     </thead>
                                     <tbody>

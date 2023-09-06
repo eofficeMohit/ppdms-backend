@@ -18,8 +18,18 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {   
-        $data = User::latest()->paginate(20);
+        $data = User::whereHas('roles', function ($query) {
+            return $query->where('name','!=', 'SO');
+        })->latest()->paginate(20);
         return view('users.index',compact('data'))
+            ->with('i', ($request->input('page', 1) - 1) * 20);
+    }
+
+
+    public function soIndex(Request $request): View
+    {   
+        $data = User::role('SO')->latest()->paginate(20);
+        return view('users.so_index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 20);
     }
     /**

@@ -41,7 +41,7 @@
                                                 Booth Number</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Total Votars</th>
+                                                Total Voters</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Booth Name</th>
