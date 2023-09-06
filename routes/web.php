@@ -100,7 +100,7 @@ Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('ev
 Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
 });
-
+Auth::routes(['login' => false]);
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -108,7 +108,7 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])->middle
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
-Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
+Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest')->name('login.store');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
 Route::post('reset-password', [SessionsController::class, 'update'])->middleware('guest')->name('password.update');
 Route::get('verify', function () {
