@@ -90,9 +90,9 @@
                                             <td class="align-middle text-center">
                                             <p class="text-xs text-secondary mb-0">
                                                 @if($notification->seen ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Yes</span>
+                                                    <span class=" text-xs font-weight-bold badge bg-success">Read</span>
                                                 @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">No</span>
+                                                     <span class=" text-xs font-weight-bold badge bg-warning">Unread</span>
                                                 @endif
                                             </p>
                                             </td>
