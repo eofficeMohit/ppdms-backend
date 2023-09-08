@@ -119,7 +119,9 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userState->name; }}
+                                        @if($user->state_id)
+                                            {{ $user->userState->name; }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -129,19 +131,21 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userDistrict->name; }}
+                                        @if($user->district_id)
+                                            {{ $user->userDistrict->name; }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        
-                                        <strong>Assembly:</strong>
-                                        
+                                        <strong>Assembly:</strong> 
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userAssemblies->asmb_name; }}
+                                        @if($user->assemble_id)
+                                            {{ $user->userAssemblies->asmb_name; }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
