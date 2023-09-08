@@ -20,12 +20,11 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
-    //  dd($request);
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+     
         $credentials = $request->only('email', 'password');
         // dd(\Auth::attempt($credentials));
         if (\Auth::attempt($credentials)) {
