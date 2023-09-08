@@ -15,9 +15,6 @@ class OfficerMasterTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // \Schema::disableForeignKeyConstraints();
-        // User::truncate();
-        // \Schema::enableForeignKeyConstraints();
         $role = Role::firstOrCreate(['name' => 'SO']);
         $csvData = fopen(base_path('database/csv/office_master.csv'), 'r');
         $transRow = true;
@@ -32,7 +29,6 @@ class OfficerMasterTableSeeder extends Seeder
                     }else{
                         $assemble_id= $data['5'];
                     }
-                    // dd($data);
                     $user = User::create([
                         'name' => $data['0'],
                         'designation' => $data['1'],
