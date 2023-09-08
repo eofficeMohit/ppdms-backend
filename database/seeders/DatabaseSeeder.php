@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             StateTableSeeder::class,
-            ParliamentTableSeeder::class
+            ParliamentTableSeeder::class,
+            DistrictTableSeeder::class,
+            AssembliesTableSeeder::class,
+            OfficerMasterTableSeeder::class,
+            BoothTableSeeder::class
         ]);
     }
 }
