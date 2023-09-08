@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             ParliamentTableSeeder::class,
             DistrictTableSeeder::class,
             AssembliesTableSeeder::class,
-            OfficerMasterTableSeeder::class,
-            BoothTableSeeder::class
+            // OfficerMasterTableSeeder::class,
+            // BoothTableSeeder::class
         ]);
     }
 }
