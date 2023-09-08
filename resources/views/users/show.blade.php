@@ -119,9 +119,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        @if($user->state_id)
-                                            {{ $user->userState->name; }}
-                                        @endif
+                                        {{ $user->userState->name; }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -131,9 +129,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        @if($user->district_id)
-                                            {{ $user->userDistrict->name; }}
-                                        @endif
+                                        {{ $user->userDistrict->name; }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -145,9 +141,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        @if($user->assemble_id)
-                                            {{ $user->userAssemblies->asmb_name; }}
-                                        @endif
+                                        {{ $user->userAssemblies->asmb_name; }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
