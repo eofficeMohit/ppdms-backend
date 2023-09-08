@@ -89,6 +89,8 @@ Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('ev
 Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+
+Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
 });
 
 

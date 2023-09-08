@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\State;
 use App\Models\District;
 use App\Models\Assembly;
+use App\Models\UserLogin;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -143,6 +144,13 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
+    }
+
+    public function loginReport(Request $request): View
+    {   
+        $data = UserLogin::with('user')->latest()->paginate(20);
+        return view('users.login_report',compact('data'))
+            ->with('i', ($request->input('page', 1) - 1) * 20);
     }
 }
 ?>
