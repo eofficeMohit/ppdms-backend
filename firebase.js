@@ -15,6 +15,8 @@ const firebaseConfig = {
   appId: "1:363616151249:web:c683377d2e6320a0c7c7f0",
   measurementId: "G-RYQXT0BZVC"
 };
+// secret key
+// AAAAVKk2JtE:APA91bHv1-uJcgncU7vNBE4VlvScUMnN6eQb29htAVRIOYUprLZBxu_879guuVrBOGfN07G7pf8HN2Wp0abYoXkrOC2jVHrhcQw2dFxP1Xviv06FT8nRqQioRPX5z7TKcKR02UE3ZXm-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -151,3 +151,12 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('user-profile');
 	
 });
+
+Auth::routes();
+Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
+Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
