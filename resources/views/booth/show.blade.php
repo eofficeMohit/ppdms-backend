@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $booth->booth_no; }}
+                                        {{ $booth->booth_no }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $booth->user->name; }}
+                                        {{ $booth->user->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $assembly[0]; }}
+                                        {{ $assembly[0] }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $booth->district->name; }}
+                                        {{ $booth->district->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $booth->state->name; }}
+                                        {{ $booth->state->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">

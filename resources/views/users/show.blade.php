@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->name; }}
+                                        {{ $user->name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->email; }}
+                                        {{ $user->email }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->mobile_number; }}
+                                        {{ $user->mobile_number }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->alternate_mobile; }}
+                                        {{ $user->alternate_mobile }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->designation; }}
+                                        {{ $user->designation }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->office_name; }}
+                                        {{ $user->office_name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->dept_name; }}
+                                        {{ $user->dept_name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->ac_code; }}
+                                        {{ $user->ac_code }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->other_name; }}
+                                        {{ $user->other_name }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -119,7 +119,9 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userState->name ?? '' }}
+                                        @if($user->state_id)
+                                            {{ $user->userState->name }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -129,17 +131,21 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userDistrict->name ?? '' }}
+                                        @if($user->district_id)
+                                            {{ $user->userDistrict->name }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        <strong>Assembly:</strong>
+                                        <strong>Assembly:</strong> 
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $user->userAssemblies->asmb_name ?? '' }}
+                                        @if($user->assemble_id)
+                                            {{ $user->userAssemblies->asmb_name }}
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
