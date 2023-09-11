@@ -55,17 +55,6 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <strong>Assembly:</strong>
-                                        <select id="sel_assembly" name="sel_assembly">
-                                        <option value="">--Select Assembly--</option>
-                                        @foreach($assembly as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->asmb_name }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="form-group">
                                         <strong>SO Officer:</strong>
                                         <select id="so_officer" name="so_officer">
                                         <option value="">--Select So Officer--</option>
@@ -75,6 +64,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <strong>Assembly:</strong>
+                                        <select id="sel_assembly" name="sel_assembly">
+                                        <option value="">--Select Assembly--</option>
+                                        @foreach($assembly as $key => $value)
+                                        <option value="{{ $value->id }}">{{ $value->asmb_name }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                               
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div id="box_div1" class="box form-group" ondrop="dragDrop(event, this)" ondragover="allowDrop(event)">
                                         <strong>Un-assigned Booth:</strong>
