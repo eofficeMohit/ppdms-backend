@@ -84,7 +84,7 @@
                                             </td>
                                             <td class="align-middle text-center text-sm issue-table">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">  {!! nl2br(e($issue->file)) !!}</p>
+                                                    <p class="mb-0 text-sm">  {{ $issue->file }} </p>
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
