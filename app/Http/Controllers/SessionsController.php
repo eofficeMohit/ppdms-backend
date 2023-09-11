@@ -20,6 +20,8 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
+try{
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -27,6 +29,7 @@ class SessionsController extends Controller
      
         $credentials = $request->only('email', 'password');
         // dd(\Auth::attempt($credentials));
+
         if (\Auth::attempt($credentials)) {
 
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
@@ -46,6 +49,9 @@ class SessionsController extends Controller
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
+}catch(\Exception $e){
+	return $e->getMessage();
+}
         // return redirect("login")->withSuccess('Login details are not valid');
     }
 
