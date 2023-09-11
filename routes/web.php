@@ -17,6 +17,7 @@ use App\Http\Controllers\StateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParliamentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\IssueManagementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,8 +92,12 @@ Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name(
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 
 Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
+
+Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
+
 });
 
+Auth::routes(['login' => false]);
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -100,7 +105,7 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])->middle
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
-Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
+Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest')->name('login.store');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
 Route::post('reset-password', [SessionsController::class, 'update'])->middleware('guest')->name('password.update');
 Route::get('verify', function () {
@@ -143,3 +148,13 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('user-profile');
 	
 });
+
+Auth::routes();
+Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
+Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

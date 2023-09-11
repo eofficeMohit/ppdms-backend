@@ -54,10 +54,13 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily', 'database'],
             'ignore_exceptions' => false,
         ],
-
+        'database' => [
+            'driver' => 'database',
+            'table' => 'error_logs', // Specify the database table where errors will be stored
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
@@ -69,7 +72,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 14,
+            'days' => 0,
             'replace_placeholders' => true,
         ],
 

@@ -10,6 +10,8 @@ use App\Models\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Uuid;
+// use Stevebauman\Location\Facades\Location;
 
 class SessionsController extends Controller
 {
@@ -20,28 +22,28 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
-try{
 
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-     
+    //  dd($request);
         $credentials = $request->only('email', 'password');
-        // dd(\Auth::attempt($credentials));
 
-        if (\Auth::attempt($credentials)) {
-
+        if(\Auth::attempt($credentials)) {
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             session()->regenerate();
             $user_id = auth()->user()->id;
             $data['user_id'] = $user_id;
+            $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
+            $data['device_id'] =  Uuid::generate()->string;
+            $data['device_token'] =  Uuid::generate()->string;
             $data['last_login'] = date('Y-m-d H:i:s');
             $data['device_type'] = 'web';
-            UserLogin::updateOrInsert(
-                ['user_id' => $user_id],
-                $data
-            );
+            $data['status'] = 1;
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            UserLogin::Insert([$data]);
             return redirect()->intended('/dashboard')
                         ->withSuccess('Signed in to Dashboard.');
         }else{
@@ -49,9 +51,7 @@ try{
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-}catch(\Exception $e){
-	return $e->getMessage();
-}
+
         // return redirect("login")->withSuccess('Login details are not valid');
     }
 
@@ -100,11 +100,15 @@ try{
     {
         $user_id = auth()->user()->id;
         auth()->logout();
+        $data['status'] = 0;
+        $data['updated_at'] = now();
         $data['last_logout'] = date('Y-m-d H:i:s');
-        UserLogin::updateOrInsert(
-            ['user_id' => $user_id],
-            $data
-        );
+        UserLogin::where('user_id',$user_id)->orderBy('id','desc')->first()->update($data);
+
+        // UserLogin::updateOrInsert(
+        //     ['user_id' => $user_id],
+        //     $data
+        // );
         return redirect('/sign-in');
     }
 
