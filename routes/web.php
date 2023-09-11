@@ -101,7 +101,7 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])->middle
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
-Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
+Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest')->name('login.store');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
 Route::post('reset-password', [SessionsController::class, 'update'])->middleware('guest')->name('password.update');
 Route::get('verify', function () {
@@ -144,6 +144,11 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('user-profile');
 	
 });
+
+Auth::routes();
+Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
+Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
 
 
 Auth::routes();

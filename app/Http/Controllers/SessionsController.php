@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
 use Uuid;
+// use Stevebauman\Location\Facades\Location;
 
 class SessionsController extends Controller
 {
@@ -27,14 +28,15 @@ class SessionsController extends Controller
         ]);
     //  dd($request);
         $credentials = $request->only('email', 'password');
+
         if(\Auth::attempt($credentials)) {
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             session()->regenerate();
             $user_id = auth()->user()->id;
             $data['user_id'] = $user_id;
             $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
-            $data['device_id'] =  \Uuid::generate()->string;
-            $data['device_token'] =  \Uuid::generate()->string;
+            $data['device_id'] =  Uuid::generate()->string;
+            $data['device_token'] =  Uuid::generate()->string;
             $data['last_login'] = date('Y-m-d H:i:s');
             $data['device_type'] = 'web';
             $data['status'] = 1;
