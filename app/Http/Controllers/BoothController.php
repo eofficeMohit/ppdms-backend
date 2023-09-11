@@ -139,8 +139,8 @@ class BoothController extends Controller
     {
         $selectedOfficer = $request->input('selectedOfficer');
         $selectedAssem = $request->input('selectedAssem');
-        $unass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_status',0)->get();
-        $ass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_to',$selectedOfficer)->where('assigned_status',1)->get();
+        $unass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_status',0)->orderBy('id')->get();
+        $ass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_to',$selectedOfficer)->where('assigned_status',1)->orderBy('id')->get();
         $response = array('unass_booths' => $unass_booths, 'ass_booths' => $ass_booths);
         return response()->json($response);
     }
