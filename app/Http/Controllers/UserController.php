@@ -32,7 +32,11 @@ class UserController extends Controller
 
     public function soIndex(Request $request): View
     {   
-        $data = User::role('SO')->latest()->paginate(20);
+        $data=array();
+        if(Role::where('name','SO')->first()){
+            $data = User::role('SO')->latest()->paginate(20);
+        }
+
         return view('users.so_index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 20);
     }
