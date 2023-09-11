@@ -26,14 +26,14 @@
     <x-navbars.sidebar activePage="map_booth"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Map Booth"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Booth Mapping"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-md-12 mt-4">
                     <div class="card">
                         <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Map Booth</h6>
+                            <h6 class="mb-0">Booth Mapping</h6>
                         </div>
                         <div class="card-body pt-4 p-3">
                             @if ($message = Session::get('success'))
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <strong>Officer:</strong>
+                                        <strong>SO Officer:</strong>
                                         <select id="so_officer" name="so_officer">
                                         <option value="">--Select So Officer--</option>
                                         @foreach($users as $key => $value)
@@ -77,14 +77,14 @@
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div id="box_div1" class="box form-group" ondrop="dragDrop(event, this)" ondragover="allowDrop(event)">
-                                        <strong>Un-assigned Event:</strong>
+                                        <strong>Un-assigned Booth:</strong>
                                         <ul class="div1" id="box1">
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div id="box_div2" class="box form-group" ondrop="dragDrop(event, this)" ondragover="allowDrop(event)">
-                                        <strong>Assigned Event:</strong>
+                                        <strong>Assigned Booth:</strong>
                                         <ul class="div1" id="box2">
                                         </ul>
                                     </div>
