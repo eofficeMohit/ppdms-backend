@@ -17,6 +17,7 @@ use App\Http\Controllers\StateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParliamentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\IssueManagementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,6 +92,9 @@ Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name(
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 
 Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
+
+Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
+
 });
 
 Auth::routes(['login' => false]);
