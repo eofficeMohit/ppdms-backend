@@ -19,10 +19,17 @@ class DatabaseSeeder extends Seeder
             CreateAdminUserSeeder::class,
             StateTableSeeder::class,
             ParliamentTableSeeder::class,
+
             DistrictTableSeeder::class,
             AssembliesTableSeeder::class,
             OfficerMasterTableSeeder::class,
             BoothTableSeeder::class
+
+            // AssembliesTableSeeder::class,
+            // BoothTableSeeder::class,
+            // OfficerMasterTableSeeder::class,
+            // DistrictTableSeeder::class,
+
         ]);
     }
 }
