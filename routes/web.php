@@ -93,6 +93,7 @@ Route::get('/notifications', [NotificationController::class, 'index'])->name('no
 Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
 });
 
+Auth::routes(['login' => false]);
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
