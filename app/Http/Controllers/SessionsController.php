@@ -10,6 +10,7 @@ use App\Models\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Uuid;
 
 class SessionsController extends Controller
 {
@@ -24,7 +25,7 @@ class SessionsController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-     
+    //  dd($request);
         $credentials = $request->only('email', 'password');
         if(\Auth::attempt($credentials)) {
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
