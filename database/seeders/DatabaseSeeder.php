@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             DistrictTableSeeder::class,
             AssembliesTableSeeder::class,
             OfficerMasterTableSeeder::class,
-            BoothTableSeeder::class
+            //BoothTableSeeder::class
         ]);
     }
 }
