@@ -28,10 +28,10 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
-            $userId = 0;
-            if (auth()->user()->id) {
+            $userId = 1;
+            /*if (auth()->user()->id) {
                 $userId = auth()->user()->id;
-            }
+            }*/
 
             $data = array(
                 'user_id' => $userId,

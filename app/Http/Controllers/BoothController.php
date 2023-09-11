@@ -116,4 +116,49 @@ class BoothController extends Controller
         return redirect()->route('booth')
                         ->with('success','Booth deleted successfully');
     }
+
+    public function map_booth(Request $request) :View
+    {
+        $assembly = Assembly::orderBy('id')->get();
+        $users = User::whereHas('roles', function ($query) {
+            return $query->where('name', '=', 'SO');
+        })->get();
+        return view('map_booth.create',compact('assembly','users'));
+    }
+    public function getSoUsers(Request $request)
+    {
+        $selectedOption = $request->input('selectedOption');
+        $users = User::where('assemble_id',$selectedOption)->whereHas('roles', function ($query) {
+            return $query->where('name', '=', 'SO');
+        })->get();
+        $response = array('so_users' => $users);
+        return response()->json($response);
+    }
+
+    public function getMapBooths(Request $request)
+    {
+        $selectedOfficer = $request->input('selectedOfficer');
+        $selectedAssem = $request->input('selectedAssem');
+        $unass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_status',0)->get();
+        $ass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_to',$selectedOfficer)->where('assigned_status',1)->get();
+        $response = array('unass_booths' => $unass_booths, 'ass_booths' => $ass_booths);
+        return response()->json($response);
+    }
+
+    public function mapOffBooths(Request $request)
+    {
+        $input = $request->all();
+        $assemble_id =  $input['params']['selectedAssem'];
+        $booth_id = $input['params']['booth_id'];
+        $user_id = auth()->user()->id;
+        $assigned_to = $input['params']['selectedOff'];
+        $assigned_by = $user_id;
+        $assigned_status = $input['params']['status'];
+        Booth::where('id', $booth_id)
+            ->update([
+                'assigned_to' => $assigned_to,           
+                'assigned_by' => $assigned_by, 
+                'assigned_status' => $assigned_status, 
+            ]);
+    }
 }
