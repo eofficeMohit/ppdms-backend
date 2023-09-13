@@ -16,11 +16,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('state-add')
                          <div class=" me-3 my-3 text-end">
-                         {{-- <a class="btn bg-gradient-dark mb-0" href="{{ route('state.create') }}"><i
+                         <a class="btn bg-gradient-dark mb-0" href="{{ route('states.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                State</a> --}}
+                                State</a>
                         </div>   
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -47,6 +49,10 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
+                                            </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -80,7 +86,27 @@
                                                     <span class="slider round"></span>
                                                     </label>
                                             </td>
-                                            
+                                            <td class="align-middle">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('states.show',$state->id) }}" data-original-title="Show State"
+                                                title="Show State">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                                @can('state-edit')
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('states.edit',$state->id) }}" data-original-title="Edit State"
+                                                    title="Edit State">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                @endcan
+                                                @can('state-delete')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['states.destroy', $state->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
+                                                @endcan
+                                            </td>
                                         </tr>
                                         @endforeach
                                     @else
