@@ -28,6 +28,7 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+
             $userId = NULL;
             if (auth()->user() && auth()->user()->id) {
                 $userId = auth()->user()->id;

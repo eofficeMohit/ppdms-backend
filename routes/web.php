@@ -90,10 +90,13 @@ Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('ev
 Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
-
 Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
-
 Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
+
+Route::get('/map_booth', [BoothController::class, 'map_booth'])->name('map_booth');
+Route::get('/booths/getSoUsers', [BoothController::class, 'getSoUsers'])->name('booths.getSoUsers');
+Route::get('/booths/getMapBooths', [BoothController::class, 'getMapBooths'])->name('booths.getMapBooths');
+Route::post('/booths/mapOffBooths', [BoothController::class, 'mapOffBooths'])->name('booths.mapOffBooths');
 
 });
 
