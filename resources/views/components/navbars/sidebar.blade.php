@@ -244,7 +244,7 @@
                     <span class="nav-link-text ms-1">Issue Management</span>
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'map_booth' ? ' active bg-gradient-dark' : '' }}"
                     href="{{ route('map_booth') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -252,7 +252,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Booth Mapping</span>
                 </a>
-            </li> --}}
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
