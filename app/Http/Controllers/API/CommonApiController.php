@@ -117,7 +117,11 @@ class CommonApiController extends BaseController
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
                 $events = Event::orderby('event_sequence')->get();
+                $success=array();
 
+                if(count($events) == 0){
+                    return $this->sendResponse($success, 'No, event found.');
+                }
                 foreach($events as $event){
                     $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',1)->count();
                     $notUpdatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',0)->count();
@@ -167,25 +171,12 @@ class CommonApiController extends BaseController
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
 
-                    // $check_booth_user=Booth::where('user_id',$token->tokenable_id)->exists();
-                    
-                    // if($check_booth_user===true){
-                    //     dd('yes');
-                    // }else{
-                    //     dd('no');
-                    // }
-
                 $data = $request->all();
                 if($request->event_id > 1){
                     $check_next_event =ElectionInfo::where('event_id',$request->event_id++)->where('status',1)->exists();
                     if($check_next_event ===true){
                         return $this->sendError('Validation Error.', 'Previous event is already locked you cannot procced with this event now.');
                     }
-    
-                    // $check_previous_event =ElectionInfo::where('event_id',$request->event_id--)->where('status',0)->exists();
-                    // if($check_previous_event ===false){
-                    //     return $this->sendError('Validation Error.', 'Previous event is not completed yet, you cannot preceed further.');
-                    // }
                 }
                 $data['user_id']=\Auth::id();
                 $data = ElectionInfo::create($data);

@@ -30,19 +30,19 @@
                 <a class="nav-link text-white {{ $activePage == 'dashboard-stat' ? ' active bg-gradient-dark ' : '' }} "
                     href="{{ route('dashboard.stat') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">equalizer</i>
+                        <i class="material-icons opacity-10">where_to_vote</i>
                     </div>
                     <span class="nav-link-text ms-1">BoothWatch Live</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'sector-officer' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'sector-officer' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">install_desktop</i>
+                        <i class="material-icons opacity-10">diversity_1</i>
                     </div>
                     <span class="nav-link-text ms-1">Masters</span>
                 </a>
-                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }} {{ $activePage == 'parliament' ? 'show' : '' }} {{ $activePage == 'sector-officer' ? 'show' : '' }} "  id="pagesExamples" style="">
+                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'parliament' ? 'show' : '' }} {{ $activePage == 'sector-officer' ? 'show' : '' }} "  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         @can('assembly-list')
                         <li class="nav-item">
@@ -122,24 +122,7 @@
                             </a>
                         </li>
                         @endcan
-                        <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'map_booth' ? ' active bg-gradient-dark' : '' }}"
-                                href="{{ route('map_booth') }}">
-                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-                                </div>
-                                <span class="nav-link-text ms-1">Map Booth</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
-                                href="{{ route('election-info') }}">
-                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-                                </div>
-                                <span class="nav-link-text ms-1">Election Info</span>
-                            </a>
-                        </li>
+                       
                        
                         {{-- multiple toggle --}}
                         {{-- <li class="nav-item ">
@@ -261,6 +244,26 @@
                     <span class="nav-link-text ms-1">Issue Management</span>
                 </a>
             </li>
+            {{-- <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'map_booth' ? ' active bg-gradient-dark' : '' }}"
+                    href="{{ route('map_booth') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">toll</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Booth Mapping</span>
+                </a>
+            </li> --}}
+
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
+                    href="{{ route('election-info') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">how_to_vote</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Election Info</span>
+                </a>
+            </li>
+           
             
             {{-- <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Pages</h6>
