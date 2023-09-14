@@ -12629,7 +12629,7 @@ box-shadow: 0 3px 3px 0 rgb(28 57 153), 0 3px 1px -2px rgb(26 55 147), 0 1px 5px
   .btn.bg-gradient-primary:hover {
     background-color: #17378e;
     border-color: #17378e;
-    box-shadow: 0 3px 3px 0 rgb(20 136 8), 0 3px 1px -2px rgb(16 136 5), 0 1px 5px 0 rgb(20 136 8); }
+      box-shadow: 0 3px 3px 0 rgb(21 55 141), 0 3px 1px -2px rgb(23 55 142), 0 1px 5px 0 rgb(23 55 142); }
   .btn-primary .btn.bg-outline-primary,
   .btn.bg-gradient-primary .btn.bg-outline-primary {
     border: 1px solid #e91e63; }

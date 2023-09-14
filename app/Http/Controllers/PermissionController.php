@@ -25,9 +25,9 @@ class PermissionController extends Controller
      */
     public function index(Request $request): View
     {
-        $permissions = Permission::orderBy('id','DESC')->paginate(5);
+        $permissions = Permission::orderBy('id','DESC')->paginate(20);
         return view('permissions.index',compact('permissions'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 20);
     }
     /**
      * Show the form for creating a new resource.

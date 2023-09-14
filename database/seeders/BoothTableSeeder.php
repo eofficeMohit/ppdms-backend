@@ -37,6 +37,9 @@ class BoothTableSeeder extends Seeder
                     'status' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
+                    'assigned_to' =>$data['17'],
+                    'assigned_by' =>$data['18'],
+                    'assigned_status' =>$data['19']
                 ]);
             }
             $transRow = false;
