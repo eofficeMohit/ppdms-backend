@@ -13,9 +13,9 @@ class DistrictTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \Schema::disableForeignKeyConstraints();
-        District::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // District::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $csvData = fopen(base_path('database/csv/district_master.csv'), 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {

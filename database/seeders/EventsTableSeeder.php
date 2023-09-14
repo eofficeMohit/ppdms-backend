@@ -12,9 +12,9 @@ class EventsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \Schema::disableForeignKeyConstraints();
-        Event::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // Event::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $csvData = fopen(base_path('database/csv/events.csv'), 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {

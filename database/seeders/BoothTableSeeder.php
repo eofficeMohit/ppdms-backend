@@ -13,9 +13,9 @@ class BoothTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \Schema::disableForeignKeyConstraints();
-        Booth::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // Booth::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $csvData = fopen(base_path('database/csv/booth_masters.csv'), 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {

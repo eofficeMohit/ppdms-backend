@@ -14,9 +14,9 @@ class ParliamentTableSeeder extends Seeder
     public function run(): void
     {
 
-        \Schema::disableForeignKeyConstraints();
-        Parliament::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // Parliament::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $csvData = fopen(base_path('database/csv/parliaments.csv'), 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
