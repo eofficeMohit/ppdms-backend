@@ -10,7 +10,7 @@ class District extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'd_code', 'state_id'
+        'name', 'd_code', 'state_id', 'd_name_hindi', 'status'
     ];
 
     public function state()

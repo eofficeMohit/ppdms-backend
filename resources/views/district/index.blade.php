@@ -17,9 +17,9 @@
                             </div>
                         </div>
                          <div class=" me-3 my-3 text-end">
-                         {{--  <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
+                         <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Dietrict</a> --}}
+                                District</a>
                         </div> 
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -46,6 +46,10 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
+                                            </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -76,6 +80,27 @@
                                                     <input data-id="{{ $district->id }}" class="toggle_state_cls" type="checkbox" {{ $district->status ? 'checked' : '' }}>
                                                     <span class="slider round"></span>
                                                     </label>
+                                            </td>
+                                            <td class="">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('districts.show',$district->id) }}" data-original-title="Show District"
+                                                title="Show District">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                                @can('parliament-edit')
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('districts.edit',$district->id) }}" data-original-title="Edit District"
+                                                    title="Edit District">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                @endcan
+                                                @can('parliament-delete')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['districts.destroy', $district->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
+                                                @endcan
                                             </td>
                                             
                                         </tr>

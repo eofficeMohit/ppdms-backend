@@ -75,8 +75,9 @@
                                 <span class="nav-link-text ms-1">Manage Sector Officer</span>
                             </a>
                         </li>
+						@can('parliament-list')
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'parliaments' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('parliaments.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">cottage</i>
@@ -84,6 +85,7 @@
                                 <span class="nav-link-text ms-1">Manage Parliament</span>
                             </a>
                         </li>
+						@endcan
                         {{-- <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'district' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('booth') }}">
@@ -93,24 +95,28 @@
                                 <span class="nav-link-text ms-1">Manage District</span>
                             </a> --}}
                         </li>
+						@can('state-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('states') }}">
+                                href="{{ route('states.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">house</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage State</span>
                             </a>
                         </li>
+						@endcan
+						@can('district-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('districts') }}">
+                                href="{{ route('districts.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">bungalow</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage District</span>
                             </a>
                         </li>
+						@endcan
                         @can('event-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'events' ? ' active bg-gradient-dark' : '' }}  "

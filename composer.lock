@@ -1329,7 +1329,7 @@
                 "league/flysystem-read-only": "^3.3",
                 "league/flysystem-sftp-v3": "^3.0",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": "^8.4",
+                "orchestra/testbench-core": "^8.10",
                 "pda/pheanstalk": "^4.0",
                 "phpstan/phpstan": "^1.4.7",
                 "phpunit/phpunit": "^10.0.7",
@@ -1476,16 +1476,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.1.6",
+            "version": "v0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "b514c5620e1b3b61221b0024dc88def26d9654f4"
+                "reference": "554e7d855a22e87942753d68e23b327ad79b2070"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/b514c5620e1b3b61221b0024dc88def26d9654f4",
-                "reference": "b514c5620e1b3b61221b0024dc88def26d9654f4",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/554e7d855a22e87942753d68e23b327ad79b2070",
+                "reference": "554e7d855a22e87942753d68e23b327ad79b2070",
                 "shasum": ""
             },
             "require": {
@@ -1518,9 +1518,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.1.6"
+                "source": "https://github.com/laravel/prompts/tree/v0.1.7"
             },
-            "time": "2023-08-18T13:32:23+00:00"
+            "time": "2023-09-12T11:09:22+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3498,16 +3498,16 @@
         },
         {
             "name": "rakutentech/laravel-request-docs",
-            "version": "v2.22",
+            "version": "v2.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rakutentech/laravel-request-docs.git",
-                "reference": "3449b5eb89c175fe1237a0b75808c3bbcc44d292"
+                "reference": "4f47d1d15733593a2b84a3fa3f6c1e4376afbb2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rakutentech/laravel-request-docs/zipball/3449b5eb89c175fe1237a0b75808c3bbcc44d292",
-                "reference": "3449b5eb89c175fe1237a0b75808c3bbcc44d292",
+                "url": "https://api.github.com/repos/rakutentech/laravel-request-docs/zipball/4f47d1d15733593a2b84a3fa3f6c1e4376afbb2e",
+                "reference": "4f47d1d15733593a2b84a3fa3f6c1e4376afbb2e",
                 "shasum": ""
             },
             "require": {
@@ -3565,9 +3565,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rakutentech/laravel-request-docs/issues",
-                "source": "https://github.com/rakutentech/laravel-request-docs/tree/v2.22"
+                "source": "https://github.com/rakutentech/laravel-request-docs/tree/v2.23"
             },
-            "time": "2023-08-09T02:09:25+00:00"
+            "time": "2023-09-11T07:50:58+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -7665,7 +7665,7 @@
                 "phar-io/manifest": "^2.0.3",
                 "phar-io/version": "^3.0.2",
                 "php": ">=8.1",
-                "phpunit/php-code-coverage": "^10.1.1",
+                "phpunit/php-code-coverage": "^10.1.5",
                 "phpunit/php-file-iterator": "^4.0",
                 "phpunit/php-invoker": "^4.0",
                 "phpunit/php-text-template": "^3.0",
