@@ -23,10 +23,10 @@
     @push('js')
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVrEx24ZfFiUpqeVW_1h2vwCqZT3aBZnk&callback=initMap" async
-  defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_API_KEY') }}&callback=initMap" async
+    defer></script>
 <script>
-  const apiKey = 'AIzaSyBVrEx24ZfFiUpqeVW_1h2vwCqZT3aBZnk';
+const apiKey = '{{ env('GOOGLE_MAP_API_KEY') }}';
 
   const locations = [
     { lat: 31.3260, lng: 75.5762, title: 'Jalandhar', color: 'green', active: true },

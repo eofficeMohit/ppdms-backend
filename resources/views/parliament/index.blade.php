@@ -1,7 +1,5 @@
-<link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
-
-    <x-navbars.sidebar activePage="parliament"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="parliaments"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Parliament Management"></x-navbars.navs.auth>
@@ -16,11 +14,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('parliament-add')
                          <div class=" me-3 my-3 text-end">
-                         {{-- <a class="btn bg-gradient-dark mb-0" href="{{ route('parliament.create') }}"><i
+                         <a class="btn bg-gradient-dark mb-0" href="{{ route('parliaments.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                parliament</a> --}}
-                        </div>   
+                                Parliament</a>
+                        </div>  
+                        @endcan 
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -49,6 +49,10 @@
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             STATE NAME</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,12 +91,27 @@
 
                                                 </div>
                                             </td>
-                                            {{-- <td class="align-middle text-center text-sm">
-                                                    <label class="switch">
-                                                    <input data-id="{{ $parliament->id }}" class="toggle_parliament_cls" type="checkbox" {{ $parliament->status ? 'checked' : '' }}>
-                                                    <span class="slider round"></span>
-                                                    </label>
-                                            </td> --}}
+                                            <td class="align-middle">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('parliaments.show',$parliament->id) }}" data-original-title="show Parliament"
+                                                title="show Parliament">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                                @can('parliament-edit')
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('parliaments.edit',$parliament->id) }}" data-original-title="Edit Parliament"
+                                                    title="Edit Parliament">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                @endcan
+                                                @can('parliament-delete')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['parliaments.destroy', $parliament->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
+                                                @endcan
+                                            </td>
                                             
                                         </tr>
                                         @endforeach

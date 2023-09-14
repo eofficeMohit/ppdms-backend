@@ -168,11 +168,10 @@
     <x-plugins></x-plugins>
 
     {{-- @push('js') --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVrEx24ZfFiUpqeVW_1h2vwCqZT3aBZnk&callback=initMap" async
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_API_KEY') }}&callback=initMap" async
     defer></script>
   <script>
-    const apiKey = 'AIzaSyBVrEx24ZfFiUpqeVW_1h2vwCqZT3aBZnk';
-//   console.log('<?php echo $booth->longitude;?>');
+  const apiKey = '{{ env('GOOGLE_MAP_API_KEY') }}';
   var latitude=parseFloat('<?php echo round($booth->latitude,4);?>');
   var longitude=parseFloat('<?php echo round($booth->longitude,4);?>');
   var title='<?php echo $booth->district->name;?>';
@@ -180,7 +179,7 @@
     const locations = [
       { lat: latitude, lng: longitude, title: title, color: 'green', active: true },
     ];
-//   console.log(locations);
+
     const customMapStyles = [
       {
           "featureType": "administrative.province",
@@ -351,8 +350,8 @@
           ]
       }
   ]
-  console.log(longitude);
-    function initMap() {
+
+  function initMap() {
       const mapOptions = {
         center: { lat: latitude, lng: longitude },
         zoom:7.5,

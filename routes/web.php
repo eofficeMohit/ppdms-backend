@@ -45,7 +45,10 @@ Route::group(['middleware' => ['auth']], function() {
 	
 	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');   
 	Route::resource('parliaments', ParliamentController::class);
-
+	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+	Route::resource('states', StateController::class);
+Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+Route::resource('districts', DistrictController::class);
 Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
 Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
 Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
@@ -66,10 +69,10 @@ Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.stor
 Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
 Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
 
-Route::get('/states', [StateController::class, 'index'])->name('states');
-Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
-Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
-Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+//Route::get('/states', [StateController::class, 'index'])->name('states');
+//Route::get('/state/updateStatus', [StateController::class, 'updateStatus'])->name('state.updateStatus');
+//Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+//Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
 
 Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
 Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])->name('election-info.edit');
