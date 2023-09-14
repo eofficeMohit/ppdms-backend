@@ -27,6 +27,8 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
+                        <div class="cus_msg_div">
+                        </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
@@ -54,7 +56,11 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 CREATION DATE
                                             </th>
-                                            <th class="text-secondary opacity-7"></th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                STATUS
+                                            </th>
+                                            <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -97,6 +103,12 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $user->created_at }}</span>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <label class="switch">
+                                                <input data-id="{{ $user->id }}" class="toggle_state_cls_user" type="checkbox" {{ $user->status ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                                </label>
                                             </td>
                                             <td class="align-middle">
                                                 <a rel="tooltip" class="btn btn-info btn-link"

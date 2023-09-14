@@ -65,8 +65,8 @@
                                     <div class="form-group">
                                         <strong>Status:</strong>
                                         <select class="form-control" name="status">
-                                            <option value="1">Active</option>
-                                            <option value="0">In-Active</option>
+                                            <option value="1" {{ 1 == $event->status ? 'selected' : '' }}>Active</option>
+                                            <option value="0" {{ 0 == $event->status ? 'selected' : '' }}>In-Active</option>
                                         </select>
                                     </div>
                                 </div>

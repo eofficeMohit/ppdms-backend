@@ -88,4 +88,12 @@ class EventController extends Controller
         return redirect()->route('events')
                         ->with('success','Eevnt deleted successfully');
     }
+    public function updateStatus(Request $request)
+    {
+        $event = Event::find($request->id);
+        $event->status = $request->status;
+        $event->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
+    }
 }
