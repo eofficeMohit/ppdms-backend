@@ -16,9 +16,9 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        \Schema::disableForeignKeyConstraints();
-        User::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // User::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $user = User::factory()->create([
             'name' => 'PPDMS',
             'email' => 'admin@gmail.com',

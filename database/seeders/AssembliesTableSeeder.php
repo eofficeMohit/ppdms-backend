@@ -13,9 +13,9 @@ class AssembliesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \Schema::disableForeignKeyConstraints();
-        Assembly::truncate();
-        \Schema::enableForeignKeyConstraints();
+        // \Schema::disableForeignKeyConstraints();
+        // Assembly::truncate();
+        // \Schema::enableForeignKeyConstraints();
         $csvData = fopen(base_path('database/csv/assemblies_master.csv'), 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
