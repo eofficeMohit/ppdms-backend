@@ -40,7 +40,7 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Booth Number</th>
+                                                Assembly </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Total Voters</th>
@@ -61,9 +61,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                      
                                     @if(! $data->isEmpty())
                                         @foreach ($data as $key => $booth)
                                         <tr>
+                                            
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
@@ -71,13 +73,20 @@
                                                     </div>
                                                 </div>
                                             </td>
-
                                             <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <p class="mb-0 text-sm">{{  $booth->assembly->asmb_name.'('.$booth->assembly->asmb_code.')'}}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            {{-- <td>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">{{ $booth->booth_no }}</h6>
 
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-xs text-secondary mb-0">{{ $booth->tot_voters }}
                                                 </p>

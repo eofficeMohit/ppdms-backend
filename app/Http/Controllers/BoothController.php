@@ -18,7 +18,7 @@ class BoothController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Booth::latest()->paginate(20);
+        $data = Booth::with('assembly')->latest()->paginate(20);
         return view('booth.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
