@@ -50,8 +50,11 @@
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             STATE NAME</th>
                                             <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            STATUS</th>
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Action
+                                                ACTION
                                             </th>
                                         </tr>
                                     </thead>
@@ -90,6 +93,12 @@
                                                     <h6 class="mb-0 text-sm">{{ $parliament->state->name }}</h6>
 
                                                 </div>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                    <label class="switch">
+                                                    <input data-id="{{ $parliament->id }}" class="toggle_state_cls_parliament" type="checkbox" {{ $parliament->status ? 'checked' : '' }}>
+                                                    <span class="slider round"></span>
+                                                    </label>
                                             </td>
                                             <td class="align-middle">
                                                 <a rel="tooltip" class="btn btn-info btn-link"

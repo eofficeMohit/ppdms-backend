@@ -79,4 +79,13 @@ class ParliamentController extends Controller
         return redirect()->route('parliaments.index')
                         ->with('success','Parliament deleted successfully');
     }
+
+    public function updateStatus(Request $request)
+    {
+        $parliament = Parliament::find($request->id);
+        $parliament->status = $request->status;
+        $parliament->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
+    }
 }

@@ -77,7 +77,7 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                     <label class="switch">
-                                                    <input data-id="{{ $district->id }}" class="toggle_state_cls" type="checkbox" {{ $district->status ? 'checked' : '' }}>
+                                                    <input data-id="{{ $district->id }}" class="toggle_state_cls_district" type="checkbox" {{ $district->status ? 'checked' : '' }}>
                                                     <span class="slider round"></span>
                                                     </label>
                                             </td>
@@ -134,28 +134,3 @@
     <x-plugins></x-plugins>
 
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    jQuery('.toggle_state_cls').on('change', function() {
-        var id = jQuery(this).attr('data-id');
-        var status = jQuery(this).prop('checked') == true ? 1 : 0; 
-        // Make an AJAX request
-        axios.get('{{ route('districts.updateStatus') }}', {
-            params: {
-                id: id,
-                status: status
-            }
-        })
-        .then(function(response) {
-            console.log(response.data);
-            jQuery(this).attr('data-id',id);
-            jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-            setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
-
-            // Iterate through the response and append data to the container
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-    });
-</script>

@@ -149,12 +149,19 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
     }
-
     public function loginReport(Request $request): View
     {   
         $data = UserLogin::with('user')->latest()->paginate(20);
         return view('users.login_report',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 20);
+    }
+    public function updateStatus(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
     }
 }
 ?>

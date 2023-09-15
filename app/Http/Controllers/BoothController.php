@@ -161,4 +161,12 @@ class BoothController extends Controller
                 'assigned_status' => $assigned_status, 
             ]);
     }
+    public function updateStatus(Request $request)
+    {
+        $booth = Booth::find($request->id);
+        $booth->status = $request->status;
+        $booth->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
+    }
 }

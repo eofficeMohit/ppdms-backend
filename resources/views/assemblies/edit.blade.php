@@ -38,12 +38,12 @@
                             @endif
                             {!! Form::model($assembly, ['method' => 'PATCH','route' => ['assemblies.update', $assembly->id]]) !!}
                             <div class="row">
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                   {{-- <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>ST Code:</strong>
                                             {!! Form::text('st_code', null, array('placeholder' => 'ST Code','class' => 'form-control')) !!}
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>ASMB Code:</strong>
@@ -56,18 +56,12 @@
                                             {!! Form::text('ac_type', null, array('placeholder' => 'AC Type','class' => 'form-control')) !!}
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                   {{-- <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>PC Type:</strong>
                                             {!! Form::text('pc_type', null, array('placeholder' => 'PC Type','class' => 'form-control')) !!}
                                         </div>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>PC Number:</strong>
-                                            {!! Form::text('pc_no', null, array('placeholder' => 'PC Number','class' => 'form-control')) !!}
-                                        </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>State:</strong>
@@ -85,6 +79,17 @@
                                                <option value="">Select District</option>
                                                 @foreach($districts as $key => $value)
                                                     <option value="{{ $key }}" {{ $key == $assembly->district_id ? 'selected' : '' }}>{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>PC Number:</strong>
+                                            <select class="form-control" id="pc_id" name="pc_id">
+                                                <option value="">Select Parliament</option>
+                                                @foreach($parliament as $key => $value)
+                                                    <option value="{{ $key }}" {{ $key == $assembly->pc_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

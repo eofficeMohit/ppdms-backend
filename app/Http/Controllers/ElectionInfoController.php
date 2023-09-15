@@ -137,4 +137,13 @@ class ElectionInfoController extends Controller
         return redirect()->route('election-info')
                         ->with('success','Eelction Info deleted successfully');
     }
+
+    public function updateStatus(Request $request)
+    {
+        $eelctioninfo = ElectionInfo::find($request->id);
+        $eelctioninfo->status = $request->status;
+        $eelctioninfo->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
+    }
 }
