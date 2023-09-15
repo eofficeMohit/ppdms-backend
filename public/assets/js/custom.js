@@ -209,3 +209,180 @@ jQuery(document).ready(function() {
         }
     });
 });
+jQuery('.toggle_state_cls_assemble').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('assemblies/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+
+jQuery('.toggle_state_cls_booth').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('booth/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_user').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('user/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_parliament').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('parliament/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_event').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('event/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_election').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('election/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_state').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('states/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery('.toggle_state_cls_district').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('districts/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});

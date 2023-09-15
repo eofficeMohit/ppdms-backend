@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\Assembly;
+use App\Models\Parliament;
 use App\Models\State;
 use App\Models\District;
 use App\Models\Booth;
@@ -27,7 +28,8 @@ class AssemblyController extends Controller
     {
         $states = State::pluck('name','id')->all();
         $districts = District::pluck('name','id')->all();
-        return view('assemblies.create',compact('states','districts'));
+        $parliament = Parliament::pluck('pc_name','id')->all();
+        return view('assemblies.create',compact('states','districts','parliament'));
     }
 
     /**
@@ -71,7 +73,8 @@ class AssemblyController extends Controller
         $assembly = Assembly::find($id);
         $states = State::pluck('name','id')->all();
         $districts = District::pluck('name','id')->all();
-        return view('assemblies.edit',compact('assembly','states','districts'));
+        $parliament = Parliament::pluck('pc_name','id')->all();
+        return view('assemblies.edit',compact('assembly','states','districts','parliament'));
     }
 
     /**
@@ -80,11 +83,11 @@ class AssemblyController extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
-            'st_code' => 'required',
+            //'st_code' => 'required',
             'asmb_code' => 'required|numeric',
             'ac_type' => 'required',
-            'pc_type' => 'required',
-            'pc_no' => 'required|numeric',
+            //'pc_type' => 'required',
+            'pc_id' => 'required|numeric',
             'district_id' => 'required',
             'state_id' => 'required',
             'asmb_name' => 'required',
@@ -126,5 +129,13 @@ class AssemblyController extends Controller
         $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
         $data = Booth::where('assemble_id', $selectedOption)->get();
         return response()->json($data);
+    }
+    public function updateStatus(Request $request)
+    {
+        $assembly = Assembly::find($request->id);
+        $assembly->status = $request->status;
+        $assembly->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
     }
 }
