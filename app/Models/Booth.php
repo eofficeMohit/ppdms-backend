@@ -30,7 +30,7 @@ class Booth extends Model
 
     public function assembly()
     {
-        return $this->belongsTo(Assembly::class);
+        return $this->belongsTo(Assembly::class, 'assemble_id', 'id');
     }
 
     public function user()
