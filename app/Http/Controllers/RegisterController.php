@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserLogin;
 
 class RegisterController extends Controller
 {
@@ -22,7 +23,14 @@ class RegisterController extends Controller
 
         $user = User::create($attributes);
         auth()->login($user);
-        
+        $user_id = auth()->user()->id;
+            $data['user_id'] = $user_id;
+            $data['last_login'] = date('Y-m-d H:i:s');
+            $data['device_type'] = 'web';
+            UserLogin::updateOrInsert(
+                ['user_id' => $user_id],
+                $data
+            );
         return redirect('/dashboard');
     } 
 }

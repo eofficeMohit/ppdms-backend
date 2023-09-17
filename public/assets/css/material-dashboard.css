@@ -1844,17 +1844,17 @@ progress {
 .form-control {
   display: block;
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 0.5rem 15px;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5rem;
-  color: #495057;
+  color: #495057 !important;
   background-color: transparent;
   background-clip: padding-box;
-  border: 1px solid #d2d6da;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  border: 1px solid #d2d6da !important;
+  -webkit-appearance: none !important;
+     -moz-appearance: none !important;
+          appearance: none !important;
   border-radius: 0.375rem;
   transition: 0.2s ease; }
   @media (prefers-reduced-motion: reduce) {
@@ -12658,12 +12658,12 @@ textarea.form-control-lg {
 
 .btn-primary,
 .btn.bg-gradient-primary {
-      box-shadow: 0 3px 3px 0 rgb(20 136 8), 0 3px 1px -2px rgb(16 136 5), 0 1px 5px 0 rgb(20 136 8); }
+        box-shadow: 0 3px 3px 0 rgb(21 55 141), 0 3px 1px -2px rgb(23 55 142), 0 1px 5px 0 rgb(23 55 142); }
   .btn-primary:hover,
   .btn.bg-gradient-primary:hover {
     background-color: #17378e;
     border-color: #17378e;
-    box-shadow: 0 3px 3px 0 rgb(20 136 8), 0 3px 1px -2px rgb(16 136 5), 0 1px 5px 0 rgb(20 136 8); }
+      box-shadow: 0 3px 3px 0 rgb(21 55 141), 0 3px 1px -2px rgb(23 55 142), 0 1px 5px 0 rgb(23 55 142); }
   .btn-primary .btn.bg-outline-primary,
   .btn.bg-gradient-primary .btn.bg-outline-primary {
     border: 1px solid #e91e63; }
@@ -17581,4 +17581,7 @@ background-image:linear-gradient(195deg,#2483c5,#2483c5);
   }
 a.nav-link.text-white.active {
     background-color: #00275d !important;
+}
+.table td, .table th .issue-table {
+  white-space: initial !important;
 }

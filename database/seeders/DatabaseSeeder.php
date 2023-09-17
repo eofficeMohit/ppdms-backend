@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\ParliamentTableSeeder;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -18,7 +19,12 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             StateTableSeeder::class,
-            ParliamentTableSeeder::class
+            ParliamentTableSeeder::class,
+            DistrictTableSeeder::class,
+            EventsTableSeeder::class,
+            AssembliesTableSeeder::class,
+            OfficerMasterTableSeeder::class,
+            BoothTableSeeder::class,
         ]);
     }
 }

@@ -30,19 +30,19 @@
                 <a class="nav-link text-white {{ $activePage == 'dashboard-stat' ? ' active bg-gradient-dark ' : '' }} "
                     href="{{ route('dashboard.stat') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">equalizer</i>
+                        <i class="material-icons opacity-10">where_to_vote</i>
                     </div>
                     <span class="nav-link-text ms-1">BoothWatch Live</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'election-info' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white collapsed {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'events' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'booth' ? ' active bg-gradient-dark ' : '' }}  {{ $activePage == 'manage-assembly' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'parliaments' ? ' active bg-gradient-dark ' : '' }} {{ $activePage == 'sector-officer' ? ' active bg-gradient-dark ' : '' }}"  aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">install_desktop</i>
+                        <i class="material-icons opacity-10">diversity_1</i>
                     </div>
                     <span class="nav-link-text ms-1">Masters</span>
                 </a>
-                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'election-info' ? 'show' : '' }} {{ $activePage == 'parliament' ? 'show' : '' }}"  id="pagesExamples" style="">
+                <div class="collapse {{ $activePage == 'booth' ? 'show' : '' }} {{ $activePage == 'manage-assembly' ? 'show' : '' }} {{ $activePage == 'events' ? 'show' : '' }} {{ $activePage == 'states' ? 'show' : '' }} {{ $activePage == 'districts' ? 'show' : '' }} {{ $activePage == 'parliaments' ? 'show' : '' }} {{ $activePage == 'sector-officer' ? 'show' : '' }} "  id="pagesExamples" style="">
                     <ul class="nav ms-4">
                         @can('assembly-list')
                         <li class="nav-item">
@@ -68,15 +68,16 @@
                         @endcan
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'sector-officer' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('booth') }}">
+                                href="{{ route('so.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">business</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Manage Sector Officers</span>
+                                <span class="nav-link-text ms-1">Manage Sector Officer</span>
                             </a>
                         </li>
+						@can('parliament-list')
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'parliament' ? ' active bg-gradient-dark ' : '' }}  "
+                            <a class="nav-link text-white {{ $activePage == 'parliaments' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('parliaments.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">cottage</i>
@@ -84,6 +85,7 @@
                                 <span class="nav-link-text ms-1">Manage Parliament</span>
                             </a>
                         </li>
+						@endcan
                         {{-- <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'district' ? ' active bg-gradient-dark ' : '' }}  "
                                 href="{{ route('booth') }}">
@@ -93,24 +95,28 @@
                                 <span class="nav-link-text ms-1">Manage District</span>
                             </a> --}}
                         </li>
+						@can('state-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'states' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('states') }}">
+                                href="{{ route('states.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">house</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage State</span>
                             </a>
                         </li>
+						@endcan
+						@can('district-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'districts' ? ' active bg-gradient-dark ' : '' }}  "
-                                href="{{ route('districts') }}">
+                                href="{{ route('districts.index') }}">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">bungalow</i>
                                 </div>
                                 <span class="nav-link-text ms-1">Manage District</span>
                             </a>
                         </li>
+						@endcan
                         @can('event-list')
                         <li class="nav-item">
                             <a class="nav-link text-white {{ $activePage == 'events' ? ' active bg-gradient-dark' : '' }}  "
@@ -122,15 +128,8 @@
                             </a>
                         </li>
                         @endcan
-                        <li class="nav-item">
-                            <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
-                                href="{{ route('election-info') }}">
-                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
-                                </div>
-                                <span class="nav-link-text ms-1">Election Info</span>
-                            </a>
-                        </li>
+                       
+                       
                         {{-- multiple toggle --}}
                         {{-- <li class="nav-item ">
                             <a class="nav-link text-white {{ $activePage == 'permissions' ? ' active bg-gradient-dark ' : '' }}" data-bs-toggle="collapse" aria-expanded="false" href="#accountExample">
@@ -224,7 +223,54 @@
                     <span class="nav-link-text ms-1">User Profile</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'notifications' ? 'active bg-gradient-dark ' : '' }} "
+                    href="{{ route('notifications') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">notifications</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Notifications</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'login-report' ? 'active bg-gradient-dark ' : '' }} "
+                    href="{{ route('login.report') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">logout</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Login Report</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'issue-management' ? 'active bg-gradient-dark ' : '' }} "
+                    href="{{ route('issue.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">error</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Issue Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'map_booth' ? ' active bg-gradient-dark' : '' }}"
+                    href="{{ route('map_booth') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">toll</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Booth Mapping</span>
+                </a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'election-info' ? ' active bg-gradient-dark' : '' }}"
+                    href="{{ route('election-info') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">how_to_vote</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Election Info</span>
+                </a>
+            </li>
+           
+            
             {{-- <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Pages</h6>
             </li> --}}

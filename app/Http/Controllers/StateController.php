@@ -20,47 +20,56 @@ class StateController extends Controller
      */
     public function create()
     {
-        //
+        return view('state.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:states,name',
+            'st_code' => 'required|unique:states,st_code',
+            'status' => 'required'
+        ]);
+        $input = $request->all();
+        $state = State::create($input);
+        return redirect()->route('states.index')
+                        ->with('success','State created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(State $state)
+    public function show($id): View
     {
-        //
+        $state = State::where('id', $id)->first();
+        return view('state.show',compact('state'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(State $state)
+    public function edit($id): View
     {
-        //
+        $state = State::find($id);
+        return view('state.edit',compact('state'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, State $state)
+    public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:states,name,'.$id,
+            'st_code' => 'required|unique:states,st_code,'.$id,
+            'status' => 'required',
+        ]);
+        $input = $request->all();
+        $state = State::find($id);
+        $state->update($input);
+        return redirect()->route('states.index')
+                        ->with('success','State updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(State $state)
+    public function destroy($id): RedirectResponse
     {
-        //
+        State::find($id)->delete();
+        return redirect()->route('states.index')
+                        ->with('success','State deleted successfully');
     }
 
     public function updateStatus(Request $request)

@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Models\ErrorLog;
+
 
 class Handler extends ExceptionHandler
 {
@@ -25,6 +28,22 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+
+            $userId = NULL;
+            if (auth()->user() && auth()->user()->id) {
+                $userId = auth()->user()->id;
+            }
+
+            $data = array(
+                'user_id' => $userId,
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            );
+
+            ErrorLog::create($data);
         });
     }
 }

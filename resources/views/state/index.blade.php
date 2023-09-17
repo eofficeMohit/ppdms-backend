@@ -16,11 +16,13 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('state-add')
                          <div class=" me-3 my-3 text-end">
-                         {{-- <a class="btn bg-gradient-dark mb-0" href="{{ route('state.create') }}"><i
+                         <a class="btn bg-gradient-dark mb-0" href="{{ route('states.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                State</a> --}}
+                                State</a>
                         </div>   
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -47,6 +49,10 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
+                                            </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -75,12 +81,32 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                    <label class="switch">
-                                                    <input data-id="{{ $state->id }}" class="toggle_state_cls" type="checkbox" {{ $state->status ? 'checked' : '' }}>
-                                                    <span class="slider round"></span>
-                                                    </label>
+                                                <label class="switch">
+                                                <input data-id="{{ $state->id }}" class="toggle_state_cls_state" type="checkbox" {{ $state->status ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                                </label>
                                             </td>
-                                            
+                                            <td class="align-middle">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('states.show',$state->id) }}" data-original-title="Show State"
+                                                title="Show State">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                                @can('state-edit')
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('states.edit',$state->id) }}" data-original-title="Edit State"
+                                                    title="Edit State">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                @endcan
+                                                @can('state-delete')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['states.destroy', $state->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
+                                                @endcan
+                                            </td>
                                         </tr>
                                         @endforeach
                                     @else
@@ -112,28 +138,3 @@
     <x-plugins></x-plugins>
 
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    jQuery('.toggle_state_cls').on('change', function() {
-        var id = jQuery(this).attr('data-id');
-        var status = jQuery(this).prop('checked') == true ? 1 : 0; 
-        // Make an AJAX request
-        axios.get('{{ route('states.updateStatus') }}', {
-            params: {
-                id: id,
-                status: status
-            }
-        })
-        .then(function(response) {
-            console.log(response.data);
-            jQuery(this).attr('data-id',id);
-            jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-            setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
-
-            // Iterate through the response and append data to the container
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-    });
-</script>

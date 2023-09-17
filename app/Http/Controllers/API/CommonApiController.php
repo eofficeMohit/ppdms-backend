@@ -117,10 +117,16 @@ class CommonApiController extends BaseController
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
                 $events = Event::orderby('event_sequence')->get();
+                $success=array();
 
+                if(count($events) == 0){
+                    return $this->sendResponse($success, 'No, event found.');
+                }
+                $booth_count=Booth::where('user_id',\Auth::id())->count();
                 foreach($events as $event){
-                    $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',1)->count();
-                    $notUpdatedEvents =ElectionInfo::where('event_id',$event->id)->where('status',0)->count();
+                    $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',1)->count();                   
+                    $notUpdatedEventCount= $booth_count - $updatedEvents;
+                   
                     $success[]=array(
                         'event_id'=>$event->id,
                         'event_name'=>$event->event_name,
@@ -129,7 +135,7 @@ class CommonApiController extends BaseController
                         'start_date_time'=>$event->start_date_time,
                         'end_date_time'=>$event->end_date_time,
                         'updated_events'=>$updatedEvents,
-                        'not_updated_events'=>$notUpdatedEvents,
+                        'not_updated_events'=>$notUpdatedEventCount,
                     );
                 }              
                 return $this->sendResponse($success, 'All Events.');
@@ -166,44 +172,59 @@ class CommonApiController extends BaseController
                     if($validator->fails()){
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
+                   $check_user_booth= Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->exists();
+                    if($check_user_booth === true){
+                        $data = $request->all();
+                        $next_event_id=$request->event_id+1;
+                            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('status',1)->exists();
+                            //next event check
+                            if($check_next_event ===true){
+                                $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('status',1)->first();
+                                $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
+                                return $this->sendError('Validation Error.', $message);
+                            }
+                            if($request->has('event_id') && $request->event_id=='4'){
+                               
+                                $validator = Validator::make($request->all(), [
+                                    'mock_poll_status' => 'required|numeric|in:0,1',
+                                    'evm_cleared_status' => 'required|numeric|in:0,1',
+                                    'vvpat_cleared_status'=>'required|numeric|in:0,1'
+                                ]);
+            
+                                if($validator->fails()){
+                                    return $this->sendError('Validation Error.', $validator->errors());
+                                }
 
-                    // $check_booth_user=Booth::where('user_id',$token->tokenable_id)->exists();
-                    
-                    // if($check_booth_user===true){
-                    //     dd('yes');
-                    // }else{
-                    //     dd('no');
-                    // }
-
-                $data = $request->all();
-                if($request->event_id > 1){
-                    $check_next_event =ElectionInfo::where('event_id',$request->event_id++)->where('status',1)->exists();
-                    if($check_next_event ===true){
-                        return $this->sendError('Validation Error.', 'Previous event is already locked you cannot procced with this event now.');
+                                if($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='1'){
+                                    $data['status']=4;
+                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='0'){
+                                    $data['status']=1;
+                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='0'){
+                                    $data['status']=2;
+                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='1'){
+                                    $data['status']=3;
+                                }else{
+                                    $data['status']=0;
+                                }
+                            }
+                        $data['user_id']=\Auth::id();
+                        $data = ElectionInfo::create($data);
+                      
+                        $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
+        
+                        $success['events']['state_name']=$electionInfo->electionState->name;
+                        $success['events']['district_name']=$electionInfo->electionDistrict->name;
+                        $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name;
+                        $success['events']['booth_name']=$electionInfo->electionBooth->booth_name;
+                        $success['events']['event_name']=$electionInfo->electionEvent->event_name;
+                        $success['events']['event_status']=$electionInfo->status;
+                        $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type;
+                        $success['events']['st_code']=$electionInfo->electionState->st_code;
+                        $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code;
+                        
+                        return $this->sendResponse($success, 'Event updated successfully.');
+        
                     }
-    
-                    // $check_previous_event =ElectionInfo::where('event_id',$request->event_id--)->where('status',0)->exists();
-                    // if($check_previous_event ===false){
-                    //     return $this->sendError('Validation Error.', 'Previous event is not completed yet, you cannot preceed further.');
-                    // }
-                }
-                $data['user_id']=\Auth::id();
-                $data = ElectionInfo::create($data);
-              
-                $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
-
-
-                $success['events']['state_name']=$electionInfo->electionState->name;
-                $success['events']['district_name']=$electionInfo->electionDistrict->name;
-                $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name;
-                $success['events']['booth_name']=$electionInfo->electionBooth->booth_name;
-                $success['events']['event_name']=$electionInfo->electionEvent->event_name;
-                $success['events']['event_status']=$electionInfo->status;
-                $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type;
-                $success['events']['st_code']=$electionInfo->electionState->st_code;
-                $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code;
-                
-                return $this->sendResponse($success, 'Event updated successfully.');
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
           } catch (\Exception $e) {

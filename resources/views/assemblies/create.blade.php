@@ -68,6 +68,7 @@
                                             {!! Form::text('pc_id', null, array('placeholder' => 'PC Number','class' => 'form-control')) !!}
                                         </div>
                                     </div>
+
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>State:</strong>
@@ -89,6 +90,17 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
+                                            <strong>PC Number:</strong>
+                                            <select class="form-control" id="pc_id" name="pc_id">
+                                                <option value="">Select Parliament</option>
+                                                @foreach($parliament as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
                                             <strong>ASMB Name:</strong>
                                             {!! Form::text('asmb_name', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
                                         </div>
@@ -103,8 +115,8 @@
                                         <div class="form-group">
                                             <strong>Status:</strong>
                                             <select class="form-control" name="status">
-                                                <option value="1">ON</option>
-                                                <option value="0">OFF</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">In-Active</option>
                                             </select>
                                         </div>
                                     </div>
@@ -122,7 +134,6 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.getElementById('state_id').addEventListener('change', function() {
         var selectedOption = this.value;

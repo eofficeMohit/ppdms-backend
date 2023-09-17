@@ -16,6 +16,8 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParliamentController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\IssueManagementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,45 +40,67 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
+	Route::get('/user/updateStatus', [UserController::class, 'updateStatus'])->name('user.updateStatus');
     Route::resource('users', UserController::class);
+	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index'); 
+	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');  
 	Route::resource('parliaments', ParliamentController::class);
 
-Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
-Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
-Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
-Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
-Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
-Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
-Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
-Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
-Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
-Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
+	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
+	Route::resource('states', StateController::class);
+	Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+	Route::resource('districts', DistrictController::class);
+
+	Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
+	Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
+	Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
+	Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
+	Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
+	Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
+	Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
+	Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
+	Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
+	Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
+	Route::get('/assemblies/updateStatus', [AssemblyController::class, 'updateStatus'])->name('assemblies.updateStatus');
+
+	Route::get('/booth', [BoothController::class, 'index'])->name('booth');
+	Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
+	Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
+	Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
+	Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
+	Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
+	Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
+	Route::get('/booth/updateStatus', [BoothController::class, 'updateStatus'])->name('booth.updateStatus');
+
+	//Route::get('/states', [StateController::class, 'index'])->name('states');
+	//Route::get('/state/updateStatus', [StateController::class, 'updateStatus'])->name('state.updateStatus');
+	//Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+	//Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+
+	Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
+	Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])->name('election-info.edit');
+	Route::patch('/election-info/update/{id}', [ElectionInfoController::class, 'update'])->name('election-info.update');
+	Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
+	Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
+	Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
+	Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
+	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');  
 
 
-Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
-Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');
-Route::get('/assemblies/show/{id}', [AssemblyController::class, 'show'])->name('assemblies.show');
-Route::get('/assemblies/edit/{id}', [AssemblyController::class, 'edit'])->name('assemblies.edit');
-Route::post('/assemblies/store', [AssemblyController::class, 'store'])->name('assemblies.store');
-Route::patch('/assemblies/update/{id}', [AssemblyController::class, 'update'])->name('assemblies.update');
-Route::delete('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
-Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
-Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
-Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
+	Route::get('/events', [EventController::class, 'index'])->name('events');
+	Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+	Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
+	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+	Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
+	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');  
+	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 
-
-Route::get('/booth', [BoothController::class, 'index'])->name('booth');
-Route::get('/booth/create', [BoothController::class, 'create'])->name('booth.create');
-Route::get('/booth/show/{id}', [BoothController::class, 'show'])->name('booth.show');
-Route::get('/booth/edit/{id}', [BoothController::class, 'edit'])->name('booth.edit');
-Route::post('/booth/store', [BoothController::class, 'store'])->name('booth.store');
-Route::patch('/booth/update/{id}', [BoothController::class, 'update'])->name('booth.update');
-Route::delete('/booth/destroy/{id}', [BoothController::class, 'destroy'])->name('booth.destroy'); // Delete a task
-
-Route::get('/states', [StateController::class, 'index'])->name('states');
-Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
-Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
-Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
+//Route::get('/states', [StateController::class, 'index'])->name('states');
+//Route::get('/state/updateStatus', [StateController::class, 'updateStatus'])->name('state.updateStatus');
+//Route::get('/districts', [DistrictController::class, 'index'])->name('districts');
+//Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
 
 Route::get('/election-info', [ElectionInfoController::class, 'index'])->name('election-info');
 Route::get('/election-info/edit/{id}', [ElectionInfoController::class, 'edit'])->name('election-info.edit');
@@ -96,8 +120,17 @@ Route::post('/event/store', [EventController::class, 'store'])->name('event.stor
 Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
+Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
+
+Route::get('/map_booth', [BoothController::class, 'map_booth'])->name('map_booth');
+Route::get('/booths/getSoUsers', [BoothController::class, 'getSoUsers'])->name('booths.getSoUsers');
+Route::get('/booths/getMapBooths', [BoothController::class, 'getMapBooths'])->name('booths.getMapBooths');
+Route::post('/booths/mapOffBooths', [BoothController::class, 'mapOffBooths'])->name('booths.mapOffBooths');
 });
 
+Auth::routes(['login' => false]);
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -105,7 +138,7 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])->middle
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
-Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
+Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest')->name('login.store');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
 Route::post('reset-password', [SessionsController::class, 'update'])->middleware('guest')->name('password.update');
 Route::get('verify', function () {
@@ -131,9 +164,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('virtual-reality', function () {
 		return view('pages.virtual-reality');
 	})->name('virtual-reality');
-	Route::get('notifications', function () {
+	/*Route::get('notifications', function () {
 		return view('pages.notifications');
-	})->name('notifications');
+	})->name('notifications');*/
 	Route::get('static-sign-in', function () {
 		return view('pages.static-sign-in');
 	})->name('static-sign-in');
@@ -148,3 +181,13 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('user-profile');
 	
 });
+
+Auth::routes();
+Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
+Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

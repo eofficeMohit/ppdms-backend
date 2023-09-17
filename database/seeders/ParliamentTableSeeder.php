@@ -13,74 +13,26 @@ class ParliamentTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $data= array(
-            [
-                'pc_no' =>1,
-                'pc_name' =>'Gurdaspur',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>2,
-                'pc_name' =>'Amritsar',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>3,
-                'pc_name' =>'Khadoor Sahib',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>4,
-                'pc_name' =>'Jalandhar',
-                'pc_type' =>'2',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>5,
-                'pc_name' =>'Hoshiarpur',
-                'pc_type' =>'2',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>6,
-                'pc_name' =>'Anandpur Sahib',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>7,
-                'pc_name' =>'Ludhiana',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>8,
-                'pc_name' =>'Fatehgarh Sahib',
-                'pc_type' =>'2',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>9,
-                'pc_name' =>'Faridkot',
-                'pc_type' =>'2',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>10,
-                'pc_name' =>'Firozpur',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>11,
-                'pc_name' =>'Bathinda',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>12,
-                'pc_name' =>'Sangrur',
-                'pc_type' =>'1',
-                'state_id' =>21,
-            ],[
-                'pc_no' =>13,
-                'pc_name' =>'Patiala',
-                'pc_type' =>'1',
-                'state_id' =>21 
-             ]
-        );
-        Parliament::insert($data);
+
+        // \Schema::disableForeignKeyConstraints();
+        // Parliament::truncate();
+        // \Schema::enableForeignKeyConstraints();
+        $csvData = fopen(base_path('database/csv/parliaments.csv'), 'r');
+        $transRow = true;
+        while (($data = fgetcsv($csvData, 555, ',')) !== false) {
+            if (!$transRow) {
+                Parliament::create([
+                    'id' => $data['0'],
+                    'pc_no' =>$data['1'],
+                    'pc_name' =>$data['2'],
+                    'pc_type' =>$data['3'],
+                    'state_id' =>$data['4'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            $transRow = false;
+        }
+        fclose($csvData);
     }
 }

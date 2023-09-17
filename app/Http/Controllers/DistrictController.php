@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\District;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,47 +20,63 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        //
+        $states = State::pluck('name','id')->all();
+        return view('district.create',compact('states'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:districts,name',
+            'd_code' => 'required|unique:districts,d_code',
+            'd_name_hindi' => 'required|unique:districts,d_name_hindi',
+            'state_id' => 'required',
+            'status' => 'required'
+        ]);
+        $input = $request->all();
+        $district = District::create($input);
+        return redirect()->route('districts.index')
+                        ->with('success','District created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(District $district)
+    public function show($id): View
     {
-        //
+        $district = District::where('id', $id)->first();
+        $states = State::pluck('name','id')->all();
+        return view('district.show',compact('district','states'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(District $district)
+    public function edit($id): View
     {
-        //
+        $district = District::find($id);
+        $states = State::pluck('name','id')->all();
+        return view('district.edit',compact('district','states'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, District $district)
+    public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:districts,name,'.$id,
+            'd_code' => 'required|unique:districts,d_code,'.$id,
+            'd_name_hindi' => 'required|unique:districts,d_name_hindi,'.$id,
+            'state_id' => 'required',
+            'status' => 'required'
+        ]);
+        $input = $request->all();
+        $district = District::find($id);
+        $district->update($input);
+        return redirect()->route('districts.index')
+                        ->with('success','District updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(District $district)
+    public function destroy($id): RedirectResponse
     {
-        //
+        District::find($id)->delete();
+        return redirect()->route('districts.index')
+                        ->with('success','District deleted successfully');
     }
     public function updateStatus(Request $request)
     {

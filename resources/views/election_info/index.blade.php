@@ -24,6 +24,8 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
+                        <div class="cus_msg_div">
+                        </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
@@ -103,12 +105,11 @@
                                             <p class="text-xs text-secondary mb-0">{{ $election->voting }}
                                                 </p>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                @if($election->status ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
-                                                @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-active</span>
-                                                @endif
+                                            <td class="align-middle text-center text-sm">
+                                                <label class="switch">
+                                                <input data-id="{{ $election->id }}" class="toggle_state_cls_election" type="checkbox" {{ $election->status ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                                </label>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a rel="tooltip" class="btn btn-info btn-link"

@@ -50,6 +50,7 @@
                     </a>
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
+                        @if(count($notifications) > 0)
                         @foreach($notifications as $notification)
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
@@ -73,6 +74,11 @@
                             </a>
                         </li>
                         @endforeach
+                        @else
+                        <li >
+                            No, Record Found.
+                        </li>
+                        @endif
                        {{-- <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">

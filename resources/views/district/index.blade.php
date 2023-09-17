@@ -17,9 +17,9 @@
                             </div>
                         </div>
                          <div class=" me-3 my-3 text-end">
-                         {{--  <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
+                         <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Dietrict</a> --}}
+                                District</a>
                         </div> 
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -47,6 +47,10 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,9 +77,30 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                     <label class="switch">
-                                                    <input data-id="{{ $district->id }}" class="toggle_state_cls" type="checkbox" {{ $district->status ? 'checked' : '' }}>
+                                                    <input data-id="{{ $district->id }}" class="toggle_state_cls_district" type="checkbox" {{ $district->status ? 'checked' : '' }}>
                                                     <span class="slider round"></span>
                                                     </label>
+                                            </td>
+                                            <td class="">
+                                                <a rel="tooltip" class="btn btn-info btn-link"
+                                                href="{{ route('districts.show',$district->id) }}" data-original-title="Show District"
+                                                title="Show District">
+                                                <i class="material-icons">visibility</i>
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                                @can('parliament-edit')
+                                                <a rel="tooltip" class="btn btn-success btn-link"
+                                                    href="{{ route('districts.edit',$district->id) }}" data-original-title="Edit District"
+                                                    title="Edit District">
+                                                    <i class="material-icons">edit</i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                @endcan
+                                                @can('parliament-delete')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['districts.destroy', $district->id],'style'=>'display:inline']) !!}
+                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
+                                                {!! Form::close() !!}
+                                                @endcan
                                             </td>
                                             
                                         </tr>
@@ -109,28 +134,3 @@
     <x-plugins></x-plugins>
 
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    jQuery('.toggle_state_cls').on('change', function() {
-        var id = jQuery(this).attr('data-id');
-        var status = jQuery(this).prop('checked') == true ? 1 : 0; 
-        // Make an AJAX request
-        axios.get('{{ route('districts.updateStatus') }}', {
-            params: {
-                id: id,
-                status: status
-            }
-        })
-        .then(function(response) {
-            console.log(response.data);
-            jQuery(this).attr('data-id',id);
-            jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-            setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
-
-            // Iterate through the response and append data to the container
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-    });
-</script>
