@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->string('notification_for')->after('notification_type');
-            $table->unsignedBigInteger('notification_for_ref')->after('notification_for');
-            $table->unsignedBigInteger('notification_to')->after('notification_for_ref');
+            $table->string('notification_for')->nullable()->after('notification_type');
+            $table->unsignedBigInteger('notification_for_reference')->nullable()->after('notification_for');
+            $table->unsignedBigInteger('notification_to')->nullable()->after('notification_for_reference');
 			$table->foreign('notification_to')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('notification_for_reference')->references('id')->on('users')->onDelete('cascade');
         });
     }
     /**
@@ -24,7 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('notifications', function (Blueprint $table) {
-            //
+            $table->dropColumn('notification_for');
+            $table->dropColumn('notification_for_reference');
+            $table->dropColumn('notification_to');
         });
     }
 };
