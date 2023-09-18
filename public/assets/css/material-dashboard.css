@@ -15939,7 +15939,7 @@ hr.horizontal {
       color: #329874; }
 
 .table thead th {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 0.5rem;
   text-transform: capitalize;
   letter-spacing: 0px;
   border-bottom: 1px solid #f0f2f5; }
