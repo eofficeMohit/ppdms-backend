@@ -1,6 +1,6 @@
 
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
-
+{{-- {{dd($locations)}} --}}
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="BoothWatch Live"></x-navbars.navs.auth>
@@ -8,6 +8,7 @@
         <div class="container-fluid py-4">
             <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto;">
             </div>
+
             <x-footers.auth>
             </x-footers.auth>
         </div>
@@ -19,33 +20,12 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_API_KEY') }}&callback=initMap" async
     defer></script>
-  <script>
+  <script type="text/javascript">
   const apiKey = '{{ env('GOOGLE_MAP_API_KEY') }}';
+  var locations = <?php print_r(json_encode($locations)) ?>;
 
-  const locations = [
-    { lat: 31.3260, lng: 75.5762, title: 'Jalandhar', color: 'green', active: true },
-    { lat: 31.3153, lng: 75.5670, title: 'Avtar Nagar', color: 'green', active: false },
-    { lat: 31.3172, lng: 75.5575, title: 'Tej Mohan Nagar', color: 'red', active: false },
-    { lat: 31.3308, lng: 75.5873, title: 'Fentonganj', color: 'red', active: true },
-    { lat: 31.3281, lng: 75.5939, title: 'Gobind Garh', color: 'red', active: false },
-    { lat: 31.3224, lng: 75.5873, title: 'Master Tara Singh Nagar', color: 'red', active: true },
-    { lat: 31.3398, lng: 75.5916, title: 'Kishanpura', color: 'green', active: false },
-    { lat: 31.3478, lng: 75.5926, title: 'Santokh Pura', color: 'green', active: false },
-    { lat: 31.3239, lng: 75.5575, title: 'Basti Nau', color: 'green', active: false },
-    { lat: 31.3334, lng: 75.5546, title: 'Mithu Basti', color: 'green', active: false },
-    { lat: 31.3353, lng: 75.5386, title: 'Basti Bawa Khel', color: 'green', active: false },
-    { lat: 31.3230, lng: 75.5437, title: 'Dilbagh Nagar', color: 'green', active: false },
-    { lat: 31.2785, lng: 75.5830, title: 'Mithapur', color: 'green', active: false },
-    { lat: 31.3110, lng: 75.6397, title: 'Rama Mandi', color: 'green', active: false },
-    { lat: 30.9010, lng: 75.8573, title: 'Ludhiana', color: 'green', active: false },
-    { lat: 30.8914, lng: 75.8181, title: 'Sarabha Nagar', color: 'green', active: false },
-    { lat: 30.8977, lng: 75.8258, title: 'Gurdev Nagar', color: 'green', active: false },
-    { lat: 30.9235, lng: 75.8689, title: 'Sunder Nagar', color: 'green', active: false },
-    { lat: 30.9596, lng: 75.8389, title: 'Bahadarke', color: 'green', active: false },
-    { lat: 30.9790, lng: 75.8425, title: 'Kasabad', color: 'green', active: false },
-    // Add more locations here
-  ];
-
+  console.log(locations);
+// alert('hiihhihi');
   const customMapStyles = [
     {
         "featureType": "administrative.province",
@@ -229,10 +209,10 @@
     // Add markers for each location with different colors
     for (const location of locations) {
       const marker = new google.maps.Marker({
-        position: { lat: location.lat, lng: location.lng },
+        position: { lat: location.latitude, lng: location.longitude },
         map: map,
-        title: location.title,
-        icon: location.active ? "http://maps.google.com/mapfiles/ms/icons/red.png" : "http://maps.google.com/mapfiles/ms/icons/blue.png"
+        title: location.booth_name,
+        icon: location.status ? "http://maps.google.com/mapfiles/ms/icons/red.png" : "http://maps.google.com/mapfiles/ms/icons/blue.png"
         
       });
     }

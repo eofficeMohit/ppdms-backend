@@ -207,6 +207,52 @@ class CommonApiController extends BaseController
                                     $data['status']=0;
                                 }
                             }
+
+                            if($request->has('event_id') && $request->event_id=='5'){
+                                $validator = Validator::make($request->all(), [
+                                    'voting' => 'required|numeric',
+                                    // 'voting_last_updated' => 'required|before:18:00'
+                                    
+                                ]);
+            
+                                if($validator->fails()){
+                                    return $this->sendError('Validation Error.', $validator->errors());
+                                }
+
+                                $data['status']=1;
+                                $data['voting_last_updated']=now();
+                            }
+                            
+                            if($request->has('event_id') && $request->event_id=='6'){
+                                $validator = Validator::make($request->all(), [
+                                    'voting' => 'required|numeric',
+                                    // 'voting_last_updated' => 'required|before:18:00'
+                                    
+                                ]);
+            
+                                if($validator->fails()){
+                                    return $this->sendError('Validation Error.', $validator->errors());
+                                }
+
+                                $data['status']=1;
+                                $data['voting_last_updated']=now();
+                            }
+
+                            if($request->has('event_id') && $request->event_id=='7'){
+                                $validator = Validator::make($request->all(), [
+                                    'voting' => 'required|numeric',
+                                    // 'voting_last_updated' => 'required|before:18:00'
+                                    
+                                ]);
+            
+                                if($validator->fails()){
+                                    return $this->sendError('Validation Error.', $validator->errors());
+                                }
+
+                                $data['status']=1;
+                                $data['voting_last_updated']=now();
+                            }
+                            // dd($data);
                         $data['user_id']=\Auth::id();
                         $data = ElectionInfo::create($data);
                       

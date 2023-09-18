@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Assembly;
+use App\Models\Booth;
 use App\Models\ElectionInfo;
 
 class DashboardController extends Controller
@@ -18,6 +18,7 @@ class DashboardController extends Controller
     }
     public function indexStat()
     {
-        return view('dashboard.indexStat');
+        $locations = Booth::select('latitude','longitude','booth_name','status')->get();
+        return view('dashboard.indexStat',compact('locations'));
     }
 }
