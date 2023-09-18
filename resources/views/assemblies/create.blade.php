@@ -64,6 +64,13 @@
                                     </div> --}}
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
+                                            <strong>PC Number:</strong>
+                                            {!! Form::text('pc_id', null, array('placeholder' => 'PC Number','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
                                             <strong>State:</strong>
                                             <select class="form-control" id="state_id" name="state_id">
                                                 <option value="">Select State</option>
