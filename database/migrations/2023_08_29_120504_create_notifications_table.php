@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('sender_id')->nullable();
             $table->string('receiver_id')->nullable();
             $table->string('module_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('url')->nullable();
             $table->string('notification_type')->nullable();
             $table->string('message')->nullable();

@@ -43,26 +43,6 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        <strong>Start Date:</strong>
-                                    </div>
-                                </div>
-                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                    <div class="form-group">
-                                        {{ $event->start_date_time }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                    <div class="form-group">
-                                        <strong>End Date:</strong>
-                                    </div>
-                                </div>
-                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                    <div class="form-group">
-                                        {{ $event->end_date_time }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                    <div class="form-group">
                                         <strong>Status:</strong>
                                     </div>
                                 </div>
@@ -75,6 +55,40 @@
                                         @endif
                                     </div>
                                 </div>
+								@if(!empty($eventslots) && count($eventslots) > 0)
+								@foreach($eventslots as $key => $value)
+								<div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        <strong>Event Date:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        {{ $value->date }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        <strong>Start Time:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        {{ $value->start_time }}
+                                    </div>
+                                </div>
+								<div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        <strong>End Time:</strong>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                    <div class="form-group">
+                                        {{ $value->end_time }}
+                                    </div>
+                                </div>
+								@endforeach
+								@endif
                             </div>
                         </div>
                     </div>
