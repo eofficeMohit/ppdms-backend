@@ -20,7 +20,7 @@
                         <div class="card-body pt-4 p-3">
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
-                                    <h3>Create New Event</h3>
+                                    <h3>Edit Event</h3>
                                         <div class="col-12 text-end">
                                             <a class="btn btn-primary" href="{{ route('events') }}"> Back</a>
                                         </div>
@@ -34,6 +34,7 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
+                                        {!! Form::hidden('id', $event->id, array('class' => 'form-control event_id')) !!}
                                         <strong>Event Name:</strong>
                                         {!! Form::text('event_name', null, array('placeholder' => 'Event name','class' => 'form-control event_name')) !!}
 										<span id="event_name_id" class="error"></span>
@@ -60,7 +61,7 @@
                                         <div class="col-md-3">
                                             <strong>Date:</strong>
                                             {!! Form::input('date', 'start_date[]', date('Y-m-d'), ['id' => '', 'class' => 'form-control start_date']) !!}
-											
+
                                         </div>
                                         <div class="col-md-3">
                                             <strong>Start Time:</strong>
@@ -73,7 +74,7 @@
                                         <div class="col-md-3">
 											<span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -101,12 +102,13 @@
 		var now_time = "{{ date('H:i') }}";
 		newRow.className = 'row mb-2';
 		newRow.innerHTML = '<div class="col-md-3"><input min="'+now_date+'" class="form-control start_date" name="start_date[]" type="date" required value="'+now_date+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-		newRow.innerHTML += '<div class="col-md-3"><input min="'+now_time+'" class="form-control start_time" name="start_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-		newRow.innerHTML += '<div class="col-md-3"><input min="'+now_time+'" class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+		newRow.innerHTML += '<div class="col-md-3"><input  class="form-control start_time" name="start_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+		newRow.innerHTML += '<div class="col-md-3"><input  class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
 		newRow.innerHTML += '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
 		timeSlots.appendChild(newRow);
 	}
-
+    // min="'+now_time+'"
+    // min="'+now_time+'"
 	function removeTimeSlot(button) {
 		const row = button.closest('.row');
 		row.remove();
@@ -115,9 +117,12 @@
             $('#myForm').submit(function (e) {
                 e.preventDefault();
 				$('#event_name_id').html("");
+
 				$('#event_seq_id').html("");
 				$('#validation-success').html("");
 				$('#validation-errors').html("");
+
+                var id = parseInt($('.event_id').val());
 				var event_name = $('.event_name').val();
 				var event_sequence = $('.event_sequence').val();
 				var flag = 0;
@@ -131,17 +136,17 @@
 				}
 				if(flag == 1){
 					return false;
-				}	
+				}
                 $.ajax({
                     type: 'POST',
-                    url: '/event/store',
+                    url: "{{url('/event/update/')}}"+'/'+id,
                     data: $(this).serialize(),
                     success: function (response) {
 						if(response.success){
 							console.log(response);
-							$('#validation-success').append('<div class="alert alert-success">Event added successfully.</div'); 
+							$('#validation-success').append('<div class="alert alert-success">Event added successfully.</div');
 							setTimeout(function(){
-								window.location.href = "/events"; 
+								window.location.href = "/events";
 							}, 2000);
 						} else {
 							console.log(response.errors);

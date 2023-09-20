@@ -42,8 +42,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', PermissionController::class);
 	Route::get('/user/updateStatus', [UserController::class, 'updateStatus'])->name('user.updateStatus');
     Route::resource('users', UserController::class);
-	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index'); 
-	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');  
+	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');
+	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');
 	Route::resource('parliaments', ParliamentController::class);
 
 	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 	Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
 	Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
-	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');  
+	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');
 
 
 	Route::get('/events', [EventController::class, 'index'])->name('events');
@@ -92,9 +92,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
-	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+	Route::post('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 	Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
-	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');  
+	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 
 //Route::get('/states', [StateController::class, 'index'])->name('states');
@@ -179,7 +179,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-	
+
 });
 
 Auth::routes();

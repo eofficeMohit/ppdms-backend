@@ -41,7 +41,7 @@ class EventController extends Controller
             'end_time.*' => 'required|date_format:H:i|unique:event_timeslots,end_time|after:start_time.*',
             'status' => 'required|in:0,1'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -51,8 +51,8 @@ class EventController extends Controller
         $events = Event::create([
             'event_name' => $request['event_name'],
             'event_sequence' => $request['event_sequence'],
-            'status' => $request['status'],    
-        ]); 
+            'status' => $request['status'],
+        ]);
 
         if($events) {
             $start_time = $request['start_time'];
@@ -70,7 +70,7 @@ class EventController extends Controller
                 ]);
             }
         }
-        
+
         return response()->json([
             'success' => true,
             'errors' => ""
@@ -110,7 +110,7 @@ class EventController extends Controller
             'end_time.*' => 'required|after:start_time.*',
             'status' => 'required|in:0,1'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -122,7 +122,7 @@ class EventController extends Controller
         $event->update([
             'event_name' => $input['event_name'],
             'event_sequence' => $input['event_sequence'],
-            'status' => $input['status'],    
+            'status' => $input['status'],
         ]);
         EventTimeslot::where('event_id', $id)->delete();
         if($id) {
@@ -141,7 +141,7 @@ class EventController extends Controller
                 ]);
             }
         }
-        
+
         return response()->json([
             'success' => true,
             'errors' => ""
