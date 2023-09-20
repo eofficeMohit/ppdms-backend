@@ -4,11 +4,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Laravel\Sanctum\PersonalAccessToken;
-use App\Http\Requests;
 use App\Models\User;
-use App\Models\UserOtp;
 use App\Models\Booth;
-use App\Models\UserLogin;
 use App\Models\Event;
 use App\Models\ElectionInfo;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +67,7 @@ class CommonApiController extends BaseController
 
                 $user = User::find($token->tokenable_id);
                 $userBooths =Booth::where('user_id',$user->id)->get();
-
+                $success=array();
                 foreach($userBooths as $userBooth){
                         $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])
                         ->where('booth_id',$userBooth->id)->where('assemble_id',$userBooth->assemble_id)->where('state_id',$userBooth->state_id)
@@ -95,7 +92,7 @@ class CommonApiController extends BaseController
                         'event_status'=>$event_status ?? '',
                     );
                 }
-                
+
                 return $this->sendResponse($success, 'User all booths.');
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
@@ -124,9 +121,9 @@ class CommonApiController extends BaseController
                 }
                 $booth_count=Booth::where('user_id',\Auth::id())->count();
                 foreach($events as $event){
-                    $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',1)->count();                   
+                    $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',1)->count();
                     $notUpdatedEventCount= $booth_count - $updatedEvents;
-                   
+
                     $success[]=array(
                         'event_id'=>$event->id,
                         'event_name'=>$event->event_name,
@@ -137,7 +134,7 @@ class CommonApiController extends BaseController
                         'updated_events'=>$updatedEvents,
                         'not_updated_events'=>$notUpdatedEventCount,
                     );
-                }              
+                }
                 return $this->sendResponse($success, 'All Events.');
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
@@ -154,7 +151,7 @@ class CommonApiController extends BaseController
     public function eventUpdate(Request $request): JsonResponse
     {
         try {
-          
+
             if($request->bearerToken()){
                 $hashedTooken = $request->bearerToken();
                 $token = PersonalAccessToken::findToken($hashedTooken);
@@ -170,13 +167,14 @@ class CommonApiController extends BaseController
                     ]);
 
                     if($validator->fails()){
+                        dd('yes');
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
                    $check_user_booth= Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->exists();
                     if($check_user_booth === true){
                         $data = $request->all();
                         $next_event_id=$request->event_id+1;
-                            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('status',1)->exists();
+                            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->exists();
                             //next event check
                             if($check_next_event ===true){
                                 $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('status',1)->first();
@@ -184,13 +182,13 @@ class CommonApiController extends BaseController
                                 return $this->sendError('Validation Error.', $message);
                             }
                             if($request->has('event_id') && $request->event_id=='4'){
-                               
+
                                 $validator = Validator::make($request->all(), [
                                     'mock_poll_status' => 'required|numeric|in:0,1',
                                     'evm_cleared_status' => 'required|numeric|in:0,1',
                                     'vvpat_cleared_status'=>'required|numeric|in:0,1'
                                 ]);
-            
+
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
@@ -212,9 +210,9 @@ class CommonApiController extends BaseController
                                 $validator = Validator::make($request->all(), [
                                     'voting' => 'required|numeric',
                                     // 'voting_last_updated' => 'required|before:18:00'
-                                    
+
                                 ]);
-            
+
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
@@ -222,14 +220,14 @@ class CommonApiController extends BaseController
                                 $data['status']=1;
                                 $data['voting_last_updated']=now();
                             }
-                            
+
                             if($request->has('event_id') && $request->event_id=='6'){
                                 $validator = Validator::make($request->all(), [
                                     'voting' => 'required|numeric',
                                     // 'voting_last_updated' => 'required|before:18:00'
-                                    
+
                                 ]);
-            
+
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
@@ -242,9 +240,9 @@ class CommonApiController extends BaseController
                                 $validator = Validator::make($request->all(), [
                                     'voting' => 'required|numeric',
                                     // 'voting_last_updated' => 'required|before:18:00'
-                                    
+
                                 ]);
-            
+
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
@@ -255,9 +253,9 @@ class CommonApiController extends BaseController
                             // dd($data);
                         $data['user_id']=\Auth::id();
                         $data = ElectionInfo::create($data);
-                      
+
                         $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
-        
+
                         $success['events']['state_name']=$electionInfo->electionState->name;
                         $success['events']['district_name']=$electionInfo->electionDistrict->name;
                         $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name;
@@ -267,9 +265,9 @@ class CommonApiController extends BaseController
                         $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type;
                         $success['events']['st_code']=$electionInfo->electionState->st_code;
                         $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code;
-                        
+
                         return $this->sendResponse($success, 'Event updated successfully.');
-        
+
                     }
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
