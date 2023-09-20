@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Booth;
 use App\Models\Event;
 use App\Models\ElectionInfo;
+use App\Models\EventTimeslot;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class CommonApiController extends BaseController
 {
@@ -167,22 +169,33 @@ class CommonApiController extends BaseController
                     ]);
 
                     if($validator->fails()){
-                        dd('yes');
+                        // dd('yes');
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
                    $check_user_booth= Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->exists();
                     if($check_user_booth === true){
                         $data = $request->all();
-                        $next_event_id=$request->event_id+1;
-                            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->exists();
                             //next event check
+                            $next_event_id=$request->event_id+1;
+                            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->exists();
                             if($check_next_event ===true){
                                 $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',\Auth::id())->where('status',1)->first();
                                 $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
-                                return $this->sendError('Validation Error.', $message);
+                                return $this->sendError('Warning!', $message);
                             }
-                            if($request->has('event_id') && $request->event_id=='4'){
 
+                            //previous event check
+                            if($request->event_id > '1'){
+                                $previous_event_id=$request->event_id-1;
+                                $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->exists();
+                                if($check_previous_event ===false){
+                                    $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
+                                    $message=$get_previous_event->event_name.' status not updated(no)!';
+                                    return $this->sendError('Warning!', $message);
+                                }
+                            }
+
+                            if($request->has('event_id') && $request->event_id=='4'){
                                 $validator = Validator::make($request->all(), [
                                     'mock_poll_status' => 'required|numeric|in:0,1',
                                     'evm_cleared_status' => 'required|numeric|in:0,1',
@@ -206,35 +219,34 @@ class CommonApiController extends BaseController
                                 }
                             }
 
-                            if($request->has('event_id') && $request->event_id=='5'){
-                                $validator = Validator::make($request->all(), [
-                                    'voting' => 'required|numeric',
-                                    // 'voting_last_updated' => 'required|before:18:00'
-
-                                ]);
-
-                                if($validator->fails()){
-                                    return $this->sendError('Validation Error.', $validator->errors());
-                                }
-
-                                $data['status']=1;
-                                $data['voting_last_updated']=now();
-                            }
-
                             if($request->has('event_id') && $request->event_id=='6'){
                                 $validator = Validator::make($request->all(), [
-                                    'voting' => 'required|numeric',
-                                    // 'voting_last_updated' => 'required|before:18:00'
-
+                                    'voting' => 'required|numeric'
                                 ]);
 
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
+                                //todo's check's pending
+                                $get_event_timeSlots= EventTimeslot::where('event_id','6')->where('status','1')->get();
 
-                                $data['status']=1;
-                                $data['voting_last_updated']=now();
+                                foreach ($get_event_timeSlots as $key => $timeSlot) {
+                                    // dd($timeSlot);
+                                    // $startDate = Carbon::createFromFormat('H:i a', $timeSlot->start_time);
+
+                                    // $endDate = Carbon::createFromFormat('H:i a', $timeSlot->end_time);
+                                    $check = Carbon::now()->between($timeSlot->start_time, $timeSlot->end_time, true);
+
+                                    if($check){
+                                        echo 'In Between';
+                                    }else{
+                                        echo 'In Not Between';
+                                    }
+                                }
+
+                                //todos
                             }
+
 
                             if($request->has('event_id') && $request->event_id=='7'){
                                 $validator = Validator::make($request->all(), [
@@ -248,9 +260,9 @@ class CommonApiController extends BaseController
                                 }
 
                                 $data['status']=1;
-                                $data['voting_last_updated']=now();
+                                $data['voting_last_updated']=Carbon::now();
                             }
-                            // dd($data);
+                            dd($data);
                         $data['user_id']=\Auth::id();
                         $data = ElectionInfo::create($data);
 
