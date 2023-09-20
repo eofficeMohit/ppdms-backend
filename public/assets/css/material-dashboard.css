@@ -17582,6 +17582,6 @@ background-image:linear-gradient(195deg,#2483c5,#2483c5);
 a.nav-link.text-white.active {
     background-color: #00275d !important;
 }
-.table td, .table th .issue-table {
+/* .table td, .table th .issue-table {
   white-space: initial !important;
-}
+} */
