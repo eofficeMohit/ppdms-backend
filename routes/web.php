@@ -18,6 +18,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParliamentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\IssueManagementController;
+use App\Http\Controllers\DashboardSettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,6 +51,16 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::resource('states', StateController::class);
 	Route::get('/districts/updateStatus', [DistrictController::class, 'updateStatus'])->name('districts.updateStatus');
 	Route::resource('districts', DistrictController::class);
+
+	Route::get('/dashboard-settings', [DashboardSettingsController::class, 'index'])->name('dashboard-settings');
+	Route::get('/dashboard-settings/create', [DashboardSettingsController::class, 'create'])->name('dashboard-settings.create');
+	Route::get('/dashboard-settings/show/{id}', [DashboardSettingsController::class, 'show'])->name('dashboard-settings.show');
+	Route::get('/dashboard-settings/edit/{id}', [DashboardSettingsController::class, 'edit'])->name('dashboard-settings.edit');
+	Route::post('/dashboard-settings/store', [DashboardSettingsController::class, 'store'])->name('dashboard-settings.store');
+	Route::patch('/dashboard-settings/update/{id}', [DashboardSettingsController::class, 'update'])->name('dashboard-settings.update');
+	Route::delete('/dashboard-settings/destroy/{id}', [DashboardSettingsController::class, 'destroy'])->name('dashboard-settings.destroy');
+	Route::get('/dashboard-settings/updateStatus', [DashboardSettingsController::class, 'updateStatus'])->name('dashboard-settings.updateStatus');
+
 
 	Route::get('/assemblies', [AssemblyController::class, 'index'])->name('assemblies');      // List all tasks
 	Route::get('/assemblies/create', [AssemblyController::class, 'create'])->name('assemblies.create');

@@ -102,7 +102,7 @@
 		newRow.className = 'row mb-2';
 		newRow.innerHTML = '<div class="col-md-3"><input min="'+now_date+'" class="form-control start_date" name="start_date[]" type="date" required value="'+now_date+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
 		newRow.innerHTML += '<div class="col-md-3"><input min="'+now_time+'" class="form-control start_time" name="start_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-		newRow.innerHTML += '<div class="col-md-3"><input min="'+now_time+'" class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+		newRow.innerHTML += '<div class="col-md-3"><input class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
 		newRow.innerHTML += '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
 		timeSlots.appendChild(newRow);
 	}

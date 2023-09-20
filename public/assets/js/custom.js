@@ -386,3 +386,26 @@ jQuery('.toggle_state_cls_district').on('change', function() {
         console.error(error);
     });
 });
+
+jQuery('.toggle_state_cls_settings').on('change', function() {
+    var id = jQuery(this).attr('data-id');
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.get('dashboard-settings/updateStatus', {
+        params: {
+            id: id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        jQuery(this).attr('data-id',id);
+        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
