@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Validator;
-use App\Rules\UniqueDateTimeSlotsRule;
 use Illuminate\Http\Response;
 
 class EventController extends Controller
@@ -86,7 +85,7 @@ class EventController extends Controller
         $eventslots = EventTimeslot::where('event_id', $id)->get();
         return view('events.show',compact('event','eventslots'));
     }
-
+     
     /**
      * Show the form for editing the specified resource.
      */

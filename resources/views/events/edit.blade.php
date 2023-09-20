@@ -30,6 +30,11 @@
 							</div>
 							<div id="validation-errors">
 							</div>
+                            <?php
+                           // echo "<pre>";
+                           // print_r($eventslots);
+                            //die('heer');
+                            ?>
                             {!! Form::model($event,['id'=>'myForm']) !!}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -56,6 +61,42 @@
                                         </select>
                                     </div>
                                 </div>
+                                @if($eventslots)
+                                <div id="time-slots">
+                                    @foreach($eventslots as $key => $value)
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            @if($key == 0)
+                                            <strong>Date:</strong>
+                                            @endif
+                                            {!! Form::input('date', 'start_date[]', $value['date'], ['id' => '', 'class' => 'form-control start_date']) !!}
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            @if($key == 0)
+                                            <strong>Start Time:</strong>
+                                            @endif
+                                            {!! Form::input('time', 'start_time[]', $value['start_time'], ['id' => '', 'class' => 'form-control start_time']) !!}
+                                        </div>
+										<div class="col-md-3">
+                                            @if($key == 0)
+                                            <strong>End Time:</strong>
+                                            @endif
+                                            {!! Form::input('time', 'end_time[]', $value['end_time'], ['id' => '', 'class' => 'form-control end_time']) !!}
+                                        </div>
+                                        @if($key == 0)
+                                        <div class="col-md-3">
+											<span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
+                                        </div>
+                                        @else
+                                        <div class="col-md-3">
+											<span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">REMOVE</span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    @endforeach
+                                </div>
+                                @else
                                 <div id="time-slots">
                                     <div class="row mb-2">
                                         <div class="col-md-3">
@@ -76,6 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="clearfix"></div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -102,8 +144,8 @@
 		var now_time = "{{ date('H:i') }}";
 		newRow.className = 'row mb-2';
 		newRow.innerHTML = '<div class="col-md-3"><input min="'+now_date+'" class="form-control start_date" name="start_date[]" type="date" required value="'+now_date+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-		newRow.innerHTML += '<div class="col-md-3"><input  class="form-control start_time" name="start_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-		newRow.innerHTML += '<div class="col-md-3"><input  class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+		newRow.innerHTML += '<div class="col-md-3"><input min="'+now_time+'" class="form-control start_time" name="start_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+		newRow.innerHTML += '<div class="col-md-3"><input class="form-control end_time" name="end_time[]" type="time" required value="'+now_time+'" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
 		newRow.innerHTML += '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
 		timeSlots.appendChild(newRow);
 	}
@@ -115,6 +157,7 @@
 	}
     $(document).ready(function () {
             $('#myForm').submit(function (e) {
+                var form_id = "{{ $event->id }}";
                 e.preventDefault();
 				$('#event_name_id').html("");
 
@@ -138,8 +181,8 @@
 					return false;
 				}
                 $.ajax({
-                    type: 'POST',
-                    url: "{{url('/event/update/')}}"+'/'+id,
+                    type: 'PATCH',
+                    url: '/event/update/'+form_id,
                     data: $(this).serialize(),
                     success: function (response) {
 						if(response.success){
