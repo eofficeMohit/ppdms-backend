@@ -78,21 +78,33 @@
                                                 <p class="text-xs text-secondary mb-0">{{ $event->event_sequence }}
                                                 </p>
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">{{ $event->start_date_time }}</p>
+                                            <td class="align-middle text-center text-sm">
+                                                @if (count($event->timeSlots)>0)
+                                                    @foreach ($event->timeSlots as $key => $slot )
+                                                    <div class="d-flex px-2 py-1">
+                                                        {{-- <label>{{ $key+1 .'=>' }}</label> --}}
+                                                        <div>
+                                                        <p class="mb-0 text-sm">{{ $slot->start_time }}</p>
+                                                        </div>
                                                     </div>
-
-                                                </div>
+                                                    @endforeach
+                                                @else
+                                                    {{ '--' }}
+                                                @endif
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">{{ $event->end_date_time }}</p>
-                                                    </div>
-
-                                                </div>
+                                            <td class="align-middle text-center text-sm">
+                                                @if (count($event->timeSlots)>0)
+                                                    @foreach ($event->timeSlots as $key => $slot )
+                                                        <div class="d-flex px-2 py-1">
+                                                            {{-- <label>{{ $key+1 .'=>' }}</label> --}}
+                                                            <div>
+                                                            <p class="mb-0 text-sm">{{ $slot->end_time }}</p>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    {{ '--' }}
+                                                @endif
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <label class="switch">

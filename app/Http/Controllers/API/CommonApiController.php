@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
+use DateTime;
 
 class CommonApiController extends BaseController
 {
@@ -227,26 +228,24 @@ class CommonApiController extends BaseController
                                 if($validator->fails()){
                                     return $this->sendError('Validation Error.', $validator->errors());
                                 }
+
+
                                 //todo's check's pending
                                 $get_event_timeSlots= EventTimeslot::where('event_id','6')->where('status','1')->get();
 
                                 foreach ($get_event_timeSlots as $key => $timeSlot) {
-                                    // dd($timeSlot);
-                                    // $startDate = Carbon::createFromFormat('H:i a', $timeSlot->start_time);
-
-                                    // $endDate = Carbon::createFromFormat('H:i a', $timeSlot->end_time);
-                                    $check = Carbon::now()->between($timeSlot->start_time, $timeSlot->end_time, true);
-
-                                    if($check){
-                                        echo 'In Between';
+                                    $check_time=$this->checkIfTimeExist($timeSlot->start_time,$timeSlot->end_time);
+                                    // dd($timeSlot->start_time);
+                                    if($check_time){
+                                        echo 'In Between'.$check_time.'</br>';
                                     }else{
-                                        echo 'In Not Between';
+                                        echo 'In Not Between'.$check_time.'</br>';
                                     }
                                 }
 
                                 //todos
                             }
-
+// die;
 
                             if($request->has('event_id') && $request->event_id=='7'){
                                 $validator = Validator::make($request->all(), [
@@ -262,7 +261,7 @@ class CommonApiController extends BaseController
                                 $data['status']=1;
                                 $data['voting_last_updated']=Carbon::now();
                             }
-                            dd($data);
+                            // dd($data);
                         $data['user_id']=\Auth::id();
                         $data = ElectionInfo::create($data);
 
@@ -287,5 +286,19 @@ class CommonApiController extends BaseController
             return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
           }
     }
+
+    public function checkIfTimeExist($fromTime, $toTime) {
+
+                $fromDateTime = DateTime::createFromFormat("H:i", $fromTime);
+                dd($fromDateTime);
+                $toDateTime = DateTime::createFromFormat('H:i', $toTime);
+                $currentTime= DateTime::createFromFormat('H:i', Carbon::now()->format('H:i'));
+                dd(DateTime::createFromFormat("H:i", $fromTime));
+                if ($fromDateTime> $toDateTime) $toDateTime->modify('+1 day');
+                return ($fromDateTime <= $currentTime&& $currentTime<= $toDateTime) || ($fromDateTime <= $currentTime->modify('+1 day') && $currentTime<= $toDateTime);
+            }
+
+            // $result=checkIfExist("08:00","18:00","09:00");
+            // echo $result; // output 1 - true
 
 }

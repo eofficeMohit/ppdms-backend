@@ -14,7 +14,7 @@ class EventController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = Event::latest()->paginate(20);
+        $data = Event::with('timeSlots')->latest()->paginate(20);
         return view('events.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
@@ -85,7 +85,7 @@ class EventController extends Controller
         $eventslots = EventTimeslot::where('event_id', $id)->get();
         return view('events.show',compact('event','eventslots'));
     }
-     
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -154,7 +154,7 @@ class EventController extends Controller
     {
         Event::find($id)->delete();
         return redirect()->route('events')
-                        ->with('success','Eevnt deleted successfully');
+                        ->with('success','Event deleted successfully');
     }
     public function updateStatus(Request $request)
     {

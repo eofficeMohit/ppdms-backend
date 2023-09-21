@@ -3,7 +3,7 @@
 
     <x-navbars.sidebar activePage="districts"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <!-- Navbar -->    
+        <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Districts Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
@@ -20,11 +20,12 @@
                          <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 District</a>
-                        </div> 
+                        </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
                             </div>
+
                         @endif
                         <div class="cus_msg_div">
                         </div>
@@ -102,7 +103,7 @@
                                                 {!! Form::close() !!}
                                                 @endcan
                                             </td>
-                                            
+
                                         </tr>
                                         @endforeach
                                     @else

@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/favicon.png">
     <link rel="icon" type="image/jpeg" href="{{ asset('assets') }}/img/favicon.png">
     <title>
@@ -65,6 +65,7 @@
     }
 
 </script>
+
 <!-- Github buttons -->
 <script async defer src="{{ asset('assets') }}/js/buttons.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
