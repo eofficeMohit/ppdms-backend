@@ -9,6 +9,7 @@ use App\Models\Booth;
 use App\Models\Event;
 use App\Models\ElectionInfo;
 use App\Models\EventTimeslot;
+use App\Models\PolledDetail;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
@@ -170,11 +171,12 @@ class CommonApiController extends BaseController
                     ]);
 
                     if($validator->fails()){
-                        // dd('yes');
+
                         return $this->sendError('Validation Error.', $validator->errors());
                     }
                    $check_user_booth= Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->exists();
-                    if($check_user_booth === true){
+                   $success=array();
+                   if($check_user_booth === true){
                         $data = $request->all();
                             //next event check
                             $next_event_id=$request->event_id+1;
@@ -220,48 +222,63 @@ class CommonApiController extends BaseController
                                 }
                             }
 
-                            if($request->has('event_id') && $request->event_id=='6'){
-                                $validator = Validator::make($request->all(), [
-                                    'voting' => 'required|numeric'
-                                ]);
+                            if($request->has('event_id') &&  $request->event_id=='6'){
 
-                                if($validator->fails()){
-                                    return $this->sendError('Validation Error.', $validator->errors());
-                                }
-
-
-                                //todo's check's pending
+                                $selected_slot="";
                                 $get_event_timeSlots= EventTimeslot::where('event_id','6')->where('status','1')->get();
 
+                                // timeslot occurence
                                 foreach ($get_event_timeSlots as $key => $timeSlot) {
-                                    $check_time=$this->checkIfTimeExist($timeSlot->start_time,$timeSlot->end_time);
-                                    // dd($timeSlot->start_time);
-                                    if($check_time){
-                                        echo 'In Between'.$check_time.'</br>';
-                                    }else{
-                                        echo 'In Not Between'.$check_time.'</br>';
+
+                                    $dt = new DateTime();
+                                    $current_time = $dt->format('H:i:s');
+
+                                    if($timeSlot->start_time < $current_time && $current_time <=$timeSlot->end_time){
+                                        $selected_slot=$timeSlot->end_time;
+                                        // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                                     }
                                 }
+                                $user_booth=Booth::with('assembly')->where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
+                                $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
+                                ->where('assemble_id',$request->assemble_id)->latest()->first();
+                                $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('id',$request->booth_id)
+                                        ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
+                                if(!empty($selected_slot)){
+                                    $success['events']['assembly_name']=$user_booth->assembly->asmb_name ?? '';
+                                    $success['events']['booth_name']=$user_booth->booth_name;
+                                    $success['events']['total_voters']=$user_booth->tot_voters ?? '';
+                                    $success['events']['last_vote_polled']=$total_vote_polled ?? '';
+                                    $success['events']['last_vote_polled_time']=$poll_details ? $poll_details->date_time_received->format('h:i a') : '';
+                                    $success['events']['votes_polled_till']=$selected_slot ?? 'Slot not available';
 
-                                //todos
+                                    return $this->sendResponse($success, 'Event occurs in '.$selected_slot.' time slot.');
+                                }else{
+                                    return $this->sendResponse($success, 'No,slot available.');
+                                }
                             }
-// die;
+
+
 
                             if($request->has('event_id') && $request->event_id=='7'){
-                                $validator = Validator::make($request->all(), [
-                                    'voting' => 'required|numeric',
-                                    // 'voting_last_updated' => 'required|before:18:00'
 
-                                ]);
+                                $user_booth=Booth::with('assembly')->where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
+                                $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())
+                                ->where('booth_id',$request->booth_id)->where('assemble_id',$request->assemble_id)->latest()->first();
+                                $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
+                                        ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
 
-                                if($validator->fails()){
-                                    return $this->sendError('Validation Error.', $validator->errors());
-                                }
 
-                                $data['status']=1;
-                                $data['voting_last_updated']=Carbon::now();
+                                $success['events']['assembly_name']=$user_booth->assembly->asmb_name ?? '';
+                                $success['events']['booth_name']=$user_booth->booth_name;
+                                $success['events']['total_voters']=$user_booth->tot_voters ?? '';
+                                $success['events']['votes_polled']=$total_vote_polled ?? '';
+                                $success['events']['remaining_votes']=$poll_details ? ($poll_details->polledBooth->tot_voters - $total_vote_polled) : '';
+                                $success['events']['last_updated']=$poll_details ? $poll_details->date_time_received->format('h:i a') : '';
+
+                                return $this->sendResponse($success, 'Event details for voter queue.');
                             }
-                            // dd($data);
+
+
                         $data['user_id']=\Auth::id();
                         $data = ElectionInfo::create($data);
 
@@ -287,18 +304,67 @@ class CommonApiController extends BaseController
           }
     }
 
-    public function checkIfTimeExist($fromTime, $toTime) {
+    public function updateTurnoutAndQueue(Request $request): JsonResponse
+    {
+        try {
+            if($request->bearerToken()){
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
 
-                $fromDateTime = DateTime::createFromFormat("H:i", $fromTime);
-                dd($fromDateTime);
-                $toDateTime = DateTime::createFromFormat('H:i', $toTime);
-                $currentTime= DateTime::createFromFormat('H:i', Carbon::now()->format('H:i'));
-                dd(DateTime::createFromFormat("H:i", $fromTime));
-                if ($fromDateTime> $toDateTime) $toDateTime->modify('+1 day');
-                return ($fromDateTime <= $currentTime&& $currentTime<= $toDateTime) || ($fromDateTime <= $currentTime->modify('+1 day') && $currentTime<= $toDateTime);
+                 /* Validate event Data */
+                $validator = Validator::make($request->all(), [
+                                    'voting' => 'required|numeric',
+                                    'event_id' => 'required|in:6,7',
+                                    'state_id' => 'required|numeric|exists:states,id',
+                                    'district_id' => 'required|numeric|exists:districts,id',
+                                    'booth_id' => 'required|numeric|exists:booths,id',
+                                    'assemble_id' => 'required|numeric|exists:assemblies,id',
+                                    // 'event_id' => 'required|numeric|exists:events,id',
+                                ]);
+                                // dd(request()->ip());
+                $data = $request->all();
+                $data['user_id']=\Auth::id();
+                $success[]=array();
+                // dd(Carbon::now()->format('h:i:s'));
+                if($request->has('event_id') && $request->event_id=='6'){
+                    $data['date_time_received']=now();
+                    $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
+                    $data['ip_host']=request()->ip();
+
+
+                    if(Carbon::now()->format('h:i:s') > '06:00:00'){
+                        $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
+                                        ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
+                        $data['voting']=$total_vote_polled;
+                        $data['voting_last_updated']=now();
+                        $data['status']=1;
+                        $data = ElectionInfo::create($data);
+                        $success=$data;
+                    }else{
+                        $data['vote_polled']=$request->voting;
+                        $data = PolledDetail::create($data);
+                        $success=$data;
+                    }
+
+                    return $this->sendResponse($success, 'Detail updated successfully.');
+                }
+
+                if($request->has('event_id') && $request->event_id=='7'){
+                    $data['voting_last_updated']=now();
+                    $data['status']=1;
+                    $data = ElectionInfo::create($data);
+                    $success=$data;
+                    return $this->sendResponse($success, 'Event updated successfully.');
+                }
+
+
+                if($validator->fails()){
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
             }
-
-            // $result=checkIfExist("08:00","18:00","09:00");
-            // echo $result; // output 1 - true
-
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
+        }
+    }
 }
