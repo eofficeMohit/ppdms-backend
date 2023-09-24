@@ -26,28 +26,24 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::model($state, ['method' => 'PATCH','route' => ['states.update', $state->id],'id'=>'state_manage_form']) !!}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>State Name:</strong>
                                         {!! Form::text('name', null, array('placeholder' => 'State Name','class' => 'form-control')) !!}
+                                        @error('name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>ST Code:</strong>
                                         {!! Form::text('st_code', null, array('placeholder' => 'ST Code','class' => 'form-control')) !!}
+                                        @error('st_code')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -57,10 +53,13 @@
                                             <option value="1" {{ $state->status == 1 ? 'selected' : ''}}>Active</option>
                                             <option value="0" {{ $state->status == 0 ? 'selected' : ''}}>In-Active</option>
                                         </select>
+                                        @error('status')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>

@@ -24,16 +24,6 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::model($election_info, ['method' => 'PATCH','route' => ['election-info.update', $election_info->id],'id'=>'elecInfoForm']) !!}
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -45,6 +35,9 @@
                                                     <option value="{{ $key }}" {{ $key == $election_info->state_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('state_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -56,6 +49,9 @@
                                                     <option value="{{ $key }}" {{ $key == $election_info->district_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('district_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -67,6 +63,9 @@
                                                     <option value="{{ $key }}" {{ $key == $election_info->assemble_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('assemble_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -78,6 +77,9 @@
                                                     <option value="{{ $key }}" {{ $key == $election_info->booth_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('booth_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -89,6 +91,9 @@
                                                     <option value="{{ $key }}" {{ $key == $election_info->event_id ? 'selected' : '' }}>{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('event_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     {{-- <div class="col-xs-12 col-sm-12 col-md-12"> --}}
@@ -112,6 +117,9 @@
                                         <div class="form-group">
                                             <strong>Voter Turnout:</strong>
                                             {!! Form::text('voting', null, array('placeholder' => 'Voting','class' => 'form-control')) !!}
+                                            @error('voting')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -121,11 +129,14 @@
                                                 <option value="1" {{ 1 == $election_info->status ? 'selected' : '' }}>ON</option>
                                                 <option value="0" {{ 0 == $election_info->status ? 'selected' : '' }}>OFF</option>
                                             </select>
+                                            @error('status')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="clearfix">
                                     </div>
-									<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="col-xs-6 col-sm-6 col-md-6 mt-2">
 										<button type="submit" class="btn btn-primary">Submit</button>
 									</div>
                                 </div>

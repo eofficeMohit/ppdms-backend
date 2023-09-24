@@ -16,7 +16,7 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        @can('district')
+                        @can('district-create')
                          <div class=" me-3 my-3 text-end">
                          <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New

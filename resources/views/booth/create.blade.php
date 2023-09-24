@@ -25,40 +25,42 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::open(array('route' => 'booth.store','method'=>'POST')) !!}
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Number:</strong>
                                             {!! Form::text('booth_no', null, array('placeholder' => 'Booth Number','class' => 'form-control')) !!}
+                                            @error('booth_no')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>  
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Total Voters:</strong>
                                             {!! Form::text('tot_voters', null, array('placeholder' => 'Total Voters','class' => 'form-control')) !!}
+                                            @error('tot_voters')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Name:</strong>
                                             {!! Form::text('booth_name', null, array('placeholder' => 'Booth Name','class' => 'form-control')) !!}
+                                            @error('booth_name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Name Uni:</strong>
                                             {!! Form::text('booth_name_uni', null, array('placeholder' => 'Booth Name Uni','class' => 'form-control')) !!}
+                                            @error('booth_name_uni')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -70,6 +72,9 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('state_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -78,6 +83,9 @@
                                             <select class="form-control" id="district_id" name="district_id">
                                             <option value="">Select District</option>
                                             </select>
+                                            @error('district_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -89,6 +97,9 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('assemble_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -100,30 +111,43 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('user_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Latitude:</strong>
                                             {!! Form::text('latitude', null, array('placeholder' => 'Booth Latitude','class' => 'form-control')) !!}
+                                            @error('latitude')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div> 
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Booth Longitude</strong>
                                             {!! Form::text('longitude', null, array('placeholder' => 'Booth Longitude','class' => 'form-control')) !!}
+                                            @error('longitude')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Status:</strong>
                                             <select class="form-control" name="status">
-                                                <option value="1">ON</option>
-                                                <option value="0">OFF</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">In-Active</option>
                                             </select>
+                                            @error('status')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="clearfix"></div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>

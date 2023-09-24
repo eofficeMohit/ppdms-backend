@@ -27,70 +27,87 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::open(array('route' => 'users.store','method'=>'POST','id'=>'add_user_form')) !!}
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Name:</strong>
                                             {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                            @error('name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Email:</strong>
                                             {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                                            @error('email')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Primary Phone:</strong>
                                             {!! Form::number('mobile_number', null, array('placeholder' => 'Primary Phone ','class' => 'form-control')) !!}
+                                            @error('mobile_number')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Secondary Phone:</strong>
                                             {!! Form::number('alternate_mobile', null, array('placeholder' => 'Secondary Phone ','class' => 'form-control')) !!}
+                                            @error('alternate_mobile')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Designation:</strong>
                                             {!! Form::text('designation', null, array('placeholder' => 'Designation','class' => 'form-control')) !!}
+                                            @error('designation')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Office Name:</strong>
                                             {!! Form::text('office_name', null, array('placeholder' => 'Office Name','class' => 'form-control')) !!}
+                                            @error('office_name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Department Name:</strong>
                                             {!! Form::text('dept_name', null, array('placeholder' => 'Department Name','class' => 'form-control')) !!}
+                                            @error('dept_name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>AC Code:</strong>
                                             {!! Form::text('ac_code', null, array('placeholder' => 'AC Code','class' => 'form-control')) !!}
+                                            @error('ac_code')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Other Name:</strong>
                                             {!! Form::text('other_name', null, array('placeholder' => 'Other Name','class' => 'form-control')) !!}
+                                            @error('other_name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -102,6 +119,9 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('state_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -110,6 +130,9 @@
                                             <select class="form-control" id="district_id" name="district_id">
                                                <option value="">Select District</option>
                                             </select>
+                                            @error('district_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -118,6 +141,9 @@
                                             <select class="form-control" id="assemble_id" name="assemble_id">
                                                 <option value="">Select Assembly</option>
                                             </select>
+                                            @error('assemble_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -125,18 +151,27 @@
                                         <div class="form-group">
                                             <strong>Password:</strong>
                                             {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control', 'id'=>'password')) !!}
+                                            @error('password')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Confirm Password:</strong>
                                             {!! Form::password('confirm_password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                                            @error('confirm_password')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Role:</strong>
                                             {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+                                            @error('role[]')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -146,10 +181,13 @@
                                                 <option value="1">Active</option>
                                                 <option value="0">In-Active</option>
                                             </select>
+                                            @error('status')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>

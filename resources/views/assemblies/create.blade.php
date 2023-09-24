@@ -26,16 +26,6 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::open(array('route' => 'assemblies.store','method'=>'POST')) !!}
                                 <div class="row">
                                     {{-- <div class="col-xs-6 col-sm-6 col-md-6">
@@ -48,12 +38,18 @@
                                         <div class="form-group">
                                             <strong>ASMB Code:</strong>
                                             {!! Form::text('asmb_code', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            @error('asmb_code')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>AC Type:</strong>
                                             {!! Form::text('ac_type', null, array('placeholder' => 'AC Type','class' => 'form-control')) !!}
+                                            @error('ac_type')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     {{-- <div class="col-xs-6 col-sm-6 col-md-6">
@@ -71,6 +67,9 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('state_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -79,6 +78,9 @@
                                             <select class="form-control" id="district_id" name="district_id">
                                             <option value="">Select District</option>
                                             </select>
+                                            @error('district_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -90,18 +92,27 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('pc_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>ASMB Name:</strong>
                                             {!! Form::text('asmb_name', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            @error('asmb_name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>AC Name Uni:</strong>
                                             {!! Form::text('ac_name_uni', null, array('placeholder' => 'ASMB Code','class' => 'form-control')) !!}
+                                            @error('ac_name_uni')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -111,6 +122,9 @@
                                                 <option value="1">Active</option>
                                                 <option value="0">In-Active</option>
                                             </select>
+                                            @error('status')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
