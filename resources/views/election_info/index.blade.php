@@ -12,13 +12,15 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white mx-3"><strong>Election Info Add, Edit, Delete and listings features are
-                                        functional!</strong></h6>
+                                        functional! </strong></h6>
                             </div>
                         </div>
+                        @can('election_info-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New E-Info</a>
                         </div>
+                        @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
                                 <p>{{ $message }}</p>
@@ -28,7 +30,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -60,94 +62,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $election)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $election->electionEvent->event_name }}</p>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $election->electionBooth->booth_name }}</p>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $election->electionAssembly->asmb_name }}</p>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $election->electionDistrict->name }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">{{ $election->electionState->name }}</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $election->voting }}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <label class="switch">
-                                                <input data-id="{{ $election->id }}" class="toggle_state_cls_election" type="checkbox" {{ $election->status ? 'checked' : '' }}>
-                                                <span class="slider round"></span>
-                                                </label>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                    href="{{ route('election-info.show',$election->id) }}" data-original-title="show E-Info"
-                                                    title="Show Election Info">
-                                                    <i class="material-icons">visibility</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-												<a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('election-info.edit',$election->id) }}" data-original-title="Edit E-Info"
-                                                    title="Edit Election Info">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['election-info.destroy', $election->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3"></td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex text-center">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">No Record's Found.</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,3 +74,55 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('election_info-delete') }}";
+    var permission_edit = "{{ checkPermission('election_info-edit') }}";
+    $(function () {
+        var table = $('#empTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('election.getdatatabledata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'event', name: 'event'},
+                    {data: 'booth', name: 'booth'},
+                    {data: 'asmb', name: 'asmb'},
+                    {data: 'district', name: 'district'},
+                    {data: 'state', name: 'state'},
+                    {data: 'voting', name: 'voting'},
+                    {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked ="";
+                        if(data == 1){
+                          checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_election" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                    },
+                    {
+                        data: 'action', 
+                        name: 'action', 
+                        orderable: false, 
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="election-info/show/'+full.id+'" data-original-title="Show E-Info" title="Show E-Info"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if(permission_edit == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="election-info/edit/'+full.id+'" data-original-title="Edit E-Info" title="Edit E-Info"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if(permission_delete == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="election-info/destroy/'+full.id+'" data-original-title="Delete E-Info" title="Delete E-Info"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            }
+                            return btn;
+                        }
+                    },
+                ]
+            });
+        });
+    
+   </script>

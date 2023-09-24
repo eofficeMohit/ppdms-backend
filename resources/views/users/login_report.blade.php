@@ -21,7 +21,7 @@
                         @endif
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -52,79 +52,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {{-- {{dd($data)}} --}}
-                                        @foreach ($data as $key => $user)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex px-2 py-1">
-                                                        {{$user->user->name}}
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $user->last_login ?? 'N/A'}}</p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $user->last_logout ?? 'N/A'}}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ $user->ip_address }} 
-                                                    {{-- @if(!empty($user->getRoleNames()))
-                                                        @foreach($user->getRoleNames() as $v)
-                                                        <label class="badge badge-success" style="color:black">{{ $v }}</label>
-                                                        @endforeach
-                                                    @endif --}}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->device_type }}</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                 @if($user->status ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Login</span>
-                                                @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">Logout</span>
-                                                @endif
-                                            </td>
-                                            {{-- <td class="align-middle">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('users.show',$user->id) }}" data-original-title="show User"
-                                                title="show User">
-                                                <i class="material-icons">visibility</i>
-                                                <div class="ripple-container"></div>
-                                                </a>
-                                                @can('user-edit')
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('users.edit',$user->id) }}" data-original-title="Edit User"
-                                                    title="Edit User">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @endcan
-                                                @can('user-delete')
-                                                {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                                @endcan
-                                            </td> --}}
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,5 +62,36 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    $(function () {
+        var table = $('#empTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('user.getuserlogindata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'last_login', name: 'last_login'},
+                    {data: 'last_logout', name: 'last_logout'},
+                    {data: 'ip_address', name: 'ip_address'},
+                    {data: 'device_type', name: 'device_type'},
+                    {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var btn ='<span class=" text-xs font-weight-bold badge bg-success">Logout</span>';
+                        if(data == 1){
+                            btn = '<span class=" text-xs font-weight-bold badge bg-warning">Login</span>';
+                        }
+                        return btn;
+                    }
+                    },
+                ]
+            });
+        }); 
+   </script>

@@ -8,6 +8,7 @@ use App\Models\Booth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 
 
 class AssemblyController extends Controller
@@ -17,9 +18,23 @@ class AssemblyController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Assembly::with(['state','parliament'])->latest()->paginate(20);
-        return view('assemblies.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('assemblies.index');
     }
+    public function getAssemblyTableData(){
+        $assembly = Assembly::with(['state','parliament'])->get();
+        return Datatables::of($assembly)
+             ->addIndexColumn()
+             ->addColumn('st_code', function($row){
+                return $row->state->st_code;
+                })
+            ->addColumn('pc_type', function($row){
+                return $row->parliament->pc_type;
+                })
+            ->addColumn('pc_no', function($row){
+                return $row->parliament->pc_no;
+                })
+             ->make();
+     }
 
     /**
      * Show the form for creating a new resource.

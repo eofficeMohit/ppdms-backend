@@ -8,13 +8,19 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Validator;
 use Illuminate\Http\Response;
+use DataTables;
 
 class DashboardSettingsController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = DashboardSettings::latest()->paginate(20);
-        return view('dashboard_settings.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('dashboard_settings.index');
+    }
+    public function getDBSettingsData(){
+        $data = DashboardSettings::get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->make();
     }
 
     public function create(): View

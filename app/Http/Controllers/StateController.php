@@ -6,14 +6,21 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 
 class StateController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = State::latest()->paginate(20);
-        return view('state.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('state.index');
     }
+
+    public function getStateData(){
+        $assembly = State::get();
+        return Datatables::of($assembly)
+             ->addIndexColumn()
+             ->make();
+     }
 
         /**
      * Show the form for creating a new resource.

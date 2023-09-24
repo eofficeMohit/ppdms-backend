@@ -209,7 +209,7 @@ jQuery(document).ready(function() {
         }
     });
 });
-jQuery('.toggle_state_cls_assemble').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_assemble', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -232,7 +232,7 @@ jQuery('.toggle_state_cls_assemble').on('change', function() {
     });
 });
 
-jQuery('.toggle_state_cls_booth').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_booth', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -254,7 +254,7 @@ jQuery('.toggle_state_cls_booth').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_user').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_user', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -276,7 +276,7 @@ jQuery('.toggle_state_cls_user').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_parliament').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_parliament', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -298,7 +298,7 @@ jQuery('.toggle_state_cls_parliament').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_event').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_event', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -320,7 +320,7 @@ jQuery('.toggle_state_cls_event').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_election').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_election', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -342,7 +342,7 @@ jQuery('.toggle_state_cls_election').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_state').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_state', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -364,7 +364,7 @@ jQuery('.toggle_state_cls_state').on('change', function() {
         console.error(error);
     });
 });
-jQuery('.toggle_state_cls_district').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_district', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request
@@ -386,8 +386,7 @@ jQuery('.toggle_state_cls_district').on('change', function() {
         console.error(error);
     });
 });
-
-jQuery('.toggle_state_cls_settings').on('change', function() {
+jQuery(document).on('change', '.toggle_state_cls_settings', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
     // Make an AJAX request

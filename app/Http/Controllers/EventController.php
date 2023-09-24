@@ -9,14 +9,22 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Validator;
 use Illuminate\Http\Response;
+use DataTables;
+
 
 class EventController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = Event::latest()->paginate(20);
-        return view('events.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('events.index');
     }
+
+    public function getEventData(){
+        $events = Event::get();
+        return Datatables::of($events)
+             ->addIndexColumn()
+             ->make();
+     }
 
     /**
      * Show the form for creating a new resource.

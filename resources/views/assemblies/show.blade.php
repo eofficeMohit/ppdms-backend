@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $assembly->st_code }}
+                                        {{ $assembly->state->st_code }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $assembly->pc_type }}
+                                        {{ $assembly->parliament->pc_type }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
                                     <div class="form-group">
-                                        {{ $assembly->pc_no }}
+                                        {{ $assembly->parliament->pc_no }}
                                     </div>
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">

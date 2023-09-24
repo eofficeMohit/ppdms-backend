@@ -7,15 +7,24 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 
 class DistrictController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = District::with('state')->latest()->paginate(20);
-        return view('district.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('district.index');
     }
-        /**
+    public function getDistrictTableData(){
+        $district = District::with('state')->get();
+        return Datatables::of($district)
+             ->addIndexColumn()
+             ->addColumn('state', function($row){
+                return $row->state->name;
+                })
+             ->make();
+     }
+     /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -52,7 +61,7 @@ class DistrictController extends Controller
         $states = State::pluck('name','id')->all();
         return view('district.edit',compact('district','states'));
     }
-
+   
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [

@@ -60,7 +60,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                @if($eventslots)
+                                @if(!empty($eventslots))
                                 <div id="time-slots">
                                     @foreach($eventslots as $key => $value)
                                     <div class="row mb-2">
@@ -134,8 +134,6 @@
 </x-layout>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	var today = new Date().toISOString().slice(0, 16);
-	document.getElementsByClassName("start_date")[0].min = today;
 	function addTimeSlot() {
 		const timeSlots = document.getElementById('time-slots');
 		const newRow = document.createElement('div');

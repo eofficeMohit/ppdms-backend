@@ -30,7 +30,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -45,102 +45,12 @@
                                                 Event Sequence</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Event Started At</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Event Ended At </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $event)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $event->event_name }}</p>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $event->event_sequence }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">{{ $event->start_date_time }}</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">{{ $event->end_date_time }}</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <label class="switch">
-                                                <input data-id="{{ $event->id }}" class="toggle_state_cls_event" type="checkbox" {{ $event->status ? 'checked' : '' }}>
-                                                <span class="slider round"></span>
-                                                </label>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                    href="{{ route('event.show',$event->id) }}" data-original-title="show event"
-                                                    title="Show Event">
-                                                    <i class="material-icons">visibility</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @can('event-edit')
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('event.edit',$event->id) }}" data-original-title="Edit Event"
-                                                    title="Edit Event">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @endcan
-                                                @can('event-delete')
-                                                {!! Form::open(['method' => 'DELETE','route' => ['event.destroy', $event->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3"></td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex text-center">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">No Record's Found.</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,3 +62,51 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('election_info-delete') }}";
+    var permission_edit = "{{ checkPermission('election_info-edit') }}";
+    $(function () {
+        var table = $('#empTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('event.getdatatabledata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'event_name', name: 'event_name'},
+                    {data: 'event_sequence', name: 'event_sequence'},
+                    {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked ="";
+                        if(data == 1){
+                          checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_event" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                    },
+                    {
+                        data: 'action', 
+                        name: 'action', 
+                        orderable: false, 
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="event/show/'+full.id+'" data-original-title="Show Event" title="Show Event"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if(permission_edit == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="event/edit/'+full.id+'" data-original-title="Edit Event" title="Edit Event"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if(permission_delete == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="event/destroy/'+full.id+'" data-original-title="Delete Event" title="Delete Event"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            }
+                            return btn;
+                        }
+                    },
+                ]
+            });
+        }); 
+   </script>
+

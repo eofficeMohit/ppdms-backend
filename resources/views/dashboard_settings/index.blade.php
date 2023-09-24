@@ -15,7 +15,7 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        @can('settings-add')
+                        @can('settings-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('dashboard-settings.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add Settings</a>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -47,72 +47,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $settings)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">{{ $settings->name }}</p>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <label class="switch">
-                                                <input data-id="{{ $settings->id }}" class="toggle_state_cls_settings" type="checkbox" {{ $settings->status ? 'checked' : '' }}>
-                                                <span class="slider round"></span>
-                                                </label>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                    href="{{ route('dashboard-settings.show',$settings->id) }}" data-original-title="Show Settings"
-                                                    title="Show Settings">
-                                                    <i class="material-icons">visibility</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @can('settings-edit')
-												<a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('dashboard-settings.edit',$settings->id) }}" data-original-title="Edit Settings"
-                                                    title="Edit Settings">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @endcan
-                                                @can('settings-edit')
-                                                {!! Form::open(['method' => 'DELETE','route' => ['dashboard-settings.destroy', $settings->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3"></td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex text-center">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">No Record's Found.</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
                                 </table>
-                                @if(! $data->isEmpty())
-                                    <div class="d-flex justify-content-center">
-                                        {{ $data->links() }}
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -124,3 +59,49 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('settings-delete') }}";
+    var permission_edit = "{{ checkPermission('settings-edit') }}";
+    $(function () {
+        var table = $('#empTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('dashboard-settings.getdatatabledata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked ="";
+                        if(data == 1){
+                          checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_settings" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                    },
+                    {
+                        data: 'action', 
+                        name: 'action', 
+                        orderable: false, 
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="dashboard-settings/show/'+full.id+'" data-original-title="Show Dashboard Settings" title="Show Dashboard Settings"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if(permission_edit == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="dashboard-settings/edit/'+full.id+'" data-original-title="Edit Dashboard Settings" title="Edit Dashboard Settings"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if(permission_delete == "granted"){ 
+                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="dashboard-settings/destroy/'+full.id+'" data-original-title="Delete Dashboard Settings" title="Delete Dashboard Settings"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            }
+                            return btn;
+                        }
+                    },
+                ]
+            });
+        }); 
+   </script>

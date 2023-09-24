@@ -15,7 +15,7 @@ class PermissionTableSeeder extends Seeder
     {
         $permissions = [
 		   'settings-list',
-		   'settings-add',
+		   'settings-create',
 		   'settings-edit',
 		   'settings-delete',
 		   'permission-list',

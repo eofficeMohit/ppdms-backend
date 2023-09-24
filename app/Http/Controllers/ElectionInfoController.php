@@ -12,6 +12,7 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
       
 class ElectionInfoController extends Controller
 {
@@ -20,8 +21,29 @@ class ElectionInfoController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->latest()->paginate(20);
-        return view('election_info.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+                return view('election_info.index');
+    }
+
+    public function getElectionInfoData(){
+        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('state', function($row){
+                return $row->electionState->name;
+                })
+            ->addColumn('district', function($row){
+                return $row->electionDistrict->name;
+                })
+            ->addColumn('event', function($row){
+                return $row->electionEvent->event_name;
+                })
+            ->addColumn('asmb', function($row){
+                return $row->electionAssembly->asmb_name;
+                })
+            ->addColumn('booth', function($row){
+                return $row->electionBooth->booth_name;
+                })
+             ->make();
     }
 
     /**
