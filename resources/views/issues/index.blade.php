@@ -73,6 +73,8 @@
     var $ = jQuery.noConflict();
     $(function() {
         var table = $('#empTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
             processing: true,
             serverSide: true,
             order: [
@@ -130,5 +132,7 @@
                 },
             ]
         });
+        table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
     });
 </script>

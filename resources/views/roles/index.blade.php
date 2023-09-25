@@ -63,6 +63,8 @@
     var permission_edit = "{{ checkPermission('role-edit') }}";
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
@@ -72,9 +74,9 @@
                     {data: 'name', name: 'name'},
                     {data: 'created_at', name: 'created_at'},
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="roles/'+full.id+'" data-original-title="Show Role" title="Show Role"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
@@ -83,13 +85,15 @@
                             }
                             if(permission_delete == "granted"){
                                 btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="role/delete/'+full.id+'" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                            } 
+                            }
                             return btn;
                         }
                     },
                 ]
             });
-        }); 
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+        });
    </script>
- 
+
 

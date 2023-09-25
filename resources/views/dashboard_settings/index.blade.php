@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-12">  
+                <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -28,7 +28,7 @@
                         @endif
                         <div class="cus_msg_div">
                         </div>
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -86,16 +86,16 @@
                     }
                     },
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="dashboard-settings/show/'+full.id+'" data-original-title="Show Dashboard Settings" title="Show Dashboard Settings"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
                             if(permission_edit == "granted"){
                                 btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="dashboard-settings/edit/'+full.id+'" data-original-title="Edit Dashboard Settings" title="Edit Dashboard Settings"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                             }
-                            if(permission_delete == "granted"){ 
+                            if(permission_delete == "granted"){
                                 btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="dashboard-settings/destroy/'+full.id+'" data-original-title="Delete Dashboard Settings" title="Delete Dashboard Settings"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                             }
                             return btn;
@@ -103,5 +103,5 @@
                     },
                 ]
             });
-        }); 
+        });
    </script>
