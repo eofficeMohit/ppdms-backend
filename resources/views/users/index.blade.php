@@ -29,7 +29,7 @@
                         @endif
                         <div class="cus_msg_div">
                         </div>
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -81,6 +81,8 @@ var permission_edit = "{{ checkPermission('user-edit') }}";
     $(function () {
         var image = "{{ asset('assets') }}/img/team-2.jpg";
         var table = $('#empTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
@@ -122,9 +124,9 @@ var permission_edit = "{{ checkPermission('user-edit') }}";
                     }
                     },
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="users/'+full.id+'" data-original-title="Show User" title="Show User"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
@@ -139,5 +141,7 @@ var permission_edit = "{{ checkPermission('user-edit') }}";
                     },
                 ]
             });
-        }); 
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+        });
    </script>

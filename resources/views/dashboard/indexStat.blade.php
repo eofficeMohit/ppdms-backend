@@ -24,8 +24,7 @@
   const apiKey = '{{ env('GOOGLE_MAP_API_KEY') }}';
   var locations = <?php print_r(json_encode($locations)) ?>;
 
-  console.log(locations);
-// alert('hiihhihi');
+
   const customMapStyles = [
     {
         "featureType": "administrative.province",
@@ -213,7 +212,7 @@
         map: map,
         title: location.booth_name,
         icon: location.status ? "http://maps.google.com/mapfiles/ms/icons/red.png" : "http://maps.google.com/mapfiles/ms/icons/blue.png"
-        
+
       });
     }
   }

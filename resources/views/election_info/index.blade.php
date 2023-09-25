@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-12">  
+                <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -28,7 +28,7 @@
                         @endif
                         <div class="cus_msg_div">
                         </div>
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -80,6 +80,8 @@
     var permission_edit = "{{ checkPermission('election_info-edit') }}";
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
@@ -106,9 +108,9 @@
                     }
                     },
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="election-info/show/'+full.id+'" data-original-title="Show E-Info" title="Show E-Info"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
@@ -123,6 +125,8 @@
                     },
                 ]
             });
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
         });
-    
+
    </script>
