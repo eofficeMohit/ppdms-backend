@@ -16,11 +16,11 @@
                             </div>
                         </div>
                         @can('booth-create')
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Booth</a>
-                        </div>
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    Booth</a>
+                            </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -47,17 +47,19 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Booth Name</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Latitude</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Longitude</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -76,49 +78,77 @@
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('booth-delete') }}";
     var permission_edit = "{{ checkPermission('booth-edit') }}";
-    $(function () {
+    $(function() {
         var table = $('#empTable').DataTable({
-                processing: true,
-                serverSide: true,
-                pageLength: 25,
-                ajax: "{{ route('booth.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'asmb_name', name: 'asmb_name'},
-                    {data: 'tot_voters', name: 'tot_voters'},
-                    {data: 'booth_name', name: 'booth_name'},
-                    {data: 'latitude', name: 'latitude'},
-                    {data: 'longitude', name: 'longitude'},
-                    {
+            processing: true,
+            serverSide: true,
+            pageLength: 25,
+            ajax: "{{ route('booth.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'tot_voters',
+                    name: 'tot_voters'
+                },
+                {
+                    data: 'booth_name',
+                    name: 'booth_name'
+                },
+                {
+                    data: 'latitude',
+                    name: 'latitude'
+                },
+                {
+                    data: 'longitude',
+                    name: 'longitude'
+                },
+                {
                     data: 'status',
                     name: 'status',
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        var checked ="";
-                        if(data == 1){
-                          checked = "checked";
+                        var checked = "";
+                        if (data == 1) {
+                            checked = "checked";
                         }
-                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_booth" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_booth" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
                     }
-                    },
-                    {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
-                        searchable: false,
-                        render: function(data, type, full, meta) {
-                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="booth/show/'+full.id+'" data-original-title="Show Booth" title="Show Booth"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                            if(permission_edit == "granted"){ 
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="booth/edit/'+full.id+'" data-original-title="Edit Booth" title="Edit Booth"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-                            }
-                            if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="booth/destroy/'+full.id+'" data-original-title="Delete Booth" title="Delete Booth"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                            }
-                            return btn;
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="booth/show/' +
+                            full.id +
+                            '" data-original-title="Show Booth" title="Show Booth"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="booth/edit/' +
+                                full.id +
+                                '" data-original-title="Edit Booth" title="Edit Booth"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                         }
-                    },
-                ]
-            });
-        }); 
-   </script>
+                        if (permission_delete == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="booth/destroy/' +
+                                full.id +
+                                '" data-original-title="Delete Booth" title="Delete Booth"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                },
+            ]
+        });
+    });
+</script>
