@@ -164,9 +164,9 @@ class BoothController extends Controller
         $assigned_status = $input['params']['status'];
         Booth::where('id', $booth_id)
             ->update([
-                'assigned_to' => $assigned_to,           
-                'assigned_by' => $assigned_by, 
-                'assigned_status' => $assigned_status, 
+                'assigned_to' => $assigned_to,
+                'assigned_by' => $assigned_by,
+                'assigned_status' => $assigned_status,
             ]);
     }
     public function updateStatus(Request $request)

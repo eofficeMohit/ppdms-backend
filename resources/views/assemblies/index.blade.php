@@ -16,11 +16,11 @@
                             </div>
                         </div>
                         @can('assembly-create')
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Assembly</a>
-                        </div>
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    Assembly</a>
+                            </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -29,7 +29,7 @@
                         @endif
                         <div class="cus_msg_div">
                         </div>
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -45,7 +45,7 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB CODE</th>
-                                                <th
+                                            <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB Name</th>
                                             <th
@@ -62,7 +62,9 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -81,51 +83,88 @@
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('assembly-delete') }}";
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
-    $(function () {
+    $(function() {
         var table = $('#empTable').DataTable({
-                processing: true,
-                serverSide: true,
-                pageLength: 25,
-                ajax: "{{ route('assemblies.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'st_code', name: 'st_code'},
-                    {data: 'asmb_code', name: 'asmb_code'},
-                    {data: 'asmb_name', name: 'asmb_name'},
-                    {data: 'ac_type', name: 'ac_type'},
-                    {data: 'pc_type', name: 'pc_type'},
-                    {data: 'pc_no', name: 'pc_no'},
-                    {
+            dom: 'Bfrtip',
+            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 25,
+            ajax: "{{ route('assemblies.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'st_code',
+                    name: 'st_code'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'ac_type',
+                    name: 'ac_type'
+                },
+                {
+                    data: 'pc_type',
+                    name: 'pc_type'
+                },
+                {
+                    data: 'pc_no',
+                    name: 'pc_no'
+                },
+                {
                     data: 'status',
                     name: 'status',
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        var checked ="";
-                        if(data == 1){
-                          checked = "checked";
+                        var checked = "";
+                        if (data == 1) {
+                            checked = "checked";
                         }
-                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_assemble" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_assemble" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
                     }
-                    },
-                    {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
-                        searchable: false,
-                        render: function(data, type, full, meta) {
-                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/'+full.id+'" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                            if(permission_edit == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/'+full.id+'" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-                            }
-                            if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="assemblies/destroy/'+full.id+'" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                            }
-                            return btn;
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
+                            full.id +
+                            '" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
+                                full.id +
+                                '" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                         }
-                    },
-                ]
-            });
-        }); 
-   </script>
- 
+                        if (permission_delete == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="assemblies/destroy/' +
+                                full.id +
+                                '" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                },
+            ]
+        });
+        table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+    });
+</script>

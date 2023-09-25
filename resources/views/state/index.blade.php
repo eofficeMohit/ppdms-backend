@@ -21,7 +21,7 @@
                          <a class="btn bg-gradient-dark mb-0" href="{{ route('states.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 State</a>
-                        </div>   
+                        </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -29,8 +29,8 @@
                             </div>
                         @endif
                         <div class="cus_msg_div">
-                        </div> 
-                        <div class="card-body px-0 pb-2">
+                        </div>
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -45,7 +45,7 @@
                                                 <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 STATE CODE</th>
-                                            
+
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
@@ -74,6 +74,8 @@
     var permission_edit = "{{ checkPermission('state-edit') }}";
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
@@ -96,9 +98,9 @@
                     }
                     },
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="states/'+full.id+'" data-original-title="Show State" title="Show State"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
@@ -113,6 +115,8 @@
                     },
                 ]
             });
-        }); 
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+        });
    </script>
 

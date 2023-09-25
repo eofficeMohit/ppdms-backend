@@ -93,5 +93,5 @@
                     {data: 'notification_for', name: 'notification_for'},
                 ]
             });
-        }); 
+        });
    </script>

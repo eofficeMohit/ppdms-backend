@@ -27,7 +27,7 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
@@ -46,7 +46,7 @@
                                             <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                                         </tr>
                                     </thead>
-                                    
+
                                 </table>
                             </div>
                         </div>
@@ -65,6 +65,8 @@
     var permission_edit = "{{ checkPermission('permission-edit') }}";
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
@@ -74,9 +76,9 @@
                     {data: 'name', name: 'name'},
                     {data: 'created_at', name: 'created_at'},
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="permissions/'+full.id+'" data-original-title="Show Permission" title="Show Permission"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
@@ -91,5 +93,7 @@
                     },
                 ]
             });
-        }); 
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+        });
    </script>
