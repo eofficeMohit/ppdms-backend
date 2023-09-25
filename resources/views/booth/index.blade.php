@@ -82,6 +82,9 @@
         var table = $('#empTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
             pageLength: 25,
             ajax: "{{ route('booth.getdatatabledata') }}",
             columns: [{
@@ -111,7 +114,7 @@
                 {
                     data: 'status',
                     name: 'status',
-                    orderable: false,
+                    orderable: true,
                     searchable: false,
                     render: function(data, type, full, meta) {
                         var checked = "";
@@ -126,7 +129,7 @@
                 {
                     data: 'action',
                     name: 'action',
-                    orderable: false,
+                    orderable: true,
                     searchable: false,
                     render: function(data, type, full, meta) {
                         var btn =

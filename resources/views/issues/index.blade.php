@@ -49,11 +49,11 @@
                                                 ERROR MESSAGE</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                CREATED ON  
+                                                CREATED ON
                                             </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ERROR STATUS  
+                                                ERROR STATUS
                                             </th>
                                         </tr>
                                     </thead>
@@ -71,38 +71,64 @@
 </x-layout>
 <script type="text/javascript">
     var $ = jQuery.noConflict();
-    $(function () {
+    $(function() {
         var table = $('#empTable').DataTable({
-                processing: true,
-                serverSide: true,
-                pageLength: 25,
-                ajax: "{{ route('issue-management.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'code', name: 'code'},
-                    {data: 'user_name', name: 'user_name'},
-                    {data: 'file', name: 'file'},
-                    {data: 'line', name: 'line'},
-                    {data: 'message', name: 'message'},
-                    {data: 'created_at', name: 'created_at'},
-                    {
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 25,
+            ajax: "{{ route('issue-management.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'code',
+                    name: 'code'
+                },
+                {
+                    data: 'user_name',
+                    name: 'user_name'
+                },
+                {
+                    data: 'file',
+                    name: 'file'
+                },
+                {
+                    data: 'line',
+                    name: 'line'
+                },
+                {
+                    data: 'message',
+                    name: 'message'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
                     data: 'status',
                     name: 'status',
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        var checked ='';
-                        if(data == 0){
-                          checked = '<span class=" text-xs font-weight-bold badge bg-warning">Pending</span>';
-                        } else if(data == 1){
-                            checked = '<span class=" text-xs font-weight-bold badge bg-warning"> In-progress</span>';
+                        var checked = '';
+                        if (data == 0) {
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-warning">Pending</span>';
+                        } else if (data == 1) {
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-warning"> In-progress</span>';
                         } else {
-                            checked ='<span class=" text-xs font-weight-bold badge bg-success">Resolved</span>';
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-success">Resolved</span>';
                         }
                         return checked;
                     }
-                    },
-                ]
-            });
-        }); 
-   </script>
+                },
+            ]
+        });
+    });
+</script>
