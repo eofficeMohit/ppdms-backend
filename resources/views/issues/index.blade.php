@@ -22,7 +22,7 @@
                         @endif
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -49,72 +49,15 @@
                                                 ERROR MESSAGE</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                CREATED ON  
+                                                CREATED ON
                                             </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ERROR STATUS  
+                                                ERROR STATUS
                                             </th>
-                                            {{-- <th 
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Login Status
-                                            </th> --}}
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {{-- {{dd($data)}} --}}
-                                        @foreach ($data as $key => $issue)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex px-2 py-1">
-                                                        {{$issue->code}}
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex px-2 py-1">
-                                                        {{$issue->user->name ?? 'guest'}}
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm issue-table">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <p class="mb-0 text-sm">  {{ $issue->file }} </p>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $issue->line ?? 'N/A'}}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ $issue->message }} 
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $issue->created_at }}</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                 @if($issue->status ===0)
-                                                    <span class=" text-xs font-weight-bold badge bg-warning">Pending</span>
-                                                @elseif($issue->status ===1)
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-progress</span>
-                                                @elseif($issue->status ===2)
-                                                <span class=" text-xs font-weight-bold badge bg-success">Resolved</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,3 +69,66 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    $(function() {
+        var table = $('#empTable').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 25,
+            ajax: "{{ route('issue-management.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'code',
+                    name: 'code'
+                },
+                {
+                    data: 'user_name',
+                    name: 'user_name'
+                },
+                {
+                    data: 'file',
+                    name: 'file'
+                },
+                {
+                    data: 'line',
+                    name: 'line'
+                },
+                {
+                    data: 'message',
+                    name: 'message'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked = '';
+                        if (data == 0) {
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-warning">Pending</span>';
+                        } else if (data == 1) {
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-warning"> In-progress</span>';
+                        } else {
+                            checked =
+                                '<span class=" text-xs font-weight-bold badge bg-success">Resolved</span>';
+                        }
+                        return checked;
+                    }
+                },
+            ]
+        });
+    });
+</script>

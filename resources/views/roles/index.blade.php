@@ -29,7 +29,7 @@
                         @endif
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -46,60 +46,7 @@
                                             <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($roles as $key => $role)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ $role->name }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ $role->created_at }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle">
-                                                @can('role-show')
-                                                    <a rel="tooltip" class="btn btn-info btn-link"
-                                                    href="{{ route('roles.show',$role->id) }}" data-original-title="show Role"
-                                                    title="show User">
-                                                    <i class="material-icons">visibility</i>
-                                                    <div class="ripple-container"></div>
-                                                    </a>
-                                                @endcan
-                                                 @can('role-edit')
-                                                    <a rel="tooltip" class="btn btn-success btn-link"
-                                                        href="{{ route('roles.edit',$role->id) }}" data-original-title="Edit Role"
-                                                        title="Edit User">
-                                                        <i class="material-icons">edit</i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                @endcan
-                                                @can('role-delete')
-                                                    {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                                        {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                    {!! Form::close() !!}
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $roles->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -109,6 +56,40 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('role-delete') }}";
+    var permission_edit = "{{ checkPermission('role-edit') }}";
+    $(function () {
+        var table = $('#empTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('role.getdatatabledata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'created_at', name: 'created_at'},
+                    {
+                        data: 'action', 
+                        name: 'action', 
+                        orderable: false, 
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="roles/'+full.id+'" data-original-title="Show Role" title="Show Role"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if(permission_edit == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="roles/'+full.id+'/edit" data-original-title="Edit Role" title="Edit Role"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if(permission_delete == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="role/delete/'+full.id+'" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            } 
+                            return btn;
+                        }
+                    },
+                ]
+            });
+        }); 
+   </script>
+ 
 

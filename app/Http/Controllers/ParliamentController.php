@@ -7,6 +7,7 @@ use App\Models\Parliament;
 use Illuminate\View\View;
 use App\Models\State;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 
 class ParliamentController extends Controller
 {
@@ -17,10 +18,18 @@ class ParliamentController extends Controller
      */
     public function index(Request $request): View
     {
-        $parliaments = Parliament::with(['state'])->orderBy('id','DESC')->paginate(10);
-        return view('parliament.index',compact('parliaments'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('parliament.index');
     }
+
+    public function getParliamentData(){
+        $parliament = Parliament::with('state')->get();
+        return Datatables::of($parliament)
+             ->addIndexColumn()
+             ->addColumn('state', function($row){
+                return $row->state->name;
+                })
+             ->make();
+     }
 
     public function create()
     {

@@ -10,7 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-  
+use DataTables;
+
 class BoothController extends Controller
 {
     /**
@@ -18,10 +19,17 @@ class BoothController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Booth::with('assembly')->latest()->paginate(20);
-        return view('booth.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('booth.index');
     }
-
+    public function getBoothTableData(){
+        $booth = Booth::with('assembly')->get();
+        return Datatables::of($booth)
+            ->addIndexColumn()
+            ->addColumn('asmb_name', function($row){
+                return $row->assembly->asmb_name;
+                })
+             ->make();
+     }
     /**
      * Show the form for creating a new resource.
      */
@@ -156,9 +164,9 @@ class BoothController extends Controller
         $assigned_status = $input['params']['status'];
         Booth::where('id', $booth_id)
             ->update([
-                'assigned_to' => $assigned_to,           
-                'assigned_by' => $assigned_by, 
-                'assigned_status' => $assigned_status, 
+                'assigned_to' => $assigned_to,
+                'assigned_by' => $assigned_by,
+                'assigned_status' => $assigned_status,
             ]);
     }
     public function updateStatus(Request $request)

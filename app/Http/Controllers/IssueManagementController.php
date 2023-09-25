@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ErrorLog;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 class IssueManagementController extends Controller
 {
     /**
@@ -13,7 +14,23 @@ class IssueManagementController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = ErrorLog::with('user')->latest()->paginate(20);
-        return view('issues.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('issues.index');
+    }
+    public function getIssueManagementData(){
+        $data = ErrorLog::with('user')->get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('user_name', function($row){
+                $username= "guest";
+                if($row->user->name){
+                    $username = $row->user->name;
+                }
+                return $username;
+                })
+                ->addColumn('created_at', function($row){
+                    $created_at= date('Y-m-d H:i:s', strtotime($row->created_at));
+                    return $created_at;
+                    })
+             ->make();
     }
 }

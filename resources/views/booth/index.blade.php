@@ -16,11 +16,11 @@
                             </div>
                         </div>
                         @can('booth-create')
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Booth</a>
-                        </div>
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    Booth</a>
+                            </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -47,126 +47,22 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Booth Name</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Latitude</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Longitude</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                      
-                                    @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $booth)
-                                        <tr>
-                                            
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{  $booth->assembly->asmb_name.'('.$booth->assembly->asmb_code.')'}}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            {{-- <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_no }}</h6>
-
-                                                </div>
-                                            </td> --}}
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $booth->tot_voters }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_name }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            {{-- <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $booth->booth_name }}
-                                                </p>
-                                            </td> --}}
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->latitude }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->longitude }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                    <label class="switch">
-                                                    <input data-id="{{ $booth->id }}" class="toggle_state_cls_booth" type="checkbox" {{ $booth->status ? 'checked' : '' }}>
-                                                    <span class="slider round"></span>
-                                                    </label>
-                                            </td>
-                                            <td class="align-middle">
-
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('booth.show',$booth->id) }}" data-original-title="show booth"
-                                                title="Show Assembly">
-                                                <i class="material-icons">visibility</i>
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                                @can('booth-edit')
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('booth.edit',$booth->id) }}" data-original-title="Edit booth"
-                                                    title="Edit Assembly">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                @endcan
-                                                @can('booth-delete')
-                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $booth->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3"></td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex text-center">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">No Record's Found.</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -178,3 +74,84 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('booth-delete') }}";
+    var permission_edit = "{{ checkPermission('booth-edit') }}";
+    $(function() {
+        var table = $('#empTable').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 25,
+            ajax: "{{ route('booth.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'tot_voters',
+                    name: 'tot_voters'
+                },
+                {
+                    data: 'booth_name',
+                    name: 'booth_name'
+                },
+                {
+                    data: 'latitude',
+                    name: 'latitude'
+                },
+                {
+                    data: 'longitude',
+                    name: 'longitude'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: true,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked = "";
+                        if (data == 1) {
+                            checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_booth" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="booth/show/' +
+                            full.id +
+                            '" data-original-title="Show Booth" title="Show Booth"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="booth/edit/' +
+                                full.id +
+                                '" data-original-title="Edit Booth" title="Edit Booth"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                        }
+                        if (permission_delete == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="booth/destroy/' +
+                                full.id +
+                                '" data-original-title="Delete Booth" title="Delete Booth"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                },
+            ]
+        });
+    });
+</script>

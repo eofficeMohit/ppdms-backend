@@ -3,18 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventTimeslot;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Validator;
+use Illuminate\Http\Response;
+use DataTables;
+
 
 class EventController extends Controller
 {
     public function index(Request $request) :View
     {
-        $data = Event::latest()->paginate(20);
+        $data = Event::with('timeSlots')->latest()->paginate(20);
         return view('events.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
+
+    public function getEventData(){
+        $events = Event::get();
+        return Datatables::of($events)
+             ->addIndexColumn()
+             ->make();
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -27,19 +38,51 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $this->validate($request, [
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
             'event_name' => 'required|unique:events,event_name',
             'event_sequence' => 'required|numeric|unique:events,event_sequence',
-            'start_date_time' => 'required',
-            'end_date_time' => 'required|after:event_start_date',
+            'start_date.*' => 'required',
+            'start_time.*' => 'required|date_format:H:i|unique:event_timeslots,start_time',
+            'end_time.*' => 'required|date_format:H:i|unique:event_timeslots,end_time|after:start_time.*',
             'status' => 'required|in:0,1'
         ]);
-        $input = $request->all();
-        $Events = Event::create($input);
-        return redirect()->route('events')
-                        ->with('success','Events created successfully');
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 200); // 400 being the HTTP code for an invalid request.
+        }
+        $events = Event::create([
+            'event_name' => $request['event_name'],
+            'event_sequence' => $request['event_sequence'],
+            'status' => $request['status'],
+        ]);
+
+        if($events) {
+            $start_time = $request['start_time'];
+            $end_time = $request['end_time'];
+            foreach($request['start_date'] as $key => $val){
+                $start_date = $val;
+                $start_time_key = $start_time[$key];
+                $end_time_key = $end_time[$key];
+                $eventsSlots = EventTimeslot::create([
+                    'event_id' => $events->id,
+                    'date' => $start_date,
+                    'start_time' => $start_time_key,
+                    'end_time' => $end_time_key,
+                    'status' => $request['status']
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'errors' => ""
+        ], 200);
     }
 
     /**
@@ -48,7 +91,8 @@ class EventController extends Controller
     public function show($id): View
     {
         $event = Event::where('id', $id)->first();
-        return view('events.show',compact('event'));
+        $eventslots = EventTimeslot::where('event_id', $id)->get();
+        return view('events.show',compact('event','eventslots'));
     }
 
     /**
@@ -57,26 +101,59 @@ class EventController extends Controller
     public function edit($id): View
     {
         $event = Event::find($id);
-        return view('events.edit',compact('event'));
+        $eventslots = EventTimeslot::where('event_id', $id)->get();
+        return view('events.edit',compact('event','eventslots'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'event_name' => 'required|unique:events,event_name,' . $id,
-            'event_sequence' => 'required|numeric|unique:events,event_sequence,' . $id,
-            'start_date_time' => 'required',
-            'end_date_time' => 'required|after:event_start_date',
+        $validator = Validator::make($request->all(), [
+            'event_name' => 'required|unique:events,event_name,'.$id,
+            'event_sequence' => 'required|numeric|unique:events,event_sequence,'.$id,
+            'start_date.*' => 'required',
+            'start_time.*' => 'required',
+            'end_time.*' => 'required|after:start_time.*',
             'status' => 'required|in:0,1'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 200); // 400 being the HTTP code for an invalid request.
+        }
         $input = $request->all();
         $event = Event::find($id);
-        $event->update($input);
-        return redirect()->route('events')
-                        ->with('success','Event updated successfully');
+        $event->update([
+            'event_name' => $input['event_name'],
+            'event_sequence' => $input['event_sequence'],
+            'status' => $input['status'],
+        ]);
+        EventTimeslot::where('event_id', $id)->delete();
+        if($id) {
+            $start_time = $request['start_time'];
+            $end_time = $request['end_time'];
+            foreach($request['start_date'] as $key => $val){
+                $start_date = $val;
+                $start_time_key = $start_time[$key];
+                $end_time_key = $end_time[$key];
+                $eventsSlots = EventTimeslot::create([
+                    'event_id' => $id,
+                    'date' => $start_date,
+                    'start_time' => $start_time_key,
+                    'end_time' => $end_time_key,
+                    'status' => $request['status']
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'errors' => ""
+        ], 200);
     }
 
     /**
@@ -86,7 +163,7 @@ class EventController extends Controller
     {
         Event::find($id)->delete();
         return redirect()->route('events')
-                        ->with('success','Eevnt deleted successfully');
+                        ->with('success','Event deleted successfully');
     }
     public function updateStatus(Request $request)
     {

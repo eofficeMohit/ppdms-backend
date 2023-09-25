@@ -13,6 +13,8 @@ use Hash;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;  
+use Illuminate\Support\Facades\Auth;
+use DataTables;
 class UserController extends Controller
 {
     /**
@@ -22,24 +24,58 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {   
-        $data = User::whereHas('roles', function ($query) {
-            return $query->where('name','!=', 'SO');
-        })->latest()->paginate(20);
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('users.index');
     }
 
 
     public function soIndex(Request $request): View
     {   
+        return view('users.so_index');
+    }
+
+    public function getSoUserTableData(){
         $data=array();
         if(Role::where('name','SO')->first()){
-            $data = User::role('SO')->latest()->paginate(20);
+            $data = User::role('SO')->get();
         }
-
-        return view('users.so_index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 20);
-    }
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('role', function($row){
+                $roles = array();
+                if(!empty($row->getRoleNames())){
+                    foreach($row->getRoleNames() as $v){
+                    $roles[]= $v;
+                    }
+                }
+                return $roles;
+            })
+            ->addColumn('created_at', function($row){
+                $created_at = date('Y-m-d',strtotime($row->created_at));
+                return $created_at;
+            })
+             ->make();
+     }
+     public function getUserTableData(){
+        $data = User::whereHas('roles', function ($query) {
+            return $query->where('name','!=', 'SO');
+        })->get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('role', function($row){
+                $roles = array();
+                if(!empty($row->getRoleNames())){
+                    foreach($row->getRoleNames() as $v){
+                    $roles[]= $v;
+                    }
+                }
+                return $roles;
+            })
+            ->addColumn('created_at', function($row){
+                $created_at = date('Y-m-d',strtotime($row->created_at));
+                return $created_at;
+            })
+             ->make();
+     }
     /**
      * Show the form for creating a new resource.
      *
@@ -151,10 +187,32 @@ class UserController extends Controller
     }
     public function loginReport(Request $request): View
     {   
-        $data = UserLogin::with('user')->latest()->paginate(20);
-        return view('users.login_report',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('users.login_report');
     }
+
+    public function getUserLoginData(){
+        $data = UserLogin::with('user')->get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('last_logout', function($row){
+                $logout = "N/A";
+                if($row->last_logout){
+                    $logout = $row->last_logout;
+                }
+                return $logout;
+            })
+            ->addColumn('name', function($row){
+                return $row->user->name;
+            })
+            ->addColumn('last_login', function($row){
+                $login = "N/A";
+                if($row->last_login){
+                    $login = $row->last_login;
+                }
+                return $login;
+            })
+             ->make();
+     }
     public function updateStatus(Request $request)
     {
         $user = User::find($request->id);
@@ -162,6 +220,16 @@ class UserController extends Controller
         $user->save();
         return response()->json(['success'=>'Status changed successfully.']);
 
+    }
+    public function checkPermission(Request $request, $permission)
+    {
+        $user = Auth::user();
+
+        if ($user->can($permission)) {
+            return response()->json(['allowed' => true,'msg'=>'granted']);
+        }
+
+        return response()->json(['allowed' => false,'msg'=>'denied']);
     }
 }
 ?>

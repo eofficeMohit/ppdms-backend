@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use DataTables;
+
 
 class NotificationController extends Controller
 {
@@ -13,9 +15,18 @@ class NotificationController extends Controller
      */
     public function index(Request $request) :View
     {
-        $data = Notification::with('user')->latest()->paginate(20);
-        return view('notifications.index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('notifications.index');
     }
+
+    public function getNotificationData(){
+        $data = Notification::with(['user'])->get();
+        return Datatables::of($data)
+             ->addIndexColumn()
+             ->addColumn('user_name', function($row){
+                return $row->user->name;
+                })
+             ->make();
+     }
 
     /**
      * Show the form for creating a new resource.

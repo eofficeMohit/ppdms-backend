@@ -26,34 +26,33 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             {!! Form::open(array('route' => 'districts.store','method'=>'POST', 'id'=>'district_manage_form')) !!}
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Disctrict Name:</strong>
                                             {!! Form::text('name', null, array('placeholder' => 'Disctrict Name','class' => 'form-control')) !!}
+                                            @error('name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>District Code:</strong>
                                             {!! Form::text('d_code', null, array('placeholder' => 'Disctrict Code','class' => 'form-control')) !!}
+                                            @error('d_code')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>District Hindi Name:</strong>
                                             {!! Form::text('d_name_hindi', null, array('placeholder' => 'Disctrict Hindi Name','class' => 'form-control')) !!}
+                                            @error('d_name_hindi')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -65,6 +64,9 @@
                                                     <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('state_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -74,10 +76,13 @@
                                                 <option value="1">Active</option>
                                                 <option value="0">In-Active</option>
                                             </select>
+                                            @error('status')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
