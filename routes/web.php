@@ -47,20 +47,20 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', PermissionController::class);
 	Route::get('/user/updateStatus', [UserController::class, 'updateStatus'])->name('user.updateStatus');
     Route::resource('users', UserController::class);
-	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index'); 
-	Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-	Route::get('/user/getdatatabledata', [UserController::class, 'getSoUserTableData'])->name('user.getdatatabledata'); 
-	Route::get('/user/getusertabledata', [UserController::class, 'getUserTableData'])->name('user.getusertabledata'); 
-	Route::get('/user/getuserlogindata', [UserController::class, 'getUserLoginData'])->name('user.getuserlogindata'); 
-	Route::get('/user/permission/{permission}', [UserController::class, 'checkPermission'])->name('user.permission'); 
 
-	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');  
+	Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');
+	Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+	Route::get('/user/getdatatabledata', [UserController::class, 'getSoUserTableData'])->name('user.getdatatabledata');
+	Route::get('/user/getusertabledata', [UserController::class, 'getUserTableData'])->name('user.getusertabledata');
+	Route::get('/user/getuserlogindata', [UserController::class, 'getUserLoginData'])->name('user.getuserlogindata');
+	Route::get('/user/permission/{permission}', [UserController::class, 'checkPermission'])->name('user.permission');
+
 	Route::resource('parliaments', ParliamentController::class);
 	Route::get('/parliament/delete/{id}', [ParliamentController::class, 'destroy'])->name('parliament.destroy');
-	Route::get('/parliament/getdatatabledata', [ParliamentController::class, 'getParliamentData'])->name('parliament.getdatatabledata'); 
+	Route::get('/parliament/getdatatabledata', [ParliamentController::class, 'getParliamentData'])->name('parliament.getdatatabledata');
 
 	Route::get('/state/delete/{id}', [StateController::class, 'destroy'])->name('state.destroy');
-	Route::get('/state/getdatatabledata', [StateController::class, 'getStateData'])->name('state.getdatatabledata'); 
+	Route::get('/state/getdatatabledata', [StateController::class, 'getStateData'])->name('state.getdatatabledata');
 	Route::get('/states/updateStatus', [StateController::class, 'updateStatus'])->name('states.updateStatus');
 	Route::resource('states', StateController::class);
 	Route::get('/districts/getdatatabledata', [DistrictController::class, 'getDistrictTableData'])->name('districts.getdatatabledata');
@@ -114,9 +114,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 	Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 	Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
+
 	Route::get('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
-	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');  
-	Route::get('/election/getdatatabledata', [ElectionInfoController::class, 'getElectionInfoData'])->name('election.getdatatabledata');  
+	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');
+	Route::get('/election/getdatatabledata', [ElectionInfoController::class, 'getElectionInfoData'])->name('election.getdatatabledata');
 
 
 	Route::get('/events', [EventController::class, 'index'])->name('events');
@@ -125,8 +126,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
 	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
-	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');  
+	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 	Route::get('/notifications/getdatatabledata', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
 
@@ -146,24 +148,21 @@ Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])-
 Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
 
 
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
+    Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
 
-Route::get('/events', [EventController::class, 'index'])->name('events');
-Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
-Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
-Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
-Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
-Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
-Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
+    Route::get('/map_booth', [BoothController::class, 'map_booth'])->name('map_booth');
+    Route::get('/booths/getSoUsers', [BoothController::class, 'getSoUsers'])->name('booths.getSoUsers');
+    Route::get('/booths/getMapBooths', [BoothController::class, 'getMapBooths'])->name('booths.getMapBooths');
+    Route::post('/booths/mapOffBooths', [BoothController::class, 'mapOffBooths'])->name('booths.mapOffBooths');
+
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 Route::get('/login-reports', [UserController::class, 'loginReport'])->name('login.report');
 Route::get('/issue-management/getdatatabledata', [IssueManagementController::class, 'getIssueManagementData'])->name('issue-management.getdatatabledata');
 Route::get('/issue-management', [IssueManagementController::class, 'index'])->name('issue.index');
 
-Route::get('/map_booth', [BoothController::class, 'map_booth'])->name('map_booth');
-Route::get('/booths/getSoUsers', [BoothController::class, 'getSoUsers'])->name('booths.getSoUsers');
-Route::get('/booths/getMapBooths', [BoothController::class, 'getMapBooths'])->name('booths.getMapBooths');
-Route::post('/booths/mapOffBooths', [BoothController::class, 'mapOffBooths'])->name('booths.mapOffBooths');
 });
 
 Auth::routes(['login' => false]);
@@ -200,9 +199,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('virtual-reality', function () {
 		return view('pages.virtual-reality');
 	})->name('virtual-reality');
-	/*Route::get('notifications', function () {
+	Route::get('demo_notifications', function () {
 		return view('pages.notifications');
-	})->name('notifications');*/
+	})->name('notifications');
 	Route::get('static-sign-in', function () {
 		return view('pages.static-sign-in');
 	})->name('static-sign-in');
@@ -215,15 +214,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-	
+
 });
 
-Auth::routes();
 Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
 Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
-
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

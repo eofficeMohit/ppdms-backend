@@ -3,7 +3,7 @@
 
     <x-navbars.sidebar activePage="districts"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <!-- Navbar -->    
+        <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Districts Management"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
@@ -17,11 +17,11 @@
                             </div>
                         </div>
                         @can('district-create')
-                         <div class=" me-3 my-3 text-end">
-                         <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                District</a>
-                        </div> 
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('districts.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    District</a>
+                            </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -65,51 +65,71 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-</x-layout>
-<script type="text/javascript">
-    var $ = jQuery.noConflict();
-    var permission_delete = "{{ checkPermission('district-delete') }}";
-    var permission_edit = "{{ checkPermission('district-edit') }}";
-    $(function () {
-        var table = $('#empTable').DataTable({
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        var permission_delete = "{{ checkPermission('district-delete') }}";
+        var permission_edit = "{{ checkPermission('district-edit') }}";
+        $(function() {
+            var table = $('#empTable').DataTable({
                 processing: true,
                 serverSide: true,
                 pageLength: 25,
                 ajax: "{{ route('districts.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'state', name: 'state'},
-                    {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        var checked ="";
-                        if(data == 1){
-                          checked = "checked";
-                        }
-                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_district" '+checked+' type="checkbox"><span class="slider round"></span></label>';
-                    }
+                columns: [{
+                        data: 'id',
+                        name: 'id'
                     },
                     {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'state',
+                        name: 'state'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
-                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="districts/'+full.id+'" data-original-title="Show Districts" title="Show Districts"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                            if(permission_edit == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="districts/'+full.id+'/edit" data-original-title="Edit Districts" title="Edit Districts"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            var checked = "";
+                            if (data == 1) {
+                                checked = "checked";
                             }
-                            if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="districts/delete/'+full.id+'" data-original-title="Delete Districts" title="Delete Districts"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            return '<label class="switch"><input data-id="' + full.id +
+                                '" class="toggle_state_cls_district" ' + checked +
+                                ' type="checkbox"><span class="slider round"></span></label>';
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var btn =
+                                '<a rel="tooltip" class="btn btn-info btn-link m-2" href="districts/' +
+                                full.id +
+                                '" data-original-title="Show Districts" title="Show Districts"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if (permission_edit == "granted") {
+                                btn +=
+                                    '<a rel="tooltip" class="btn btn-success btn-link m-2" href="districts/' +
+                                    full.id +
+                                    '/edit" data-original-title="Edit Districts" title="Edit Districts"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if (permission_delete == "granted") {
+                                btn +=
+                                    '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="districts/delete/' +
+                                    full.id +
+                                    '" data-original-title="Delete Districts" title="Delete Districts"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                             }
                             return btn;
                         }
                     },
                 ]
             });
-        }); 
-   </script>
+        });
+    </script>
+
+</x-layout>

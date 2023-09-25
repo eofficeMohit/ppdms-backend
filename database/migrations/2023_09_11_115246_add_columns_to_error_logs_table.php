@@ -25,6 +25,7 @@ return new class extends Migration
     {
         Schema::table('error_logs', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropForeign('error_logs_updated_by_foreign');
             $table->dropColumn('updated_by');
         });
     }

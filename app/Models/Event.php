@@ -16,4 +16,9 @@ class Event extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    public function timeSlots()
+    {
+        return $this->hasMany(EventTimeslot::class);
+    }
 }

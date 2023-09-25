@@ -60,7 +60,7 @@
                                         <div class="col-md-3">
                                             <strong>Date:</strong>
                                             {!! Form::input('date', 'start_date[]', date('Y-m-d'), ['id' => '', 'class' => 'form-control start_date']) !!}
-											
+
                                         </div>
                                         <div class="col-md-3">
                                             <strong>Start Time:</strong>
@@ -73,7 +73,7 @@
                                         <div class="col-md-3">
 											<span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -106,7 +106,8 @@
 		newRow.innerHTML += '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
 		timeSlots.appendChild(newRow);
 	}
-
+    // min="'+now_time+'"
+    // min="'+now_time+'"
 	function removeTimeSlot(button) {
 		const row = button.closest('.row');
 		row.remove();
@@ -131,7 +132,7 @@
 				}
 				if(flag == 1){
 					return false;
-				}	
+				}
                 $.ajax({
                     type: 'POST',
                     url: '/event/store',
@@ -139,9 +140,9 @@
                     success: function (response) {
 						if(response.success){
 							console.log(response);
-							$('#validation-success').append('<div class="alert alert-success">Event added successfully.</div'); 
+							$('#validation-success').append('<div class="alert alert-success">Event added successfully.</div');
 							setTimeout(function(){
-								window.location.href = "/events"; 
+								window.location.href = "/events";
 							}, 2000);
 						} else {
 							console.log(response.errors);
