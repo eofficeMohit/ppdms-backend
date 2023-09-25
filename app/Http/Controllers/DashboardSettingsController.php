@@ -17,8 +17,8 @@ class DashboardSettingsController extends Controller
         return view('dashboard_settings.index');
     }
     public function getDBSettingsData(){
-        $data = DashboardSettings::get();
-        return Datatables::of($data)
+        $data = DashboardSettings::orderBy('created_at', 'desc');
+        return Datatables::eloquent($data)
              ->addIndexColumn()
              ->make();
     }

@@ -21,8 +21,8 @@ class AssemblyController extends Controller
         return view('assemblies.index');
     }
     public function getAssemblyTableData(){
-        $assembly = Assembly::with(['state','parliament'])->get();
-        return Datatables::of($assembly)
+        $assembly = Assembly::with(['state','parliament'])->orderBy('created_at', 'desc');
+        return Datatables::eloquent($assembly)
              ->addIndexColumn()
              ->addColumn('st_code', function($row){
                 return $row->state->st_code;

@@ -19,8 +19,8 @@ class NotificationController extends Controller
     }
 
     public function getNotificationData(){
-        $data = Notification::with(['user'])->get();
-        return Datatables::of($data)
+        $data = Notification::with(['user'])->orderBy('created_at', 'desc');
+        return Datatables::eloquent($data)
              ->addIndexColumn()
              ->addColumn('user_name', function($row){
                 return $row->user->name;

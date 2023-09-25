@@ -20,8 +20,8 @@ class EventController extends Controller
     }
 
     public function getEventData(){
-        $events = Event::get();
-        return Datatables::of($events)
+        $events = Event::orderBy('created_at', 'desc');
+        return Datatables::eloquent($events)
              ->addIndexColumn()
              ->make();
      }

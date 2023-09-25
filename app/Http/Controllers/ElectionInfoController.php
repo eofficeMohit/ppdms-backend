@@ -25,8 +25,8 @@ class ElectionInfoController extends Controller
     }
 
     public function getElectionInfoData(){
-        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->get();
-        return Datatables::of($data)
+        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($data)
              ->addIndexColumn()
              ->addColumn('state', function($row){
                 return $row->electionState->name;

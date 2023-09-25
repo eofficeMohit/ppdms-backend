@@ -22,8 +22,8 @@ class BoothController extends Controller
         return view('booth.index');
     }
     public function getBoothTableData(){
-        $booth = Booth::with('assembly')->get();
-        return Datatables::of($booth)
+        $booth = Booth::with('assembly')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($booth)
             ->addIndexColumn()
             ->addColumn('asmb_name', function($row){
                 return $row->assembly->asmb_name;

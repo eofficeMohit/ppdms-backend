@@ -15,8 +15,8 @@ class StateController extends Controller
     }
 
     public function getStateData(){
-        $assembly = State::get();
-        return Datatables::of($assembly)
+        $assembly = State::orderBy('created_at', 'desc');;
+        return Datatables::eloquent($assembly)
              ->addIndexColumn()
              ->make();
      }

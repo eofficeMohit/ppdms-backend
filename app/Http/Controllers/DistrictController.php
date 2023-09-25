@@ -16,8 +16,8 @@ class DistrictController extends Controller
         return view('district.index');
     }
     public function getDistrictTableData(){
-        $district = District::with('state')->get();
-        return Datatables::of($district)
+        $district = District::with('state')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($district)
              ->addIndexColumn()
              ->addColumn('state', function($row){
                 return $row->state->name;
