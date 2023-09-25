@@ -31,7 +31,7 @@ Route::get('/route-cache', function() {
 Route::get('/config-cache', function() {
  	Artisan::call('config:cache');
  	return 'Config cache has been cleared';
-}); 
+});
 
 // Clear view cache:
 Route::get('/view-clear', function() {
@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::post('user-booths', 'getBooths');
         Route::get('get-events', 'getEvents');
         Route::post('event-update', 'eventUpdate');
+        Route::post('update-turnout-queue', 'updateTurnoutAndQueue');
     });
 });
 

@@ -16,10 +16,10 @@
                             </div>
                         </div>
                         @can('event-create')
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('event.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
-                        </div>
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('event.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Event</a>
+                            </div>
                         @endcan
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -47,7 +47,9 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -66,47 +68,65 @@
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('election_info-delete') }}";
     var permission_edit = "{{ checkPermission('election_info-edit') }}";
-    $(function () {
+    $(function() {
         var table = $('#empTable').DataTable({
-                processing: true,
-                serverSide: true,
-                pageLength: 25,
-                ajax: "{{ route('event.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'event_name', name: 'event_name'},
-                    {data: 'event_sequence', name: 'event_sequence'},
-                    {
+            processing: true,
+            serverSide: true,
+            pageLength: 25,
+            ajax: "{{ route('event.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'event_name',
+                    name: 'event_name'
+                },
+                {
+                    data: 'event_sequence',
+                    name: 'event_sequence'
+                },
+                {
                     data: 'status',
                     name: 'status',
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        var checked ="";
-                        if(data == 1){
-                          checked = "checked";
+                        var checked = "";
+                        if (data == 1) {
+                            checked = "checked";
                         }
-                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_event" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_event" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
                     }
-                    },
-                    {
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
-                        searchable: false,
-                        render: function(data, type, full, meta) {
-                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="event/show/'+full.id+'" data-original-title="Show Event" title="Show Event"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                            if(permission_edit == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="event/edit/'+full.id+'" data-original-title="Edit Event" title="Edit Event"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-                            }
-                            if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="event/destroy/'+full.id+'" data-original-title="Delete Event" title="Delete Event"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                            }
-                            return btn;
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="event/show/' +
+                            full.id +
+                            '" data-original-title="Show Event" title="Show Event"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="event/edit/' +
+                                full.id +
+                                '" data-original-title="Edit Event" title="Edit Event"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                         }
-                    },
-                ]
-            });
-        }); 
-   </script>
-
+                        if (permission_delete == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="event/destroy/' +
+                                full.id +
+                                '" data-original-title="Delete Event" title="Delete Event"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                },
+            ]
+        });
+    });
+</script>

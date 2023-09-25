@@ -1,4 +1,5 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
+    <x-toast></x-toast>
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
@@ -225,19 +226,19 @@
                                                 <td>
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <p class="mb-0 text-sm">{{ $election->electionEvent->event_name }}</p>
-    
+
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <p class="mb-0 text-sm">{{ $election->electionBooth->booth_name }}</p>
-    
+
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <p class="mb-0 text-sm">{{ $election->electionAssembly->asmb_name }}</p>
-    
+
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-center text-sm">
@@ -249,7 +250,7 @@
                                                         <div>
                                                         <p class="mb-0 text-sm">{{ $election->electionState->name }}</p>
                                                         </div>
-    
+
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-center">
@@ -269,7 +270,7 @@
                                                         <div>
                                                         <p class="mb-0 text-sm">No Record's Found.</p>
                                                         </div>
-    
+
                                                     </div>
                                                 </td>
                                             </tr>
