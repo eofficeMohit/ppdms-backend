@@ -22,13 +22,13 @@ class BoothController extends Controller
         return view('booth.index');
     }
     public function getBoothTableData(){
-        $booth = Booth::with('assembly')->orderBy('created_at', 'desc');
-        return Datatables::eloquent($booth)
+        $booth = Booth::with('assembly');
+        return Datatables::eloquent($booth)->orderColumn('booths.id', 'desc')
             ->addIndexColumn()
             ->addColumn('asmb_name', function($row){
                 return $row->assembly->asmb_name;
                 })
-             ->make();
+             ->make(true);
      }
     /**
      * Show the form for creating a new resource.
