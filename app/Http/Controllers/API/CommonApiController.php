@@ -126,6 +126,8 @@ class CommonApiController extends BaseController
                 $booth_count=Booth::where('user_id',\Auth::id())->count();
                 foreach($events as $event){
                     $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',1)->count();
+                    // $notUpdatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',0)->count();
+                    // $notUpdatedEvents= $notUpdatedEvents + $booth_count;
                     $notUpdatedEventCount= $booth_count - $updatedEvents;
 
                     $success[]=array(
@@ -154,6 +156,7 @@ class CommonApiController extends BaseController
      */
     public function eventUpdate(Request $request): JsonResponse
     {
+        // dd(ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->count());
         try {
 
             if($request->bearerToken()){
@@ -266,33 +269,45 @@ class CommonApiController extends BaseController
                                 ->where('booth_id',$request->booth_id)->where('assemble_id',$request->assemble_id)->latest()->first();
                                 $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
                                         ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
-
-
+                                $date_time_received="";
+                                if(!empty($poll_details)){
+                                    $date_time_received =\Carbon\Carbon::parse($poll_details->date_time_received);
+                                    $date_time_received =$date_time_received->format('h:i a');
+                                }else{
+                                    $date_time_received =\Carbon\Carbon::now()->format('h:i a');
+                                }
                                 $success['events']['assembly_name']=$user_booth->assembly->asmb_name ?? '';
                                 $success['events']['booth_name']=$user_booth->booth_name;
                                 $success['events']['total_voters']=$user_booth->tot_voters ?? '';
                                 $success['events']['votes_polled']=$total_vote_polled ?? '';
                                 $success['events']['remaining_votes']=$poll_details ? ($poll_details->polledBooth->tot_voters - $total_vote_polled) : '';
-                                $success['events']['last_updated']=$poll_details ? $poll_details->date_time_received->format('h:i a') : '';
+                                $success['events']['last_updated']=$date_time_received ? $date_time_received : '';
 
                                 return $this->sendResponse($success, 'Event details for voter queue.');
                             }
 
 
                         $data['user_id']=\Auth::id();
-                        $data = ElectionInfo::create($data);
+                        $check_event_exists=ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->exists();
+                        // dd($check_event_exists);
+                        if($check_event_exists === true){
+                            ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->update(array('status' => $request->status));
+                            $get_id=ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',$request->status)->pluck('id')->first();
+                        }else{
+                            $data = ElectionInfo::create($data);
+                            $get_id = $data->id;
+                        }
+                        $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($get_id);
 
-                        $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly','electionEvent'])->find($data->id);
-
-                        $success['events']['state_name']=$electionInfo->electionState->name;
-                        $success['events']['district_name']=$electionInfo->electionDistrict->name;
-                        $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name;
-                        $success['events']['booth_name']=$electionInfo->electionBooth->booth_name;
-                        $success['events']['event_name']=$electionInfo->electionEvent->event_name;
-                        $success['events']['event_status']=$electionInfo->status;
-                        $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type;
-                        $success['events']['st_code']=$electionInfo->electionState->st_code;
-                        $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code;
+                        $success['events']['state_name']=$electionInfo->electionState->name ?? "";
+                        $success['events']['district_name']=$electionInfo->electionDistrict->name ?? "";
+                        $success['events']['assemble_name']=$electionInfo->electionAssembly->asmb_name ?? "";
+                        $success['events']['booth_name']=$electionInfo->electionBooth->booth_name ?? "";
+                        $success['events']['event_name']=$electionInfo->electionEvent->event_name ?? "";
+                        $success['events']['event_status']=$electionInfo->status ?? "";
+                        $success['events']['ac_type']=$electionInfo->electionAssembly->ac_type ?? "";
+                        $success['events']['st_code']=$electionInfo->electionState->st_code ?? "";
+                        $success['events']['asmb_code']=$electionInfo->electionAssembly->asmb_code ?? "";
 
                         return $this->sendResponse($success, 'Event updated successfully.');
 

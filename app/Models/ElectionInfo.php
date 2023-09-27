@@ -49,8 +49,8 @@ class ElectionInfo extends Model
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
-    
-    
+
+
     public function state()
     {
         return $this->belongsTo(State::class);
@@ -65,7 +65,7 @@ class ElectionInfo extends Model
     {
         return $this->belongsTo(Assembly::class);
     }
-    
+
     public function booth()
     {
         return $this->belongsTo(Booth::class);
