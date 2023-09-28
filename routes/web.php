@@ -114,6 +114,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 	Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 	Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
+	Route::post('/election-info/updateEventToggle', [ElectionInfoController::class, 'updateEventToggle'])->name('election-info.updateEventToggle');
 
 	Route::get('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
 	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');
@@ -126,7 +127,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
 	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
-
+	Route::get('/event/getEventsForEInfo', [EventController::class, 'getEventsForEInfo'])->name('event.getEventsForEInfo');
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
@@ -146,6 +147,7 @@ Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->
 Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
 Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
+Route::get('/election-info-new/create', [ElectionInfoController::class, 'create_new'])->name('election-info-new.create');
 
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');

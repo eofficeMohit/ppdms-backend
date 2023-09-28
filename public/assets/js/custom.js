@@ -209,6 +209,46 @@ jQuery(document).ready(function() {
         }
     });
 });
+$(document).ready(function() {
+    $("#elecInfoForm").validate({
+        rules: {
+            state_id: {
+                required: true
+            },
+            district_id: {
+                required: true
+            },
+            booth_id: {
+                required: true
+            },
+            assemble_id: {
+                required: true
+            },
+            event_id: {
+                required: true
+            },
+            // Define rules for other fields
+        },
+        messages: {
+            state_id: {
+                required: "State is required field."
+            },
+            district_id: {
+                required: "District is required field.",
+            },
+            booth_id: {
+                required: "Booth is required field.",
+            },
+            assemble_id: {
+                required: "Assembly is required field.",
+            },
+            event_id: {
+                required: "Event is required field.",
+            },
+            // Define custom error messages for other fields
+        }
+    });
+});
 jQuery(document).on('change', '.toggle_state_cls_assemble', function () {
     var id = jQuery(this).attr('data-id');
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
@@ -401,6 +441,41 @@ jQuery(document).on('change', '.toggle_state_cls_settings', function () {
         jQuery(this).attr('data-id',id);
         jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
         setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+
+        // Iterate through the response and append data to the container
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});
+jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
+    var id = jQuery(this).attr('data-id');
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    // Make an AJAX request
+    axios.post('/election-info/updateEventToggle', {
+        params: {
+            event_id: id,
+            assemble_id: assemble_id,
+            so_user: so_user,
+            booth_id: booth_id,
+            district_id: district_id,
+            state_id:state_id,
+            status: status
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        if(response.data.success){
+            jQuery('.cus_msg_div').html('<p class="alert alert-success">Election Info added successfully.</p>');
+            setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        } else {
+            jQuery('#'+response.data.key).html(response.data.message);
+        }
 
         // Iterate through the response and append data to the container
     })

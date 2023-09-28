@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventTimeslot;
+use App\Models\ElectionInfo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -173,4 +174,28 @@ class EventController extends Controller
         return response()->json(['success'=>'Status changed successfully.']);
 
     }
-}
+
+    public function getEventsForEInfo(Request $request)
+    {
+        $selected_assemble = $request->input('selected_assemble'); // This should match the parameter name in the AJAX request
+        $selected_user = $request->input('selected_user');
+        $selected_booth = $request->input('selected_booth');
+        $events = Event::orderby('event_sequence', 'ASC')->get();
+        $array_events = array();
+        foreach($events as $key => $value){
+            $event_id = $value['id'];
+            $updated_event = ElectionInfo::where('user_id',$selected_user)->where('event_id',$event_id)->where('status',1)->exists();
+            $array_events[$key]['id'] = $value['id'];
+            $array_events[$key]['name'] = $value['event_name'];
+            $array_events[$key]['sequence'] = $value['event_sequence'];
+            if($updated_event ===true){
+                $array_events[$key]['is_updated'] = "yes";
+            } else {
+                $array_events[$key]['is_updated'] = "no";
+            }
+        }
+        return response()->json($array_events);
+
+    }
+
+    }

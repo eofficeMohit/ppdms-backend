@@ -141,8 +141,10 @@ class AssemblyController extends Controller
     }
     public function getBooths(Request $request)
     {
-        $selectedOption = $request->input('selectedOption'); // This should match the parameter name in the AJAX request
-        $data = Booth::where('assemble_id', $selectedOption)->get();
+        $selected_assemble = $request->input('selected_assemble'); // This should match the parameter name in the AJAX request
+        $selected_user = $request->input('selected_user');
+        $where = array('assemble_id'=> $selected_assemble,'user_id'=> $selected_user);
+        $data = Booth::where($where)->get();
         return response()->json($data);
     }
     public function updateStatus(Request $request)

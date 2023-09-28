@@ -8,6 +8,8 @@ use App\Models\District;
 use App\Models\Booth;
 use App\Models\Assembly;
 use App\Models\Event;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -57,6 +59,20 @@ class ElectionInfoController extends Controller
         $assembly = Assembly::pluck('asmb_name','id')->all();
         $events = Event::pluck('event_name','id')->all();
         return view('election_info.create',compact('states','districts','booth','assembly','events'));
+    }
+
+    public function create_new(): View
+    {
+        $states = State::pluck('name','id')->all();
+        $districts = District::pluck('name','id')->all();
+        $booth = Booth::pluck('booth_name','id')->all();
+        $assembly = Assembly::pluck('asmb_name','id')->all();
+        $events = Event::pluck('event_name','id')->all();
+        $so_users=array();
+        if(Role::where('name','SO')->first()){
+            $so_users = User::role('SO')->pluck('name','id');
+        }
+        return view('election_info_new.create',compact('states','districts','booth','assembly','events','so_users'));
     }
 
     /**
@@ -168,4 +184,48 @@ class ElectionInfoController extends Controller
         return response()->json(['success'=>'Status changed successfully.']);
 
     }
+
+    public function updateEventToggle(Request $request){
+        $data_res = $request->all();
+        $params = $data_res['params'];
+        $event_id = $params['event_id'];
+        $user_id = $params['so_user'];
+        $booth_id = $params['booth_id'];
+        $status = $params['status'];
+        $district_id = $params['district_id'];
+        $assemble_id = $params['assemble_id'];
+        $state_id = $params['state_id'];
+        $data['event_id'] = $event_id;
+        $data['user_id'] = $user_id;
+        $data['booth_id'] = $booth_id;
+        $data['status'] = $status;
+        $data['district_id'] = $district_id;
+        $data['assemble_id'] = $assemble_id;
+        $data['state_id'] = $state_id;
+        //next event check
+        $next_event_id=$event_id+1;
+        $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status',1)->exists();
+        if($check_next_event ===true){
+            $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',$booth_id)->where('status',1)->first();
+            $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
+            return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$next_event_id ]);
+        }
+
+        //previous event check
+        if($event_id > '1'){
+            $previous_event_id=$event_id-1;
+            $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status',1)->exists();
+            if($check_previous_event ===false){
+                $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
+                $message=$get_previous_event->event_name.' status not updated(no)!';
+                return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
+            }
+        }
+        echo "<pre>";
+        print_r($data);
+        die('here');
+        $Events = ElectionInfo::create($data);
+        return response()->json(['success'=>TRUE,'message'=>"Electon Info Created Successfully." ]);
+    }
+
 }
