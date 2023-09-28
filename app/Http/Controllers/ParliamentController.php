@@ -22,8 +22,8 @@ class ParliamentController extends Controller
     }
 
     public function getParliamentData(){
-        $parliament = Parliament::with('state')->get();
-        return Datatables::of($parliament)
+        $parliament = Parliament::with('state')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($parliament)
              ->addIndexColumn()
              ->addColumn('state', function($row){
                 return $row->state->name;

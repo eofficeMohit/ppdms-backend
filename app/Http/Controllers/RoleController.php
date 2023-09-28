@@ -33,8 +33,8 @@ class RoleController extends Controller
         return view('roles.index');
     }
     public function getUserRoleData(){
-        $roles = Role::get();
-        return Datatables::of($roles)
+        $roles = Role::orderBy('created_at', 'desc');
+        return Datatables::eloquent($roles)
             ->addIndexColumn() 
             ->addColumn('created_at', function($row){
                 $created_at = date('Y-m-d H:i:s', strtotime( $row->created_at));

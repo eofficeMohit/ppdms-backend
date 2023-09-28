@@ -17,8 +17,8 @@ class IssueManagementController extends Controller
         return view('issues.index');
     }
     public function getIssueManagementData(){
-        $data = ErrorLog::with('user')->get();
-        return Datatables::of($data)
+        $data = ErrorLog::with('user')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($data)
              ->addIndexColumn()
              ->addColumn('user_name', function($row){
                 $username= "guest";

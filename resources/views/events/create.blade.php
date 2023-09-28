@@ -145,11 +145,15 @@
 								window.location.href = "/events";
 							}, 2000);
 						} else {
-							console.log(response.errors);
 							$('#validation-errors').html('');
-							$.each(response.errors, function(key,value) {
-								$('#validation-errors').append('<div class="alert alert-danger">'+value+'</div');
-							});
+							$.each(response.errors, function (key, value) {
+                            var name = $("input[name='"+key+"']");
+                            if(key.indexOf(".") != -1){
+                                var arr = key.split(".");
+                                name = $("input[name='"+arr[0]+"[]']:eq("+arr[1]+")");
+                            }
+                            name.parent().append('<div class="error right-align pink-text text-mute">'+value[0]+'</div>');
+                            }); 
 						}
                     }
                 });

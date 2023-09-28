@@ -36,9 +36,9 @@ class UserController extends Controller
     public function getSoUserTableData(){
         $data=array();
         if(Role::where('name','SO')->first()){
-            $data = User::role('SO')->get();
+            $data = User::role('SO');
         }
-        return Datatables::of($data)
+        return Datatables::eloquent($data)->orderColumn('users.id', 'desc')
              ->addIndexColumn()
              ->addColumn('role', function($row){
                 $roles = array();
@@ -58,8 +58,8 @@ class UserController extends Controller
      public function getUserTableData(){
         $data = User::whereHas('roles', function ($query) {
             return $query->where('name','!=', 'SO');
-        })->get();
-        return Datatables::of($data)
+        });
+        return Datatables::eloquent($data)->orderColumn('users.id', 'desc')
              ->addIndexColumn()
              ->addColumn('role', function($row){
                 $roles = array();
@@ -191,8 +191,8 @@ class UserController extends Controller
     }
 
     public function getUserLoginData(){
-        $data = UserLogin::with('user')->get();
-        return Datatables::of($data)
+        $data = UserLogin::with('user');
+        return Datatables::eloquent($data)->orderColumn('users.id', 'desc')
              ->addIndexColumn()
              ->addColumn('last_logout', function($row){
                 $logout = "N/A";

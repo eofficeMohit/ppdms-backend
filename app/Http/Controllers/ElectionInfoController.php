@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
-      
+use Auth;
+
 class ElectionInfoController extends Controller
 {
     /**
@@ -25,8 +26,8 @@ class ElectionInfoController extends Controller
     }
 
     public function getElectionInfoData(){
-        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->get();
-        return Datatables::of($data)
+        $data = ElectionInfo::with('electionState','electionDistrict','electionBooth','electionAssembly','electionEvent')->orderBy('created_at', 'desc');
+        return Datatables::eloquent($data)
              ->addIndexColumn()
              ->addColumn('state', function($row){
                 return $row->electionState->name;
@@ -64,6 +65,7 @@ class ElectionInfoController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $this->validate($request, [
             'state_id' => 'required|numeric|exists:states,id',
             'district_id' => 'required|numeric|exists:districts,id',
@@ -74,6 +76,7 @@ class ElectionInfoController extends Controller
             'status'=>'required|numeric|in:0,1'
         ]);
         $input = $request->all();
+        $input['user_id']=\Auth::id();
         $event_id = $input['event_id'];
         if($event_id > 1){
             $check_next_event =ElectionInfo::where('event_id',$request->$event_id++)->where('status',1)->exists();
@@ -81,16 +84,17 @@ class ElectionInfoController extends Controller
                 return redirect()->back()->withErrors(['msg' => 'Previous event is already locked you cannot procced with this event now.']);
             }
         }
-        $Events = ElectionInfo::create($input);
-        if($input['event_id'] == 1){
+
+        if(ElectionInfo::create($input)){
+            $event_name=Event::where('id',$input['event_id'])->pluck('event_name')->first();
             $user_id = auth()->user()->id;
             $data = array();
             $data['user_id'] = $user_id;
             $data['title'] = "Event Changed.";
-            $data['message'] = "Event is updated by user.";
+            $data['message'] = "$event_name is updated by ".\Auth::user()->name;
             $data['notification_type'] = "web";
             $data['notification_for'] = "Event";
-            $data['notification_for_ref'] = $input['event_id'];
+            $data['notification_for_reference'] = $input['event_id'];
             $data['notification_to'] = 1;
             $Notifications = Notification::create($data);
         }
@@ -110,7 +114,7 @@ class ElectionInfoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-      
+
     public function edit($id): View
     {
         $election_info = ElectionInfo::find($id);

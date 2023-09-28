@@ -73,7 +73,6 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function addField() {
 		const timeSlots = document.getElementById('add-fields');
@@ -143,11 +142,15 @@
 								window.location.href = "/dashboard-settings"; 
 							}, 2000);
 						} else {
-							console.log(response.errors);
 							$('#validation-errors').html('');
-							$.each(response.errors, function(key,value) {
-								$('#validation-errors').append('<div class="alert alert-danger">'+value+'</div');
-							});
+							$.each(response.errors, function (key, value) {
+                            var name = $("input[name='"+key+"']");
+                            if(key.indexOf(".") != -1){
+                                var arr = key.split(".");
+                                name = $("input[name='"+arr[0]+"[]']:eq("+arr[1]+")");
+                            }
+                            name.parent().append('<div class="error right-align pink-text text-mute">'+value[0]+'</div>');
+                            }); 
 						}
                     }
                 });

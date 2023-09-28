@@ -30,8 +30,8 @@ class PermissionController extends Controller
     }
 
     public function getPermissionsData(){
-        $permissions = Permission::get();
-        return Datatables::of($permissions)
+        $permissions = Permission::orderBy('created_at', 'desc');
+        return Datatables::eloquent($permissions)
              ->addIndexColumn()
              ->addColumn('created_at', function($row){
                 $created_at = date('Y-m-d H:i:s', strtotime( $row->created_at));
