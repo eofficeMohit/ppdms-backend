@@ -346,7 +346,7 @@ class CommonApiController extends BaseController
                 $data = $request->all();
                 $data['user_id']=\Auth::id();
                 $success[]=array();
-                // dd(Carbon::now()->format('h:i:s'));
+
                 if($request->has('event_id') && $request->event_id=='6'){
                     $data['date_time_received']=now();
                     $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
