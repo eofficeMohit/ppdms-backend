@@ -125,9 +125,9 @@ class CommonApiController extends BaseController
                 }
                 $booth_count=Booth::where('user_id',\Auth::id())->count();
                 foreach($events as $event){
+
                     $updatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',1)->count();
-                    // $notUpdatedEvents =ElectionInfo::where('event_id',$event->id)->where('user_id',\Auth::id())->where('status',0)->count();
-                    // $notUpdatedEvents= $notUpdatedEvents + $booth_count;
+
                     $notUpdatedEventCount= $booth_count - $updatedEvents;
 
                     $success[]=array(
@@ -202,6 +202,7 @@ class CommonApiController extends BaseController
                             }
 
                             if($request->has('event_id') && $request->event_id=='4'){
+
                                 $validator = Validator::make($request->all(), [
                                     'mock_poll_status' => 'required|numeric|in:0,1',
                                     'evm_cleared_status' => 'required|numeric|in:0,1',
@@ -213,16 +214,21 @@ class CommonApiController extends BaseController
                                 }
 
                                 if($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='1'){
-                                    $data['status']=4;
-                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='0'){
                                     $data['status']=1;
-                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='0'){
-                                    $data['status']=2;
-                                }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='1'){
-                                    $data['status']=3;
                                 }else{
                                     $data['status']=0;
                                 }
+
+                                // if($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='1'){
+                                //     $data['status']=4;
+                                // }
+                                // elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='0'){
+                                //     $data['status']=1;
+                                // }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='0'){
+                                //     $data['status']=2;
+                                // }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='1'){
+                                //     $data['status']=3;
+                                // }
                             }
 
                             if($request->has('event_id') &&  $request->event_id=='6'){
