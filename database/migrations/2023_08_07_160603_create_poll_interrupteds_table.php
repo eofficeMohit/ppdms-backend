@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('booth_id')->nullable();
             $table->string('stop_time')->nullable();
             $table->string('resume_time')->nullable();
-            $table->datetime('lastupdated_stop_time')->nullable();
-            $table->datetime('lastupdated_resume_time')->nullable();
+            $table->datetime('last_updated_stop_time')->nullable();
+            $table->datetime('last_updated_resume_time')->nullable();
             $table->unsignedBigInteger('added_by')->nullable();
             $table->unsignedBigInteger('role_id')->nullable();
             $table->string('reason')->nullable();
