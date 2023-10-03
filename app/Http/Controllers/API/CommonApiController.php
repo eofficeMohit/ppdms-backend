@@ -295,7 +295,7 @@ class CommonApiController extends BaseController
 
                         $data['user_id']=\Auth::id();
                         $check_event_exists=ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->exists();
-                        // dd($check_event_exists);
+
                         if($check_event_exists === true){
                             ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->update(array('status' => $request->status));
                             $get_id=ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',$request->status)->pluck('id')->first();
@@ -342,7 +342,7 @@ class CommonApiController extends BaseController
                                     'assemble_id' => 'required|numeric|exists:assemblies,id',
                                     // 'event_id' => 'required|numeric|exists:events,id',
                                 ]);
-                                // dd(request()->ip());
+
                 $data = $request->all();
                 $data['user_id']=\Auth::id();
                 $success[]=array();
