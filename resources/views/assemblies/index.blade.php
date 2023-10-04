@@ -16,16 +16,15 @@
                             </div>
                         </div>
                         @can('assembly-create')
-                            <div class=" me-3 my-3 text-end">
-                                <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
-                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                    Assembly</a>
-                            </div>
+                        <div class=" me-3 my-3 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                Assembly</a>
+                        </div>
                         @endcan
                         @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
                         @endif
                         <div class="cus_msg_div">
                         </div>
@@ -34,36 +33,27 @@
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ID
                                             </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ST CODE
                                             </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB CODE</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB Name</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 AC TYPE</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 PC TYPE</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 PC NO
                                             </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
                                             </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action</th>
                                         </tr>
                                     </thead>
@@ -85,49 +75,49 @@
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
-            processing: true,
-            serverSide: true,
-            order: [
+            dom: 'Bfrtip'
+            , buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
+            , processing: true
+            , serverSide: true
+            , order: [
                 [0, 'desc']
-            ],
-            pageLength: 25,
-            ajax: "{{ route('assemblies.getdatatabledata') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'st_code',
-                    name: 'st_code'
-                },
-                {
-                    data: 'asmb_name',
-                    name: 'asmb_name'
-                },
-                {
-                    data: 'asmb_name',
-                    name: 'asmb_name'
-                },
-                {
-                    data: 'ac_type',
-                    name: 'ac_type'
-                },
-                {
-                    data: 'pc_type',
-                    name: 'pc_type'
-                },
-                {
-                    data: 'pc_no',
-                    name: 'pc_no'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
+            ]
+            , pageLength: 25
+            , ajax: "{{ route('assemblies.getdatatabledata') }}"
+            , columns: [{
+                    data: 'id'
+                    , name: 'id'
+                }
+                , {
+                    data: 'st_code'
+                    , name: 'st_code'
+                }
+                , {
+                    data: 'asmb_code'
+                    , name: 'asmb_code'
+                }
+                , {
+                    data: 'asmb_name'
+                    , name: 'asmb_name'
+                }
+                , {
+                    data: 'ac_type'
+                    , name: 'ac_type'
+                }
+                , {
+                    data: 'pc_type'
+                    , name: 'pc_type'
+                }
+                , {
+                    data: 'pc_no'
+                    , name: 'pc_no'
+                }
+                , {
+                    data: 'status'
+                    , name: 'status'
+                    , orderable: false
+                    , searchable: false
+                    , render: function(data, type, full, meta) {
                         var checked = "";
                         if (data == 1) {
                             checked = "checked";
@@ -136,13 +126,13 @@
                             '" class="toggle_state_cls_assemble" ' + checked +
                             ' type="checkbox"><span class="slider round"></span></label>';
                     }
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
+                }
+                , {
+                    data: 'action'
+                    , name: 'action'
+                    , orderable: false
+                    , searchable: false
+                    , render: function(data, type, full, meta) {
                         var btn =
                             '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
                             full.id +
@@ -161,10 +151,11 @@
                         }
                         return btn;
                     }
-                },
-            ]
+                }
+            , ]
         });
         table.buttons().container()
-                 .insertBefore( '#empTable_filter' );
+            .insertBefore('#empTable_filter');
     });
+
 </script>

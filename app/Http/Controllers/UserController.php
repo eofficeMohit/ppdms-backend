@@ -73,8 +73,7 @@ class UserController extends Controller
             ->addColumn('created_at', function($row){
                 $created_at = date('Y-m-d',strtotime($row->created_at));
                 return $created_at;
-            })
-             ->make();
+            }) ->make();
      }
     /**
      * Show the form for creating a new resource.
@@ -163,13 +162,15 @@ class UserController extends Controller
             'status' => 'required|numeric|in:0,1',
         ]);
         $input = $request->all();
-        if(!empty($input['password'])){
-            $input['password'] = Hash::make($input['password']);
+     
+       if(!empty($input['password'])){
+          $input['password'] = $input['password'];  //Hash::make($input['password']);
         }else{
             $input = Arr::except($input,array('password'));
         }
         $user = User::find($id);
         $user->update($input);
+
         DB::table('model_has_roles')->where('model_id',$id)->delete();
         $user->assignRole($request->input('roles'));
         return redirect()->route('users.index')
