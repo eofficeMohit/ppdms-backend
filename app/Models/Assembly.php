@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Binafy\LaravelUserMonitoring\Traits\Actionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ class Assembly extends Model
 {
 
     use HasFactory;
+    use Actionable;
 
     protected $dates = ['deleted_at'];
     /**

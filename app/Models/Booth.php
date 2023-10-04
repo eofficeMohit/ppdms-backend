@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Binafy\LaravelUserMonitoring\Traits\Actionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Booth extends Model
 {
     use HasFactory;
+    use Actionable;
+    
     protected $fillable = [
         'booth_no', 'tot_voters', 'booth_name','booth_name_uni','district_id','state_id','assemble_id','user_id','latitude','longitude','status'
     ];
