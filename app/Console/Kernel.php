@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Binafy\LaravelUserMonitoring\Commands\RemoveVisitMonitoringRecordsCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -11,8 +12,9 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
-    {
+    {   //schedule-frequency-options
         // $schedule->command('inspire')->hourly();
+        //$schedule->command(RemoveVisitMonitoringRecordsCommand::class)->hourly();
     }
 
     /**
