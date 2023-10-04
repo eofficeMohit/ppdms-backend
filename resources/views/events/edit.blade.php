@@ -31,11 +31,6 @@
                             </div>
                             <div id="validation-errors">
                             </div>
-                            <?php
-                            // echo "<pre>";
-                            // print_r($eventslots);
-                            //die('heer');
-                            ?>
                             {!! Form::model($event, ['id' => 'myForm']) !!}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
