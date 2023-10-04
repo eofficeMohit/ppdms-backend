@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
-	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+	Route::post('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
