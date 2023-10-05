@@ -184,7 +184,7 @@ class EventController extends Controller
         $array_events = array();
         foreach($events as $key => $value){
             $event_id = $value['id'];
-            $updated_event = ElectionInfo::where('user_id',$selected_user)->where('event_id',$event_id)->where('status',1)->exists();
+            $updated_event = ElectionInfo::where('user_id',$selected_user)->where('event_id',$event_id)->where('booth_id',$selected_booth)->where('status',1)->exists();
             $array_events[$key]['id'] = $value['id'];
             $array_events[$key]['name'] = $value['event_name'];
             $array_events[$key]['sequence'] = $value['event_sequence'];

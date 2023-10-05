@@ -456,7 +456,50 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
     var state_id = $('#state_id :selected').val();
     var district_id = $('#district_id :selected').val();
     var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    var mock_poll_status = 0;
+    var evm_cleared_status = 0;
+    var vvpat_cleared_status = 0;
     // Make an AJAX request
+    if(id == 4){
+        if(status == 1){
+            $('#myModal').modal('show');
+        } else {
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status);
+        }
+        
+    } else {
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status)
+    }
+    
+});
+function submit_mockpoll_status(){
+    var id = 4;
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery("event_"+id).prop('checked') == true ? 1 : 0;
+    jQuery('#err_pop').html("");
+    if ($('input[name=mock_poll_status]:checked').length == 0) {
+        jQuery('#err_pop').html("All fields are required.");
+        return false; // allow whatever action would normally happen to continue
+    }else if($('input[name=evm_cleared_status]:checked').length == 0){
+        jQuery('#err_pop').html("All fields are required.");
+        return false; // stop whatever action would normally happen
+    } else if($('input[name=vvpat_cleared_status]:checked').length == 0){
+        jQuery('#err_pop').html("All fields are required.");
+        return false; // stop whatever action would normally happen
+    } else {
+        var mock_poll_status = $('input[name=mock_poll_status]:checked').val();
+        var evm_cleared_status = $('input[name=evm_cleared_status]:checked').val();
+        var vvpat_cleared_status = $('input[name=vvpat_cleared_status]:checked').val();
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status);
+        $('#myModal').modal('hide');
+    } 
+    
+}    
+function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status){
     axios.post('/election-info/updateEventToggle', {
         params: {
             event_id: id,
@@ -465,6 +508,9 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
             booth_id: booth_id,
             district_id: district_id,
             state_id:state_id,
+            mock_poll_status:mock_poll_status,
+            evm_cleared_status:evm_cleared_status,
+            vvpat_cleared_status:vvpat_cleared_status,
             status: status
         }
     })
@@ -472,9 +518,10 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
         console.log(response.data);
         if(response.data.success){
             jQuery('.cus_msg_div').html('<p class="alert alert-success">Election Info added successfully.</p>');
-            setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+            //jQuery('#'+response.data.key).html(response.data.message);
         } else {
             jQuery('#'+response.data.key).html(response.data.message);
+            jQuery("#event_"+id).prop('checked',false);
         }
 
         // Iterate through the response and append data to the container
@@ -482,4 +529,5 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
     .catch(function(error) {
         console.error(error);
     });
-});
+
+}

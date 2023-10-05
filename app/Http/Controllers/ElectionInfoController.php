@@ -198,6 +198,9 @@ class ElectionInfoController extends Controller
         $status = $params['status'];
         $district_id = $params['district_id'];
         $assemble_id = $params['assemble_id'];
+        $mock_poll_status = $params['mock_poll_status'];
+        $evm_cleared_status = $params['evm_cleared_status'];
+        $vvpat_cleared_status = $params['vvpat_cleared_status'];
         $state_id = $params['state_id'];
         $data['event_id'] = $event_id;
         $data['user_id'] = $user_id;
@@ -225,11 +228,41 @@ class ElectionInfoController extends Controller
                 return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
             }
         }
-        echo "<pre>";
-        print_r($data);
-        die('here');
-        $Events = ElectionInfo::create($data);
-        return response()->json(['success'=>TRUE,'message'=>"Electon Info Created Successfully." ]);
+
+        if($request->has('event_id') && $request->event_id=='4'){
+            $validator = Validator::make($request->all(), [
+                'mock_poll_status' => 'required|numeric|in:0,1',
+                'evm_cleared_status' => 'required|numeric|in:0,1',
+                'vvpat_cleared_status'=>'required|numeric|in:0,1'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 200); // 400 being the HTTP code for an invalid request.
+            }
+            if($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='1'){
+                $data['status']=4;
+            }elseif($mock_poll_status=='1' && $evm_cleared_status=='0' && $vvpat_cleared_status=='0'){
+                $data['status']=1;
+            }elseif($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='0'){
+                $data['status']=2;
+            }elseif($mock_poll_status=='1' && $evm_cleared_status=='0' && $vvpat_cleared_status=='1'){
+                $data['status']=3;
+            }else{
+                $data['status']=0;
+            }
+            $data['mock_poll_status'] = $mock_poll_status;
+            $data['evm_cleared_status'] = $evm_cleared_status;
+            $data['vvpat_cleared_status'] = $vvpat_cleared_status;
+        }
+        $check_event_exists=ElectionInfo::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->exists();
+        if($check_event_exists === true){
+            ElectionInfo::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status));
+        }else{
+            $insert_data = ElectionInfo::create($data);
+        }
+        return response()->json(['success'=>TRUE,'message'=>'Electon Info Updated Successfully.','key'=>'error_'.$event_id ]);
     }
 
 }

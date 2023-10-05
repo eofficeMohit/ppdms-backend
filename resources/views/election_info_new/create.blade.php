@@ -109,7 +109,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    {{-- <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <strong>Status:</strong>
                                             <select class="form-control" id="status" name="status">
@@ -125,7 +125,7 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             {!! Form::close() !!}
                         </div>
@@ -134,6 +134,43 @@
             </div>
             <x-footers.auth></x-footers.auth>
         </div>
+        <div class="modal" tabindex="-1" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mock Poll</h5>
+                </div>
+                <div class="modal-body">
+                <div class="error" id="err_pop"></div>
+                <div class="form-group">
+                    <label>Mock Poll Status:-</label><br>    
+                    <input type="radio" id="mock_poll_status_yes" name="mock_poll_status" value="1">
+                    <label for="mock_poll_status_yes">Yes</label><br>
+                    <input type="radio" id="mock_poll_status_no" name="mock_poll_status" value="0">
+                    <label for="mock_poll_status_no">No</label><br>
+                </div>
+                <div class="form-group">    
+                    <label>EVM Cleared Status:-</label><br>    
+                    <input type="radio" id="evm_cleared_status_yes" name="evm_cleared_status" value="1">
+                    <label for="evm_cleared_status_yes">Yes</label><br>
+                    <input type="radio" id="evm_cleared_status_no" name="evm_cleared_status" value="0">
+                    <label for="evm_cleared_status_no">No</label><br>
+                </div>
+                <div class="form-group">    
+                    <label>VVPAT Cleared Status:-</label><br>    
+                    <input type="radio" id="vvpat_cleared_status_status_yes" name="vvpat_cleared_status" value="1">
+                    <label for="vvpat_cleared_status_yes">Yes</label><br>
+                    <input type="radio" id="vvpat_cleared_status_no" name="vvpat_cleared_status" value="0">
+                    <label for="vvpat_cleared_status_no">No</label><br>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="close_modal()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submit_mockpoll_status()">Save</button>
+                </div>
+                </div>
+            </div>
+            </div>
     </main>
     <x-plugins></x-plugins>
 </x-layout>
@@ -214,6 +251,7 @@
         })
         .then(function(response) {
             console.log(response.data);
+            jQuery('#add-fields').empty();
             // Iterate through the response and append data to the container
             response.data.forEach(function(value) {
                 var checked = "";
@@ -238,4 +276,7 @@
             console.error(error);
         });
     });
+    function close_modal(){
+        $('#myModal').modal('hide');
+    }
 </script>
