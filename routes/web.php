@@ -199,9 +199,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('virtual-reality', function () {
 		return view('pages.virtual-reality');
 	})->name('virtual-reality');
-	// Route::get('demo_notifications', function () {
-	// 	return view('pages.notifications');
-	// })->name('notifications');
+	Route::get('demo_notifications', function () {
+		return view('pages.notifications');
+	 })->name('notifications');
 	Route::get('static-sign-in', function () {
 		return view('pages.static-sign-in');
 	})->name('static-sign-in');

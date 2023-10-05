@@ -47,6 +47,7 @@ class EventController extends Controller
             'start_date.*' => 'required',
             'start_time.*' => 'required|date_format:H:i|unique:event_timeslots,start_time',
             'end_time.*' => 'required|date_format:H:i|unique:event_timeslots,end_time|after:start_time.*',
+            'locking_time.*' => 'required|date_format:H:i|unique:event_timeslots,locking_time|after:end_time.*',
             'status' => 'required|in:0,1'
         ]);
 
@@ -65,15 +66,18 @@ class EventController extends Controller
         if($events) {
             $start_time = $request['start_time'];
             $end_time = $request['end_time'];
+            $locking_time = $request['locking_time'];
             foreach($request['start_date'] as $key => $val){
                 $start_date = $val;
                 $start_time_key = $start_time[$key];
                 $end_time_key = $end_time[$key];
+                $locking_time_key = $locking_time[$key];
                 $eventsSlots = EventTimeslot::create([
                     'event_id' => $events->id,
                     'date' => $start_date,
                     'start_time' => $start_time_key,
                     'end_time' => $end_time_key,
+                    'locking_time' => $locking_time_key,
                     'status' => $request['status']
                 ]);
             }
@@ -116,6 +120,7 @@ class EventController extends Controller
             'start_date.*' => 'required',
             'start_time.*' => 'required',
             'end_time.*' => 'required|after:start_time.*',
+            'locking_time.*' => 'required|after:end_time.*',
             'status' => 'required|in:0,1'
         ]);
 
@@ -136,15 +141,18 @@ class EventController extends Controller
         if($id) {
             $start_time = $request['start_time'];
             $end_time = $request['end_time'];
+            $locking_time = $request['locking_time'];
             foreach($request['start_date'] as $key => $val){
                 $start_date = $val;
                 $start_time_key = $start_time[$key];
                 $end_time_key = $end_time[$key];
+                $locking_time_key = $locking_time[$key];
                 $eventsSlots = EventTimeslot::create([
                     'event_id' => $id,
                     'date' => $start_date,
                     'start_time' => $start_time_key,
                     'end_time' => $end_time_key,
+                    'locking_time' => $locking_time_key,
                     'status' => $request['status']
                 ]);
             }

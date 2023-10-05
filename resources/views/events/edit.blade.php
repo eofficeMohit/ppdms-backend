@@ -71,7 +71,7 @@
                                             {!! Form::input('date', 'start_date[]', $value['date'], ['id' => '', 'class' => 'form-control start_date']) !!}
 
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @if ($key == 0)
                                             <strong>Start Time:</strong>
                                             @endif
@@ -80,11 +80,17 @@
                                             'class' => 'form-control start_time',
                                             ]) !!}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @if ($key == 0)
                                             <strong>End Time:</strong>
                                             @endif
                                             {!! Form::input('time', 'end_time[]', $value['end_time'], ['id' => '', 'class' => 'form-control end_time']) !!}
+                                        </div>
+                                        <div class="col-md-2">
+                                            @if ($key == 0)
+                                            <strong>Locking Time:</strong>
+                                            @endif
+                                            {!! Form::input('time', 'locking_time[]', $value['locking_time'], ['id' => '', 'class' => 'form-control locking_time']) !!}
                                         </div>
                                         @if ($key == 0)
                                         <div class="col-md-3">
@@ -106,13 +112,17 @@
                                             {!! Form::input('date', 'start_date[]', date('Y-m-d'), ['id' => '', 'class' => 'form-control start_date']) !!}
 
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <strong>Start Time:</strong>
                                             {!! Form::input('time', 'start_time[]', date('H:i'), ['id' => '', 'class' => 'form-control start_time']) !!}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <strong>End Time:</strong>
                                             {!! Form::input('time', 'end_time[]', date('H:i'), ['id' => '', 'class' => 'form-control end_time']) !!}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>Locking Time:</strong>
+                                            {!! Form::input('time', 'locking_time[]', date('H:i'), ['id' => '', 'class' => 'form-control locking_time']) !!}
                                         </div>
                                         <div class="col-md-3">
                                             <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
@@ -152,10 +162,13 @@
             '" class="form-control start_date" name="start_date[]" type="date" required value="' + now_date +
             '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML +=
-            '<div class="col-md-3"><input class="form-control start_time" name="start_time[]" type="time" required value="' +
+            '<div class="col-md-2"><input class="form-control start_time" name="start_time[]" type="time" required value="' +
             now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML +=
-            '<div class="col-md-3"><input class="form-control end_time" name="end_time[]" type="time" required value="' +
+            '<div class="col-md-2"><input class="form-control end_time" name="end_time[]" type="time" required value="' +
+            now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+        newRow.innerHTML +=
+            '<div class="col-md-2"><input class="form-control locking_time" name="locking_time[]" type="time" required value="' +
             now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML +=
             '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
