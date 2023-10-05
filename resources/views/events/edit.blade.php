@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <strong>Locking Time:</strong>
-                                            {!! Form::input('time', 'locking_time[]', date('H:i'), ['id' => '', 'class' => 'form-control locking_time']) !!}
+                                            {!! Form::input('time', 'locking_time[]', date('H:i',strtotime('30 minutes')), ['id' => '', 'class' => 'form-control locking_time']) !!}
                                         </div>
                                         <div class="col-md-3">
                                             <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
@@ -157,6 +157,7 @@
         const newRow = document.createElement('div');
         var now_date = "{{ date('Y-m-d') }}";
         var now_time = "{{ date('H:i') }}";
+        var locking_time = "{{ date('H:i',strtotime('30 minutes')) }}";
         newRow.className = 'row mb-2';
         newRow.innerHTML = '<div class="col-md-3"><input min="' + now_date +
             '" class="form-control start_date" name="start_date[]" type="date" required value="' + now_date +
@@ -169,7 +170,7 @@
             now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML +=
             '<div class="col-md-2"><input class="form-control locking_time" name="locking_time[]" type="time" required value="' +
-            now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+            locking_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML +=
             '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
         timeSlots.appendChild(newRow);
