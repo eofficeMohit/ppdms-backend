@@ -9,6 +9,7 @@ use App\Models\Booth;
 use App\Models\Assembly;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\PolledDetail;
 use Spatie\Permission\Models\Role;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -16,6 +17,9 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
 use Auth;
+use Carbon\Carbon;
+use DateTime;
+use Validator;
 
 class ElectionInfoController extends Controller
 {
@@ -201,6 +205,7 @@ class ElectionInfoController extends Controller
         $mock_poll_status = $params['mock_poll_status'];
         $evm_cleared_status = $params['evm_cleared_status'];
         $vvpat_cleared_status = $params['vvpat_cleared_status'];
+        $voting = $params['voting'];
         $state_id = $params['state_id'];
         $data['event_id'] = $event_id;
         $data['user_id'] = $user_id;
@@ -209,11 +214,12 @@ class ElectionInfoController extends Controller
         $data['district_id'] = $district_id;
         $data['assemble_id'] = $assemble_id;
         $data['state_id'] = $state_id;
+        $data['voting']=$voting;
         //next event check
         $next_event_id=$event_id+1;
-        $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status',1)->exists();
+        $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
         if($check_next_event ===true){
-            $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',$booth_id)->where('status',1)->first();
+            $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',$booth_id)->where('status', 1)->first();
             $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
             return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$next_event_id ]);
         }
@@ -221,7 +227,7 @@ class ElectionInfoController extends Controller
         //previous event check
         if($event_id > '1'){
             $previous_event_id=$event_id-1;
-            $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status',1)->exists();
+            $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
             if($check_previous_event ===false){
                 $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
                 $message=$get_previous_event->event_name.' status not updated(no)!';
@@ -229,8 +235,8 @@ class ElectionInfoController extends Controller
             }
         }
 
-        if($request->has('event_id') && $request->event_id=='4'){
-            $validator = Validator::make($request->all(), [
+        if($event_id && $event_id=='4'){
+            $validator = Validator::make($data_res['params'], [
                 'mock_poll_status' => 'required|numeric|in:0,1',
                 'evm_cleared_status' => 'required|numeric|in:0,1',
                 'vvpat_cleared_status'=>'required|numeric|in:0,1'
@@ -256,6 +262,34 @@ class ElectionInfoController extends Controller
             $data['evm_cleared_status'] = $evm_cleared_status;
             $data['vvpat_cleared_status'] = $vvpat_cleared_status;
         }
+
+        if(isset($event_id) && $event_id=='6'){
+            $data['date_time_received']=now();
+            if(Carbon::now()->format('h:i:s') > '06:00:00'){
+                $total_vote_polled = PolledDetail::where('user_id',$user_id)->where('booth_id',$booth_id)
+                                ->where('assemble_id',$assemble_id)->sum('vote_polled');
+                $data['voting']=$total_vote_polled;
+                $data['voting_last_updated']=now();
+                $data['status']=1;
+                $data = ElectionInfo::create($data);
+                $success=$data;
+            }else{
+                $data['vote_polled']=$voting;
+                $data = PolledDetail::create($data);
+                $success=$data;
+            }
+            return response()->json(['success'=>TRUE,'message'=>'Event Updated Successfully.','key'=>'error_'.$event_id ]);
+        }
+
+        if(isset($event_id) && $event_id=='7'){
+            $data['voting_last_updated']=now();
+            $data['status']=1;
+            $data = ElectionInfo::create($data);
+            $success=$data;
+            return response()->json(['success'=>TRUE,'message'=>'Event Updated Successfully.','key'=>'error_'.$event_id ]);
+        }
+
+
         $check_event_exists=ElectionInfo::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->exists();
         if($check_event_exists === true){
             ElectionInfo::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status));

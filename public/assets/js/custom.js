@@ -459,19 +459,50 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
     var mock_poll_status = 0;
     var evm_cleared_status = 0;
     var vvpat_cleared_status = 0;
+    var voting = 0;
     // Make an AJAX request
     if(id == 4){
         if(status == 1){
             $('#myModal').modal('show');
         } else {
-            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status);
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
         }
         
-    } else {
-        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status)
+    } else if(id == 6){
+        if(status == 1){
+            $('#myModalVoting').modal('show');
+        } else {
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+        }
+    } else {    
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
     }
     
 });
+
+function submit_voting(){
+    var id = 6;
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery("event_"+id).prop('checked') == true ? 1 : 0;
+    jQuery('#voting_error').html("");
+    if ($('#voting').val() == "") {
+        jQuery('#voting_error').html("Field is required.");
+        return false; // allow whatever action would normally happen to continue
+    }else {
+        var mock_poll_status = 0;
+        var evm_cleared_status = 0;
+        var vvpat_cleared_status = 0;
+        var voting =$('#voting').val();
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+        $('#myModalVoting').modal('hide');
+    } 
+    
+}
+
 function submit_mockpoll_status(){
     var id = 4;
     var assemble_id = $('#assemble_id :selected').val();
@@ -494,12 +525,13 @@ function submit_mockpoll_status(){
         var mock_poll_status = $('input[name=mock_poll_status]:checked').val();
         var evm_cleared_status = $('input[name=evm_cleared_status]:checked').val();
         var vvpat_cleared_status = $('input[name=vvpat_cleared_status]:checked').val();
-        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status);
+        var voting =0;
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
         $('#myModal').modal('hide');
     } 
     
 }    
-function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status){
+function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting){
     axios.post('/election-info/updateEventToggle', {
         params: {
             event_id: id,
@@ -511,16 +543,19 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
             mock_poll_status:mock_poll_status,
             evm_cleared_status:evm_cleared_status,
             vvpat_cleared_status:vvpat_cleared_status,
-            status: status
+            status: status,
+            voting:voting
         }
     })
     .then(function(response) {
         console.log(response.data);
+        jQuery('.error_toggle_cls').html("");
         if(response.data.success){
             jQuery('.cus_msg_div').html('<p class="alert alert-success">Election Info added successfully.</p>');
-            //jQuery('#'+response.data.key).html(response.data.message);
+            jQuery('#'+response.data.key).html("<p style='color:green; font-size:15px;'>"+response.data.message+"</p>");
+            get_all_events_data(assemble_id,so_user,booth_id);
         } else {
-            jQuery('#'+response.data.key).html(response.data.message);
+            jQuery('#'+response.data.key).html("<p style='color:red; font-size:15px;'>"+response.data.message+"</p>");
             jQuery("#event_"+id).prop('checked',false);
         }
 
@@ -529,5 +564,42 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
     .catch(function(error) {
         console.error(error);
     });
+
+    function get_all_events_data(selected_assemble,selected_user,selected_booth){
+        axios.get('/event/getEventsForEInfo', {
+            params: {
+                selected_assemble: selected_assemble,
+                selected_user: selected_user,
+                selected_booth: selected_booth
+            }
+        })
+        .then(function(response) {
+            console.log(response.data);
+            jQuery('#add-fields').empty();
+            // Iterate through the response and append data to the container
+            response.data.forEach(function(value) {
+                var checked = "";
+                var disabled = "";
+                var present_id = value.id;
+                var last_id = "";
+                if(value.is_updated == "yes"){
+                    var checked = "checked";
+                    var disabled = "disabled";
+                } else {
+                    last_id = parseFloat(present_id) - parseFloat(1);
+                }
+                jQuery('#event_'+last_id).prop('disabled',false);
+                const timeSlots = document.getElementById('add-fields');
+                const newRow = document.createElement('div');
+                newRow.className = 'row mb-2';
+                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="toggle_state_cls_election_info form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
+                timeSlots.appendChild(newRow);
+            });
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+        
+    }  
 
 }

@@ -100,32 +100,11 @@
                                         <div id="add-fields">
                                         </div>   
                                     </div> 
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Voter Turnout:</strong>
-                                            {!! Form::text('voting', null, array('placeholder' => 'Voting','class' => 'form-control')) !!}
-                                            @error('voting')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    {{-- <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <strong>Status:</strong>
-                                            <select class="form-control" id="status" name="status">
-                                                <option value="1">ON</option>
-                                                <option value="0">OFF</option>
-                                            </select>
-                                            @error('status')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
                                     <div class="clearfix">
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 mt-2">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div> --}}
+                                        <a href="" class="btn btn-primary">Reset</a>
+                                    </div>
                                 </div>
                             {!! Form::close() !!}
                         </div>
@@ -167,6 +146,28 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="close_modal()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submit_mockpoll_status()">Save</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal" tabindex="-1" id="myModalVoting">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Voting</h5>
+                </div>
+                <div class="modal-body">
+                <div class="error" id="err_pop"></div>
+                <div class="form-group">
+                    <label><b>Voting:</b></label><br>    
+                    <input type="number" id="voting" name="voting" value="">
+                    <div id="voting_error" class="error"></div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="close_voting_modal()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submit_voting()">Save</button>
                 </div>
                 </div>
             </div>
@@ -268,7 +269,7 @@
                 const timeSlots = document.getElementById('add-fields');
                 const newRow = document.createElement('div');
                 newRow.className = 'row mb-2';
-                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="toggle_state_cls_election_info form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error" id="error_'+value.id+'"></span></div>';
+                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="toggle_state_cls_election_info form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
                 timeSlots.appendChild(newRow);
             });
         })
@@ -278,5 +279,10 @@
     });
     function close_modal(){
         $('#myModal').modal('hide');
+        jQuery("#event_4").prop('checked',false);
+    }
+    function close_voting_modal(){
+        $('#myModalVoting').modal('hide');
+        jQuery("#event_6").prop('checked',false);
     }
 </script>
