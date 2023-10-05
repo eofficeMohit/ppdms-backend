@@ -250,14 +250,16 @@ class CommonApiController extends BaseController
                                 $user_booth=Booth::with('assembly')->where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
                                 $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
                                 ->where('assemble_id',$request->assemble_id)->latest()->first();
-                                $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('id',$request->booth_id)
+                                $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
                                         ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
+
                                 if(!empty($selected_slot)){
+                                   $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
                                     $success['events']['assembly_name']=$user_booth->assembly->asmb_name ?? '';
                                     $success['events']['booth_name']=$user_booth->booth_name;
                                     $success['events']['total_voters']=$user_booth->tot_voters ?? '';
                                     $success['events']['last_vote_polled']=$total_vote_polled ?? '';
-                                    $success['events']['last_vote_polled_time']=$poll_details ? $poll_details->date_time_received->format('h:i a') : '';
+                                    $success['events']['last_vote_polled_time']=$date_time_received ?? '';
                                     $success['events']['votes_polled_till']=$selected_slot ?? 'Slot not available';
 
                                     return $this->sendResponse($success, 'Event occurs in '.$selected_slot.' time slot.');
