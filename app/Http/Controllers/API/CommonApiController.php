@@ -250,15 +250,18 @@ class CommonApiController extends BaseController
                                 $user_booth=Booth::with('assembly')->where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
                                 $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
                                 ->where('assemble_id',$request->assemble_id)->latest()->first();
-                                $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
-                                        ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
+                                $last_vote_polled = $poll_details->vote_polled ?? 0;
 
                                 if(!empty($selected_slot)){
-                                   $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
+                                     $date_time_received="";
+                                    if(!empty($poll_details->date_time_received)){
+                                        $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
+                                    }
+                               
                                     $success['events']['assembly_name']=$user_booth->assembly->asmb_name ?? '';
                                     $success['events']['booth_name']=$user_booth->booth_name;
                                     $success['events']['total_voters']=$user_booth->tot_voters ?? '';
-                                    $success['events']['last_vote_polled']=$total_vote_polled ?? '';
+                                    $success['events']['last_vote_polled']=$last_vote_polled ?? '';
                                     $success['events']['last_vote_polled_time']=$date_time_received ?? '';
                                     $success['events']['votes_polled_till']=$selected_slot ?? 'Slot not available';
 
@@ -341,32 +344,73 @@ class CommonApiController extends BaseController
                                     'state_id' => 'required|numeric|exists:states,id',
                                     'district_id' => 'required|numeric|exists:districts,id',
                                     'booth_id' => 'required|numeric|exists:booths,id',
-                                    'assemble_id' => 'required|numeric|exists:assemblies,id',
-                                    // 'event_id' => 'required|numeric|exists:events,id',
+                                    'assemble_id' => 'required|numeric|exists:assemblies,id'
                                 ]);
 
                 $data = $request->all();
                 $data['user_id']=\Auth::id();
                 $success[]=array();
-
+                //voter turnout conditions
                 if($request->has('event_id') && $request->event_id=='6'){
                     $data['date_time_received']=now();
                     $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
                     $data['ip_host']=request()->ip();
-
-
-                    if(Carbon::now()->format('h:i:s') > '06:00:00'){
-                        $total_vote_polled = PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
-                                        ->where('assemble_id',$request->assemble_id)->sum('vote_polled');
-                        $data['voting']=$total_vote_polled;
-                        $data['voting_last_updated']=now();
+      
+                   $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())
+                        ->where('booth_id',$request->booth_id)->where('assemble_id',$request->assemble_id)->latest()->first(); 
+                    $date_time_received="";
+                    if(!empty($poll_details->date_time_received)){
+                        $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
+                    } 
+                    if(Carbon::now()->format('H:i:s') > '18:30:00'){    
+                      
+                        $data['voting']=$poll_details->vote_polled ?? '';
+                        $data['voting_last_updated']=$date_time_received ?? '';
                         $data['status']=1;
                         $data = ElectionInfo::create($data);
                         $success=$data;
                     }else{
-                        $data['vote_polled']=$request->voting;
-                        $data = PolledDetail::create($data);
-                        $success=$data;
+                    
+                        $poll_detail_time=  date('H:i', strtotime($date_time_received));
+                        $get_events_timeslot=EventTimeslot::where('event_id',$request->event_id)->where('status',1)->get();
+                   
+                        if(count($get_events_timeslot) > 0){
+                            $current_slot_end_time="";
+                            $current_slot_start_time="";
+                            $current_slot_locking_time="";
+                            foreach($get_events_timeslot as $key => $timeSlot){
+                          
+                                  $dt = new DateTime();
+                                    $current_time = $dt->format('H:i:s');
+                                    if($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time){
+                                        $current_slot_end_time=date('H:i', strtotime($timeSlot->end_time));
+                                        $current_slot_start_time=date('H:i', strtotime($timeSlot->start_time));
+                                        $current_slot_locking_time=date('H:i', strtotime($timeSlot->locking_time));
+                                    }
+                            }
+                            
+                            if($current_slot_end_time  <=  Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time){
+
+                                if($current_slot_end_time  <=  $poll_detail_time && $poll_detail_time <= $current_slot_locking_time){
+                                    $data=array(
+                                        'current_slot_start_time'=>$current_slot_start_time,
+                                        'current_slot_end_time'=>$current_slot_end_time,
+                                        'current_slot_locking_time'=>$current_slot_locking_time,
+                                    );
+                                    return $this->sendResponse($data, 'Details already updated in this slot successfully.');
+                                }else{
+                                        $data['vote_polled']=$request->voting;
+                                        $data = PolledDetail::create($data);
+                                        $success=$data;
+                                }
+                                
+                            }else{
+                                return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
+                            }
+                            
+                        }else{
+                            return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                        }  
                     }
 
                     return $this->sendResponse($success, 'Detail updated successfully.');
