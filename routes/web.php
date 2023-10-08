@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::resource('parliaments', ParliamentController::class);
 	Route::get('/parliament/delete/{id}', [ParliamentController::class, 'destroy'])->name('parliament.destroy');
 	Route::get('/parliament/getdatatabledata', [ParliamentController::class, 'getParliamentData'])->name('parliament.getdatatabledata');
+	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');
+
 
 	Route::get('/state/delete/{id}', [StateController::class, 'destroy'])->name('state.destroy');
 	Route::get('/state/getdatatabledata', [StateController::class, 'getStateData'])->name('state.getdatatabledata');

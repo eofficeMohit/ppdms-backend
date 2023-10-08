@@ -262,8 +262,10 @@ jQuery(document).on('change', '.toggle_state_cls_assemble', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -285,8 +287,10 @@ jQuery(document).on('change', '.toggle_state_cls_booth', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -307,8 +311,10 @@ jQuery(document).on('change', '.toggle_state_cls_user', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -329,8 +335,10 @@ jQuery(document).on('change', '.toggle_state_cls_parliament', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -351,8 +359,10 @@ jQuery(document).on('change', '.toggle_state_cls_event', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -373,8 +383,10 @@ jQuery(document).on('change', '.toggle_state_cls_election', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -395,8 +407,10 @@ jQuery(document).on('change', '.toggle_state_cls_state', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -417,8 +431,10 @@ jQuery(document).on('change', '.toggle_state_cls_district', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
 
         // Iterate through the response and append data to the container
     })
@@ -439,11 +455,10 @@ jQuery(document).on('change', '.toggle_state_cls_settings', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        $('#toast_body_msg').html('Status changed successfully'); 
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
         let myAlert = document.querySelector('.toast');
         let bsAlert = new  bootstrap.Toast(myAlert);
         bsAlert.show();
-        setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
 
         // Iterate through the response and append data to the container
     })
@@ -554,8 +569,10 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
         console.log(response.data);
         jQuery('.error_toggle_cls').html("");
         if(response.data.success){
-            jQuery('.cus_msg_div').html('<p class="alert alert-success">Election Info added successfully.</p>');
-            jQuery('#'+response.data.key).html("<p style='color:green; font-size:15px;'>"+response.data.message+"</p>");
+            jQuery('#toast_body_msg').html("Status updated successfully."); 
+            let myAlert = document.querySelector('.toast');
+            let bsAlert = new  bootstrap.Toast(myAlert);
+            bsAlert.show();
             get_all_events_data(assemble_id,so_user,booth_id);
         } else {
             jQuery('#'+response.data.key).html("<p style='color:red; font-size:15px;'>"+response.data.message+"</p>");
@@ -616,6 +633,7 @@ jQuery(document).on('click', '.mark_as_read', function () {
     })
     .then(function(response) {
         console.log(response.data);
+        jQuery('#toast_body_msg').html("Status updated successfully."); 
         let myAlert = document.querySelector('.toast');
         let bsAlert = new  bootstrap.Toast(myAlert);
         bsAlert.show();
