@@ -439,7 +439,10 @@ jQuery(document).on('change', '.toggle_state_cls_settings', function () {
     .then(function(response) {
         console.log(response.data);
         jQuery(this).attr('data-id',id);
-        jQuery('.cus_msg_div').html('<p class="alert alert-success">Status changed successfully.</p>');
+        $('#toast_body_msg').html('Status changed successfully'); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
         setTimeout(function() { jQuery('.cus_msg_div').html(''); }, 3000);
 
         // Iterate through the response and append data to the container
@@ -603,3 +606,22 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
     }  
 
 }
+
+jQuery(document).on('click', '.mark_as_read', function () {
+    var id = jQuery(this).attr('data-id');
+    axios.post('/notifications/updateStatus', {
+        params: {
+            id: id,
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+        //setTimeout(function() { location.reload(); }, 2000);
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+});

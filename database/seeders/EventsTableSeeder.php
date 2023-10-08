@@ -20,7 +20,6 @@ class EventsTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 Event::create([
-                    'id' => $data['0'],
                     'event_name' => $data['1'],
                     'event_sequence' => $data['2'],
                     'start_date_time' => $data['3'],

@@ -153,7 +153,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'mobile_number' => 'required|numeric|digits:10|unique:users,mobile_number,'.$id,
-            'password' => 'same:confirm-password',
+            'password' => 'same:confirm_password',
             'state_id' => 'required|numeric',
             'district_id' => 'required|numeric',
             'assemble_id' => 'required|numeric',

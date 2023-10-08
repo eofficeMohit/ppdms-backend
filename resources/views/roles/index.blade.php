@@ -22,11 +22,6 @@
                                 Role</a>
                         </div>
                         @endcan
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
-                        @endif
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
@@ -57,6 +52,15 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
+@if ($message = Session::get('success'))
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
+@endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('role-delete') }}";
@@ -79,12 +83,13 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
+                            var confirmation = "'Are you sure you want to delete?'";
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="roles/'+full.id+'" data-original-title="Show Role" title="Show Role"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
                             if(permission_edit == "granted"){
                                 btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="roles/'+full.id+'/edit" data-original-title="Edit Role" title="Edit Role"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                             }
                             if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="role/delete/'+full.id+'" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                btn += '<a rel="tooltip" onclick="return confirm('+confirmation+')" class="btn btn-danger btn-link m-2" href="role/delete/'+full.id+'" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                             }
                             return btn;
                         }

@@ -21,7 +21,6 @@ class AssembliesTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 Assembly::create([
-                    'id' => $data['0'],
                     'asmb_code' => $data['1'],
                     'ac_type' => $data['2'],
                     'pc_id' => $data['3'],

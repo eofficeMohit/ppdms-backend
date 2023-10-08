@@ -140,8 +140,11 @@
                     success: function (response) {
 						if(response.success){
 							console.log(response);
-							$('#validation-success').append('<div class="alert alert-success">Event added successfully.</div');
-							setTimeout(function(){
+							jQuery('#toast_body_msg').html('Event added successfully.'); 
+                            let myAlert = document.querySelector('.toast');
+                            let bsAlert = new  bootstrap.Toast(myAlert);
+                            bsAlert.show();
+                            setTimeout(function(){
 								window.location.href = "/events";
 							}, 2000);
 						} else {

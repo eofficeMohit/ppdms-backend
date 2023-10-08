@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 	Route::get('/notifications/getdatatabledata', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
+	Route::post('/notifications/updateStatus', [NotificationController::class, 'updateStatus'])->name('notifications.updateStatus');
 
 	Route::get('/event/getdatatabledata', [EventController::class, 'getEventData'])->name('event.getdatatabledata');
 
@@ -216,6 +217,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+	Route::get('user-toast', function () {
+		return view('pages.notifications');
+	})->name('user-toast');
 
 });
 

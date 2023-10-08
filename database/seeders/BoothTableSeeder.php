@@ -21,7 +21,6 @@ class BoothTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 Booth::create([
-                    'id' => $data['0'],
                     'booth_no' => $data['1'],
                     'tot_voters' => $data['2'],
                     'district_id' => $data['3'],

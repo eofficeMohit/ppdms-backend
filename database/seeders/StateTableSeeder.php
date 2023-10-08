@@ -21,7 +21,6 @@ class StateTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
               State::create([
-                    'id' => $data['0'],
                     'name' => $data['1'],
                     'st_code' =>$data['2'],
                     'status'=>1,

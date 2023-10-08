@@ -11,3 +11,10 @@ if (!function_exists('checkPermission')) {
         return $response;
     }
 }
+
+if (!function_exists('getUserNotification')) {
+    function getUserNotification() {
+        $notifications = \App\Models\Notification::all()->where('user_id','1')->where('seen','0');
+        return $notifications;
+    }
+}

@@ -76,6 +76,16 @@ class NotificationController extends Controller
         //
     }
 
+    public function updateStatus(Request $request)
+    {
+        $id = $request['params']['id'];
+        $notification = Notification::find($id);
+        $notification->seen = "1";
+        $notification->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+
+    }
+           
     public function sendPushNotification(Notification $notification)
     {
         $SERVER_API_KEY ='AAAACptJ01o:APA91bF-JYW1cRJXyjds2L7VE171VS9gMEGSFxF7Blgd6EAAcGjk2qa0SjNTiA4i_1uTDX4rsVUP87zi4g9P4WQgfD75tKC_VGZhj2_ANSO7McI9eNdKklC00F6TGuRQitYXahwfy6Lf';
