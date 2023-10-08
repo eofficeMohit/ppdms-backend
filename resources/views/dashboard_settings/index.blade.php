@@ -69,9 +69,14 @@
     var permission_edit = "{{ checkPermission('settings-edit') }}";
     $(function () {
         var table = $('#empTable').DataTable({
+                pageLength: 25,
+                dom: 'Blfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
-                pageLength: 25,
+                order: [
+                    [0, 'desc']
+                ],
                 ajax: "{{ route('dashboard-settings.getdatatabledata') }}",
                 columns: [
                     {data: 'id', name: 'id'},

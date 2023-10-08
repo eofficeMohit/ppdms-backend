@@ -67,8 +67,13 @@
     var $ = jQuery.noConflict();
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Blfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
+                order: [
+                    [0, 'desc']
+                ],
                 pageLength: 25,
                 ajax: "{{ route('notifications.getdatatabledata') }}",
                 columns: [

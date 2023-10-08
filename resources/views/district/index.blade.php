@@ -76,11 +76,11 @@
         var permission_edit = "{{ checkPermission('district-edit') }}";
         $(function() {
             var table = $('#empTable').DataTable({
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
-                pageLength: 20,
+                pageLength: 25,
                 ajax: "{{ route('districts.getdatatabledata') }}",
                 columns: [{
                         data: 'id',

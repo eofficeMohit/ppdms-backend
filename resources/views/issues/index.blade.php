@@ -73,7 +73,7 @@
     var $ = jQuery.noConflict();
     $(function() {
         var table = $('#empTable').DataTable({
-            dom: 'Bfrtip',
+            dom: 'Blfrtip',
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
             processing: true,
             serverSide: true,

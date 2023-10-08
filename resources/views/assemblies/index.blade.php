@@ -88,14 +88,14 @@
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
-            dom: 'Bfrtip',
+            pageLength: 25,
+            dom: 'Blfrtip',
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
             processing: true,
             serverSide: true,
             order: [
                 [0, 'desc']
             ],
-            pageLength: 25,
             ajax: "{{ route('assemblies.getdatatabledata') }}",
             columns: [{
                     data: 'id',
