@@ -242,7 +242,7 @@ class CommonApiController extends BaseController
                                     $dt = new DateTime();
                                     $current_time = $dt->format('H:i:s');
 
-                                    if($timeSlot->start_time < $current_time && $current_time <=$timeSlot->end_time){
+                                    if($timeSlot->start_time <= $current_time && $current_time <=$timeSlot->end_time){
                                         $selected_slot=$timeSlot->end_time;
                                         // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                                     }
@@ -356,8 +356,8 @@ class CommonApiController extends BaseController
                     $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
                     $data['ip_host']=request()->ip();
       
-                   $poll_details=PolledDetail::with(['polledAssembly','polledBooth'])->where('user_id',\Auth::id())
-                        ->where('booth_id',$request->booth_id)->where('assemble_id',$request->assemble_id)->latest()->first(); 
+                   $poll_details=PolledDetail::where('user_id',\Auth::id())->where('booth_id',$request->booth_id)
+                   ->where('assemble_id',$request->assemble_id)->latest()->first(); 
                     $date_time_received="";
                     if(!empty($poll_details->date_time_received)){
                         $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
@@ -372,26 +372,20 @@ class CommonApiController extends BaseController
                     }else{
                     
                         $poll_detail_time=  date('H:i', strtotime($date_time_received));
-                        $get_events_timeslot=EventTimeslot::where('event_id',$request->event_id)->where('status',1)->get();
-                   
-                        if(count($get_events_timeslot) > 0){
-                            $current_slot_end_time="";
-                            $current_slot_start_time="";
-                            $current_slot_locking_time="";
-                            foreach($get_events_timeslot as $key => $timeSlot){
-                          
-                                  $dt = new DateTime();
-                                    $current_time = $dt->format('H:i:s');
-                                    if($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time){
-                                        $current_slot_end_time=date('H:i', strtotime($timeSlot->end_time));
-                                        $current_slot_start_time=date('H:i', strtotime($timeSlot->start_time));
-                                        $current_slot_locking_time=date('H:i', strtotime($timeSlot->locking_time));
-                                    }
-                            }
-                            
-                            if($current_slot_end_time  <=  Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time){
+                         $dt = new DateTime();
+                        $current_time = $dt->format('H:i:s');
+                        $get_events_timeslot=EventTimeslot::where('event_id',$request->event_id)
+                                            ->whereTime('start_time','<=',$current_time)
+                                            ->whereTime('locking_time','>=',$current_time)
+                                            ->where('status',1)->first();
+                
+                        if(!empty($get_events_timeslot)){
+                                $current_slot_end_time=date('H:i', strtotime($get_events_timeslot->end_time));
+                                $current_slot_start_time=date('H:i', strtotime($get_events_timeslot->start_time));
+                                $current_slot_locking_time=date('H:i', strtotime($get_events_timeslot->locking_time));  
 
-                                if($current_slot_end_time  <=  $poll_detail_time && $poll_detail_time <= $current_slot_locking_time){
+                            if($current_slot_end_time  <=  Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time){
+                                if($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time){
                                     $data=array(
                                         'current_slot_start_time'=>$current_slot_start_time,
                                         'current_slot_end_time'=>$current_slot_end_time,
