@@ -611,8 +611,12 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
                 jQuery('#event_'+last_id).prop('disabled',false);
                 const timeSlots = document.getElementById('add-fields');
                 const newRow = document.createElement('div');
+                var togg_cls = "toggle_state_cls_election_info";
+                if(value.id == 13){
+                    togg_cls = "toggle_state_cls_election_info_poll";
+                }
                 newRow.className = 'row mb-2';
-                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="toggle_state_cls_election_info form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
+                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="'+togg_cls+' form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
                 timeSlots.appendChild(newRow);
             });
         })
@@ -643,3 +647,72 @@ jQuery(document).on('click', '.mark_as_read', function () {
         console.error(error);
     });
 });
+function submit_poll_interrupted(){
+    var id = 13;
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery("event_"+id).prop('checked') == true ? 1 : 0;
+    jQuery('#err_pop').html("");
+    jQuery('.error').html("");
+    if($('input[name=interruption_type]:checked').length == 0) {
+        jQuery('#inter_type_error').html("Please select interruption type.");
+        console.log('heer');
+        return false; // allow whatever action would normally happen to continue
+    }else {
+        console.log('there');
+        var flag = 0;
+        if($('#stop_time').val() == "") {
+            flag =1;
+            jQuery('#stop_time_error').html("Stop time is required field.");
+        }
+        if($('#resume_time').val() == "") {
+            flag =1;
+            jQuery('#resume_time_error').html("Resume time is required field.");
+        }
+        if($('#remarks').val() == "") {
+            flag =1;
+            jQuery('#remarks_error').html("Remarks is required field.");
+        }
+        if($('input[name=interruption_type]:checked').val() == 2) {
+            if($('#old_cu').val() == "") {
+                flag =1;
+                jQuery('#old_cu_error').html("Old CU is required field.");
+            }
+            if($('#old_bu').val() == "") {
+                flag =1;
+                jQuery('#old_bu_error').html("Old BU is required field.");
+            }
+            if($('#new_cu').val() == "") {
+                flag =1;
+                jQuery('#new_cu_error').html("New CU is required field.");
+            }
+            if($('#new_bu').val() == "") {
+                flag =1;
+                jQuery('#new_bu_error').html("New BU is required field.");
+            }
+        } 
+        if(flag == 1){
+            return false;
+        }  else {
+
+
+        } 
+    }
+    /*var mock_poll_status = $('input[name=mock_poll_status]:checked').val();
+    var evm_cleared_status = $('input[name=evm_cleared_status]:checked').val();
+    var vvpat_cleared_status = $('input[name=vvpat_cleared_status]:checked').val();
+    var voting =0;
+    update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+    $('#myModal').modal('hide');*/
+    
+}
+
+function check_interrupt_info(assemble_id,so_user,booth_id,state_id,district_id){
+
+
+
+
+}

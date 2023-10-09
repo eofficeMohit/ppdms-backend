@@ -172,6 +172,71 @@
                 </div>
             </div>
             </div>
+            <div class="modal" tabindex="-1" id="myModalPollInterrupted">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Poll Interrupted</h5>
+			</div>
+			<div class="modal-body">
+				<div class="error" id="err_pop"></div>
+				@php($types = getInterruptionTypes() )
+				@if(count($types) > 0)
+				<div class="form-group"> 
+					<label><b>Interruption Type:</b></label><br>   
+					@foreach($types as $key => $val)
+					<input type="radio" id="interruption_type_{{ $val->id }}" name="interruption_type" value="{{ $val->id }}">
+					<label for="interruption_type_{{ $val->id }}">{{ $val->name }}</label>
+					@endforeach
+                    <div id="inter_type_error" class="error"></div>
+				</div>
+				@endif
+				<div class="form-group">
+					<label><b>Stop Time:</b></label><br>    
+					<input type="time" id="stop_time" name="stop_time" value="">
+					<div id="stop_time_error" class="error"></div>
+				</div>
+				<div class="form-group">
+					<label><b>Resume Time:</b></label><br>    
+					<input type="time" id="resume_time" name="resume_time" value="">
+					<div id="resume_time_error" class="error"></div>
+				</div>
+				<div class="form-group">
+					<label><b>Remarks:</b></label><br>    
+					<textarea name="remarks" id="remarks">Enter Remarks Here</textarea>
+					<div id="remark_error" class="error"></div>
+				</div>
+				<div id="evm_fault_fields" style="display:none;">
+					<div class="form-group">
+						<label><b>Old CU:</b></label><br>    
+						<input type="text" id="old_cu" name="old_cu" value="">
+						<div id="old_cu_error" class="error"></div>
+					</div>
+					<div class="form-group">
+						<label><b>Old BU:</b></label><br>    
+						<input type="text" id="old_bu" name="old_bu" value="">
+						<div id="old_bu_error" class="error"></div>
+					</div>
+					<div class="form-group">
+						<label><b>New CU:</b></label><br>    
+						<input type="text" id="new_cu" name="new_cu" value="">
+						<div id="new_cu_error" class="error"></div>
+					</div>
+					<div class="form-group">
+						<label><b>New BU:</b></label><br>    
+						<input type="text" id="new_bu" name="new_bu" value="">
+						<div id="new_bu_error" class="error"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="close_poll_interrupted_modal()">Close</button>
+					<button type="button" class="btn btn-primary" onclick="submit_poll_interrupted()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+            
     </main>
     <x-plugins></x-plugins>
 </x-layout>
@@ -268,8 +333,12 @@
                 jQuery('#event_'+last_id).prop('disabled',false);
                 const timeSlots = document.getElementById('add-fields');
                 const newRow = document.createElement('div');
+                var togg_cls = "toggle_state_cls_election_info";
+                if(value.id == 13){
+                    togg_cls = "toggle_state_cls_election_info_poll";
+                }
                 newRow.className = 'row mb-2';
-                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="toggle_state_cls_election_info form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
+                newRow.innerHTML = '<div class="col-md-12"><strong>'+value.name+'</strong><br><label class="switch"><input '+disabled+' data-id="'+value.id+'" id="event_'+value.id+'" class="'+togg_cls+' form-control" '+checked+' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_'+value.id+'"></span></div>';
                 timeSlots.appendChild(newRow);
             });
         })
@@ -278,11 +347,56 @@
         });
     });
     function close_modal(){
-        $('#myModal').modal('hide');
+        $('#myModal').modal('hide');     
         jQuery("#event_4").prop('checked',false);
     }
     function close_voting_modal(){
         $('#myModalVoting').modal('hide');
         jQuery("#event_6").prop('checked',false);
     }
+    function close_poll_interrupted_modal(){
+        $('#myModalPollInterrupted').modal('hide');
+        jQuery("#event_13").prop('checked',false);
+    }
+    $('input[type=radio][name=interruption_type]').change(function() {
+        if (this.value == 1) {
+            jQuery("#evm_fault_fields").css('display','none');
+        }
+        else {
+            jQuery("#evm_fault_fields").css('display','block');
+        }
+    });
+    jQuery(document).on('change', '.toggle_state_cls_election_info_poll', function () {
+    var id = jQuery(this).attr('data-id');
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+    var mock_poll_status = 0;
+    var evm_cleared_status = 0;
+    var vvpat_cleared_status = 0;
+    var voting = 0;
+    // Make an AJAX request
+    if(id == 13){
+        if(status == 1){
+            //var response = "{{ checkPollInterrupt("+so_user+","+booth_id+") }}";
+            if(response == "granted"){
+                console.log('granted');
+            } else {
+                console.log('denied');
+            }
+            console.log(response);
+            $('#myModal').modal('show');
+        } else {
+            //update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+        }
+        
+    } else {
+
+
+    }
+    
+});
 </script>

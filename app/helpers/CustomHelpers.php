@@ -18,3 +18,21 @@ if (!function_exists('getUserNotification')) {
         return $notifications;
     }
 }
+
+if (!function_exists('getInterruptionTypes')) {
+    function getInterruptionTypes() {
+        $types = \App\Models\PollInterruptedTypes::all();
+        return $types;
+    }
+}
+
+if (!function_exists('checkPollInterrupt')) {
+    function checkPollInterrupt($user_id,$booth_id) {
+        $check_event_poll_ended =\App\Models\ElectionInfo::where('event_id',8)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+        $response = "denied";
+        if($check_event_poll_ended ===false){
+            $response = "granted";
+        }
+        return $response;
+    }
+}
