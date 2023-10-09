@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Binafy\LaravelUserMonitoring\Traits\Actionable;
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\hasMany;
 class User extends Authenticatable
 {
     use HasApiTokens,SoftDeletes,HasFactory,Notifiable,HasRoles;
-    use Actionable;
 
     protected $dates = ['deleted_at'];
     /**
