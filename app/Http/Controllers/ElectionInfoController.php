@@ -194,8 +194,10 @@ class ElectionInfoController extends Controller
     }
 
     public function updateEventToggle(Request $request){
+     
         $data_res = $request->all();
         $params = $data_res['params'];
+     
         $event_id = $params['event_id'];
         $user_id = $params['so_user'];
         $booth_id = $params['booth_id'];
@@ -215,6 +217,39 @@ class ElectionInfoController extends Controller
         $data['assemble_id'] = $assemble_id;
         $data['state_id'] = $state_id;
         $data['voting']=$voting;
+       
+       //poll intruption
+         if($event_id =='13'){
+
+            //todo need to open the modal before vcalidation
+            $check_event_poll_ended =ElectionInfo::where('event_id',8)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+
+            if($check_event_poll_ended ===false){
+                  $validator = Validator::make($data_res['params'], [
+                    'law_and_order' => 'required|numeric|in:0,1',
+                    'evm' => 'required|numeric|in:0,1',
+                    'stop_time'=>'required',
+                    'remark'=>'required',
+                    'resume_time'=>'nullable',
+                    'old_cu'=> 'required_if:evm,in:1',
+                    'old_bu'=> 'required_if:evm,in:1',
+                    'new_cu'=> 'required_if:evm,in:1',
+                    'new_bu'=> 'required_if:evm,in:1',
+                 ]);
+
+                 
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 400); // 400 being the HTTP code for an invalid request.
+            }
+             //   $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
+             //   $message=$get_previous_event->event_name.' status not updated(no)!';
+             //   return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
+            }
+        }
+       
         //next event check
         $next_event_id=$event_id+1;
         $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
@@ -248,7 +283,7 @@ class ElectionInfoController extends Controller
                 ], 200); // 400 being the HTTP code for an invalid request.
             }
             if($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='1'){
-                $data['status']=4;
+                $data['status']=1;
             }elseif($mock_poll_status=='1' && $evm_cleared_status=='0' && $vvpat_cleared_status=='0'){
                 $data['status']=1;
             }elseif($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='0'){
@@ -261,6 +296,7 @@ class ElectionInfoController extends Controller
             $data['mock_poll_status'] = $mock_poll_status;
             $data['evm_cleared_status'] = $evm_cleared_status;
             $data['vvpat_cleared_status'] = $vvpat_cleared_status;
+
         }
 
         if(isset($event_id) && $event_id=='6'){
