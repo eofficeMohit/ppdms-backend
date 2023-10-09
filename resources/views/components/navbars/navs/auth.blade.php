@@ -1,7 +1,6 @@
 @props(['titlePage'])
 @php( $notifications = getUserNotification() )
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-    navbar-scroll="true">
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
             {{-- <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -24,8 +23,7 @@
                 <li class="nav-item d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none"
-                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">Sign
+                        <span class="d-sm-inline d-none" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Sign
                             Out</span>
                     </a>
                 </li>
@@ -44,20 +42,18 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-bell cursor-pointer">{{ count($notifications) }}</i>
+                    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell cursor-pointer"></i>
+                        <span class="bell-count">{{ count($notifications) }}</span>
                     </a>
-                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                        aria-labelledby="dropdownMenuButton">
+                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         @if(count($notifications) > 0)
                         @foreach($notifications as $notification)
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="{{ asset('assets') }}/img/team-2.jpg"
-                                            class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                                        <img src="{{ asset('assets') }}/img/team-2.jpg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -77,8 +73,8 @@
                         @endforeach
                         @else
                         <li class="mb-2">
-                        <p class="text-xs text-secondary mb-0">No Notification's Found.</p>
-                        </li>    
+                            <p class="text-xs text-secondary mb-0">No Notification's Found.</p>
+                        </li>
                         @endif
                     </ul>
                 </li>
@@ -86,20 +82,18 @@
         </div>
     </div>
 </nav>
-<div class="position-fixed bottom-1 end-1 z-index-2">
-<div class="toast fade hide p-2 mt-2 bg-gradient-success" role="alert" aria-live="assertive" id="infoToast"
-            aria-atomic="true" data-delay="2000">
-            <div class="toast-header bg-transparent border-0">
-                <i class="material-icons text-white me-2">
+<div class="position-fixed top-0 end-0" style="z-index: 11">
+    <div class="toast fade hide p-2 mt-2 bg-gradient-success" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true" data-delay="2000">
+        <div class="toast-header bg-transparent border-0">
+            <i class="material-icons text-white me-2">
                 check
-                </i>
-                <span class="me-auto text-white font-weight-bold">Success Message </span>
-                <small class="text-white">Just Now</small>
-                <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
-                    aria-label="Close"></i>
-            </div>
-            <hr class="horizontal light m-0">
-            <div class="toast-body text-white" id="toast_body_msg">
-            </div>
+            </i>
+            <span class="me-auto text-white font-weight-bold">Success Message </span>
+            <small class="text-white">Just Now</small>
+            <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
         </div>
+        <hr class="horizontal light m-0">
+        <div class="toast-body text-white" id="toast_body_msg">
+        </div>
+    </div>
 </div>
