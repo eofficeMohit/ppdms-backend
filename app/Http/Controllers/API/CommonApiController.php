@@ -346,10 +346,20 @@ class CommonApiController extends BaseController
                                     'booth_id' => 'required|numeric|exists:booths,id',
                                     'assemble_id' => 'required|numeric|exists:assemblies,id'
                                 ]);
-
+                 if($validator->fails()){
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+                
                 $data = $request->all();
                 $data['user_id']=\Auth::id();
                 $success[]=array();
+
+                $user_booth=Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
+                $get_total_votes=$user_booth->tot_voters;
+                    if($request->voting > $get_total_votes){
+                        return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
+                    }
+
                 //voter turnout conditions
                 if($request->has('event_id') && $request->event_id=='6'){
                     $data['date_time_received']=now();
@@ -362,10 +372,10 @@ class CommonApiController extends BaseController
                     if(!empty($poll_details->date_time_received)){
                         $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
                     } 
-                    if(Carbon::now()->format('H:i:s') > '18:30:00'){    
+                    if(Carbon::now()->format('H:i:s') > '18:00:00'){    
                       
                         $data['voting']=$poll_details->vote_polled ?? '';
-                        $data['voting_last_updated']=$date_time_received ?? '';
+                        $data['voting_last_updated']=$poll_details->date_time_received ?? '';
                         $data['status']=1;
                         $data = ElectionInfo::create($data);
                         $success=$data;
@@ -407,21 +417,48 @@ class CommonApiController extends BaseController
                         }  
                     }
 
-                    return $this->sendResponse($success, 'Detail updated successfully.');
+                    return $this->sendResponse($success, 'Voter Turnout has been updated successfully.');
                 }
 
                 if($request->has('event_id') && $request->event_id=='7'){
-                    $data['voting_last_updated']=now();
-                    $data['status']=1;
-                    $data = ElectionInfo::create($data);
-                    $success=$data;
-                    return $this->sendResponse($success, 'Event updated successfully.');
+                   
+                   //check booths
+                    $user_booth=Booth::where('user_id',\Auth::id())->where('id',$request->booth_id)->first();
+                    $get_total_votes=$user_booth->tot_voters;
+                    $get_voter_turnout_votes_polled=ElectionInfo::where('event_id',6)->where('user_id',\Auth::id())
+                    ->where('booth_id',$request->booth_id)->where('status',1)->whereDate('created_at', '=', Carbon::today()->toDateString())->first();
+                   $vote_polled=0;
+                   if(!empty($get_voter_turnout_votes_polled)){
+                    $vote_polled=$get_voter_turnout_votes_polled->voting;
+                   }
+                    $vote_remaining= $get_total_votes - $vote_polled;
+                
+                    if($request->voting > $vote_remaining){
+                        return $this->sendError('Message.', 'Voters in queue cannot exceed voter remaining.');
+                    }
+
+                   //check voter in queqe
+                    $check_voter_in_queqe=ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())
+                    ->where('booth_id',$request->booth_id)->where('status',1)->whereDate('created_at', '=', Carbon::today()->toDateString())->exists();
+
+                    if($check_voter_in_queqe ===false){
+                            if(Carbon::now()->format('H:i:s') > '18:00:00'){    
+                                $data['voting_last_updated']=now();
+                                $data['status']=1;
+                                $data = ElectionInfo::create($data);
+                                $success=$data;
+                                return $this->sendResponse($success, 'Voter in Queue has been updated successfully.');
+                            }else{
+                                return $this->sendError('Message.', 'Voter Turnout is not completed yet.');
+                            }
+                    }else{
+                         return $this->sendError('Message.', 'Voter in Queue already updated.');
+                    }
+                     
                 }
 
 
-                if($validator->fails()){
-                    return $this->sendError('Validation Error.', $validator->errors());
-                }
+               
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }catch (\Exception $e) {
