@@ -10,6 +10,7 @@ use App\Models\Assembly;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\PolledDetail;
+use App\Models\PollInterrupted;
 use Spatie\Permission\Models\Role;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -209,6 +210,14 @@ class ElectionInfoController extends Controller
         $vvpat_cleared_status = $params['vvpat_cleared_status'];
         $voting = $params['voting'];
         $state_id = $params['state_id'];
+        $interrupted_type = $params['interrupted_type'];
+        $stop_time = $params['stop_time'];
+        $remarks = $params['remarks'];
+        $resume_time = $params['resume_time'];
+        $old_cu = $params['old_cu'];
+        $old_bu = $params['old_bu'];
+        $new_cu = $params['new_cu'];   
+        $new_bu = $params['new_bu'];
         $data['event_id'] = $event_id;
         $data['user_id'] = $user_id;
         $data['booth_id'] = $booth_id;
@@ -220,53 +229,64 @@ class ElectionInfoController extends Controller
        
        //poll intruption
          if($event_id =='13'){
-
-            //todo need to open the modal before vcalidation
-            $check_event_poll_ended =ElectionInfo::where('event_id',8)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
-
-            if($check_event_poll_ended ===false){
-                  $validator = Validator::make($data_res['params'], [
-                    'law_and_order' => 'required|numeric|in:0,1',
-                    'evm' => 'required|numeric|in:0,1',
+                $validator = Validator::make($data_res['params'], [
+                    'interrupted_type' => 'required|numeric|in:1,2',
                     'stop_time'=>'required',
-                    'remark'=>'required',
+                    'remarks'=>'required',
                     'resume_time'=>'nullable',
-                    'old_cu'=> 'required_if:evm,in:1',
-                    'old_bu'=> 'required_if:evm,in:1',
-                    'new_cu'=> 'required_if:evm,in:1',
-                    'new_bu'=> 'required_if:evm,in:1',
-                 ]);
-
-                 
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 400); // 400 being the HTTP code for an invalid request.
-            }
-             //   $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
-             //   $message=$get_previous_event->event_name.' status not updated(no)!';
-             //   return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
-            }
+                    'old_cu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'old_bu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'new_cu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'new_bu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
+                ]);    
+                if ($validator->fails()) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => $validator->errors()
+                    ], 400); // 400 being the HTTP code for an invalid request.
+                }
+                $poll_data['event_id'] = $event_id;
+                $poll_data['user_id'] = $user_id;
+                $poll_data['booth_id'] = $booth_id;
+                $poll_data['status'] = $status;
+                $poll_data['district_id'] = $district_id;
+                $poll_data['assemble_id'] = $assemble_id;
+                $poll_data['state_id'] = $state_id;
+                $poll_data['interrupted_type'] = $interrupted_type;
+                $poll_data['stop_time'] = $stop_time;
+                $poll_data['remarks'] = $remarks;
+                $poll_data['resume_time'] = $resume_time;
+                $poll_data['old_cu'] = $old_cu;
+                $poll_data['old_bu'] = $old_bu;
+                $poll_data['new_cu'] = $new_cu;
+                $poll_data['new_bu'] = $new_bu;
+                $check_event_exists=PollInterrupted::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->exists();
+                if($check_event_exists === true){
+                    PollInterrupted::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status));
+                }else{
+                    $insert_data = PollInterrupted::create($poll_data);
+                }
+                //return response()->json(['success'=>TRUE,'message'=>'Electon Info Updated Successfully.','key'=>'error_'.$event_id ]);
         }
-       
+        if($event_id !='13'){
         //next event check
-        $next_event_id=$event_id+1;
-        $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
-        if($check_next_event ===true){
-            $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',$booth_id)->where('status', 1)->first();
-            $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
-            return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$next_event_id ]);
-        }
+            $next_event_id=$event_id+1;
+            $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+            if($check_next_event ===true){
+                $get_next_event =ElectionInfo::with('electionEvent')->where('event_id',$next_event_id)->where('user_id',$booth_id)->where('status', 1)->first();
+                $message=$get_next_event->electionEvent->event_name.' status already updated(yes)!';
+                return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$next_event_id ]);
+            }
 
-        //previous event check
-        if($event_id > '1'){
-            $previous_event_id=$event_id-1;
-            $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
-            if($check_previous_event ===false){
-                $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
-                $message=$get_previous_event->event_name.' status not updated(no)!';
-                return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
+            //previous event check
+            if($event_id > '1'){
+                $previous_event_id=$event_id-1;
+                $check_previous_event =ElectionInfo::where('event_id',$previous_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+                if($check_previous_event ===false){
+                    $get_previous_event =Event::where('id',$previous_event_id)->where('status',1)->first();
+                    $message=$get_previous_event->event_name.' status not updated(no)!';
+                    return response()->json(['success'=>FALSE,'message'=>$message,'key'=>'error_'.$previous_event_id ]);
+                }
             }
         }
 
@@ -333,6 +353,15 @@ class ElectionInfoController extends Controller
             $insert_data = ElectionInfo::create($data);
         }
         return response()->json(['success'=>TRUE,'message'=>'Electon Info Updated Successfully.','key'=>'error_'.$event_id ]);
+    }
+
+    public function getPollInterruptedDetails(Request $request)
+    {
+        $user_id = $request->user;
+        $booth_id = $request->booth_id;
+        $check_event_party_dispatched =ElectionInfo::where('event_id',1)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+        $check_event_poll_ended =ElectionInfo::where('event_id',8)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
+        return response()->json(['success'=>TRUE,'is_party_dispatch' => $check_event_party_dispatched,'is_poll_ended' => $check_event_poll_ended]);
     }
 
 }

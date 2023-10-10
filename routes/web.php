@@ -121,6 +121,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
 	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');
 	Route::get('/election/getdatatabledata', [ElectionInfoController::class, 'getElectionInfoData'])->name('election.getdatatabledata');
+	Route::get('/election/getPollInterruptedDetails', [ElectionInfoController::class, 'getPollInterruptedDetails'])->name('election.getPollInterruptedDetails');
 
 
 	Route::get('/events', [EventController::class, 'index'])->name('events');

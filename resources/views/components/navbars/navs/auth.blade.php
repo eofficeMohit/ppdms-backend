@@ -46,7 +46,7 @@
                         <i class="fa fa-bell cursor-pointer"></i>
                         <span class="bell-count">{{ count($notifications) }}</span>
                     </a>
-                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4 notification_ul_cls" aria-labelledby="dropdownMenuButton">
                         @if(count($notifications) > 0)
                         @foreach($notifications as $notification)
                         <li class="mb-2">

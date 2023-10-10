@@ -18,3 +18,10 @@ if (!function_exists('getUserNotification')) {
         return $notifications;
     }
 }
+
+if (!function_exists('getInterruptionTypes')) {
+    function getInterruptionTypes() {
+        $types = \App\Models\PollInterruptedTypes::all();
+        return $types;
+    }
+}

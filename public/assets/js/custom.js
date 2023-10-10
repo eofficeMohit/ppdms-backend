@@ -478,23 +478,35 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
     var evm_cleared_status = 0;
     var vvpat_cleared_status = 0;
     var voting = 0;
+    var interruption_type =1;
+    var stop_time ="";
+    var resume_time ="";
+    var remarks ="";
+    var old_cu ="";
+    var old_bu ="";
+    var new_cu ="";
+    var new_bu =""; 
     // Make an AJAX request
     if(id == 4){
         if(status == 1){
             $('#myModal').modal('show');
         } else {
-            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
-        }
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);        }
         
     } else if(id == 6){
         if(status == 1){
             $('#myModalVoting').modal('show');
         } else {
-            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);        }
+    } else if(id == 13){
+        console.log('here');
+        if(status == 1){
+            checkIsPollIntrupped(so_user,booth_id);
+        } else {
+
         }
     } else {    
-        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
-    }
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);    }
     
 });
 
@@ -515,7 +527,15 @@ function submit_voting(){
         var evm_cleared_status = 0;
         var vvpat_cleared_status = 0;
         var voting =$('#voting').val();
-        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+        var interruption_type =1;
+        var stop_time ="";
+        var resume_time ="";
+        var remarks ="";
+        var old_cu ="";
+        var old_bu ="";
+        var new_cu ="";
+        var new_bu =""; 
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);
         $('#myModalVoting').modal('hide');
     } 
     
@@ -528,7 +548,7 @@ function submit_mockpoll_status(){
     var booth_id = $('#booth_id :selected').val();
     var state_id = $('#state_id :selected').val();
     var district_id = $('#district_id :selected').val();
-    var status = jQuery("event_"+id).prop('checked') == true ? 1 : 0;
+    var status = jQuery("#event_"+id).prop('checked') == true ? 1 : 0;
     jQuery('#err_pop').html("");
     if ($('input[name=mock_poll_status]:checked').length == 0) {
         jQuery('#err_pop').html("All fields are required.");
@@ -544,12 +564,20 @@ function submit_mockpoll_status(){
         var evm_cleared_status = $('input[name=evm_cleared_status]:checked').val();
         var vvpat_cleared_status = $('input[name=vvpat_cleared_status]:checked').val();
         var voting =0;
-        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting);
+        var interruption_type =1;
+        var stop_time ="";
+        var resume_time ="";
+        var remarks ="";
+        var old_cu ="";
+        var old_bu ="";
+        var new_cu ="";
+        var new_bu =""; 
+        update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);
         $('#myModal').modal('hide');
     } 
     
 }    
-function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting){
+function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu){
     axios.post('/election-info/updateEventToggle', {
         params: {
             event_id: id,
@@ -562,6 +590,14 @@ function update_election_info(id,assemble_id,so_user,booth_id,state_id,district_
             evm_cleared_status:evm_cleared_status,
             vvpat_cleared_status:vvpat_cleared_status,
             status: status,
+            interrupted_type: interruption_type,
+            stop_time: stop_time,
+            resume_time: resume_time,
+            remarks: remarks,
+            old_cu: old_cu,
+            old_bu: old_bu,
+            new_cu: new_cu,
+            new_bu: new_bu,
             voting:voting
         }
     })
@@ -637,9 +673,107 @@ jQuery(document).on('click', '.mark_as_read', function () {
         let myAlert = document.querySelector('.toast');
         let bsAlert = new  bootstrap.Toast(myAlert);
         bsAlert.show();
+        jQuery('.notification_ul_cls').empty();
+        jQuery('.bell-count').html(response.data.count);
+        jQuery('.notification_ul_cls').append(response.data.data);
         //setTimeout(function() { location.reload(); }, 2000);
     })
     .catch(function(error) {
         console.error(error);
     });
 });
+
+function submit_poll_interrupted(){
+    var id = 13;
+    var assemble_id = $('#assemble_id :selected').val();
+    var so_user = $('#so_user_id :selected').val();
+    var booth_id = $('#booth_id :selected').val();
+    var state_id = $('#state_id :selected').val();
+    var district_id = $('#district_id :selected').val();
+    var status = jQuery("#event_"+id).prop('checked') == true ? 1 : 0;
+    var mock_poll_status = 0;
+    var evm_cleared_status = 0;
+    var vvpat_cleared_status = 0;
+    var voting =0;
+    jQuery('#err_pop').html("");
+    jQuery('.error').html("");
+    if($('input[name=interruption_type]:checked').length == 0) {
+        jQuery('#inter_type_error').html("Please select interruption type.");
+        console.log('heer');
+        return false; // allow whatever action would normally happen to continue
+    }else {
+        console.log('there');
+        var flag = 0;
+        if($('#stop_time').val() == "") {
+            flag =1;
+            jQuery('#stop_time_error').html("Stop time is required field.");
+        }
+        if($('#resume_time').val() == "") {
+            flag =1;
+            jQuery('#resume_time_error').html("Resume time is required field.");
+        }
+        if($('#remarks').val() == "") {
+            flag =1;
+            jQuery('#remarks_error').html("Remarks is required field.");
+        }
+        if($('input[name=interruption_type]:checked').val() == 2) {
+            if($('#old_cu').val() == "") {
+                flag =1;
+                jQuery('#old_cu_error').html("Old CU is required field.");
+            }
+            if($('#old_bu').val() == "") {
+                flag =1;
+                jQuery('#old_bu_error').html("Old BU is required field.");
+            }
+            if($('#new_cu').val() == "") {
+                flag =1;
+                jQuery('#new_cu_error').html("New CU is required field.");
+            }
+            if($('#new_bu').val() == "") {
+                flag =1;
+                jQuery('#new_bu_error').html("New BU is required field.");
+            }
+        } 
+        if(flag == 1){
+            return false;
+        }  else {
+            var interruption_type =$('input[name=interruption_type]:checked').val();
+            var stop_time =$('#stop_time').val();
+            var resume_time =$('#resume_time').val();
+            var remarks =$('#remarks').val();
+            var old_cu =$('#old_cu').val();
+            var old_bu =$('#old_bu').val();
+            var new_cu =$('#new_cu').val();
+            var new_bu =$('#new_bu').val();    
+            update_election_info(id,assemble_id,so_user,booth_id,state_id,district_id,status,mock_poll_status,evm_cleared_status,vvpat_cleared_status,voting,interruption_type,stop_time,resume_time,remarks,old_cu,old_bu,new_cu,new_bu);
+            $('#myModalPollInterrupted').modal('hide');
+        } 
+    }    
+}
+
+function checkIsPollIntrupped(so_user,booth_id){
+    axios.get('/election/getPollInterruptedDetails', {
+        params: {
+            user: so_user,
+            booth_id: booth_id
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        if(response.data.is_party_dispatch === true && response.data.is_poll_ended === false){
+            $('#myModalPollInterrupted').modal('show');
+        } else if(response.data.is_party_dispatch === false){
+            jQuery('#error_13').html("<p style='color:red; font-size:15px;'>Party is not dispatched yet.</p>");
+            jQuery("#event_13").prop('checked',false);
+        } else if(response.data.is_poll_ended === true){
+            jQuery('#error_13').html("<p style='color:red; font-size:15px;'>Poll is already ended.</p>");
+            jQuery("#event_13").prop('checked',false);
+        } else{
+
+        }
+        //setTimeout(function() { location.reload(); }, 2000);
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+}

@@ -152,25 +152,106 @@
             </div>
 
             <div class="modal" tabindex="-1" id="myModalVoting">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Voting</h5>
-                </div>
-                <div class="modal-body">
-                <div class="error" id="err_pop"></div>
-                <div class="form-group">
-                    <label><b>Voting:</b></label><br>    
-                    <input type="number" id="voting" name="voting" value="">
-                    <div id="voting_error" class="error"></div>
-                </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="close_voting_modal()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submit_voting()">Save</button>
-                </div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Voting</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error" id="err_pop"></div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label><b>Voting:</b></label><br>    
+                                <input class="form-control" type="number" id="voting" name="voting" value="">
+                                <div id="voting_error" class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="close_voting_modal()">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="submit_voting()">Save</button>
+                    </div>
+                    </div>
                 </div>
             </div>
+            <div class="modal" tabindex="-1" id="myModalPollInterrupted">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Poll Interrupted</h5>
+                        </div>
+                        <div class="modal-body">
+                            @php($types = getInterruptionTypes() )
+                            @if(count($types) > 0)
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label><b>Interruption Type:</b></label><br>   
+                                    @foreach($types as $key => $val)
+                                    <input type="radio" id="interruption_type" name="interruption_type" value="{{ $val->id }}">
+                                    <label for="interruption_type">{{ $val->name }}</label>
+                                    @endforeach
+                                    <div id="inter_type_error" class="error"></div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label><b>Stop Time:</b></label><br>    
+                                    <input class="form-control" type="time" id="stop_time" name="stop_time" value="">
+                                    <div id="stop_time_error" class="error"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label><b>Resume Time:</b></label><br>    
+                                    <input class="form-control" type="time" id="resume_time" name="resume_time" value="">
+                                    <div id="resume_time_error" class="error"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label><b>Remarks:</b></label><br>    
+                                    <textarea class="form-control" name="remarks" id="remarks">Enter Remarks Here</textarea>
+                                    <div id="remark_error" class="error"></div>
+                                </div>
+                            </div>
+                            <div id="evm_fault_fields" style="display:none;">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label><b>Old CU:</b></label><br>    
+                                        <input class="form-control" type="text" id="old_cu" name="old_cu" value="">
+                                        <div id="old_cu_error" class="error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label><b>Old BU:</b></label><br>    
+                                        <input class="form-control" type="text" id="old_bu" name="old_bu" value="">
+                                        <div id="old_bu_error" class="error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label><b>New CU:</b></label><br>    
+                                        <input class="form-control" type="text" id="new_cu" name="new_cu" value="">
+                                        <div id="new_cu_error" class="error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label><b>New BU:</b></label><br>    
+                                        <input class="form-control" type="text" id="new_bu" name="new_bu" value="">
+                                        <div id="new_bu_error" class="error"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" onclick="close_poll_interrupted_modal()">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="submit_poll_interrupted()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
     </main>
     <x-plugins></x-plugins>
@@ -285,4 +366,18 @@
         $('#myModalVoting').modal('hide');
         jQuery("#event_6").prop('checked',false);
     }
+    function close_poll_interrupted_modal(){
+        $('#myModalPollInterrupted').modal('hide');
+        jQuery("#event_13").prop('checked',false);
+    }
+    $('input[type=radio][name=interruption_type]').change(function() {
+        console.log(this.value);
+        $('.error').html('');
+        if (this.value == 1) {
+            $('#evm_fault_fields').css('display','none');
+        }
+        else{
+            $('#evm_fault_fields').css('display','block');
+        }
+    });
 </script>
