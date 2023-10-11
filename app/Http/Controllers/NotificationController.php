@@ -98,7 +98,7 @@ class NotificationController extends Controller
                 $data .='<div class="d-flex flex-column justify-content-center">';
                 $data .='<h6 class="text-sm font-weight-normal mb-1"><span class="font-weight-bold">'.$notification->title.'</span> by '.$notification->message.'</h6>';
                 $data .='<p class="text-xs text-secondary mb-0"><i class="fa fa-clock me-1"></i>'.$notification->created_at.'</p>';
-                $data .='<p class="text-xs text-secondary mb-0"><a class="mark_as_read" data-id="'.$notification->id.'"><i class="fa fa-check me-1">Mark As Read</i></a></p></div></div></a></li>';
+                $data .='<p class="text-xs text-secondary mb-0"><a class="mark_as_read" data-id="'.$notification->id.'"><i class="fa fa-check me-1">Mark As Read</i></a><a class="" href="/notifications?id='.$notification->id.'"><i class="fa fa-book-reader me-1">Read More</i></a></p></div></div></a></li>';
             }
         } else {
             $data = '<li class="mb-2"><p class="text-xs text-secondary mb-0">No Notifications Found.</p></li>';
@@ -123,7 +123,7 @@ class NotificationController extends Controller
                 $data .='<div class="d-flex flex-column justify-content-center">';
                 $data .='<h6 class="text-sm font-weight-normal mb-1"><span class="font-weight-bold">'.$notification->title.'</span> by '.$notification->message.'</h6>';
                 $data .='<p class="text-xs text-secondary mb-0"><i class="fa fa-clock me-1"></i>'.$notification->created_at.'</p>';
-                $data .='<p class="text-xs text-secondary mb-0"><a class="mark_as_read" data-id="'.$notification->id.'"><i class="fa fa-check me-1">Mark As Read</i></a></p></div></div></a></li>';
+                $data .='<p class="text-xs text-secondary mb-0"><a class="mark_as_read" data-id="'.$notification->id.'"><i class="fa fa-check me-1">Mark As Read</i></a><a class="" href="/notifications?id='.$notification->id.'"><i class="fa fa-book-reader me-1">Read More</i></a></p></div></div></a></li>';
             }
         } else {
             $data = '<li class="mb-2"><p class="text-xs text-secondary mb-0">No Notifications Found.</p></li>';
