@@ -134,8 +134,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
-	Route::get('/notifications/getdatatabledata', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
+	Route::get('/notifications/getdatatabledata/{id}', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
 	Route::post('/notifications/updateStatus', [NotificationController::class, 'updateStatus'])->name('notifications.updateStatus');
+	Route::get('/notifications/updateNotiStatus', [NotificationController::class, 'updateNotiStatus'])->name('notifications.updateNotiStatus');
 
 	Route::get('/event/getdatatabledata', [EventController::class, 'getEventData'])->name('event.getdatatabledata');
 

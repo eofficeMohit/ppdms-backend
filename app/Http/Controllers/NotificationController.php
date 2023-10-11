@@ -18,8 +18,13 @@ class NotificationController extends Controller
         return view('notifications.index');
     }
 
-    public function getNotificationData(){
-        $data = Notification::with(['user'])->orderBy('created_at', 'desc');
+    public function getNotificationData($id){
+        if($id == "all"){
+            $data = Notification::with(['user'])->orderBy('created_at', 'desc');
+        } else {
+            $data = Notification::where('id', $id)->with(['user']);
+        }
+        //$data = Notification::with(['user'])->orderBy('created_at', 'desc');
         return Datatables::eloquent($data)
              ->addIndexColumn()
              ->addColumn('user_name', function($row){
@@ -75,7 +80,31 @@ class NotificationController extends Controller
     {
         //
     }
-
+    public function updateNotiStatus(Request $request)
+    {
+        $id = $request->id;
+        $notification = Notification::find($id);
+        $notification->seen = $request->status;
+        $notification->save();
+        $getUnSeenNotifications = Notification::all()->where('user_id','1')->where('seen','0');
+        $count = count($getUnSeenNotifications);
+        $img =  asset('assets/img/team-2.jpg'); 
+        $data = "";
+        if($count > 0){
+            foreach($getUnSeenNotifications as $key => $notification){
+                $data .='<li class="mb-2"><a class="dropdown-item border-radius-md" href="javascript:;">';
+                $data .='<div class="d-flex py-1">';
+                $data .='<div class="my-auto"><img src="'.$img.'" class="avatar avatar-sm bg-gradient-dark  me-3 "></div>';
+                $data .='<div class="d-flex flex-column justify-content-center">';
+                $data .='<h6 class="text-sm font-weight-normal mb-1"><span class="font-weight-bold">'.$notification->title.'</span> by '.$notification->message.'</h6>';
+                $data .='<p class="text-xs text-secondary mb-0"><i class="fa fa-clock me-1"></i>'.$notification->created_at.'</p>';
+                $data .='<p class="text-xs text-secondary mb-0"><a class="mark_as_read" data-id="'.$notification->id.'"><i class="fa fa-check me-1">Mark As Read</i></a></p></div></div></a></li>';
+            }
+        } else {
+            $data = '<li class="mb-2"><p class="text-xs text-secondary mb-0">No Notifications Found.</p></li>';
+        }
+        return response()->json(['success'=>'Status changed successfully.','data'=>$data, 'count'=>$count]);
+    }
     public function updateStatus(Request $request)
     {
         $id = $request['params']['id'];

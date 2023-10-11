@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">{{ $notification->title }}</span> by {{ $notification->message }}
+                                        <span class="font-weight-bold">{{ $notification->title }}</span> by {{ $notification->message }}
                                         </h6>
                                         <p class="text-xs text-secondary mb-0">
                                             <i class="fa fa-clock me-1"></i>
@@ -65,6 +65,7 @@
                                         </p>
                                         <p class="text-xs text-secondary mb-0">
                                             <a class="mark_as_read" data-id="{{ $notification->id }}"><i class="fa fa-check me-1">Mark As Read</i></a>
+                                            <a class="" href="/notifications?id={{ $notification->id }}"><i class="fa fa-book-reader me-1">Read More</i></a>
                                         </p>
                                     </div>
                                 </div>

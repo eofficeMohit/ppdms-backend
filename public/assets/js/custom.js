@@ -676,6 +676,8 @@ jQuery(document).on('click', '.mark_as_read', function () {
         jQuery('.notification_ul_cls').empty();
         jQuery('.bell-count').html(response.data.count);
         jQuery('.notification_ul_cls').append(response.data.data);
+        // Simulate a mouse click:
+        //window.location.href = "/notifications?id="+id;
         //setTimeout(function() { location.reload(); }, 2000);
     })
     .catch(function(error) {
