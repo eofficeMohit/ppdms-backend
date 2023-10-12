@@ -207,14 +207,14 @@
                 return false;
             }
             $.ajax({
-                type: 'POST'
+                type: 'PATCH'
                 , url: '/event/update/' + form_id
                 , data: $(this).serialize()
                 , success: function(response) {
                     if (response.success) {
-                        jQuery('#toast_body_msg').html('Event updated successfully.'); 
+                        jQuery('#toast_body_msg').html('Event updated successfully.');
                         let myAlert = document.querySelector('.toast');
-                        let bsAlert = new  bootstrap.Toast(myAlert);
+                        let bsAlert = new bootstrap.Toast(myAlert);
                         bsAlert.show();
                         setTimeout(function() {
                             window.location.href = "/events";
