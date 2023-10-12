@@ -22,7 +22,6 @@ class ParliamentTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 Parliament::create([
-                    'id' => $data['0'],
                     'pc_no' =>$data['1'],
                     'pc_name' =>$data['2'],
                     'pc_type' =>$data['3'],

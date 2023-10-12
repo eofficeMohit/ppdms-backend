@@ -21,7 +21,6 @@ class DistrictTableSeeder extends Seeder
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 District::create([
-                    'id' => $data['0'],
                     'name' => $data['1'],
                     'd_code' => $data['2'],
                     'data_exist' => 0,

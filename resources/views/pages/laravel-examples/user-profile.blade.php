@@ -65,33 +65,6 @@
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        @if (session('status'))
-                        <div class="row">
-                            <div class="alert alert-success alert-dismissible text-white" role="alert">
-                                <span class="text-sm">{{ Session::get('status') }}</span>
-                                <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                    data-bs-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                        @endif
-                        @if (Session::has('demo'))
-                                <div class="row">
-                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
-                                        <span class="text-sm">{{ Session::get('demo') }}</span>
-                                        <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                            data-bs-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                </div>
-                        @endif
-                        @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
                         <form method='POST' action='{{ route('user-profile') }}'>
                             @csrf
                             <div class="row">
@@ -149,5 +122,13 @@
         <x-footers.auth></x-footers.auth>
     </div>
     <x-plugins></x-plugins>
-
 </x-layout>
+@if ($message = Session::get('status'))
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
+@endif
