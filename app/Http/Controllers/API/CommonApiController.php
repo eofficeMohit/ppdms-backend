@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Models\ElectionInfo;
 use App\Models\EventTimeslot;
 use App\Models\PolledDetail;
+use App\Models\PollInterrupted;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
@@ -336,11 +337,15 @@ class CommonApiController extends BaseController
                                     'assemble_id' => 'required|numeric|exists:assemblies,id',
                                     // 'event_id' => 'required|numeric|exists:events,id',
                                 ]);
-                                // dd(request()->ip());
+                               
+                if($validator->fails()){
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
                 $data = $request->all();
                 $data['user_id']=\Auth::id();
                 $success[]=array();
-                // dd(Carbon::now()->format('h:i:s'));
+
                 if($request->has('event_id') && $request->event_id=='6'){
                     $data['date_time_received']=now();
                     $data['ip_address'] =trim(shell_exec("dig +short myip.opendns.com @resolver1.opendns.com"));
@@ -370,12 +375,92 @@ class CommonApiController extends BaseController
                     $data = ElectionInfo::create($data);
                     $success=$data;
                     return $this->sendResponse($success, 'Event updated successfully.');
-                }
+                } 
+            }
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
+        }
+    }
 
+      public function pollInterrupted(Request $request): JsonResponse
+    {
+        try {
+            if($request->bearerToken()){
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                 /* Validate Poll Interrupted Data */
+                $validator = Validator::make($request->all(), [
+                                    'event_id' => 'required|in:13',
+                                    'state_id' => 'required|numeric|exists:states,id',
+                                    'district_id' => 'required|numeric|exists:districts,id',
+                                    'booth_id' => 'required|numeric|exists:booths,id',
+                                    'assemble_id' => 'required|numeric|exists:assemblies,id',
+                                    'interrupted_type' => 'required|numeric|in:1,2',
+                                    'stop_time'=>'required',
+                                    'remarks'=>'required',
+                                    'resume_time'=>'nullable',
+                                    'old_cu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                                    'old_bu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                                    'new_cu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
+                                    'new_bu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
+                                ]);
 
                 if($validator->fails()){
                     return $this->sendError('Validation Error.', $validator->errors());
                 }
+
+                $data = $request->all();
+                $data['user_id']=\Auth::id();
+                $data['status']=1;
+                $success[]=array();
+              
+                $check_event_exists=PollInterrupted::where('event_id',$request->event_id)->where('interrupted_type',$request->interrupted_type)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->exists();
+           
+                if($check_event_exists === true){
+                    PollInterrupted::where('event_id',$request->event_id)->where('interrupted_type',$request->interrupted_type)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->update(array('status' => $data['status'],'resume_time'=>$request->resume_time));
+                    return $this->sendResponse('Message', 'Poll Interrupted Updated Successfully.');
+                }else{
+                    $insert_data = PollInterrupted::create($data);
+                    $success=$insert_data;
+                    return $this->sendResponse($success, 'Poll Interrupted added successfully.');
+                }    
+            }
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
+        }
+    }
+
+
+
+      public function getPollInterrupted(Request $request): JsonResponse
+    {
+        try {
+            if($request->bearerToken()){
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                 /* Validate Poll Interrupted Data */
+                $validator = Validator::make($request->all(), [
+                                    'booth_id' => 'required|numeric|exists:booths,id',
+                                    'interrupted_type' => 'required|numeric|in:1,2'
+                                ]);
+
+                if($validator->fails()){
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
+                $success[]=array();
+                $get_poll_interruptions=PollInterrupted::where('interrupted_type',$request->interrupted_type)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->first();
+           
+                if(!empty($get_poll_interruptions)){
+                    $success=$get_poll_interruptions;
+                    return $this->sendResponse($success, 'Poll Interrupted details.');
+                }else{
+                   return $this->sendError('Error.', 'No, Records available for this booth.');
+                }    
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }catch (\Exception $e) {
