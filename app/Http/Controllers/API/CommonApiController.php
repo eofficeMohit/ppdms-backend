@@ -459,8 +459,7 @@ class CommonApiController extends BaseController
                     }
                      
                 }
-            } 
-        }
+            }
         return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
     }catch (\Exception $e) {
         return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
