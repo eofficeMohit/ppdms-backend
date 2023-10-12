@@ -212,10 +212,10 @@
                 , data: $(this).serialize()
                 , success: function(response) {
                     if (response.success) {
-                        console.log(response);
-                        $('#validation-success').append(
-                            '<div class="alert alert-success">Event added successfully.</div'
-                        );
+                        jQuery('#toast_body_msg').html('Event updated successfully.'); 
+                        let myAlert = document.querySelector('.toast');
+                        let bsAlert = new  bootstrap.Toast(myAlert);
+                        bsAlert.show();
                         setTimeout(function() {
                             window.location.href = "/events";
                         }, 2000);

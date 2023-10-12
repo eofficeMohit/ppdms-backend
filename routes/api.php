@@ -57,6 +57,12 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::get('get-events', 'getEvents');
         Route::post('event-update', 'eventUpdate');
         Route::post('update-turnout-queue', 'updateTurnoutAndQueue');
+        Route::post('poll-interrupted', 'pollInterrupted');
+        Route::get('get-poll-interrupted', 'getPollInterrupted');
+
+
+        
+        
     });
 });
 
@@ -71,6 +77,3 @@ Route::get('unauthorized', function () {
                     'data' => []
                 ], 401));
 })->name('unauthorized');
-
-
-

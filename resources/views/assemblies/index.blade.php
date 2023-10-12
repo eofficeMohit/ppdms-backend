@@ -21,11 +21,7 @@
                                 Assembly</a>
                         </div>
                         @endcan
-                        @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                        @endif
+
                         <div class="cus_msg_div">
                         </div>
                         <div class="card-body px-4 pb-2">
@@ -68,13 +64,23 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
+@if ($message = Session::get('success'))
+<script>
+    var message = "{{ $message }}";
+    jQuery('#toast_body_msg').html(message);
+    let myAlert = document.querySelector('.toast');
+    let bsAlert = new bootstrap.Toast(myAlert);
+    bsAlert.show();
 
+</script>
+@endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('assembly-delete') }}";
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
+                <<<<<<< HEAD
             dom: 'Bfrtip'
             , buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
             , processing: true
@@ -118,14 +124,61 @@
                     , orderable: false
                     , searchable: false
                     , render: function(data, type, full, meta) {
+=======
+            pageLength: 25,
+            dom: 'Blfrtip',
+            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            ajax: "{{ route('assemblies.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'st_code',
+                    name: 'st_code'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'ac_type',
+                    name: 'ac_type'
+                },
+                {
+                    data: 'pc_type',
+                    name: 'pc_type'
+                },
+                {
+                    data: 'pc_no',
+                    name: 'pc_no'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+>>>>>>> stage_rishav
                         var checked = "";
                         if (data == 1) {
                             checked = "checked";
                         }
                         return '<label class="switch"><input data-id="' + full.id +
                             '" class="toggle_state_cls_assemble" ' + checked +
-                            ' type="checkbox"><span class="slider round"></span></label>';
-                    }
+                            ' type="checkbox"><span class="slider round"></span></label>
+                ';
+            }
+            <<<<<<< HEAD
                 }
                 , {
                     data: 'action'
@@ -133,29 +186,40 @@
                     , orderable: false
                     , searchable: false
                     , render: function(data, type, full, meta) {
+=======
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var confirmation = "'Are you sure you want to delete?'";
+>>>>>>> stage_rishav
                         var btn =
                             '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
                             full.id +
-                            '" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                        if (permission_edit == "granted") {
-                            btn +=
-                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
-                                full.id +
-                                '" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-                        }
-                        if (permission_delete == "granted") {
-                            btn +=
-                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="assemblies/destroy/' +
-                                full.id +
-                                '" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                        }
-                        return btn;
-                    }
-                }
-            , ]
-        });
-        table.buttons().container()
-            .insertBefore('#empTable_filter');
+                            '" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>
+            ';
+            if (permission_edit == "granted") {
+                btn +=
+                    '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
+                    full.id +
+                    '" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+            }
+            if (permission_delete == "granted") {
+                btn +=
+                    '<a rel="tooltip" onclick="return confirm(' + confirmation + ')" class="btn btn-danger btn-link m-2" href="assemblies/destroy/' +
+                    full.id +
+                    '" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+            }
+            return btn;
+        }
+    }
+    , ]
+    });
+    table.buttons().container()
+        .insertBefore('#empTable_filter');
     });
 
 </script>

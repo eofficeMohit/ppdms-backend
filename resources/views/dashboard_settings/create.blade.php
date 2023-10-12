@@ -120,10 +120,13 @@
                     success: function (response) {
 						if(response.success){
 							console.log(response);
-							$('#validation-success').append('<div class="alert alert-success">Setting added successfully.</div'); 
+							$('#toast_body_msg').html('Setting added successfully'); 
+							let myAlert = document.querySelector('.toast');
+                            let bsAlert = new  bootstrap.Toast(myAlert);
+                            bsAlert.show();
 							setTimeout(function(){
 								window.location.href = "/dashboard-settings"; 
-							}, 2000);
+							}, 3000);
 						} else {
 							$('#validation-errors').html('');
 							$.each(response.errors, function (key, value) {

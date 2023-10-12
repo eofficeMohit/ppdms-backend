@@ -17,30 +17,22 @@
                         </div>
                         @can('role-create')
                         <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('roles.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('roles.create') }}"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 Role</a>
                         </div>
                         @endcan
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
-                        @endif
-                        <div class="card-body px-4 pb-2">
+
+                        <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ID
                                             </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 NAME</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 CREATION DATE
                                             </th>
                                             <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
@@ -57,43 +49,61 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
+@if ($message = Session::get('success'))
+<script>
+    var message = "{{ $message }}";
+    jQuery('#toast_body_msg').html(message);
+    let myAlert = document.querySelector('.toast');
+    let bsAlert = new bootstrap.Toast(myAlert);
+    bsAlert.show();
+
+</script>
+@endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('role-delete') }}";
     var permission_edit = "{{ checkPermission('role-edit') }}";
-    $(function () {
+    $(function() {
         var table = $('#empTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
-                processing: true,
-                serverSide: true,
-                pageLength: 25,
-                ajax: "{{ route('role.getdatatabledata') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'created_at', name: 'created_at'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        render: function(data, type, full, meta) {
-                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="roles/'+full.id+'" data-original-title="Show Role" title="Show Role"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-                            if(permission_edit == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="roles/'+full.id+'/edit" data-original-title="Edit Role" title="Edit Role"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-                            }
-                            if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="role/delete/'+full.id+'" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-                            }
-                            return btn;
+            dom: 'Blfrtip'
+            , buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
+            , processing: true
+            , serverSide: true
+            , pageLength: 25
+            , ajax: "{{ route('role.getdatatabledata') }}"
+            , columns: [{
+                    data: 'id'
+                    , name: 'id'
+                }
+                , {
+                    data: 'name'
+                    , name: 'name'
+                }
+                , {
+                    data: 'created_at'
+                    , name: 'created_at'
+                }
+                , {
+                    data: 'action'
+                    , name: 'action'
+                    , orderable: false
+                    , searchable: false
+                    , render: function(data, type, full, meta) {
+                        var confirmation = "'Are you sure you want to delete?'";
+                        var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="roles/' + full.id + '" data-original-title="Show Role" title="Show Role"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="roles/' + full.id + '/edit" data-original-title="Edit Role" title="Edit Role"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                         }
-                    },
-                ]
-            });
-            table.buttons().container()
-                 .insertBefore( '#empTable_filter' );
+                        if (permission_delete == "granted") {
+                            btn += '<a rel="tooltip" onclick="return confirm(' + confirmation + ')" class="btn btn-danger btn-link m-2" href="role/delete/' + full.id + '" data-original-title="Delete Role" title="Delete Role"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                }
+            , ]
         });
-   </script>
+        table.buttons().container()
+            .insertBefore('#empTable_filter');
+    });
 
-
+</script>

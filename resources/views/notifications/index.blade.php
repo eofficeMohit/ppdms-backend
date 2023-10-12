@@ -19,6 +19,9 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
+                        <div class=" me-3 my-3 text-end">
+                            <a class="btn btn-danger mb-0" href="{{ route('notifications') }}">&nbsp;&nbsp;Reset</a>
+                        </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="empTable">
@@ -43,6 +46,9 @@
                                                 Notification TYPE</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Status</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Seen</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -64,19 +70,43 @@
 </x-layout>
 
 <script type="text/javascript">
+    var param = "{{ app('request')->input('id') }}";
+    console.log(param);
+    if(param == ""){
+        param = "all";
+    }
     var $ = jQuery.noConflict();
+    function datatables(){
     $(function () {
         var table = $('#empTable').DataTable({
+                dom: 'Blfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
                 processing: true,
                 serverSide: true,
+                order: [
+                    [0, 'desc']
+                ],
                 pageLength: 25,
-                ajax: "{{ route('notifications.getdatatabledata') }}",
+                ajax: "notifications/getdatatabledata/"+param,
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'user_name', name: 'user_name'},
                     {data: 'title', name: 'title'},
                     {data: 'message', name: 'message'},
                     {data: 'notification_type', name: 'notification_type'},
+                    {
+                    data: 'seen',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked ="";
+                        if(data == 1){
+                          checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="'+full.id+'" class="toggle_state_cls_notification_status" '+checked+' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                    },
                     {
                     data: 'seen',
                     name: 'seen',
@@ -94,4 +124,36 @@
                 ]
             });
         });
+    }
+    datatables();
+    jQuery(document).on('change', '.toggle_state_cls_notification_status', function () {
+        var id = jQuery(this).attr('data-id');
+        var status = jQuery(this).prop('checked') == true ? 1 : 0; 
+        // Make an AJAX request
+        axios.get('/notifications/updateNotiStatus', {
+            params: {
+                id: id,
+                status: status
+            }
+        })
+        .then(function(response) {
+            console.log(response.data);
+            jQuery(this).attr('data-id',id);
+            jQuery('#toast_body_msg').html("Status updated successfully."); 
+            let myAlert = document.querySelector('.toast');
+            let bsAlert = new  bootstrap.Toast(myAlert);
+            bsAlert.show();
+            if ($.fn.DataTable.isDataTable('#empTable')) {
+                $('#empTable').DataTable().destroy();
+            }
+            $('#empTable tbody').empty();
+            datatables();
+            jQuery('.notification_ul_cls').empty();
+            jQuery('.bell-count').html(response.data.count);
+            jQuery('.notification_ul_cls').append(response.data.data);
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+    });
    </script>

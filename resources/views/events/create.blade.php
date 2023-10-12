@@ -105,16 +105,15 @@
         const newRow = document.createElement('div');
         var now_date = "{{ date('Y-m-d') }}";
         var now_time = "{{ date('H:i') }}";
-        var locking_time = "{{ date('H:i',strtotime('30 minutes')) }}";
         newRow.className = 'row mb-2';
         newRow.innerHTML = '<div class="col-md-3"><input min="' + now_date + '" class="form-control start_date" name="start_date[]" type="date" required value="' + now_date + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-        newRow.innerHTML += '<div class="col-md-2"><input min="' + now_time + '" class="form-control start_time" name="start_time[]" type="time" required value="' + now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-        newRow.innerHTML += '<div class="col-md-2"><input class="form-control end_time" name="end_time[]" type="time" required value="' + now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
-        newRow.innerHTML += '<div class="col-md-2"><input class="form-control locking_time" name="locking_time[]" type="time" required value="' + locking_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+        newRow.innerHTML += '<div class="col-md-3"><input min="' + now_time + '" class="form-control start_time" name="start_time[]" type="time" required value="' + now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
+        newRow.innerHTML += '<div class="col-md-3"><input class="form-control end_time" name="end_time[]" type="time" required value="' + now_time + '" onfocus="focused(this)" onfocusout="defocused(this)"></div>';
         newRow.innerHTML += '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
         timeSlots.appendChild(newRow);
     }
-
+    // min="'+now_time+'"
+    // min="'+now_time+'"
     function removeTimeSlot(button) {
         const row = button.closest('.row');
         row.remove();
@@ -147,7 +146,10 @@
                 , success: function(response) {
                     if (response.success) {
                         console.log(response);
-                        $('#validation-success').append('<div class="alert alert-success">Event added successfully.</div');
+                        jQuery('#toast_body_msg').html('Event added successfully.');
+                        let myAlert = document.querySelector('.toast');
+                        let bsAlert = new bootstrap.Toast(myAlert);
+                        bsAlert.show();
                         setTimeout(function() {
                             window.location.href = "/events";
                         }, 2000);

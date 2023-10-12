@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::resource('parliaments', ParliamentController::class);
 	Route::get('/parliament/delete/{id}', [ParliamentController::class, 'destroy'])->name('parliament.destroy');
 	Route::get('/parliament/getdatatabledata', [ParliamentController::class, 'getParliamentData'])->name('parliament.getdatatabledata');
+	Route::get('/parliament/updateStatus', [ParliamentController::class, 'updateStatus'])->name('parliament.updateStatus');
+
 
 	Route::get('/state/delete/{id}', [StateController::class, 'destroy'])->name('state.destroy');
 	Route::get('/state/getdatatabledata', [StateController::class, 'getStateData'])->name('state.getdatatabledata');
@@ -114,10 +116,12 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->name('election-info.create');
 	Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 	Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
+	Route::post('/election-info/updateEventToggle', [ElectionInfoController::class, 'updateEventToggle'])->name('election-info.updateEventToggle');
 
 	Route::get('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
 	Route::get('/election/updateStatus', [ElectionInfoController::class, 'updateStatus'])->name('election.updateStatus');
 	Route::get('/election/getdatatabledata', [ElectionInfoController::class, 'getElectionInfoData'])->name('election.getdatatabledata');
+	Route::get('/election/getPollInterruptedDetails', [ElectionInfoController::class, 'getPollInterruptedDetails'])->name('election.getPollInterruptedDetails');
 
 
 	Route::get('/events', [EventController::class, 'index'])->name('events');
@@ -125,12 +129,16 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
-	Route::post('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+
+	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+	Route::get('/event/getEventsForEInfo', [EventController::class, 'getEventsForEInfo'])->name('event.getEventsForEInfo');
 
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
 	Route::get('/event/updateStatus', [EventController::class, 'updateStatus'])->name('event.updateStatus');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
-	Route::get('/notifications/getdatatabledata', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
+	Route::get('/notifications/getdatatabledata/{id}', [NotificationController::class, 'getNotificationData'])->name('notifications.getdatatabledata');
+	Route::post('/notifications/updateStatus', [NotificationController::class, 'updateStatus'])->name('notifications.updateStatus');
+	Route::get('/notifications/updateNotiStatus', [NotificationController::class, 'updateNotiStatus'])->name('notifications.updateNotiStatus');
 
 	Route::get('/event/getdatatabledata', [EventController::class, 'getEventData'])->name('event.getdatatabledata');
 
@@ -146,6 +154,7 @@ Route::get('/election-info/create', [ElectionInfoController::class, 'create'])->
 Route::post('/election-info/store', [ElectionInfoController::class, 'store'])->name('election-info.store');
 Route::get('/election-info/show/{id}', [ElectionInfoController::class, 'show'])->name('election-info.show');
 Route::delete('/election-info/destroy/{id}', [ElectionInfoController::class, 'destroy'])->name('election-info.destroy'); // Delete a task
+Route::get('/election-info-new/create', [ElectionInfoController::class, 'create_new'])->name('election-info-new.create');
 
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
@@ -214,6 +223,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+	Route::get('user-toast', function () {
+		return view('pages.notifications');
+	})->name('user-toast');
 
 });
 

@@ -22,11 +22,6 @@
                                     Booth</a>
                             </div>
                         @endcan
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
-                        @endif
                         <div class="cus_msg_div">
                         </div>
                         <div class="card-body px-4 pb-2">
@@ -72,15 +67,23 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>
+@if ($message = Session::get('success'))
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
+@endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
     var permission_delete = "{{ checkPermission('booth-delete') }}";
     var permission_edit = "{{ checkPermission('booth-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
-            dom: 'Bfrtip',
+            dom: 'Blfrtip',
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
             processing: true,
             serverSide: true,
@@ -134,6 +137,7 @@
                     orderable: true,
                     searchable: false,
                     render: function(data, type, full, meta) {
+                        var confirmation = "'Are you sure you want to delete?'";
                         var btn =
                             '<a rel="tooltip" class="btn btn-info btn-link m-2" href="booth/show/' +
                             full.id +
@@ -146,7 +150,7 @@
                         }
                         if (permission_delete == "granted") {
                             btn +=
-                                '<a rel="tooltip" class="btn btn-danger btn-link m-2" href="booth/destroy/' +
+                                '<a rel="tooltip" onclick="return confirm('+confirmation+')" class="btn btn-danger btn-link m-2" href="booth/destroy/' +
                                 full.id +
                                 '" data-original-title="Delete Booth" title="Delete Booth"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                         }
