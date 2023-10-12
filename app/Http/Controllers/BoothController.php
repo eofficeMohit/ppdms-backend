@@ -155,6 +155,9 @@ class BoothController extends Controller
 
     public function mapOffBooths(Request $request)
     {
+        try{
+
+       
         $input = $request->all();
         $assemble_id =  $input['params']['selectedAssem'];
         $booth_id = $input['params']['booth_id'];
@@ -171,18 +174,21 @@ class BoothController extends Controller
                 'state_id' => $get_booths->state_id,
             ]);
 
-          }
+        }
         $assigned_by = $user_id;
         $assigned_status = $input['params']['status'];
         Booth::where('id', $booth_id)
             ->update([
+                'user_id' => $assigned_to,
                 'assigned_to' => $assigned_to,
                 'assigned_by' => $assigned_by,
                 'assigned_status' => $assigned_status,
             ]);
-
-
+        }catch(\Exception $e){
+              echo  'Message: ' .$e->getMessage();
+        }
     }
+
     public function updateStatus(Request $request)
     {
         $booth = Booth::find($request->id);

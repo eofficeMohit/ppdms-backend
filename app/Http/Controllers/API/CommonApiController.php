@@ -33,7 +33,7 @@ class CommonApiController extends BaseController
 
                 $user = User::with(['userAssemblies','userState','userDistrict'])->find($token->tokenable_id);
                 $assemblyBooths =Booth::where('user_id',$user->id)->pluck('booth_no')->implode(',');
-
+dd($assemblyBooths);
                 $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
                 $success['user_name'] = rtrim($user->name," ") ?? '';
                 $success['state'] = $user->userState->name ?? '';
