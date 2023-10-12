@@ -106,7 +106,7 @@
                                 btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="dashboard-settings/edit/'+full.id+'" data-original-title="Edit Dashboard Settings" title="Edit Dashboard Settings"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                             }
                             if(permission_delete == "granted"){
-                                btn += '<a rel="tooltip" onclick="return confirm('+confirmation+')" class="btn btn-danger btn-link m-2" href="dashboard-settings/destroy/'+full.id+'" data-original-title="Delete Dashboard Settings" title="Delete Dashboard Settings"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                btn += '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete Dashboard Settings" title="Delete Dashboard Settings"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                             }
                             return btn;
                         }
@@ -114,4 +114,12 @@
                 ]
             });
         });
+        function openConfirmModal(id){
+            var btn_html = '<a href="/dashboard-settings/destroy/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+            jQuery('#mod_btn_div').html(btn_html);
+            jQuery('#modalConfirmDelete').modal('show');
+        }
+        function closeConfirmModal(){
+            jQuery('#modalConfirmDelete').modal('hide');
+        }
    </script>

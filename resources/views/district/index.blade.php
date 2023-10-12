@@ -128,9 +128,7 @@
                             }
                             if (permission_delete == "granted") {
                                 btn +=
-                                    '<a rel="tooltip" onclick="return confirm('+confirmation+')" class="btn btn-danger btn-link m-2" href="districts/delete/' +
-                                    full.id +
-                                    '" data-original-title="Delete Districts" title="Delete Districts"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                    '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete Districts" title="Delete Districts"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                             }
                             return btn;
                         }
@@ -140,6 +138,14 @@
             table.buttons().container()
                  .insertBefore( '#empTable_filter' );
         });
+        function openConfirmModal(id){
+            var btn_html = '<a href="/districts/delete/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+            jQuery('#mod_btn_div').html(btn_html);
+            jQuery('#modalConfirmDelete').modal('show');
+        }
+        function closeConfirmModal(){
+            jQuery('#modalConfirmDelete').modal('hide');
+        }
     </script>
 
 
