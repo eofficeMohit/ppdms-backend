@@ -54,6 +54,7 @@ class RegisterController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
+
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
         /* Send An OTP */
@@ -105,7 +106,7 @@ class RegisterController extends BaseController
             'device_token' => $request->device_token,
             'device_mac_address'=> $request->device_mac_address
         ]);
-        $user->assignRole('2');
+       
         /* Validation Logic */
         $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
         $now = now();
@@ -154,6 +155,7 @@ class RegisterController extends BaseController
             }
          }else{
             $user = User::create(['mobile_number' => $mobile_number]);
+            $user->assignRole('2');
          }
 
          /* Create a New OTP */
