@@ -239,6 +239,7 @@ class ElectionInfoController extends Controller
                     'new_cu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
                     'new_bu'=>  'sometimes|nullable|required_if:interrupted_type,2|string',
                 ]);    
+
                 if ($validator->fails()) {
                     return response()->json([
                         'success' => false,
@@ -260,13 +261,17 @@ class ElectionInfoController extends Controller
                 $poll_data['old_bu'] = $old_bu;
                 $poll_data['new_cu'] = $new_cu;
                 $poll_data['new_bu'] = $new_bu;
-                $check_event_exists=PollInterrupted::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->exists();
+                $check_event_exists=PollInterrupted::where('event_id',$event_id)->where('interrupted_type',$interrupted_type)->where('user_id',$user_id)->where('booth_id',$booth_id)->exists();
+           
                 if($check_event_exists === true){
-                    PollInterrupted::where('event_id',$event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status));
+                    PollInterrupted::where('event_id',$event_id)->where('interrupted_type',$interrupted_type)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status,'resume_time'=>$resume_time));
+                    return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted Updated Successfully.','key'=>'error_'.$event_id ]);
                 }else{
+             
                     $insert_data = PollInterrupted::create($poll_data);
+                    return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted added successfully.','key'=>'error_'.$event_id ]);
                 }
-                //return response()->json(['success'=>TRUE,'message'=>'Electon Info Updated Successfully.','key'=>'error_'.$event_id ]);
+
         }
         if($event_id !='13'){
         //next event check

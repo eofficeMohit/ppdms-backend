@@ -9,7 +9,11 @@ class PollInterrupted extends Model
 {
     use HasFactory;
 	protected $fillable = [
-        'assemble_id', 'district_id', 'state_id', 'booth_id','user_id','interrupted_type','remarks','old_cu','old_bu','new_cu','new_bu','stop_time','resume_time','created_at','updated_at'
+        'assemble_id', 'district_id', 'state_id', 'booth_id','event_id','user_id','interrupted_type','remarks','old_cu','old_bu','new_cu','new_bu','stop_time','resume_time','created_at','updated_at'
+    ];
+
+     protected $casts = [
+        'status' => 'boolean',
     ];
 	
 	public function electionState(): BelongsTo

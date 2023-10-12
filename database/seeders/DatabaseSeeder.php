@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             AssembliesTableSeeder::class,
             OfficerMasterTableSeeder::class,
             BoothTableSeeder::class,
+            PollInterruptedTypesSeeder::class,
         ]);
     }
 }
