@@ -207,7 +207,7 @@
                 return false;
             }
             $.ajax({
-                type: 'PATCH'
+                type: 'POST'
                 , url: '/event/update/' + form_id
                 , data: $(this).serialize()
                 , success: function(response) {

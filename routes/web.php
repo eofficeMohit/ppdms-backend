@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/assemblies/destroy/{id}', [AssemblyController::class, 'destroy'])->name('assemblies.destroy'); // Delete a task
 	Route::get('/assemblies/getStates', [AssemblyController::class, 'getStates'])->name('assemblies.getStates');
 	Route::get('/assemblies/getAssemblies', [AssemblyController::class, 'getAssemblies'])->name('assemblies.getAssemblies');
+	
 	Route::get('/assemblies/getBooths', [AssemblyController::class, 'getBooths'])->name('assemblies.getBooths');
 	Route::get('/assemblies/updateStatus', [AssemblyController::class, 'updateStatus'])->name('assemblies.updateStatus');
 	Route::get('/assemblies/getdatatabledata', [AssemblyController::class, 'getAssemblyTableData'])->name('assemblies.getdatatabledata');
@@ -130,7 +131,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 	Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
 
-	Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+	Route::post('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 	Route::get('/event/getEventsForEInfo', [EventController::class, 'getEventsForEInfo'])->name('event.getEventsForEInfo');
 
 	Route::get('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy'); // Delete a task
