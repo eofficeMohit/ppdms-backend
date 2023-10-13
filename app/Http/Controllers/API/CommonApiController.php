@@ -374,7 +374,7 @@ class CommonApiController extends BaseController
                     if(!empty($poll_details->date_time_received)){
                         $date_time_received= date('H:i', strtotime($poll_details->date_time_received));
                     } 
-                    if(Carbon::now()->format('H:i:s') > '21:00:00'){    
+                    if(Carbon::now()->format('H:i:s') > '18:00:00'){    
                       
                         $data['voting']=$poll_details->vote_polled ?? '';
                         $data['voting_last_updated']=$poll_details->date_time_received ?? '';
@@ -445,7 +445,7 @@ class CommonApiController extends BaseController
                     ->where('booth_id',$request->booth_id)->where('status',1)->whereDate('created_at', '=', Carbon::today()->toDateString())->exists();
 
                     if($check_voter_in_queqe ===false){
-                            if(Carbon::now()->format('H:i:s') > '21:00:00'){    
+                            if(Carbon::now()->format('H:i:s') > '18:00:00'){    
                                 $data['voting_last_updated']=now();
                                 $data['status']=1;
                                 $data = ElectionInfo::create($data);
