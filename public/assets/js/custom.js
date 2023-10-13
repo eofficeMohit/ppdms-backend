@@ -782,3 +782,146 @@ function checkIsPollIntrupped(so_user, booth_id) {
             console.error(error);
         });
 }
+//election info
+document.getElementById('state_id').addEventListener('change', function () {
+
+    var selectedOption = this.value;
+    jQuery('#district_id').find('option').not(':first').remove();
+    // Make an AJAX request
+    axios.get("/assemblies/getStates", {
+        params: {
+            selectedOption: selectedOption
+        }
+    }).then(function (response) {
+        console.log(response.data);
+        // Iterate through the response and append data to the container
+        response.data.forEach(function (value) {
+            jQuery('#district_id').append(jQuery('<option>').val(value.id).text(value.name))
+        });
+    })
+        .catch(function (error) {
+            console.error(error);
+        });
+});
+document.getElementById('district_id').addEventListener('change', function () {
+    var selectedOption = this.value;
+    jQuery('#assemble_id').find('option').not(':first').remove();
+    // Make an AJAX request
+    axios.get("/assemblies/getAssemblies", {
+        params: {
+            selectedOption: selectedOption
+        }
+    }).then(function (response) {
+        console.log(response.data);
+        // Iterate through the response and append data to the container
+        response.data.forEach(function (value) {
+            jQuery('#assemble_id').append(jQuery('<option>').val(value.id).text(value.asmb_name))
+        });
+    })
+        .catch(function (error) {
+            console.error(error);
+        });
+});
+document.getElementById('assemble_id').addEventListener('change', function () {
+    var selectedOption = this.value;
+    jQuery('#so_user_id').find('option').not(':first').remove();
+    axios.get('/booths/getSoUsers', {
+        params: {
+            selectedOption: selectedOption
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+            var so_users = response.data.so_users;
+            // Iterate through the response and append data to the container
+            so_users.forEach(function (value) {
+                jQuery('#so_user_id').append(jQuery('<option>').val(value.id).text(value.name))
+            });
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+});
+
+document.getElementById('so_user_id').addEventListener('change', function () {
+    var selected_user = this.value;
+    var selected_assemble = $('#assemble_id :selected').val();
+    jQuery('#booth_id').find('option').not(':first').remove();
+    // Make an AJAX request
+    axios.get("/assemblies/getBooths", {
+        params: {
+            selected_assemble: selected_assemble,
+            selected_user: selected_user
+        }
+    }).then(function (response) {
+        console.log(response.data);
+        // Iterate through the response and append data to the container
+        response.data.forEach(function (value) {
+            jQuery('#booth_id').append(jQuery('<option>').val(value.id).text(value.booth_name))
+        });
+    })
+        .catch(function (error) {
+            console.error(error);
+        });
+});
+document.getElementById('booth_id').addEventListener('change', function () {
+    var selected_booth = this.value;
+    var selected_assemble = $('#assemble_id :selected').val();
+    var selected_user = $('#so_user_id :selected').val();
+    // Make an AJAX request
+    axios.get("/event/getEventsForEInfo", {
+        params: {
+            selected_assemble: selected_assemble,
+            selected_user: selected_user,
+            selected_booth: selected_booth
+        }
+    })
+        .then(function (response) {
+            console.log(response.data);
+            jQuery('#add-fields').empty();
+            // Iterate through the response and append data to the container
+            response.data.forEach(function (value) {
+                var checked = "";
+                var disabled = "";
+                var present_id = value.id;
+                var last_id = "";
+                if (value.is_updated == "yes") {
+                    var checked = "checked";
+                    var disabled = "disabled";
+                } else {
+                    last_id = parseFloat(present_id) - parseFloat(1);
+                }
+                jQuery('#event_' + last_id).prop('disabled', false);
+                const timeSlots = document.getElementById('add-fields');
+                const newRow = document.createElement('div');
+                newRow.className = 'row mb-2';
+                newRow.innerHTML = '<div class="col-md-12"><strong>' + value.name + '</strong><br><label class="switch"><input ' + disabled + ' data-id="' + value.id + '" id="event_' + value.id + '" class="toggle_state_cls_election_info form-control" ' + checked + ' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_' + value.id + '"></span></div>';
+                timeSlots.appendChild(newRow);
+            });
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+});
+function close_modal() {
+    $('#myModal').modal('hide');
+    jQuery("#event_4").prop('checked', false);
+}
+function close_voting_modal() {
+    $('#myModalVoting').modal('hide');
+    jQuery("#event_6").prop('checked', false);
+}
+function close_poll_interrupted_modal() {
+    $('#myModalPollInterrupted').modal('hide');
+    jQuery("#event_13").prop('checked', false);
+}
+$('input[type=radio][name=interruption_type]').change(function () {
+    console.log(this.value);
+    $('.error').html('');
+    if (this.value == 1) {
+        $('#evm_fault_fields').css('display', 'none');
+    }
+    else {
+        $('#evm_fault_fields').css('display', 'block');
+    }
+});

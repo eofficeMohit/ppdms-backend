@@ -60,11 +60,15 @@ class ElectionInfoController extends Controller
     public function create(): View
     {
         $states = State::pluck('name','id')->all();
-        $districts = District::pluck('name','id')->all();
-        $booth = Booth::pluck('booth_name','id')->all();
-        $assembly = Assembly::pluck('asmb_name','id')->all();
-        $events = Event::pluck('event_name','id')->all();
-        return view('election_info.create',compact('states','districts','booth','assembly','events'));
+       // $districts = District::pluck('name','id')->all();
+       // $booth = Booth::pluck('booth_name','id')->all();
+      //  $assembly = Assembly::pluck('asmb_name','id')->all();
+     //   $events = Event::pluck('event_name','id')->all();
+     //   $so_users=array();
+     //   if(Role::where('name','SO')->first()){
+         //   $so_users = User::role('SO')->pluck('name','id');
+      //  }
+        return view('election_info.create',compact('states'));
     }
 
     public function create_new(): View
