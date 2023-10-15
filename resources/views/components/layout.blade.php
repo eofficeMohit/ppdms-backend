@@ -28,7 +28,8 @@
         NeXtGeN DiSe-EMS Dashboard
     </title>
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
     <link href="{{ asset('assets') }}/css/nucleo-icons.css" rel="stylesheet" />
     <link href="{{ asset('assets') }}/css/nucleo-svg.css" rel="stylesheet" />
@@ -53,6 +54,7 @@
     <link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 
 </head>
+
 <body class="{{ $bodyClass }}">
 
     {{ $slot }}
@@ -70,7 +72,6 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-
     </script>
 
     <!-- Github buttons -->
@@ -97,7 +98,8 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
 
-    {{-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script> --}}
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 </body>
+
 </html>
