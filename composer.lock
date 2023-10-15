@@ -1220,6 +1220,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v10.28.0",
             "source": {
                 "type": "git",
@@ -1230,6 +1231,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/09137f50f715c1efc649788a26092dcb1ec4ab6e",
                 "reference": "09137f50f715c1efc649788a26092dcb1ec4ab6e",
+=======
+            "version": "v10.25.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6014dd456b414b305fb0b408404efdcec18e64bc",
+                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc",
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
                 "shasum": ""
             },
             "require": {
@@ -1416,7 +1429,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2023-10-10T13:01:37+00:00"
+=======
+            "time": "2023-09-28T14:08:59+00:00"
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
         },
         {
             "name": "laravel/legacy-factories",
@@ -1476,6 +1493,7 @@
         },
         {
             "name": "laravel/prompts",
+<<<<<<< HEAD
             "version": "v0.1.11",
             "source": {
                 "type": "git",
@@ -1486,6 +1504,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/prompts/zipball/cce65a90e64712909ea1adc033e1d88de8455ffd",
                 "reference": "cce65a90e64712909ea1adc033e1d88de8455ffd",
+=======
+            "version": "v0.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/prompts.git",
+                "reference": "37ed55f6950d921a87d5beeab16d03f8de26b060"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/37ed55f6950d921a87d5beeab16d03f8de26b060",
+                "reference": "37ed55f6950d921a87d5beeab16d03f8de26b060",
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
                 "shasum": ""
             },
             "require": {
@@ -1527,9 +1557,15 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/laravel/prompts/tree/v0.1.11"
             },
             "time": "2023-10-03T01:07:35+00:00"
+=======
+                "source": "https://github.com/laravel/prompts/tree/v0.1.10"
+            },
+            "time": "2023-09-29T07:26:07+00:00"
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
         },
         {
             "name": "laravel/sanctum",
@@ -6662,6 +6698,7 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
+<<<<<<< HEAD
             "version": "v10.10.0",
             "source": {
                 "type": "git",
@@ -6672,6 +6709,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/b4943a3ee422e0a390d85a4cb01dee9360137b61",
                 "reference": "b4943a3ee422e0a390d85a4cb01dee9360137b61",
+=======
+            "version": "v10.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/laravel-datatables.git",
+                "reference": "5fd89966fd779cce69a30f6262207242b55db523"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/5fd89966fd779cce69a30f6262207242b55db523",
+                "reference": "5fd89966fd779cce69a30f6262207242b55db523",
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
                 "shasum": ""
             },
             "require": {
@@ -6734,7 +6783,11 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/yajra/laravel-datatables/tree/v10.10.0"
+=======
+                "source": "https://github.com/yajra/laravel-datatables/tree/v10.9.0"
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
             },
             "funding": [
                 {
@@ -6742,7 +6795,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-10-04T02:26:02+00:00"
+=======
+            "time": "2023-09-29T07:34:10+00:00"
+>>>>>>> 4b49ac55662c35ffa4e578e82e3d6eda2c8ae075
         }
     ],
     "packages-dev": [
@@ -9194,5 +9251,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
