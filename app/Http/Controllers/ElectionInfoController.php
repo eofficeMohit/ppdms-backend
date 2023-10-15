@@ -265,11 +265,11 @@ class ElectionInfoController extends Controller
            
                 if($check_event_exists === true){
                     PollInterrupted::where('event_id',$event_id)->where('interrupted_type',$interrupted_type)->where('user_id',$user_id)->where('booth_id',$booth_id)->update(array('status' => $status,'resume_time'=>$resume_time));
-                    return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted Updated Successfully.','key'=>'error_'.$event_id ]);
+                    //return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted Updated Successfully.','key'=>'error_'.$event_id ]);
                 }else{
              
                     $insert_data = PollInterrupted::create($poll_data);
-                    return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted added successfully.','key'=>'error_'.$event_id ]);
+                    //return response()->json(['success'=>TRUE,'message'=>'Poll Interrupted added successfully.','key'=>'error_'.$event_id ]);
                 }
 
         }
@@ -325,7 +325,6 @@ class ElectionInfoController extends Controller
         }
 
         if(isset($event_id) && $event_id=='6'){
-            $data['date_time_received']=now();
             if(Carbon::now()->format('h:i:s') > '06:00:00'){
                 $total_vote_polled = PolledDetail::where('user_id',$user_id)->where('booth_id',$booth_id)
                                 ->where('assemble_id',$assemble_id)->sum('vote_polled');
@@ -335,6 +334,8 @@ class ElectionInfoController extends Controller
                 $data = ElectionInfo::create($data);
                 $success=$data;
             }else{
+                
+                $data['date_time_received']=now();
                 $data['vote_polled']=$voting;
                 $data = PolledDetail::create($data);
                 $success=$data;
