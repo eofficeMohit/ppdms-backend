@@ -3,7 +3,6 @@
     .slot {
         margin-bottom: 10px;
     }
-
 </style>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="event.create"></x-navbars.sidebar>
@@ -45,8 +44,8 @@
                                     <div class="form-group">
                                         <strong>Event Sequence:</strong>
                                         {!! Form::number('event_sequence', null, [
-                                        'placeholder' => 'Sequence number ',
-                                        'class' => 'form-control event_sequence',
+                                            'placeholder' => 'Sequence number ',
+                                            'class' => 'form-control event_sequence',
                                         ]) !!}
                                         <span id="event_seq_id" class="error"></span>
                                     </div>
@@ -61,74 +60,83 @@
                                     </div>
                                 </div>
                                 @if (count($eventslots) > 0)
-                                <div id="time-slots">
-                                    @foreach ($eventslots as $key => $value)
-                                    <div class="row mb-2">
-                                        <div class="col-md-3">
-                                            @if ($key == 0)
-                                            <strong>Date:</strong>
-                                            @endif
-                                            {!! Form::input('date', 'start_date[]', $value['date'], ['id' => '', 'class' => 'form-control start_date']) !!}
+                                    <div id="time-slots">
+                                        @foreach ($eventslots as $key => $value)
+                                            <div class="row mb-2">
+                                                <div class="col-md-3">
+                                                    @if ($key == 0)
+                                                        <strong>Date:</strong>
+                                                    @endif
+                                                    {!! Form::input('date', 'start_date[]', $value['date'], ['id' => '', 'class' => 'form-control start_date']) !!}
 
-                                        </div>
-                                        <div class="col-md-2">
-                                            @if ($key == 0)
-                                            <strong>Start Time:</strong>
-                                            @endif
-                                            {!! Form::input('time', 'start_time[]', $value['start_time'], [
-                                            'id' => '',
-                                            'class' => 'form-control start_time',
-                                            ]) !!}
-                                        </div>
-                                        <div class="col-md-2">
-                                            @if ($key == 0)
-                                            <strong>End Time:</strong>
-                                            @endif
-                                            {!! Form::input('time', 'end_time[]', $value['end_time'], ['id' => '', 'class' => 'form-control end_time']) !!}
-                                        </div>
-                                        <div class="col-md-2">
-                                            @if ($key == 0)
-                                            <strong>Locking Time:</strong>
-                                            @endif
-                                            {!! Form::input('time', 'locking_time[]', $value['locking_time'], ['id' => '', 'class' => 'form-control locking_time']) !!}
-                                        </div>
-                                        @if ($key == 0)
-                                        <div class="col-md-3">
-                                            <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
-                                        </div>
-                                        @else
-                                        <div class="col-md-3">
-                                            <span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">REMOVE</span>
-                                        </div>
-                                        @endif
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @if ($key == 0)
+                                                        <strong>Start Time:</strong>
+                                                    @endif
+                                                    {!! Form::input('time', 'start_time[]', $value['start_time'], [
+                                                        'id' => '',
+                                                        'class' => 'form-control start_time',
+                                                    ]) !!}
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @if ($key == 0)
+                                                        <strong>End Time:</strong>
+                                                    @endif
+                                                    {!! Form::input('time', 'end_time[]', $value['end_time'], ['id' => '', 'class' => 'form-control end_time']) !!}
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @if ($key == 0)
+                                                        <strong>Locking Time:</strong>
+                                                    @endif
+                                                    {!! Form::input('time', 'locking_time[]', $value['locking_time'], [
+                                                        'id' => '',
+                                                        'class' => 'form-control locking_time',
+                                                    ]) !!}
+                                                </div>
+                                                @if ($key == 0)
+                                                    <div class="col-md-3">
+                                                        <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)"
+                                                            type="button">ADD</span>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-3">
+                                                        <span class="btn btn-danger" onclick="removeTimeSlot(this)"
+                                                            type="button">REMOVE</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
-                                </div>
                                 @else
-                                <div id="time-slots">
-                                    <div class="row mb-2">
-                                        <div class="col-md-3">
-                                            <strong>Date:</strong>
-                                            {!! Form::input('date', 'start_date[]', date('Y-m-d'), ['id' => '', 'class' => 'form-control start_date']) !!}
+                                    <div id="time-slots">
+                                        <div class="row mb-2">
+                                            <div class="col-md-3">
+                                                <strong>Date:</strong>
+                                                {!! Form::input('date', 'start_date[]', date('Y-m-d'), ['id' => '', 'class' => 'form-control start_date']) !!}
 
-                                        </div>
-                                        <div class="col-md-2">
-                                            <strong>Start Time:</strong>
-                                            {!! Form::input('time', 'start_time[]', date('H:i'), ['id' => '', 'class' => 'form-control start_time']) !!}
-                                        </div>
-                                        <div class="col-md-2">
-                                            <strong>End Time:</strong>
-                                            {!! Form::input('time', 'end_time[]', date('H:i'), ['id' => '', 'class' => 'form-control end_time']) !!}
-                                        </div>
-                                        <div class="col-md-2">
-                                            <strong>Locking Time:</strong>
-                                            {!! Form::input('time', 'locking_time[]', date('H:i',strtotime('30 minutes')), ['id' => '', 'class' => 'form-control locking_time']) !!}
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)" type="button">ADD</span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <strong>Start Time:</strong>
+                                                {!! Form::input('time', 'start_time[]', date('H:i'), ['id' => '', 'class' => 'form-control start_time']) !!}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <strong>End Time:</strong>
+                                                {!! Form::input('time', 'end_time[]', date('H:i'), ['id' => '', 'class' => 'form-control end_time']) !!}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <strong>Locking Time:</strong>
+                                                {!! Form::input('time', 'locking_time[]', date('H:i', strtotime('30 minutes')), [
+                                                    'id' => '',
+                                                    'class' => 'form-control locking_time',
+                                                ]) !!}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="btn btn-danger mt-4" onclick="addTimeSlot(this)"
+                                                    type="button">ADD</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endif
                                 <div class="clearfix"></div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -157,7 +165,7 @@
         const newRow = document.createElement('div');
         var now_date = "{{ date('Y-m-d') }}";
         var now_time = "{{ date('H:i') }}";
-        var locking_time = "{{ date('H:i',strtotime('30 minutes')) }}";
+        var locking_time = "{{ date('H:i', strtotime('30 minutes')) }}";
         newRow.className = 'row mb-2';
         newRow.innerHTML = '<div class="col-md-3"><input min="' + now_date +
             '" class="form-control start_date" name="start_date[]" type="date" required value="' + now_date +
@@ -207,10 +215,10 @@
                 return false;
             }
             $.ajax({
-                type: 'POST'
-                , url: '/event/update/' + form_id
-                , data: $(this).serialize()
-                , success: function(response) {
+                type: 'POST',
+                url: '/event/update/' + form_id,
+                data: $(this).serialize(),
+                success: function(response) {
                     if (response.success) {
                         console.log(response);
                         $('#validation-success').append(
@@ -225,14 +233,16 @@
                             var name = $("input[name='" + key + "']");
                             if (key.indexOf(".") != -1) {
                                 var arr = key.split(".");
-                                name = $("input[name='" + arr[0] + "[]']:eq(" + arr[1] + ")");
+                                name = $("input[name='" + arr[0] + "[]']:eq(" + arr[
+                                    1] + ")");
                             }
-                            name.parent().append('<div class="error right-align pink-text text-mute">' + value[0] + '</div>');
+                            name.parent().append(
+                                '<div class="error right-align pink-text text-mute">' +
+                                value[0] + '</div>');
                         });
                     }
                 }
             });
         });
     });
-
 </script>
