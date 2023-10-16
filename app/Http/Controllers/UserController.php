@@ -12,7 +12,7 @@ use DB;
 use Hash;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\RedirectResponse;  
 use Illuminate\Support\Facades\Auth;
 use DataTables;
 class UserController extends Controller
@@ -23,13 +23,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): View
-    {
+    {   
         return view('users.index');
     }
 
 
     public function soIndex(Request $request): View
-    {
+    {   
         return view('users.so_index');
     }
 
@@ -73,7 +73,8 @@ class UserController extends Controller
             ->addColumn('created_at', function($row){
                 $created_at = date('Y-m-d',strtotime($row->created_at));
                 return $created_at;
-            }) ->make();
+            })
+             ->make();
      }
     /**
      * Show the form for creating a new resource.
@@ -91,10 +92,9 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */  
     public function store(Request $request): RedirectResponse
     {
-
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -115,7 +115,7 @@ class UserController extends Controller
     }
     /**
      * Display the specified resource.
-     *
+     *  
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -149,7 +149,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -162,15 +161,13 @@ class UserController extends Controller
             'status' => 'required|numeric|in:0,1',
         ]);
         $input = $request->all();
-     
-       if(!empty($input['password'])){
-          $input['password'] = $input['password'];  //Hash::make($input['password']);
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
         }else{
-            $input = Arr::except($input,array('password'));
+            $input = Arr::except($input,array('password'));    
         }
         $user = User::find($id);
         $user->update($input);
-
         DB::table('model_has_roles')->where('model_id',$id)->delete();
         $user->assignRole($request->input('roles'));
         return redirect()->route('users.index')
@@ -189,7 +186,7 @@ class UserController extends Controller
                         ->with('success','User deleted successfully');
     }
     public function loginReport(Request $request): View
-    {
+    {   
         return view('users.login_report');
     }
 

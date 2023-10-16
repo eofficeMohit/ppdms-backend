@@ -155,40 +155,20 @@ class BoothController extends Controller
 
     public function mapOffBooths(Request $request)
     {
-        try{
-
-       
         $input = $request->all();
         $assemble_id =  $input['params']['selectedAssem'];
         $booth_id = $input['params']['booth_id'];
         $user_id = auth()->user()->id;
         $assigned_to = $input['params']['selectedOff'];
-          
-        $check_user=  User::find($assigned_to);
-          if(empty($check_user->assemble_id) || empty($check_user->district_id) || empty($check_user->state_id)){
-            $get_booths= Booth::find($booth_id);
-             User::where('id', $assigned_to)
-             ->update([
-                'assemble_id' => $get_booths->assemble_id,
-                'district_id' => $get_booths->district_id,
-                'state_id' => $get_booths->state_id,
-            ]);
-
-        }
         $assigned_by = $user_id;
         $assigned_status = $input['params']['status'];
         Booth::where('id', $booth_id)
             ->update([
-                'user_id' => $assigned_to,
                 'assigned_to' => $assigned_to,
                 'assigned_by' => $assigned_by,
                 'assigned_status' => $assigned_status,
             ]);
-        }catch(\Exception $e){
-              echo  'Message: ' .$e->getMessage();
-        }
     }
-
     public function updateStatus(Request $request)
     {
         $booth = Booth::find($request->id);

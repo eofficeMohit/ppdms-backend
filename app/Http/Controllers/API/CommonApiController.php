@@ -463,7 +463,7 @@ class CommonApiController extends BaseController
                         }
                     }
 
-                    return $this->sendResponse($success, 'Voter Turnout has been updated successfully.');
+                    return $this->sendResponse($success, 'Detail updated successfully.');
                 }
 
                 if ($request->has('event_id') && $request->event_id == '7') {

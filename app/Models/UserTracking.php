@@ -8,6 +8,5 @@ use Binafy\LaravelUserMonitoring\Traits\Actionable;
 
 class UserTracking extends Model
 {
-    use HasFactory,Actionable;
-    
+    use HasFactory, Actionable;
 }

@@ -10,6 +10,6 @@ class EventTimeslot extends Model
 {
     use HasFactory,Actionable;
     protected $fillable = [
-        'event_id', 'date', 'start_time','end_time','locking_time', 'status','created_at','updated_at'
+        'event_id', 'date', 'start_time','end_time', 'status','created_at','updated_at'
     ];
 }

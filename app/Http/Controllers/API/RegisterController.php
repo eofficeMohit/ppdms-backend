@@ -10,7 +10,6 @@ use App\Models\UserLogin;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
-use Spatie\Permission\Models\Role;
 
 class RegisterController extends BaseController
 {
@@ -34,7 +33,6 @@ class RegisterController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $user->assignRole('2');
         $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
         $success['token_type'] = 'Bearer';
         $success['name'] =  $user->name;
@@ -54,7 +52,6 @@ class RegisterController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
         /* Send An OTP */
@@ -106,7 +103,7 @@ class RegisterController extends BaseController
             'device_token' => $request->device_token,
             'device_mac_address'=> $request->device_mac_address
         ]);
-       
+
         /* Validation Logic */
         $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
         $now = now();
@@ -155,7 +152,6 @@ class RegisterController extends BaseController
             }
          }else{
             $user = User::create(['mobile_number' => $mobile_number]);
-            $user->assignRole('2');
          }
 
          /* Create a New OTP */

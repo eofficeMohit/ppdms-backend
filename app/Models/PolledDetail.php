@@ -20,7 +20,6 @@ class PolledDetail extends Model
         'district_id', 'assemble_id','state_id','event_id', 'user_id', 'booth_id','ac_code','vote_polled','date_time_received','ip_address','ip_host'
     ];
 
-    protected $dates = ['date_time_received'];
 
     public function polledState(): BelongsTo
     {

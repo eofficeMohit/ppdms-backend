@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('line')->nullable();
             $table->text('message')->nullable();
             $table->text('trace')->nullable();
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+			//$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
