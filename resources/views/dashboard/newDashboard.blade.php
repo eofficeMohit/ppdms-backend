@@ -5,6 +5,16 @@
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
         <!-- End Navbar -->
+		    <style>
+				.table_cls {
+					border-collapse: collapse;
+					width: 100%;
+				}
+				.sub-table {
+					display: none;
+				}
+
+			</style>
         <div class="container-fluid py-4">
             <div class="row card_event">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -307,6 +317,124 @@
                     </div>
                 </div>
             </div>
+			<div class="row mb-4">
+	<div class="col-lg-12 col-md-12 mb-md-0 mb-4">
+		<div class="card">
+			<div class="card-header pb-0">
+				<div class="row">
+					<div class="col-lg-6 col-7">
+						<h6>Tables / Sub-Tables</h6>
+					</div>
+				</div>
+			</div>
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive">
+					<table class="table table_cls align-items-center mb-0">
+						<thead>
+							<tr>
+								<th
+								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+								S.No</th>
+							<th
+								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+								District Name</th>
+							<th
+								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+								D CODE</th>
+							<th
+								class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+								Last Updated</th>
+							<th
+								class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+								Action</th>
+							</tr>	
+						</thead>
+						<tbody>
+						@foreach ($new_array as $key => $value)
+						<tr>
+							<td>{{ $value['id'] }}</td>
+							<td>{{ $value['name'] }}</td>
+							<td>{{ $value['d_code'] }}</td>
+							<td>{{ $value['created_at'] }}</td>
+							<td><span class="toggle">Toggle</span></td>
+						</tr>
+						<tr class="sub-table">
+							<td colspan="4">
+								<table class="table table_cls fold-table parent" id="table">
+									<thead>
+									  <tr>
+										<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											S.No</th>
+										<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											Assembly Name</th>
+										<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											Ac Type</th>
+										<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Last Updated</th>
+										<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Action</th>
+										</tr>
+									</thead>
+										<tbody>
+											@foreach ( $value['assemblies'] as $k => $v)
+											<tr>
+												<td>{{ $v['id'] }}</td>
+												<td>{{ $v['name'] }}</td>
+												<td>{{ $v['ac_type'] }}</td>
+												<td>{{ $v['created_at'] }}</td>
+												<td><span class="toggle">Toggle</span></td>
+											</tr>
+											<!-- Third level sub-table -->
+											<tr class="sub-table">
+												<td colspan="4">
+													<table class="table table_cls fold-table parent" id="table">
+														<thead>
+															<tr>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																S.No</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Booth Name</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Total Voters</th>
+															<th
+																class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+																Last Updated</th>
+															</tr>
+														</thead>
+														<tbody>
+															@foreach ( $v['booths'] as $kk => $vv)
+																<tr>
+																	<td>{{ $vv['id'] }}</td>
+																	<td>{{ $vv['name'] }}</td>
+																	<td>{{ $vv['tot_voters'] }}</td>
+																	<td>{{ $vv['created_at'] }}</td>
+																</tr>
+															@endforeach
+														</tbody>	
+													</table>
+												</td>
+											</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
             <x-footers.auth></x-footers.auth>
         </div>
     </main>
@@ -560,7 +688,18 @@
         //         },
         //     },
         // });
+			document.addEventListener('DOMContentLoaded', function () {
+			document.querySelector('.table_cls').addEventListener('click', function (event) {
+				if (event.target.classList.contains('toggle')) {
+					const row = event.target.closest('tr');
+					const subTable = row.nextElementSibling;
 
+					if (subTable.classList.contains('sub-table')) {
+						subTable.style.display = subTable.style.display === 'table' ? 'none' : 'table';
+					}
+				}
+			});
+		});
     </script>
     @endpush
 </x-layout>

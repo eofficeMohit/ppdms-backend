@@ -7,6 +7,7 @@ use App\Models\Booth;
 use App\Models\ElectionInfo;
 use App\Models\PollInterrupted;
 use App\Models\Assembly;
+use App\Models\District;
 class DashboardController extends Controller
 {
     public function index(Request $request)
@@ -56,6 +57,32 @@ class DashboardController extends Controller
         $pollInterrupted = PollInterrupted::with('electionDistrict', 'electionBooth', 'electionAssembly', 'userId', 'interruptedType')
             ->orderBy('id', 'ASC')
             ->get();
-        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started'));
+        $district = District::orderBy('created_at', 'desc')->get();
+        $new_array = array();
+        $booth_array = array();
+        foreach ($district as $key => $value) {
+            $new_array[$key]['id'] = $value->id;
+            $new_array[$key]['name'] = $value->name;
+            $new_array[$key]['d_code'] = $value->d_code;
+            $new_array[$key]['created_at'] = $value->created_at;
+            $assembly = Assembly::where('district_id', $value->id)->orderBy('id', 'ASC')->get();
+            foreach ($assembly as $kk => $vv) {
+                $new_array[$key]['assemblies'][$kk]['id'] = $vv->id;
+                $new_array[$key]['assemblies'][$kk]['name'] = $vv->asmb_name;
+                $new_array[$key]['assemblies'][$kk]['ac_type'] = $vv->ac_type;
+                $new_array[$key]['assemblies'][$kk]['created_at'] = $vv->created_at;
+                $booth = Booth::where('assemble_id', $vv->id)->orderBy('id', 'ASC')->get();
+                foreach ($booth as $kkk => $vvv) {
+                    $booth_array[$kkk]['id'] = $vvv->id;
+                    $booth_array[$kkk]['assemble_id'] = $vvv->assemble_id;
+                    $booth_array[$kkk]['name'] = $vvv->booth_name;
+                    $booth_array[$kkk]['tot_voters'] = $vvv->tot_voters;
+                    $booth_array[$kkk]['created_at'] = $vvv->created_at;
+                }
+                $new_array[$key]['assemblies'][$kk]['booths'] = $booth_array;
+    
+            }
+        }
+        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started','new_array'));
     }
 }
