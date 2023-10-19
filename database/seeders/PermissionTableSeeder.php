@@ -14,6 +14,12 @@ class PermissionTableSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+		   'poll-detail-list',
+		   'poll-detail-edit',
+		   'poll-detail-delete',
+		   'poll-interrupted-list',
+		   'poll-interrupted-edit',
+		   'poll-interrupted-delete',
 	       'election_info-list',
 		   'election_info-create',
 		   'election_info-edit',

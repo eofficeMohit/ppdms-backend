@@ -58,7 +58,7 @@ class DashboardController extends Controller
             ->orderBy('id', 'ASC')
             ->get();
         $district = District::orderBy('created_at', 'desc')->get();
-        $new_array = array();
+        /*$new_array = array();
         $booth_array = array();
         foreach ($district as $key => $value) {
             $new_array[$key]['id'] = $value->id;
@@ -82,7 +82,7 @@ class DashboardController extends Controller
                 $new_array[$key]['assemblies'][$kk]['booths'] = $booth_array;
     
             }
-        }
-        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started','new_array'));
+        }*/
+        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started','district'));
     }
 }

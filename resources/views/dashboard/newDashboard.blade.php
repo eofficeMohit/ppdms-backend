@@ -350,12 +350,12 @@
 							</tr>	
 						</thead>
 						<tbody>
-						@foreach ($new_array as $key => $value)
+						@foreach ($district as $key => $value)
 						<tr>
-							<td>{{ $value['id'] }}</td>
-							<td>{{ $value['name'] }}</td>
-							<td>{{ $value['d_code'] }}</td>
-							<td>{{ $value['created_at'] }}</td>
+							<td>{{ $value->id }}</td>
+							<td>{{ $value->name }}</td>
+							<td>{{ $value->d_code }}</td>
+							<td>{{ $value->created_at }}</td>
 							<td><span class="toggle">Toggle</span></td>
 						</tr>
 						<tr class="sub-table">
