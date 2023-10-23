@@ -338,112 +338,134 @@
                 </div>
                 <div class="card-body px-4 pb-4">
                     <div class="table-responsive p-0">
-                        <table class="table table_cls align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                    </th>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        District Name</th>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        D CODE</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Last Updated</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($new_array as $key => $value)
-                                    <tr>
-                                        <td><i class="toggle material-icons">add_circle</i>
-                                        </td>
-                                        {{-- {{ $value['id'] }} --}}
-                                        <td>{{ $value['name'] }}</td>
-                                        <td>{{ $value['d_code'] }}</td>
-                                        <td>{{ $value['created_at'] }}</td>
-                                    </tr>
-                                    <tr class="sub-table">
-                                        <td colspan="4">
-                                            <table class="table table_cls fold-table parent" id="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th
-                                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                        </th>
-                                                        <th
-                                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                            Assembly Name</th>
-                                                        <th
-                                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                            Ac Type</th>
-                                                        <th
-                                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                            Last Updated</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($value['assemblies'] as $k => $v)
-                                                        <tr>
-                                                            <td><i class="toggle material-icons">add_circle</i>
-                                                            </td>
-                                                            <td>{{ $v['name'] }}</td>
-                                                            <td>{{ $v['ac_type'] }}</td>
-                                                            <td>{{ $v['created_at'] }}</td>
-                                                        </tr>
-                                                        <!-- Third level sub-table -->
-                                                        <tr class="sub-table">
-                                                            <td colspan="4">
-                                                                <table class="table table_cls fold-table parent"
-                                                                    id="table">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th
-                                                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                S.No</th>
-                                                                            <th
-                                                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                Booth Name</th>
-                                                                            <th
-                                                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                Total Voters</th>
-                                                                            <th
-                                                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                                                Last Updated</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        @foreach ($v['booths'] as $kk => $vv)
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                <div class="fixed-table-body">
+                                    <div class="fixed-table-loading" style="top: 42px;">Loading, please wait...</div>
+                                    <table class="table table_cls align-items-center mb-0 table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                </th>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                    District Name</th>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                    D CODE</th>
+                                                <th
+                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                    Last Updated</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($new_array as $key => $value)
+                                                <tr>
+                                                    <td><i class="toggle material-icons">add_circle</i>
+                                                    </td>
+                                                    {{-- {{ $value['id'] }} --}}
+                                                    <td>{{ $value['name'] }}</td>
+                                                    <td>{{ $value['d_code'] }}</td>
+                                                    <td>{{ $value['created_at'] }}</td>
+                                                </tr>
+                                                <tr class="sub-table">
+                                                    <td colspan="5">
+                                                        <div class="bootstrap-table">
+                                                            <div class="fixed-table-container"
+                                                                style="padding-bottom: 0px;">
+                                                                <div class="fixed-table-body">
+                                                                    <div class="fixed-table-loading"
+                                                                        style="top: 42px;">Loading, please wait...
+                                                                    </div>
+                                                                    <table class="table table_cls fold-table parent"
+                                                                        id="table">
+                                                                        <thead>
                                                                             <tr>
-                                                                                <td>{{ $vv['id'] }}</td>
-                                                                                <td>{{ $vv['name'] }}</td>
-                                                                                <td>{{ $vv['tot_voters'] }}
-                                                                                </td>
-                                                                                <td>{{ $vv['created_at'] }}
-                                                                                </td>
+                                                                                <th
+                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                </th>
+                                                                                <th
+                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                    Assembly Name</th>
+                                                                                <th
+                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                    Ac Type</th>
+                                                                                <th
+                                                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                                                    Last Updated</th>
                                                                             </tr>
-                                                                        @endforeach
-                                                                    </tbody>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($value['assemblies'] as $k => $v)
+                                                                                <tr>
+                                                                                    <td><i
+                                                                                            class="toggle material-icons">add_circle</i>
+                                                                                    </td>
+                                                                                    <td>{{ $v['name'] }}</td>
+                                                                                    <td>{{ $v['ac_type'] }}</td>
+                                                                                    <td>{{ $v['created_at'] }}</td>
+                                                                                </tr>
+                                                                                <!-- Third level sub-table -->
+                                                                                <tr class="sub-table">
+                                                                                    <td colspan="5">
+                                                                                        <table
+                                                                                            class="table align-items-center mb-0 table-hover table_cls fold-table parent"
+                                                                                            id="table"
+                                                                                            data-detail-view="true">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th
+                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                                        S.No</th>
+                                                                                                    <th
+                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                                        Booth Name</th>
+                                                                                                    <th
+                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                                                                        Total Voters
+                                                                                                    </th>
+                                                                                                    <th
+                                                                                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                                                                        Last Updated
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                                @foreach ($v['booths'] as $kk => $vv)
+                                                                                                    <tr>
+                                                                                                        <td>{{ $vv['id'] }}
+                                                                                                        </td>
+                                                                                                        <td>{{ $vv['name'] }}
+                                                                                                        </td>
+                                                                                                        <td>{{ $vv['tot_voters'] }}
+                                                                                                        </td>
+                                                                                                        <td>{{ $vv['created_at'] }}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                @endforeach
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <x-footers.auth></x-footers.auth>
             </div>
-        </div>
-        </div>
-        <x-footers.auth></x-footers.auth>
-        </div>
 
     </main>
     <x-plugins></x-plugins>

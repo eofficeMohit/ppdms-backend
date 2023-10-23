@@ -22,9 +22,12 @@ class DashboardController extends Controller
         $total_party_reached = ElectionInfo::where('event_id', 2)->count();
         $total_mock_poll_started = ElectionInfo::where('event_id', 3)->count();
         $districtsColumns = ['name', 'd_code', 'state', 'status'];
-        $districtsNames = District::where('status', 1)->get();
+        $assemblyColumns = ['ASSEMBLY NAME', 'AC TYPE', 'LAST UPDATED'];
+        $districtsDetails = District::with('state')
+            ->where('status', 1)
+            ->get();
 
-        return view('dashboard.index', compact('electionInfo', 'districtsNames', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('dashboard.index', compact('electionInfo', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
     public function indexStat()
     {

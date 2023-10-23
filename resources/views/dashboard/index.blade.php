@@ -288,19 +288,16 @@
                         </div>
                         <div class="card-body px-4 pb-4">
                             <div class="table-responsive p-0">
-                                <div class="table-responsive">
-                                    <h1>Live Polling Voting Details</h1>
-                                    <table class="table align-items-center mb-0" id="table"
-                                        data-detail-view="true">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="id">ID</th>
-                                                <th data-field="name">Item Name</th>
-                                                <th data-field="price">Item Price</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                                <h1>Live Polling Voting Details</h1>
+                                <table class="table align-items-center mb-0" id="table" data-detail-view="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="id">ID</th>
+                                            <th data-field="name">Item Name</th>
+                                            <th data-field="price">Item Price</th>
+                                        </tr>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -397,37 +394,49 @@
             var $districtCount = @json($districtCount);
             var $electionInfo = @json($electionInfo);
             var $districtsColumns = @json($districtsColumns);
-            var $districtsNames = @json($districtsNames);
-            // console.log($districtsNames);
+            var $assemblyColumns = @json($assemblyColumns);
+            var $districtsDetails = @json($districtsDetails);
+            // console.log($districtsDetails);
             $(function() {
                 buildTable($table, 4, $districtCount);
             });
 
             function expandTable($detail, cells) {
-                buildTable($detail.html('<table></table>').find('table'), cells, 1);
+                var assemblyCount = Object.keys($assemblyColumns).length;
+                buildTable($detail.html('<table></table>').find('table'), cells, assemblyCount);
             }
 
             function buildTable($el, cells, rows) {
+                // console.log(rows);
                 var i, j, row,
                     columns = [],
                     data = [];
                 for (i = 0; i < cells; i++) {
-                    // console.log(cells);
+                    console.log(i);
                     columns.push({
                         field: 'field' + i,
                         title: $districtsColumns[i],
                         sortable: true
                     });
+
                 }
                 for (i = 0; i < rows; i++) {
                     // console.log(rows);
                     row = {};
                     for (j = 0; j < cells; j++) {
-                        console.log(j);
-                        row['field' + j] = $districtsNames[i].name;
+                        // console.log(j);
+                        if (j === 0) {
+                            row['field' + j] = $districtsDetails[i].name;
+                        } else if (j === 1) {
+                            row['field' + j] = $districtsDetails[i].d_code;
+                        } else if (j === 2) {
+                            row['field' + j] = $districtsDetails[i].state.name;
+                        } else if (j === 3) {
+                            row['field' + j] = $districtsDetails[i].status;
+                        }
                     }
                     data.push(row);
-                    console.log(data);
+
                 }
                 $el.bootstrapTable({
                     columns: columns,
