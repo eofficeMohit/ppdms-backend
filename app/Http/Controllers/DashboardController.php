@@ -8,6 +8,8 @@ use App\Models\ElectionInfo;
 use App\Models\PollInterrupted;
 use App\Models\Assembly;
 use App\Models\District;
+use Illuminate\Support\Facades\Schema;
+
 class DashboardController extends Controller
 {
     public function index(Request $request)
@@ -15,10 +17,14 @@ class DashboardController extends Controller
         $electionInfo = ElectionInfo::with('electionState', 'electionDistrict', 'electionBooth', 'electionAssembly', 'electionEvent')
             ->latest()
             ->paginate(20);
+        $districtCount = District::count();
         $total_party_dispatch = ElectionInfo::where('event_id', 1)->count();
         $total_party_reached = ElectionInfo::where('event_id', 2)->count();
         $total_mock_poll_started = ElectionInfo::where('event_id', 3)->count();
-        return view('dashboard.index', compact('electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
+        $districtsColumns = ['name', 'd_code', 'state', 'status'];
+        $districtsNames = District::where('status', 1)->get();
+
+        return view('dashboard.index', compact('electionInfo', 'districtsNames', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
     public function indexStat()
     {
@@ -58,20 +64,24 @@ class DashboardController extends Controller
             ->orderBy('id', 'ASC')
             ->get();
         $district = District::orderBy('created_at', 'desc')->get();
-        $new_array = array();
-        $booth_array = array();
+        $new_array = [];
+        $booth_array = [];
         foreach ($district as $key => $value) {
             $new_array[$key]['id'] = $value->id;
             $new_array[$key]['name'] = $value->name;
             $new_array[$key]['d_code'] = $value->d_code;
             $new_array[$key]['created_at'] = $value->created_at;
-            $assembly = Assembly::where('district_id', $value->id)->orderBy('id', 'ASC')->get();
+            $assembly = Assembly::where('district_id', $value->id)
+                ->orderBy('id', 'ASC')
+                ->get();
             foreach ($assembly as $kk => $vv) {
                 $new_array[$key]['assemblies'][$kk]['id'] = $vv->id;
                 $new_array[$key]['assemblies'][$kk]['name'] = $vv->asmb_name;
                 $new_array[$key]['assemblies'][$kk]['ac_type'] = $vv->ac_type;
                 $new_array[$key]['assemblies'][$kk]['created_at'] = $vv->created_at;
-                $booth = Booth::where('assemble_id', $vv->id)->orderBy('id', 'ASC')->get();
+                $booth = Booth::where('assemble_id', $vv->id)
+                    ->orderBy('id', 'ASC')
+                    ->get();
                 foreach ($booth as $kkk => $vvv) {
                     $booth_array[$kkk]['id'] = $vvv->id;
                     $booth_array[$kkk]['assemble_id'] = $vvv->assemble_id;
@@ -80,9 +90,8 @@ class DashboardController extends Controller
                     $booth_array[$kkk]['created_at'] = $vvv->created_at;
                 }
                 $new_array[$key]['assemblies'][$kk]['booths'] = $booth_array;
-    
             }
         }
-        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started','new_array'));
+        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started', 'new_array'));
     }
 }

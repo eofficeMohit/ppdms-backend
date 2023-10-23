@@ -110,3 +110,27 @@ p {
   background-color: #e10909;
   border-radius: 10px;
 }
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 1000;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon-plus:before {
+  content: "\002b";
+}
+
+.glyphicon-minus:before {
+  content: "\2212";
+}
+
+a.detail-icon {
+  color: #337ab7;
+  /* text-decoration: none; */
+}

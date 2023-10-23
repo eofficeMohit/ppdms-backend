@@ -16,10 +16,11 @@
                             </div>
                         </div>
                         @can('assembly-create')
-                        <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Assembly</a>
-                        </div>
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    Assembly</a>
+                            </div>
                         @endcan
 
                         <div class="cus_msg_div">
@@ -29,27 +30,36 @@
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ID
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ST CODE
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB CODE</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 ASMB Name</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 AC TYPE</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 PC TYPE</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 PC NO
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 STATUS
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action</th>
                                         </tr>
                                     </thead>
@@ -65,14 +75,13 @@
     <x-plugins></x-plugins>
 </x-layout>
 @if ($message = Session::get('success'))
-<script>
-    var message = "{{ $message }}";
-    jQuery('#toast_body_msg').html(message);
-    let myAlert = document.querySelector('.toast');
-    let bsAlert = new bootstrap.Toast(myAlert);
-    bsAlert.show();
-
-</script>
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message);
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
 @endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
@@ -80,7 +89,7 @@
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
-            dom: 'Bfrtip', 
+            dom: 'Blfrtip',
             buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
             processing: true,
             serverSide: true,
@@ -108,11 +117,11 @@
                 {
                     data: 'ac_type',
                     name: 'ac_type'
-                }, 
+                },
                 {
                     data: 'pc_type',
                     name: 'pc_type'
-                }, 
+                },
                 {
                     data: 'pc_no',
                     name: 'pc_no'
@@ -151,7 +160,8 @@
                         }
                         if (permission_delete == "granted") {
                             btn +=
-                                '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2"  data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                '<a rel="tooltip" onclick="openConfirmModal(' + full.id +
+                                ')" class="btn btn-danger btn-link m-2"  data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                         }
                         return btn;
                     }
@@ -159,14 +169,17 @@
             ]
         });
         table.buttons().container()
-                 .insertBefore( '#empTable_filter' );
+            .insertBefore('#empTable_filter');
     });
-    function openConfirmModal(id){
-        var btn_html = '<a href="/assemblies/destroy/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+
+    function openConfirmModal(id) {
+        var btn_html = '<a href="/assemblies/destroy/' + id +
+            '" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
         jQuery('#mod_btn_div').html(btn_html);
         jQuery('#modalConfirmDelete').modal('show');
     }
-    function closeConfirmModal(){
+
+    function closeConfirmModal() {
         jQuery('#modalConfirmDelete').modal('hide');
     }
 </script>
