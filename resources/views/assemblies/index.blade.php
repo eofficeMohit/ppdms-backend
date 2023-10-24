@@ -89,7 +89,6 @@
     var permission_edit = "{{ checkPermission('assembly-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
-            pageLength: 25,
             dom: 'Blfrtip',
             buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
             processing: true,
@@ -97,6 +96,7 @@
             order: [
                 [0, 'desc']
             ],
+            pageLength: 25,
             ajax: "{{ route('assemblies.getdatatabledata') }}",
             columns: [{
                     data: 'id',
@@ -107,8 +107,8 @@
                     name: 'st_code'
                 },
                 {
-                    data: 'asmb_name',
-                    name: 'asmb_name'
+                    data: 'asmb_code',
+                    name: 'asmb_code'
                 },
                 {
                     data: 'asmb_name',
@@ -137,6 +137,7 @@
                             checked = "checked";
                         }
 <<<<<<< HEAD
+<<<<<<< HEAD
                         return '<label class="switch"><input data-id="' + full.id +
                             '" class="toggle_state_cls_assemble" ' + checked +
                             ' type="checkbox"><span class="slider round"></span></label>';
@@ -149,6 +150,12 @@
                             ' type="checkbox"><span class="slider round"></span></label>';
                     },
 >>>>>>> 629fd355fd791450c18533795427a5a124671cc6
+=======
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_assemble" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
+                    }
+>>>>>>> 484d9d87ab38136e85a6e77179c30c60de0a0c21
                 },
                 {
                     data: 'action',
@@ -157,11 +164,15 @@
                     searchable: false,
                     render: function(data, type, full, meta) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         var confirmation = "'Are you sure you want to delete?'";
 =======
                         var confirmation =
                             "'Are you sure you want to delete?'";
 >>>>>>> 629fd355fd791450c18533795427a5a124671cc6
+=======
+                        var confirmation = "'Are you sure you want to delete?'";
+>>>>>>> 484d9d87ab38136e85a6e77179c30c60de0a0c21
                         var btn =
                             '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
                             full.id +
@@ -192,11 +203,8 @@
                         }
                         if (permission_delete == "granted") {
                             btn +=
-                                '<a rel="tooltip" onclick="return confirm(' +
-                                confirmation +
-                                ')" class="btn btn-danger btn-link m-2" href="assemblies/destroy/' +
-                                full.id +
-                                '" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                '<a rel="tooltip" onclick="openConfirmModal(' + full.id +
+                                ')" class="btn btn-danger btn-link m-2"  data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                         }
                         return btn;
                     }
@@ -207,4 +215,15 @@
             .insertBefore('#empTable_filter');
 >>>>>>> 629fd355fd791450c18533795427a5a124671cc6
     });
+
+    function openConfirmModal(id) {
+        var btn_html = '<a href="/assemblies/destroy/' + id +
+            '" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+        jQuery('#mod_btn_div').html(btn_html);
+        jQuery('#modalConfirmDelete').modal('show');
+    }
+
+    function closeConfirmModal() {
+        jQuery('#modalConfirmDelete').modal('hide');
+    }
 </script>

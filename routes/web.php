@@ -19,6 +19,8 @@ use App\Http\Controllers\ParliamentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\IssueManagementController;
 use App\Http\Controllers\DashboardSettingsController;
+use App\Http\Controllers\PolledDetailController;
+use App\Http\Controllers\PollInterruptedController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +49,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('permissions', PermissionController::class);
     Route::get('/user/updateStatus', [UserController::class, 'updateStatus'])->name('user.updateStatus');
     Route::resource('users', UserController::class);
+
+    Route::get('/poll-details', [PolledDetailController::class, 'index'])->name('poll-details');
+    Route::get('/poll-details/getdatatabledata', [PolledDetailController::class, 'getPollDetails'])->name('poll-details.getdatatabledata');
+    Route::get('/poll-details/delete/{id}', [PolledDetailController::class, 'destroy'])->name('poll-details.delete');
+    Route::get('/poll-details/edit/{id}', [PolledDetailController::class, 'edit'])->name('poll-details.edit');
+    Route::patch('/poll-details/update/{id}', [PolledDetailController::class, 'update'])->name('poll-details.update');
+    
+    Route::get('/poll-interrupted', [PollInterruptedController::class, 'index'])->name('poll-interrupted');
+    Route::get('/poll-interrupted/getdatatabledata', [PollInterruptedController::class, 'getPollInterrupted'])->name('poll-interrupted.getdatatabledata');
+    Route::get('/poll-interrupted/delete/{id}', [PollInterruptedController::class, 'destroy'])->name('poll-interrupted.delete');
+    Route::get('/poll-interrupted/edit/{id}', [PollInterruptedController::class, 'edit'])->name('poll-interrupted.edit');
+    Route::patch('/poll-interrupted/update/{id}', [PollInterruptedController::class, 'update'])->name('poll-interrupted.update');
+    
 
     Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');
     Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');

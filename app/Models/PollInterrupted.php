@@ -28,7 +28,7 @@ class PollInterrupted extends Model
 
     public function interruptedType(): BelongsTo
     {
-        return $this->belongsTo(PollInterruptedTypes::class, 'inter_type_id', 'id');
+        return $this->belongsTo(PollInterruptedTypes::class, 'interrupted_type', 'id');
     }
 
     public function electionDistrict(): BelongsTo

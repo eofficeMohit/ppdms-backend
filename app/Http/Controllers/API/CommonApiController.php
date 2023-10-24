@@ -263,7 +263,7 @@ class CommonApiController extends BaseController
                             $dt = new DateTime();
                             $current_time = $dt->format('H:i:s');
 
-                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->end_time) {
+                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
                                 $selected_slot = $timeSlot->end_time;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                             }
@@ -421,13 +421,7 @@ class CommonApiController extends BaseController
                     if (!empty($poll_details->date_time_received)) {
                         $date_time_received = date('H:i', strtotime($poll_details->date_time_received));
                     }
-
-                    $get_events_timeslot = EventTimeslot::where('event_id', 6)
-                        ->whereTime('locking_time', '>', Carbon::now()->format('H:i:s'))
-                        ->where('status', 1)
-                        ->first();
-                    //current comparing with locking time //'18:00:00'
-                    if (Carbon::now()->format('H:i:s') > $get_events_timeslot->locking_time) {
+                    if (Carbon::now()->format('H:i:s') > '18:00:00') {
                         $data['voting'] = $poll_details->vote_polled ?? '';
                         $data['voting_last_updated'] = $poll_details->date_time_received ?? '';
                         $data['status'] = 1;
@@ -503,13 +497,7 @@ class CommonApiController extends BaseController
                         ->exists();
 
                     if ($check_voter_in_queqe === false) {
-                        $get_events_timeslot = EventTimeslot::where('event_id', 6)
-                            ->whereTime('locking_time', '>', Carbon::now()->format('H:i:s'))
-                            ->where('status', 1)
-                            ->first();
-                        //current comparing with locking time //'18:00:00'
-                        if (Carbon::now()->format('H:i:s') > $get_events_timeslot->locking_time) {
-                            //  if (Carbon::now()->format('H:i:s') > '18:00:00') {
+                        if (Carbon::now()->format('H:i:s') > '18:00:00') {
                             $data['voting_last_updated'] = now();
                             $data['status'] = 1;
                             $data = ElectionInfo::create($data);

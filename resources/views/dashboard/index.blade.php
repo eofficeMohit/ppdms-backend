@@ -286,6 +286,23 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-body px-4 pb-4">
+                            <div class="table-responsive p-0">
+                                <h1>Live Polling Details</h1>
+                                <div class="px-0 pb-4 mt-4">
+                                    <button id="print-table">Print Table</button>
+                                    <button id="download-csv">Download CSV</button>
+                                    <button id="download-json">Download JSON</button>
+                                    <button id="download-xlsx">Download XLSX</button>
+                                    <button id="download-pdf">Download PDF</button>
+                                    <button id="download-html">Download HTML</button>
+                                </div>
+                                <div>
+
+                                </div>
+                                <div id="example-table"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {{-- <div class="col-lg-4 col-md-6">
@@ -374,7 +391,591 @@
     </div>
     @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
+
+        <script src="{{ asset('assets/js/piety.js') }}"></script>
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+
         <script>
+            // NEsted tables
+
+            //custom max min header filter
+            var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams) {
+
+                var end;
+
+                var container = document.createElement("span");
+
+                //create and style inputs
+                var start = document.createElement("input");
+                start.setAttribute("type", "number");
+                start.setAttribute("placeholder", "Min");
+                start.setAttribute("min", 0);
+                start.setAttribute("max", 100);
+                start.style.padding = "4px";
+                start.style.width = "50%";
+                start.style.boxSizing = "border-box";
+
+                start.value = cell.getValue();
+
+                function buildValues() {
+                    success({
+                        start: start.value,
+                        end: end.value,
+                    });
+                }
+
+                function keypress(e) {
+                    if (e.keyCode == 13) {
+                        buildValues();
+                    }
+
+                    if (e.keyCode == 27) {
+                        cancel();
+                    }
+                }
+
+                end = start.cloneNode();
+                end.setAttribute("placeholder", "Max");
+
+                start.addEventListener("change", buildValues);
+                start.addEventListener("blur", buildValues);
+                start.addEventListener("keydown", keypress);
+
+                end.addEventListener("change", buildValues);
+                end.addEventListener("blur", buildValues);
+                end.addEventListener("keydown", keypress);
+
+
+                container.appendChild(start);
+                container.appendChild(end);
+
+                return container;
+            }
+
+            //custom max min filter function
+            function minMaxFilterFunction(headerValue, rowValue, rowData, filterParams) {
+                //headerValue - the value of the header filter element
+                //rowValue - the value of the column in this row
+                //rowData - the data for the row being filtered
+                //filterParams - params object passed to the headerFilterFuncParams property
+
+                if (rowValue) {
+                    if (headerValue.start != "") {
+                        if (headerValue.end != "") {
+                            return rowValue >= headerValue.start && rowValue <= headerValue.end;
+                        } else {
+                            return rowValue >= headerValue.start;
+                        }
+                    } else {
+                        if (headerValue.end != "") {
+                            return rowValue <= headerValue.end;
+                        }
+                    }
+                }
+
+                return true; //must return a boolean, true if it passes the filter.
+            }
+
+
+            //Formatter to generate charts
+            var chartFormatter = function(cell, formatterParams, onRendered) {
+                var content = document.createElement("span");
+                var values = cell.getValue();
+
+                //invert values if needed
+                if (formatterParams.invert) {
+                    values = values.map(val => val * -1);
+                }
+
+                //add values to chart and style
+                content.classList.add(formatterParams.type);
+                content.innerHTML = values.join(",");
+
+                //setup chart options
+                var options = {
+                    width: 145,
+                }
+
+                if (formatterParams.fill) {
+                    options.fill = formatterParams.fill
+                }
+
+                //instantiate piety chart after the cell element has been aded to the DOM
+                onRendered(function() {
+                    peity(content, formatterParams.type, options);
+                });
+
+                return content;
+            };
+            var tableDataNested = [{
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                },
+                {
+                    name: "Jamie Newhart",
+                    location: "India",
+                    //gender: "male",
+                    //col: "green",
+                    //dob: "14/05/1985",
+                    rating: 80,
+                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
+                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                },
+                {
+                    name: "Gemma Jane",
+                    location: "China",
+                    //gender: "female",
+                    //col: "red",
+                    //dob: "22/05/1982",
+                    rating: 45,
+                    line: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    bar: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    colored: [4, 17, 11, -12, 0, 5, 12, -14, 18, 11],
+                    inverted: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    _children: [{
+                        name: "Emily Sykes",
+                        location: "South Korea",
+                        //gender: "female",
+                        //col: "maroon",
+                        //dob: "11/11/1970",
+                        rating: 5,
+                        line: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
+                        bar: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
+                        colored: [11, 15, 19, -20, 17, 16, 16, -5, 3, 2],
+                        inverted: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
+
+
+                    }, ]
+                },
+                {
+                    name: "James Newman",
+                    location: "Japan",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "22/03/1998",
+                    rating: 66,
+                    line: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+                    bar: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+                    colored: [1, 2, 0, -4, -5, -4, 2, 5, 9, 8],
+                    inverted: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                },
+
+            ];
+
+            var table = new Tabulator("#example-table", {
+                // height: "311px",
+                layout: "fitColumns",
+                resizableColumnFit: true,
+                data: tableDataNested,
+                dataTreeChildColumnCalcs: true,
+                dataTree: true,
+                dataTreeStartExpanded: function(row, level) {
+                    return row.getData().driver; //expand rows where the "driver" data field is true;
+                },
+                dataTreeSelectPropagate: true,
+                printAsHtml: true,
+                printHeader: "<h1>Election Report<h1>",
+                printFooter: "<h2>PUNJAB ELECTION REPORT<h2>",
+                dataTreeChildIndent: 15, //indent child rows by 15 px
+                // dataTreeBranchElement: "<img class='branch-icon' src='/branch.png'/>", //show image for branch element
+                columns: [{
+                        title: "Name",
+                        field: "name",
+                        width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    }, //never hide this column
+                    {
+                        title: "Location",
+                        field: "location",
+                        headerFilter: "input",
+
+                        resizable: true
+                    },
+                    // {
+                    //     title: "Gender",
+                    //     field: "gender",
+                    // headerFilter: true,
+                    //     headerFilterParams: {
+                    //         values: {
+                    //             "male": "Male",
+                    //             "female": "Female",
+                    //             "": ""
+                    //         },
+                    //         clearable: true
+                    //     },
+                    //     responsive: 2,
+                    //     resizable: true
+                    // }, //hide this column first
+                    // {
+                    //     title: "Favourite Color",
+                    //     field: "col",
+
+                    //     resizable: true
+                    // },
+                    // {
+                    //     title: "Date Of Birth",
+                    //     field: "dob",
+                    //     hozAlign: "center",
+                    //     bottomCalcParams: {
+                    //         precision: 3
+                    //     },
+                    //     // formatter: "tickCross",
+
+                    //     resizable: true
+                    // },
+                    {
+                        title: "Rating",
+                        field: "rating",
+                        hozAlign: "left",
+                        formatter: "progress",
+                        headerFilter: "number",
+                        headerFilterPlaceholder: "at least...",
+                        headerFilterFunc: ">=",
+                        //   bottomCalc: "avg",
+                        //  topCalc: "count",
+                        // resizable: true
+                    }, {
+                        title: "Line Chart",
+                        field: "line",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "line"
+                        }
+                    },
+                    {
+                        title: "Bar Chart",
+                        field: "bar",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar"
+                        }
+                    },
+                    {
+                        title: "Coloured Bar Chart",
+                        field: "colored",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar",
+                            fill: function(value) {
+                                return value > 0 ? "green" : "red"
+                            }
+                        }
+                    },
+                    {
+                        title: "Inverted Bar Chart",
+                        field: "inverted",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar",
+                            invert: true,
+                            fill: function(_, i, all) {
+                                var g = parseInt((i / all.length) * 255)
+                                return "rgb(255, " + g + ", 0)"
+                            }
+                        }
+                    },
+                ],
+                // table.recalc();
+            });
+
+            //charts
             var ctx = document.getElementById("chart-bars").getContext("2d");
 
             new Chart(ctx, {
@@ -458,6 +1059,38 @@
                 },
             });
 
+
+            //trigger download of data.csv file
+            document.getElementById("download-csv").addEventListener("click", function() {
+                table.download("csv", "data.csv");
+            });
+
+            //trigger download of data.json file
+            document.getElementById("download-json").addEventListener("click", function() {
+                table.download("json", "data.json");
+            });
+
+            //trigger download of data.xlsx file
+            document.getElementById("download-xlsx").addEventListener("click", function() {
+                table.download("xlsx", "data.xlsx", {
+                    sheetName: "My Data"
+                });
+            });
+
+            //trigger download of data.pdf file
+            document.getElementById("download-pdf").addEventListener("click", function() {
+                table.download("pdf", "data.pdf", {
+                    orientation: "portrait", //set page orientation to portrait
+                    title: "Example Report", //add title to report
+                });
+            });
+
+            //trigger download of data.html file
+            document.getElementById("download-html").addEventListener("click", function() {
+                table.download("html", "data.html", {
+                    style: true
+                });
+            });
 
             // var ctx2 = document.getElementById("chart-line").getContext("2d");
 
@@ -561,7 +1194,6 @@
             //             fill: true,
             //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
             //             maxBarThickness: 6
-
             //         }],
             //     },
             //     options: {
