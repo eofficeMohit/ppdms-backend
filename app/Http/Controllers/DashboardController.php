@@ -9,6 +9,7 @@ use App\Models\PollInterrupted;
 use App\Models\Assembly;
 use App\Models\District;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Http\Response;
 
 class DashboardController extends Controller
 {
@@ -36,6 +37,26 @@ class DashboardController extends Controller
             ->paginate(20);
         $locations = Booth::select('latitude', 'longitude', 'booth_name', 'assigned_status')->get();
         return view('dashboard.indexStat', compact('locations', 'electionInfo'));
+    }
+
+    public function getAssemblies(Request $request){
+        $input = $request->all();
+        $id = $input['id'];
+        $assembly = Assembly::where('district_id', $id)
+                ->orderBy('id', 'ASC')
+                ->get();
+        $new_array = array();
+        foreach ($assembly as $kk => $vv) {
+            $new_array[$kk]['id'] = $vv->id;
+            $new_array[$kk]['name'] = $vv->asmb_name;
+            $new_array[$kk]['d_code'] = $vv->ac_type;
+        }  
+        $encode_data = json_encode($new_array);
+        return response()->json([
+            'success' => true,
+            'data' =>$encode_data,
+        ], 200);
+
     }
 
     public function newDashboard(Request $request)

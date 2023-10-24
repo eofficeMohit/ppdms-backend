@@ -195,6 +195,9 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])
 Route::get('/new-dashboard', [DashboardController::class, 'newDashboard'])
     ->middleware('auth')
     ->name('new-dashboard');
+    Route::get('/new-dashboard/getAssemblies', [DashboardController::class, 'getAssemblies'])
+    ->middleware('auth');
+    //->name('new-dashboard.getAssemblies');
 
 Route::get('sign-up', [RegisterController::class, 'create'])
     ->middleware('guest')

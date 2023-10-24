@@ -632,6 +632,17 @@
 			
 			table.on("dataTreeRowExpanded", function(row, level){
 				id = row._row.data.id;
+				axios.get('/new-dashboard/getAssemblies', {
+					params: {
+						id: id
+					}
+				})
+				.then(function(response) {
+					console.log(response);
+				})
+				.catch(function(error) {
+					console.error(error);
+				});
 			});
 			  //trigger download of data.csv file
             document.getElementById("download-csv").addEventListener("click", function() {
