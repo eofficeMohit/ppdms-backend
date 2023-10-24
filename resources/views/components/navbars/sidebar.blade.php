@@ -258,6 +258,26 @@
     <span class="nav-link-text ms-1">Election Info New</span>
     </a>
     </li> --}}
+    @can('poll-detail-list')
+    <li class="nav-item">
+        <a class="nav-link text-white {{ $activePage == 'poll-details' ? ' active bg-gradient-dark' : '' }}" href="{{ route('poll-details') }}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">settings</i>
+            </div>
+            <span class="nav-link-text ms-1">Poll Details</span>
+        </a>
+    </li>
+    @endcan
+    @can('poll-interrupted-list')
+    <li class="nav-item">
+        <a class="nav-link text-white {{ $activePage == 'poll-interrupted' ? ' active bg-gradient-dark' : '' }}" href="{{ route('poll-interrupted') }}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">settings</i>
+            </div>
+            <span class="nav-link-text ms-1">Poll Interrupted</span>
+        </a>
+    </li>
+    @endcan
     @can('settings-list')
     <li class="nav-item">
         <a class="nav-link text-white {{ $activePage == 'dashboard-settings' ? ' active bg-gradient-dark' : '' }}" href="{{ route('dashboard-settings') }}">

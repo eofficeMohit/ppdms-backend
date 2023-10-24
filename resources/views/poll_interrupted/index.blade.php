@@ -1,9 +1,9 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-    <x-navbars.sidebar activePage="manage-assembly"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="poll-interrupted"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Assembly Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Poll Interrupted"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -11,18 +11,10 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong>Assembly Add, Edit, Delete and listings features are
+                                <h6 class="text-white mx-3"><strong>Poll Interrupted Edit, Delete and listings features are
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        @can('assembly-create')
-                            <div class=" me-3 my-3 text-end">
-                                <a class="btn bg-gradient-dark mb-0" href="{{ route('assemblies.create') }}"><i
-                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                    Assembly</a>
-                            </div>
-                        @endcan
-
                         <div class="cus_msg_div">
                         </div>
                         <div class="card-body px-4 pb-2">
@@ -30,33 +22,31 @@
                                 <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
-                                            <th
+											<th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ID
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ST CODE
+                                                District
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                ASMB CODE</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                ASMB Name</th>
+                                                Assembly</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                AC TYPE</th>
+                                                Booth</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PC TYPE</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PC NO
+                                                Interrupted Type
                                             </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                STATUS
+                                                Stop Time
+                                            </th>
+											<th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Resume Time
                                             </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -77,69 +67,51 @@
 @if ($message = Session::get('success'))
     <script>
         var message = "{{ $message }}";
-        jQuery('#toast_body_msg').html(message);
+        jQuery('#toast_body_msg').html(message); 
         let myAlert = document.querySelector('.toast');
-        let bsAlert = new bootstrap.Toast(myAlert);
+        let bsAlert = new  bootstrap.Toast(myAlert);
         bsAlert.show();
     </script>
 @endif
 <script type="text/javascript">
     var $ = jQuery.noConflict();
-    var permission_delete = "{{ checkPermission('assembly-delete') }}";
-    var permission_edit = "{{ checkPermission('assembly-edit') }}";
+    var permission_delete = "{{ checkPermission('poll-detail-delete') }}";
+    var permission_edit = "{{ checkPermission('poll-detail-edit') }}";
     $(function() {
         var table = $('#empTable').DataTable({
             dom: 'Blfrtip',
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
             processing: true,
             serverSide: true,
-            order: [
-                [0, 'desc']
-            ],
             pageLength: 25,
-            ajax: "{{ route('assemblies.getdatatabledata') }}",
+            ajax: "{{ route('poll-interrupted.getdatatabledata') }}",
             columns: [{
                     data: 'id',
                     name: 'id'
                 },
                 {
-                    data: 'st_code',
-                    name: 'st_code'
+                    data: 'district',
+                    name: 'district'
                 },
                 {
-                    data: 'asmb_code',
-                    name: 'asmb_code'
+                    data: 'assembly',
+                    name: 'assembly'
                 },
                 {
-                    data: 'asmb_name',
-                    name: 'asmb_name'
+                    data: 'booth',
+                    name: 'booth'
                 },
                 {
-                    data: 'ac_type',
-                    name: 'ac_type'
+                    data: 'interruptedType',
+                    name: 'interruptedType'
                 },
                 {
-                    data: 'pc_type',
-                    name: 'pc_type'
+                    data: 'stop_time',
+                    name: 'stop_time'
                 },
                 {
-                    data: 'pc_no',
-                    name: 'pc_no'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        var checked = "";
-                        if (data == 1) {
-                            checked = "checked";
-                        }
-                        return '<label class="switch"><input data-id="' + full.id +
-                            '" class="toggle_state_cls_assemble" ' + checked +
-                            ' type="checkbox"><span class="slider round"></span></label>';
-                    }
+                    data: 'resume_time',
+                    name: 'resume_time'
                 },
                 {
                     data: 'action',
@@ -148,20 +120,20 @@
                     searchable: false,
                     render: function(data, type, full, meta) {
                         var confirmation = "'Are you sure you want to delete?'";
-                        var btn =
-                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
+                        var btn = "";
+                        /*var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="event/show/' +
                             full.id +
-                            '" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            '" data-original-title="Show Event" title="Show Event"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';*/
                         if (permission_edit == "granted") {
                             btn +=
-                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="/poll-interrupted/edit/' +
                                 full.id +
-                                '" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                                '" data-original-title="Edit Poll Interrupted" title="Edit Poll Interrupted"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                         }
                         if (permission_delete == "granted") {
                             btn +=
-                                '<a rel="tooltip" onclick="openConfirmModal(' + full.id +
-                                ')" class="btn btn-danger btn-link m-2"  data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                                '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete Poll Interrupted" title="Delete Poll Interrupted"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
                         }
                         return btn;
                     }
@@ -169,17 +141,14 @@
             ]
         });
         table.buttons().container()
-            .insertBefore('#empTable_filter');
+                 .insertBefore( '#empTable_filter' );
     });
-
-    function openConfirmModal(id) {
-        var btn_html = '<a href="/assemblies/destroy/' + id +
-            '" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+    function openConfirmModal(id){
+        var btn_html = '<a href="/poll-interrupted/delete/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
         jQuery('#mod_btn_div').html(btn_html);
         jQuery('#modalConfirmDelete').modal('show');
     }
-
-    function closeConfirmModal() {
+    function closeConfirmModal(){
         jQuery('#modalConfirmDelete').modal('hide');
     }
 </script>
