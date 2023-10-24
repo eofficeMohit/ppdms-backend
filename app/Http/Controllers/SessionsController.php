@@ -22,7 +22,6 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -51,7 +50,6 @@ class SessionsController extends Controller
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-
         // return redirect("login")->withSuccess('Login details are not valid');
     }
 

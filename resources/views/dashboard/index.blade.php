@@ -16,7 +16,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
-                                <h4 class="mb-0">{{$total_party_dispatch ?? 0}}</h4>
+                                <h4 class="mb-0">{{ $total_party_dispatch ?? 0 }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0">{{$total_party_reached}}</h4>
+                                <h4 class="mb-0">{{ $total_party_reached }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
-                                <h4 class="mb-0">{{$total_mock_poll_started}}</h4>
+                                <h4 class="mb-0">{{ $total_mock_poll_started }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -200,67 +200,74 @@
                                     <thead>
                                         <tr>
                                             <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Event</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Booth</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Assembly</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Districts</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            State</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status </th>
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Event</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Booth</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Assembly</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Districts</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                State</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Status </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(! $electionInfo->isEmpty())
+                                        @if (!$electionInfo->isEmpty())
                                             @foreach ($electionInfo as $key => $election)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ $election->electionEvent->event_name }}</p>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <p class="mb-0 text-sm">
+                                                                {{ $election->electionEvent->event_name }}</p>
 
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ $election->electionBooth->booth_name }}</p>
-
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ $election->electionAssembly->asmb_name }}</p>
-
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <p class="text-xs text-secondary mb-0">{{ $election->electionDistrict->name }}
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                        <p class="mb-0 text-sm">{{ $election->electionState->name }}</p>
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <p class="mb-0 text-sm">
+                                                                {{ $election->electionBooth->booth_name }}</p>
 
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    @if($election->status ==1)
-                                                        <span class=" text-xs font-weight-bold badge bg-success">True</span>
-                                                    @else
-                                                         <span class=" text-xs font-weight-bold badge bg-warning">False</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <p class="mb-0 text-sm">
+                                                                {{ $election->electionAssembly->asmb_name }}</p>
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle text-center text-sm">
+                                                        <p class="text-xs text-secondary mb-0">
+                                                            {{ $election->electionDistrict->name }}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex px-2 py-1">
+                                                            <div>
+                                                                <p class="mb-0 text-sm">
+                                                                    {{ $election->electionState->name }}</p>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        @if ($election->status == 1)
+                                                            <span
+                                                                class=" text-xs font-weight-bold badge bg-success">True</span>
+                                                        @else
+                                                            <span
+                                                                class=" text-xs font-weight-bold badge bg-warning">False</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         @else
                                             <tr>
@@ -268,14 +275,14 @@
                                                 <td class="align-middle text-center text-sm">
                                                     <div class="d-flex text-center">
                                                         <div>
-                                                        <p class="mb-0 text-sm">No Record's Found.</p>
+                                                            <p class="mb-0 text-sm">No Record's Found.</p>
                                                         </div>
 
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endif
-                                        </tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -366,254 +373,256 @@
     <x-plugins></x-plugins>
     </div>
     @push('js')
-    <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
-    <script>
-        var ctx = document.getElementById("chart-bars").getContext("2d");
+        <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
+        <script>
+            var ctx = document.getElementById("chart-bars").getContext("2d");
 
-        new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: ["Party Dispatch", "Party Reached", "Setup Booth", "Mock Poll", "Poll Started", "Poll Ended", "EVM Switch Off","Party Departed from PS","Party Reached at CC","EVM Deposited"],
-                datasets: [{
-                    label: "EVENTS",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    borderRadius: 4,
-                    borderSkipped: false,
-                    backgroundColor: "rgba(255, 255, 255, .8)",
-                    data: [50, 20, 10, 22, 50, 10, 40],
-                    maxBarThickness: 6
-                }, ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Party Dispatch", "Party Reached", "Setup Booth", "Mock Poll", "Poll Started",
+                        "Poll Ended", "EVM Switch Off", "Party Departed from PS", "Party Reached at CC",
+                        "EVM Deposited"
+                    ],
+                    datasets: [{
+                        label: "EVENTS",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        backgroundColor: "rgba(255, 255, 255, .8)",
+                        data: [50, 20, 10, 22, 50, 10, 40],
+                        maxBarThickness: 6
+                    }, ],
                 },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5],
-                            color: 'rgba(255, 255, 255, .2)'
-                        },
-                        ticks: {
-                            suggestedMin: 0,
-                            suggestedMax: 500,
-                            beginAtZero: true,
-                            padding: 10,
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                            color: "#fff"
-                        },
-                    },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5],
-                            color: 'rgba(255, 255, 255, .2)'
-                        },
-                        ticks: {
-                            display: true,
-                            color: '#f8f9fa',
-                            padding: 10,
-                            font: {
-                                size: 14,
-                                weight: 300,
-                                family: "Roboto",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
                         }
                     },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 500,
+                                beginAtZero: true,
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#fff"
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
                 },
-            },
-        });
+            });
 
 
-        // var ctx2 = document.getElementById("chart-line").getContext("2d");
+            // var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-        // // new Chart(ctx2, {
-        // //     type: "line",
-        // //     data: {
-        // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        // //         datasets: [{
-        // //             label: "Mobile apps",
-        // //             tension: 0,
-        // //             borderWidth: 0,
-        // //             pointRadius: 5,
-        // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-        // //             pointBorderColor: "transparent",
-        // //             borderColor: "rgba(255, 255, 255, .8)",
-        // //             borderColor: "rgba(255, 255, 255, .8)",
-        // //             borderWidth: 4,
-        // //             backgroundColor: "transparent",
-        // //             fill: true,
-        // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-        // //             maxBarThickness: 6
+            // // new Chart(ctx2, {
+            // //     type: "line",
+            // //     data: {
+            // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            // //         datasets: [{
+            // //             label: "Mobile apps",
+            // //             tension: 0,
+            // //             borderWidth: 0,
+            // //             pointRadius: 5,
+            // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            // //             pointBorderColor: "transparent",
+            // //             borderColor: "rgba(255, 255, 255, .8)",
+            // //             borderColor: "rgba(255, 255, 255, .8)",
+            // //             borderWidth: 4,
+            // //             backgroundColor: "transparent",
+            // //             fill: true,
+            // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+            // //             maxBarThickness: 6
 
-        // //         }],
-        // //     },
-        // //     options: {
-        // //         responsive: true,
-        // //         maintainAspectRatio: false,
-        // //         plugins: {
-        // //             legend: {
-        // //                 display: false,
-        // //             }
-        // //         },
-        // //         interaction: {
-        // //             intersect: false,
-        // //             mode: 'index',
-        // //         },
-        // //         scales: {
-        // //             y: {
-        // //                 grid: {
-        // //                     drawBorder: false,
-        // //                     display: true,
-        // //                     drawOnChartArea: true,
-        // //                     drawTicks: false,
-        // //                     borderDash: [5, 5],
-        // //                     color: 'rgba(255, 255, 255, .2)'
-        // //                 },
-        // //                 ticks: {
-        // //                     display: true,
-        // //                     color: '#f8f9fa',
-        // //                     padding: 10,
-        // //                     font: {
-        // //                         size: 14,
-        // //                         weight: 300,
-        // //                         family: "Roboto",
-        // //                         style: 'normal',
-        // //                         lineHeight: 2
-        // //                     },
-        // //                 }
-        // //             },
-        // //             x: {
-        // //                 grid: {
-        // //                     drawBorder: false,
-        // //                     display: false,
-        // //                     drawOnChartArea: false,
-        // //                     drawTicks: false,
-        // //                     borderDash: [5, 5]
-        // //                 },
-        // //                 ticks: {
-        // //                     display: true,
-        // //                     color: '#f8f9fa',
-        // //                     padding: 10,
-        // //                     font: {
-        // //                         size: 14,
-        // //                         weight: 300,
-        // //                         family: "Roboto",
-        // //                         style: 'normal',
-        // //                         lineHeight: 2
-        // //                     },
-        // //                 }
-        // //             },
-        // //         },
-        // //     },
-        // // });
+            // //         }],
+            // //     },
+            // //     options: {
+            // //         responsive: true,
+            // //         maintainAspectRatio: false,
+            // //         plugins: {
+            // //             legend: {
+            // //                 display: false,
+            // //             }
+            // //         },
+            // //         interaction: {
+            // //             intersect: false,
+            // //             mode: 'index',
+            // //         },
+            // //         scales: {
+            // //             y: {
+            // //                 grid: {
+            // //                     drawBorder: false,
+            // //                     display: true,
+            // //                     drawOnChartArea: true,
+            // //                     drawTicks: false,
+            // //                     borderDash: [5, 5],
+            // //                     color: 'rgba(255, 255, 255, .2)'
+            // //                 },
+            // //                 ticks: {
+            // //                     display: true,
+            // //                     color: '#f8f9fa',
+            // //                     padding: 10,
+            // //                     font: {
+            // //                         size: 14,
+            // //                         weight: 300,
+            // //                         family: "Roboto",
+            // //                         style: 'normal',
+            // //                         lineHeight: 2
+            // //                     },
+            // //                 }
+            // //             },
+            // //             x: {
+            // //                 grid: {
+            // //                     drawBorder: false,
+            // //                     display: false,
+            // //                     drawOnChartArea: false,
+            // //                     drawTicks: false,
+            // //                     borderDash: [5, 5]
+            // //                 },
+            // //                 ticks: {
+            // //                     display: true,
+            // //                     color: '#f8f9fa',
+            // //                     padding: 10,
+            // //                     font: {
+            // //                         size: 14,
+            // //                         weight: 300,
+            // //                         family: "Roboto",
+            // //                         style: 'normal',
+            // //                         lineHeight: 2
+            // //                     },
+            // //                 }
+            // //             },
+            // //         },
+            // //     },
+            // // });
 
-        // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 
-        // new Chart(ctx3, {
-        //     type: "line",
-        //     data: {
-        //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        //         datasets: [{
-        //             label: "Mobile apps",
-        //             tension: 0,
-        //             borderWidth: 0,
-        //             pointRadius: 5,
-        //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-        //             pointBorderColor: "transparent",
-        //             borderColor: "rgba(255, 255, 255, .8)",
-        //             borderWidth: 4,
-        //             backgroundColor: "transparent",
-        //             fill: true,
-        //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-        //             maxBarThickness: 6
+            // new Chart(ctx3, {
+            //     type: "line",
+            //     data: {
+            //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            //         datasets: [{
+            //             label: "Mobile apps",
+            //             tension: 0,
+            //             borderWidth: 0,
+            //             pointRadius: 5,
+            //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            //             pointBorderColor: "transparent",
+            //             borderColor: "rgba(255, 255, 255, .8)",
+            //             borderWidth: 4,
+            //             backgroundColor: "transparent",
+            //             fill: true,
+            //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+            //             maxBarThickness: 6
 
-        //         }],
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         plugins: {
-        //             legend: {
-        //                 display: false,
-        //             }
-        //         },
-        //         interaction: {
-        //             intersect: false,
-        //             mode: 'index',
-        //         },
-        //         scales: {
-        //             y: {
-        //                 grid: {
-        //                     drawBorder: false,
-        //                     display: true,
-        //                     drawOnChartArea: true,
-        //                     drawTicks: false,
-        //                     borderDash: [5, 5],
-        //                     color: 'rgba(255, 255, 255, .2)'
-        //                 },
-        //                 ticks: {
-        //                     display: true,
-        //                     padding: 10,
-        //                     color: '#f8f9fa',
-        //                     font: {
-        //                         size: 14,
-        //                         weight: 300,
-        //                         family: "Roboto",
-        //                         style: 'normal',
-        //                         lineHeight: 2
-        //                     },
-        //                 }
-        //             },
-        //             x: {
-        //                 grid: {
-        //                     drawBorder: false,
-        //                     display: false,
-        //                     drawOnChartArea: false,
-        //                     drawTicks: false,
-        //                     borderDash: [5, 5]
-        //                 },
-        //                 ticks: {
-        //                     display: true,
-        //                     color: '#f8f9fa',
-        //                     padding: 10,
-        //                     font: {
-        //                         size: 14,
-        //                         weight: 300,
-        //                         family: "Roboto",
-        //                         style: 'normal',
-        //                         lineHeight: 2
-        //                     },
-        //                 }
-        //             },
-        //         },
-        //     },
-        // });
-
-    </script>
+            //         }],
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         plugins: {
+            //             legend: {
+            //                 display: false,
+            //             }
+            //         },
+            //         interaction: {
+            //             intersect: false,
+            //             mode: 'index',
+            //         },
+            //         scales: {
+            //             y: {
+            //                 grid: {
+            //                     drawBorder: false,
+            //                     display: true,
+            //                     drawOnChartArea: true,
+            //                     drawTicks: false,
+            //                     borderDash: [5, 5],
+            //                     color: 'rgba(255, 255, 255, .2)'
+            //                 },
+            //                 ticks: {
+            //                     display: true,
+            //                     padding: 10,
+            //                     color: '#f8f9fa',
+            //                     font: {
+            //                         size: 14,
+            //                         weight: 300,
+            //                         family: "Roboto",
+            //                         style: 'normal',
+            //                         lineHeight: 2
+            //                     },
+            //                 }
+            //             },
+            //             x: {
+            //                 grid: {
+            //                     drawBorder: false,
+            //                     display: false,
+            //                     drawOnChartArea: false,
+            //                     drawTicks: false,
+            //                     borderDash: [5, 5]
+            //                 },
+            //                 ticks: {
+            //                     display: true,
+            //                     color: '#f8f9fa',
+            //                     padding: 10,
+            //                     font: {
+            //                         size: 14,
+            //                         weight: 300,
+            //                         family: "Roboto",
+            //                         style: 'normal',
+            //                         lineHeight: 2
+            //                     },
+            //                 }
+            //             },
+            //         },
+            //     },
+            // });
+        </script>
     @endpush
 </x-layout>

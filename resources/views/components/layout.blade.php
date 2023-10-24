@@ -4,7 +4,7 @@
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com) & UPDIVISION (https://www.updivision.com)
+* Copyright 2023 NIC (https://www.nic.in) & UPDIVISION (https://www.updivision.com)
 * Licensed under MIT (https://www.creative-tim.com/license)
 * Coded by www.creative-tim.com & www.updivision.com
 
@@ -70,6 +70,7 @@
             var options = {
                 damping: '0.5'
             }
+
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
@@ -99,7 +100,10 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
 
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    {{-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script> --}}
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
 </body>
 
 </html>

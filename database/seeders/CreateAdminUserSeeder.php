@@ -25,8 +25,7 @@ class CreateAdminUserSeeder extends Seeder
             'mobile_number' =>'9999999999',
             'password' => ('secret')
         ]);
-	
-        $role = Role::firstOrCreate(['name' => 'Admin']);
+        $role = Role::create(['name' => 'Admin']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);

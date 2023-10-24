@@ -16,9 +16,9 @@
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
                                     <h3>Edit State</h3>
-                                        <div class="col-12 text-end">
-                                            <a class="btn btn-primary" href="{{ route('states.index') }}"> Back</a>
-                                        </div>
+                                    <div class="col-12 text-end">
+                                        <a class="btn btn-primary" href="{{ route('states.index') }}"> Back</a>
+                                    </div>
                                 </div>
                             </div>
                             @if ($message = Session::get('success'))
@@ -26,12 +26,16 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
-                            {!! Form::model($state, ['method' => 'PATCH','route' => ['states.update', $state->id],'id'=>'state_manage_form']) !!}
+                            {!! Form::model($state, [
+                                'method' => 'PATCH',
+                                'route' => ['states.update', $state->id],
+                                'id' => 'state_manage_form',
+                            ]) !!}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>State Name:</strong>
-                                        {!! Form::text('name', null, array('placeholder' => 'State Name','class' => 'form-control')) !!}
+                                        {!! Form::text('name', null, ['placeholder' => 'State Name', 'class' => 'form-control']) !!}
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -40,7 +44,7 @@
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <strong>ST Code:</strong>
-                                        {!! Form::text('st_code', null, array('placeholder' => 'ST Code','class' => 'form-control')) !!}
+                                        {!! Form::text('st_code', null, ['placeholder' => 'ST Code', 'class' => 'form-control']) !!}
                                         @error('st_code')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -50,8 +54,10 @@
                                     <div class="form-group">
                                         <strong>Status:</strong>
                                         <select class="form-control" name="status">
-                                            <option value="1" {{ $state->status == 1 ? 'selected' : ''}}>Active</option>
-                                            <option value="0" {{ $state->status == 0 ? 'selected' : ''}}>In-Active</option>
+                                            <option value="1" {{ $state->status == 1 ? 'selected' : '' }}>Active
+                                            </option>
+                                            <option value="0" {{ $state->status == 0 ? 'selected' : '' }}>In-Active
+                                            </option>
                                         </select>
                                         @error('status')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -75,26 +81,26 @@
     <x-plugins></x-plugins>
 
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
     document.getElementById('state_id').addEventListener('change', function() {
         var selectedOption = this.value;
         jQuery('#district_id').find('option').not(':first').remove();
         // Make an AJAX request
         axios.get('{{ route('assemblies.getStates') }}', {
-            params: {
-                selectedOption: selectedOption
-            }
-        })
-        .then(function(response) {
-            console.log(response.data);
-            // Iterate through the response and append data to the container
-            response.data.forEach(function(value) {
-                jQuery('#district_id').append(jQuery('<option>').val(value.id).text(value.name))
+                params: {
+                    selectedOption: selectedOption
+                }
+            })
+            .then(function(response) {
+                console.log(response.data);
+                // Iterate through the response and append data to the container
+                response.data.forEach(function(value) {
+                    jQuery('#district_id').append(jQuery('<option>').val(value.id).text(value.name))
+                });
+            })
+            .catch(function(error) {
+                console.error(error);
             });
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
     });
 </script>
