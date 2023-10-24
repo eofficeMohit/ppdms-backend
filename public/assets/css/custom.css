@@ -134,3 +134,9 @@ a.detail-icon {
   color: #337ab7;
   /* text-decoration: none; */
 }
+
+/*Horizontally center header and footer*/
+.tabulator-print-header,
+tabulator-print-footer {
+  text-align: center;
+}

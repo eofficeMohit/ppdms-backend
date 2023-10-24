@@ -13,6 +13,7 @@
 
             .sub-table {
                 display: none;
+                display: table-row;
             }
         </style>
         <div class="container-fluid py-4">
