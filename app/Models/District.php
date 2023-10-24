@@ -8,10 +8,12 @@ use Binafy\LaravelUserMonitoring\Traits\Actionable;
 
 class District extends Model
 {
-    use HasFactory,Actionable;
+    use HasFactory, Actionable;
 
-    protected $fillable = [
-        'name', 'd_code', 'state_id', 'd_name_hindi', 'status'
+    protected $fillable = ['name', 'd_code', 'state_id', 'd_name_hindi', 'status'];
+
+    protected $casts = [
+        'status' => 'boolean',
     ];
 
     public function state()
