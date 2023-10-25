@@ -50,8 +50,31 @@ class DashboardController extends Controller
             $new_array[$kk]['id'] = $vv->id;
             $new_array[$kk]['name'] = $vv->asmb_name;
             $new_array[$kk]['d_code'] = $vv->ac_type;
+            $new_array[$kk]["row_id"] = "2_".$id;
+            $new_array[$kk]["_children"] = array();
+
         }  
         $encode_data = json_encode($new_array);
+        return response()->json([
+            'success' => true,
+            'data' =>$encode_data,
+        ], 200);
+
+    }
+
+    public function getBooths(Request $request){
+        $input = $request->all();
+        $id = $input['id'];
+        $booth = Booth::where('assemble_id', $id)
+            ->orderBy('id', 'ASC')
+            ->get();
+        $booth_array = array();
+        foreach ($booth as $kkk => $vvv) {
+            $booth_array[$kkk]['id'] = $vvv->id;
+            $booth_array[$kkk]['name'] = $vvv->booth_name;
+            $booth_array[$kkk]['d_code'] = $vvv->tot_voters;
+        }  
+        $encode_data = json_encode($booth_array);
         return response()->json([
             'success' => true,
             'data' =>$encode_data,
@@ -93,6 +116,7 @@ class DashboardController extends Controller
             $new_district_array[$key]["id"] = $value->id;
             $new_district_array[$key]["name"] = $value->name;
             $new_district_array[$key]["d_code"] = $value->d_code;
+            $new_district_array[$key]["row_id"] = "1_".$value->id;
             $new_district_array[$key]["_children"] = array();
         }
         $district_array = $new_district_array;

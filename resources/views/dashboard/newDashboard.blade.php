@@ -546,103 +546,75 @@
                 columns: [{
                         title: "ID",
                         field: "id",
-                        width: 200,
+                        //width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
 					{
                         title: "Name",
                         field: "name",
-                        width: 200,
+                        //width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
 					{
                         title: "D Code",
                         field: "d_code",
-                        width: 200,
+                        //width: 200,
                         headerFilter: "input",
                         resizable: true
-                    }, //never hide this column
-                    /*{
-                        title: "Location",
-                        field: "location",
-                        headerFilter: "input",
-
-                        resizable: true
                     },
-                    {
-                        title: "Rating",
-                        field: "rating",
-                        hozAlign: "left",
-                        formatter: "progress",
-                        headerFilter: "number",
-                        headerFilterPlaceholder: "at least...",
-                        headerFilterFunc: ">=",
-                        //   bottomCalc: "avg",
-                        //  topCalc: "count",
-                        // resizable: true
-                    }, {
-                        title: "Line Chart",
-                        field: "line",
-                        width: 160,
-                        formatter: chartFormatter,
-                        formatterParams: {
-                            type: "line"
-                        }
-                    },
-                    {
-                        title: "Bar Chart",
-                        field: "bar",
-                        width: 160,
-                        formatter: chartFormatter,
-                        formatterParams: {
-                            type: "bar"
-                        }
-                    },
-                    {
-                        title: "Coloured Bar Chart",
-                        field: "colored",
-                        width: 160,
-                        formatter: chartFormatter,
-                        formatterParams: {
-                            type: "bar",
-                            fill: function(value) {
-                                return value > 0 ? "green" : "red"
-                            }
-                        }
-                    },
-                    {
-                        title: "Inverted Bar Chart",
-                        field: "inverted",
-                        width: 160,
-                        formatter: chartFormatter,
-                        formatterParams: {
-                            type: "bar",
-                            invert: true,
-                            fill: function(_, i, all) {
-                                var g = parseInt((i / all.length) * 255)
-                                return "rgb(255, " + g + ", 0)"
-                            }
-                        }
-                    },*/
                 ],
                 // table.recalc();
             });
 			
 			table.on("dataTreeRowExpanded", function(row, level){
-				id = row._row.data.id;
-				axios.get('/new-dashboard/getAssemblies', {
-					params: {
-						id: id
-					}
-				})
-				.then(function(response) {
-					console.log(response);
-				})
-				.catch(function(error) {
-					console.error(error);
-				});
+				var rowData = row.getData();
+				console.log(level);
+				var id = rowData.id;
+				var name = rowData.name;
+				var d_code = rowData.d_code;
+				console.log('rowData',rowData);
+				if(level == 0){
+					axios.get('/new-dashboard/getAssemblies', {
+						params: {
+							id: id
+						}
+					})
+					.then(function(response) {
+						var resp = response.data;
+						var childData = resp.data;
+						if (childData.length > 0) {
+							var decodedData = he.decode(childData);
+							var jsonData = JSON.parse(decodedData);
+							console.log('data',resp.data);
+							row.update({id:id, name:name, d_code:d_code,_children: jsonData});
+						}
+					})
+					.catch(function(error) {
+						console.error(error);
+					});
+				} else {
+					axios.get('/new-dashboard/getBooths', {
+						params: {
+							id: id
+						}
+					})
+					.then(function(response) {
+						var resp = response.data;
+						var childData = resp.data;
+						if (childData.length > 0) {
+							var decodedData = he.decode(childData);
+							var jsonData = JSON.parse(decodedData);
+							console.log('data',resp.data);
+							row.update({id:id, name:name, d_code:d_code,_children: jsonData});
+						}
+					})
+					.catch(function(error) {
+						console.error(error);
+					});
+
+				}	
 			});
 			  //trigger download of data.csv file
             document.getElementById("download-csv").addEventListener("click", function() {
@@ -759,183 +731,6 @@
                 },
             });
 
-
-            // var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-            // // new Chart(ctx2, {
-            // //     type: "line",
-            // //     data: {
-            // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            // //         datasets: [{
-            // //             label: "Mobile apps",
-            // //             tension: 0,
-            // //             borderWidth: 0,
-            // //             pointRadius: 5,
-            // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            // //             pointBorderColor: "transparent",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderWidth: 4,
-            // //             backgroundColor: "transparent",
-            // //             fill: true,
-            // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-            // //             maxBarThickness: 6
-
-            // //         }],
-            // //     },
-            // //     options: {
-            // //         responsive: true,
-            // //         maintainAspectRatio: false,
-            // //         plugins: {
-            // //             legend: {
-            // //                 display: false,
-            // //             }
-            // //         },
-            // //         interaction: {
-            // //             intersect: false,
-            // //             mode: 'index',
-            // //         },
-            // //         scales: {
-            // //             y: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: true,
-            // //                     drawOnChartArea: true,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5],
-            // //                     color: 'rgba(255, 255, 255, .2)'
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //             x: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: false,
-            // //                     drawOnChartArea: false,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5]
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //         },
-            // //     },
-            // // });
-
-            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-            // new Chart(ctx3, {
-            //     type: "line",
-            //     data: {
-            //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            //         datasets: [{
-            //             label: "Mobile apps",
-            //             tension: 0,
-            //             borderWidth: 0,
-            //             pointRadius: 5,
-            //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            //             pointBorderColor: "transparent",
-            //             borderColor: "rgba(255, 255, 255, .8)",
-            //             borderWidth: 4,
-            //             backgroundColor: "transparent",
-            //             fill: true,
-            //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            //             maxBarThickness: 6
-
-            //         }],
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-            //         plugins: {
-            //             legend: {
-            //                 display: false,
-            //             }
-            //         },
-            //         interaction: {
-            //             intersect: false,
-            //             mode: 'index',
-            //         },
-            //         scales: {
-            //             y: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: true,
-            //                     drawOnChartArea: true,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5],
-            //                     color: 'rgba(255, 255, 255, .2)'
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     padding: 10,
-            //                     color: '#f8f9fa',
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //             x: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: false,
-            //                     drawOnChartArea: false,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5]
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     color: '#f8f9fa',
-            //                     padding: 10,
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //         },
-            //     },
-            // });
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelector('.table_cls').addEventListener('click', function(event) {
-                    if (event.target.classList.contains('toggle')) {
-                        const row = event.target.closest('tr');
-                        const subTable = row.nextElementSibling;
-
-                        if (subTable.classList.contains('sub-table')) {
-                            subTable.style.display = subTable.style.display === 'table' ? 'none' : 'table';
-                        }
-                    }
-                });
-            });
         </script>
     @endpush
 </x-layout>
