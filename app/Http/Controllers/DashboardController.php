@@ -18,16 +18,50 @@ class DashboardController extends Controller
             ->latest()
             ->paginate(20);
         $districtCount = District::count();
-        $total_party_dispatch = ElectionInfo::where('event_id', 1)->count();
-        $total_party_reached = ElectionInfo::where('event_id', 2)->count();
-        $total_mock_poll_started = ElectionInfo::where('event_id', 3)->count();
+        $total_party_dispatch = ElectionInfo::where('event_id', 1)
+            ->where('status', 1)
+            ->count();
+        $total_party_reached = ElectionInfo::where('event_id', 2)
+            ->where('status', 1)
+            ->count();
+        $total_setup_poll = ElectionInfo::where('event_id', 3)
+            ->where('status', 1)
+            ->count();
+        $total_mock_poll_started = ElectionInfo::where('event_id', 4)
+            ->where('status', 1)
+            ->count();
+        $total_poll_started = ElectionInfo::where('event_id', 5)
+            ->where('status', 1)
+            ->count();
+        $total_voter_turnout = ElectionInfo::where('event_id', 6)
+            ->where('status', 1)
+            ->count();
+        $total_Voter_in_queue = ElectionInfo::where('event_id', 7)
+            ->where('status', 1)
+            ->count();
+        $total_poll_ended = ElectionInfo::where('event_id', 8)
+            ->where('status', 1)
+            ->count();
+        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 9)
+            ->where('status', 1)
+            ->count();
+        $total_Party_departed = ElectionInfo::where('event_id', 10)
+            ->where('status', 1)
+            ->count();
+        $total_party_reached = ElectionInfo::where('event_id', 11)
+            ->where('status', 1)
+            ->count();
+        $total_EVM_deposited = ElectionInfo::where('event_id', 12)
+            ->where('status', 1)
+            ->count();
+
         $districtsColumns = ['name', 'd_code', 'state', 'status'];
         $assemblyColumns = ['ASSEMBLY NAME', 'AC TYPE', 'LAST UPDATED'];
         $districtsDetails = District::with('state')
             ->where('status', 1)
             ->get();
 
-        return view('dashboard.index', compact('electionInfo', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('dashboard.index', compact('electionInfo', 'total_machine_closed_EVM_switched', 'total_EVM_deposited', 'total_party_reached', 'total_Party_departed', 'total_poll_ended', 'total_Voter_in_queue', 'total_voter_turnout', 'total_setup_poll', 'total_poll_started', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
     public function indexStat()
     {
@@ -97,6 +131,6 @@ class DashboardController extends Controller
                 $new_array[$key]['assemblies'][$kk]['booths'] = $booth_array;
             }
         }*/
-        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started','district'));
-        }
+        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started', 'district'));
+    }
 }
