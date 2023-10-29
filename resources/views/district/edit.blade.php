@@ -117,7 +117,6 @@
     <x-plugins></x-plugins>
 
 </x-layout>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.getElementById('state_id').addEventListener('change', function() {
         var selectedOption = this.value;
