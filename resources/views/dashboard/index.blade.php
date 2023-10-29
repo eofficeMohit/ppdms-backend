@@ -18,10 +18,10 @@
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
                                 <h4 class="mb-0">{{ $total_party_dispatch ?? 0 }}</h4>
                             </div>
-                            <div class="text-end pt-1">
+                            {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
                                 <h4 class="mb-0">24637</h4>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
@@ -41,10 +41,10 @@
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
                                 <h4 class="mb-0">{{ $total_party_reached }}</h4>
                             </div>
-                            <div class="text-end pt-1">
+                            {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
                                 <h4 class="mb-0">24637</h4>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
@@ -53,7 +53,7 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
@@ -61,13 +61,13 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
-                                <h4 class="mb-0">{{ $total_mock_poll_started }}</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Setup Polling Station</strong></p>
+                                <h4 class="mb-0">{{ $total_setup_poll }}</h4>
                             </div>
-                            <div class="text-end pt-1">
+                            {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
                                 <h4 class="mb-0">24637</h4>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
@@ -84,13 +84,13 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0">0</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
+                                <h4 class="mb-0">{{ $total_mock_poll_started }}</h4>
                             </div>
-                            <div class="text-end pt-1">
+                            {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
                                 <h4 class="mb-0">24637</h4>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
@@ -100,6 +100,196 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
+                                <h4 class="mb-0">{{ $total_poll_started }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-danger shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Voter Turnout</strong></p>
+                                <h4 class="mb-0">{{ $total_voter_turnout }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Voter In Queue</strong></p>
+                                <h4 class="mb-0">{{ $total_Voter_in_queue }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-secondary shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Ended</strong></p>
+                                <h4 class="mb-0">{{ $total_poll_ended }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Machine Closed EVM Switched</strong></p>
+                                <h4 class="mb-0">{{ $total_machine_closed_EVM_switched }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Departed</strong></p>
+                                <h4 class="mb-0">{{ $total_Party_departed }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-danger shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
+                                <h4 class="mb-0">{{ $total_party_reached }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>EVM Deposited</strong></p>
+                                <h4 class="mb-0">{{ $total_EVM_deposited }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+
             <div class="row mt-4">
                 <div class="col-lg-12 col-md-12 mt-4 mb-4">
                     <div class="card z-index-2 ">
@@ -121,7 +311,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-lg-4 col-md-6 mt-4 mb-4">
+
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2  ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
@@ -131,7 +322,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Daily Sales </h6>
+                            <h6 class="mb-0 "> Total Votes </h6>
                             <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today
                                 sales. </p>
                             <hr class="dark horizontal">
@@ -152,7 +343,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 ">Completed Tasks</h6>
+                            <h6 class="mb-0 ">Completed Votes</h6>
                             <p class="text-sm ">Last Campaign Performance</p>
                             <hr class="dark horizontal">
                             <div class="d-flex ">
@@ -161,7 +352,27 @@
                             </div>
                         </div>
                     </div>
-                </div> --}}
+                </div>
+                <div class="col-lg-4 mt-4 mb-3">
+                    <div class="card z-index-2 ">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-gradient-warning shadow-dark border-radius-lg py-3 pe-1">
+                                <div class="chart">
+                                    <canvas id="bar-chart-tasks" class="chart-canvas" height="170"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0 ">Remaining Votes</h6>
+                            <p class="text-sm ">Last Campaign Performance</p>
+                            <hr class="dark horizontal">
+                            <div class="d-flex ">
+                                <i class="material-icons text-sm my-auto me-1">schedule</i>
+                                <p class="mb-0 text-sm">just updated</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row mb-4">
                 <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
@@ -289,6 +500,7 @@
                         <div class="card-body px-4 pb-4">
                             <div class="table-responsive p-0">
                                 <h1>Live Polling Details</h1>
+
                                 <div class="px-0 pb-4 mt-4">
                                     <button id="print-table">Print Table</button>
                                     <button id="download-csv">Download CSV</button>
@@ -1092,169 +1304,250 @@
                 });
             });
 
-            // var ctx2 = document.getElementById("chart-line").getContext("2d");
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-            // // new Chart(ctx2, {
-            // //     type: "line",
-            // //     data: {
-            // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            // //         datasets: [{
-            // //             label: "Mobile apps",
-            // //             tension: 0,
-            // //             borderWidth: 0,
-            // //             pointRadius: 5,
-            // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            // //             pointBorderColor: "transparent",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderWidth: 4,
-            // //             backgroundColor: "transparent",
-            // //             fill: true,
-            // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-            // //             maxBarThickness: 6
+            new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                        maxBarThickness: 6
 
-            // //         }],
-            // //     },
-            // //     options: {
-            // //         responsive: true,
-            // //         maintainAspectRatio: false,
-            // //         plugins: {
-            // //             legend: {
-            // //                 display: false,
-            // //             }
-            // //         },
-            // //         interaction: {
-            // //             intersect: false,
-            // //             mode: 'index',
-            // //         },
-            // //         scales: {
-            // //             y: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: true,
-            // //                     drawOnChartArea: true,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5],
-            // //                     color: 'rgba(255, 255, 255, .2)'
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //             x: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: false,
-            // //                     drawOnChartArea: false,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5]
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //         },
-            // //     },
-            // // });
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
 
-            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+            var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 
-            // new Chart(ctx3, {
-            //     type: "line",
-            //     data: {
-            //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            //         datasets: [{
-            //             label: "Mobile apps",
-            //             tension: 0,
-            //             borderWidth: 0,
-            //             pointRadius: 5,
-            //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            //             pointBorderColor: "transparent",
-            //             borderColor: "rgba(255, 255, 255, .8)",
-            //             borderWidth: 4,
-            //             backgroundColor: "transparent",
-            //             fill: true,
-            //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            //             maxBarThickness: 6
-            //         }],
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-            //         plugins: {
-            //             legend: {
-            //                 display: false,
-            //             }
-            //         },
-            //         interaction: {
-            //             intersect: false,
-            //             mode: 'index',
-            //         },
-            //         scales: {
-            //             y: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: true,
-            //                     drawOnChartArea: true,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5],
-            //                     color: 'rgba(255, 255, 255, .2)'
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     padding: 10,
-            //                     color: '#f8f9fa',
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //             x: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: false,
-            //                     drawOnChartArea: false,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5]
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     color: '#f8f9fa',
-            //                     padding: 10,
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //         },
-            //     },
-            // });
+            new Chart(ctx3, {
+                type: "line",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                        maxBarThickness: 6
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: '#f8f9fa',
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+            var ctx4 = document.getElementById("bar-chart-tasks").getContext("2d");
+
+            new Chart(ctx4, {
+                type: "bar",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                        maxBarThickness: 6
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: '#f8f9fa',
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
         </script>
     @endpush
 </x-layout>

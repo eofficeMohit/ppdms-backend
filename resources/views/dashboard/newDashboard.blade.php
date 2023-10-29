@@ -272,7 +272,7 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Last Updated</th>
-                                            </thead>
+                                    </thead>
                                     <tbody>
                                         @if (!$electionInfo->isEmpty())
                                             @foreach ($electionInfo as $key => $election)
@@ -328,126 +328,6 @@
                     </div>
                 </div>
             </div>
-			<div class="row mb-4">
-	<div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-		<div class="card">
-			<div class="card-header pb-0">
-				<div class="row">
-					<div class="col-lg-6 col-7">
-						<h6>Tables / Sub-Tables</h6>
-					</div>
-				</div>
-			</div>
-			<div class="card-body px-0 pb-2">
-				<div class="table-responsive">
-					<table class="table table_cls align-items-center mb-0">
-						<thead>
-							<tr>
-								<th
-								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-								S.No</th>
-							<th
-								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-								District Name</th>
-							<th
-								class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-								D CODE</th>
-							<th
-								class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-								Last Updated</th>
-							<th
-								class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-								Action</th>
-							</tr>	
-						</thead>
-						<tbody>
-						@foreach ($district as $key => $value)
-						<tr>
-							<td>{{ $value->id }}</td>
-							<td>{{ $value->name }}</td>
-							<td>{{ $value->d_code }}</td>
-							<td>{{ $value->created_at }}</td>
-							<td><span class="toggle">Toggle</span></td>
-						</tr>
-						<tr class="sub-table">
-							<td colspan="4">
-								<table class="table table_cls fold-table parent" id="table">
-									<thead>
-									  <tr>
-										<th
-											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-											S.No</th>
-										<th
-											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-											Assembly Name</th>
-										<th
-											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-											Ac Type</th>
-										<th
-											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Last Updated</th>
-										<th
-											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-											Action</th>
-										</tr>
-									</thead>
-										<tbody>
-											@foreach ( $value['assemblies'] as $k => $v)
-											<tr>
-												<td>{{ $v['id'] }}</td>
-												<td>{{ $v['name'] }}</td>
-												<td>{{ $v['ac_type'] }}</td>
-												<td>{{ $v['created_at'] }}</td>
-												<td><span class="toggle">Toggle</span></td>
-											</tr>
-											<!-- Third level sub-table -->
-											<tr class="sub-table">
-												<td colspan="4">
-													<table class="table table_cls fold-table parent" id="table">
-														<thead>
-															<tr>
-															<th
-																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-																S.No</th>
-															<th
-																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-																Booth Name</th>
-															<th
-																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-																Total Voters</th>
-															<th
-																class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-																Last Updated</th>
-															</tr>
-														</thead>
-														<tbody>
-															@foreach ( $v['booths'] as $kk => $vv)
-																<tr>
-																	<td>{{ $vv['id'] }}</td>
-																	<td>{{ $vv['name'] }}</td>
-																	<td>{{ $vv['tot_voters'] }}</td>
-																	<td>{{ $vv['created_at'] }}</td>
-																</tr>
-															@endforeach
-														</tbody>	
-													</table>
-												</td>
-											</tr>
-											@endforeach
-										</tbody>
-									</table>
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-            <x-footers.auth></x-footers.auth>
-        </div>
 
             <div class="card">
                 <div class="card-header pb-0">
@@ -459,140 +339,325 @@
                 </div>
                 <div class="card-body px-4 pb-4">
                     <div class="table-responsive p-0">
-                        <div class="bootstrap-table">
-                            <div class="fixed-table-container" style="padding-bottom: 0px;">
-                                <div class="fixed-table-body">
-                                    <div class="fixed-table-loading" style="top: 42px;">Loading, please wait...</div>
-                                    <table class="table table_cls align-items-center mb-0 table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                </th>
-                                                <th
-                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                    District Name</th>
-                                                <th
-                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                    D CODE</th>
-                                                <th
-                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Last Updated</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($new_array as $key => $value)
-                                                <tr>
-                                                    <td><i class="toggle material-icons">add_circle</i>
-                                                    </td>
-                                                    {{-- {{ $value['id'] }} --}}
-                                                    <td>{{ $value['name'] }}</td>
-                                                    <td>{{ $value['d_code'] }}</td>
-                                                    <td>{{ $value['created_at'] }}</td>
-                                                </tr>
-                                                <tr class="sub-table">
-                                                    <td colspan="5">
-                                                        <div class="bootstrap-table">
-                                                            <div class="fixed-table-container"
-                                                                style="padding-bottom: 0px;">
-                                                                <div class="fixed-table-body">
-                                                                    <div class="fixed-table-loading"
-                                                                        style="top: 42px;">Loading, please wait...
-                                                                    </div>
-                                                                    <table class="table table_cls fold-table parent"
-                                                                        id="table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th
-                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                </th>
-                                                                                <th
-                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                    Assembly Name</th>
-                                                                                <th
-                                                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                    Ac Type</th>
-                                                                                <th
-                                                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                                                    Last Updated</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach ($value['assemblies'] as $k => $v)
-                                                                                <tr>
-                                                                                    <td><i
-                                                                                            class="toggle material-icons">add_circle</i>
-                                                                                    </td>
-                                                                                    <td>{{ $v['name'] }}</td>
-                                                                                    <td>{{ $v['ac_type'] }}</td>
-                                                                                    <td>{{ $v['created_at'] }}</td>
-                                                                                </tr>
-                                                                                <!-- Third level sub-table -->
-                                                                                <tr class="sub-table">
-                                                                                    <td colspan="5">
-                                                                                        <table
-                                                                                            class="table align-items-center mb-0 table-hover table_cls fold-table parent"
-                                                                                            id="table"
-                                                                                            data-detail-view="true">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th
-                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                                        S.No</th>
-                                                                                                    <th
-                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                                        Booth Name</th>
-                                                                                                    <th
-                                                                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                                                                        Total Voters
-                                                                                                    </th>
-                                                                                                    <th
-                                                                                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                                                                        Last Updated
-                                                                                                    </th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($v['booths'] as $kk => $vv)
-                                                                                                    <tr>
-                                                                                                        <td>{{ $vv['id'] }}
-                                                                                                        </td>
-                                                                                                        <td>{{ $vv['name'] }}
-                                                                                                        </td>
-                                                                                                        <td>{{ $vv['tot_voters'] }}
-                                                                                                        </td>
-                                                                                                        <td>{{ $vv['created_at'] }}
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <h1>Live Polling Details</h1>
+                        <div class="px-0 pb-4 mt-4">
+                            <button id="print-table">Print Table</button>
+                            <button id="download-csv">Download CSV</button>
+                            <button id="download-json">Download JSON</button>
+                            <button id="download-xlsx">Download XLSX</button>
+                            <button id="download-pdf">Download PDF</button>
+                            <button id="download-html">Download HTML</button>
                         </div>
+                        <div>
+
+                        </div>
+                        <div id="example-table"></div>
                     </div>
                 </div>
-                <x-footers.auth></x-footers.auth>
             </div>
+        </div>
     </main>
+    @php
+        $jsonArray = json_encode($district_array);
+    @endphp
+    <x-footers.auth></x-footers.auth>
     <x-plugins></x-plugins>
     </div>
     @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
+        <script src="{{ asset('assets/js/piety.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
         <script>
+            var districts = "{{ $jsonArray }}";
+            var decodedData = he.decode(districts);
+            var jsonData = JSON.parse(decodedData);
+            console.log(jsonData);
+            //custom max min header filter
+            var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams) {
+
+                var end;
+
+                var container = document.createElement("span");
+
+                //create and style inputs
+                var start = document.createElement("input");
+                start.setAttribute("type", "number");
+                start.setAttribute("placeholder", "Min");
+                start.setAttribute("min", 0);
+                start.setAttribute("max", 100);
+                start.style.padding = "4px";
+                start.style.width = "50%";
+                start.style.boxSizing = "border-box";
+
+                start.value = cell.getValue();
+
+                function buildValues() {
+                    success({
+                        start: start.value,
+                        end: end.value,
+                    });
+                }
+
+                function keypress(e) {
+                    if (e.keyCode == 13) {
+                        buildValues();
+                    }
+
+                    if (e.keyCode == 27) {
+                        cancel();
+                    }
+                }
+
+                end = start.cloneNode();
+                end.setAttribute("placeholder", "Max");
+
+                start.addEventListener("change", buildValues);
+                start.addEventListener("blur", buildValues);
+                start.addEventListener("keydown", keypress);
+
+                end.addEventListener("change", buildValues);
+                end.addEventListener("blur", buildValues);
+                end.addEventListener("keydown", keypress);
+
+
+                container.appendChild(start);
+                container.appendChild(end);
+
+                return container;
+            }
+
+            //custom max min filter function
+            function minMaxFilterFunction(headerValue, rowValue, rowData, filterParams) {
+                //headerValue - the value of the header filter element
+                //rowValue - the value of the column in this row
+                //rowData - the data for the row being filtered
+                //filterParams - params object passed to the headerFilterFuncParams property
+
+                if (rowValue) {
+                    if (headerValue.start != "") {
+                        if (headerValue.end != "") {
+                            return rowValue >= headerValue.start && rowValue <= headerValue.end;
+                        } else {
+                            return rowValue >= headerValue.start;
+                        }
+                    } else {
+                        if (headerValue.end != "") {
+                            return rowValue <= headerValue.end;
+                        }
+                    }
+                }
+
+                return true; //must return a boolean, true if it passes the filter.
+            }
+
+
+            //Formatter to generate charts
+            var chartFormatter = function(cell, formatterParams, onRendered) {
+                var content = document.createElement("span");
+                var values = cell.getValue();
+
+                //invert values if needed
+                if (formatterParams.invert) {
+                    values = values.map(val => val * -1);
+                }
+
+                //add values to chart and style
+                content.classList.add(formatterParams.type);
+                content.innerHTML = values.join(",");
+
+                //setup chart options
+                var options = {
+                    width: 145,
+                }
+
+                if (formatterParams.fill) {
+                    options.fill = formatterParams.fill
+                }
+
+                //instantiate piety chart after the cell element has been aded to the DOM
+                onRendered(function() {
+                    peity(content, formatterParams.type, options);
+                });
+
+                return content;
+            };
+            var tableDataNested = jsonData;
+            /*var tableDataNested = [{
+                                    name: "Oli Bob",
+                                    location: "United Kingdom",
+                                    rating: 20,
+                                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    _children: [
+                                        {
+                                            name: "Brendon Philips",
+                                            location: "USA",
+                                            rating: 91,
+                                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            _children: [{
+                                                    name: "Margret Marmajuke",
+                                                    location: "Canada",
+                                                    rating: 99,
+                                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                },
+                                            ]
+                                        },
+                                    ]
+                					
+                                },
+                                {
+                                    name: "Jamie Newhart",
+                                    location: "India",
+                                    rating: 80,
+                                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
+                                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                },
+                            ];
+                			*/
+
+
+            var table = new Tabulator("#example-table", {
+                // height: "311px",
+                layout: "fitColumns",
+                resizableColumnFit: true,
+                data: tableDataNested,
+                dataTreeChildColumnCalcs: true,
+                dataTree: true,
+                dataTreeStartExpanded: function(row, level) {
+                    return row.getData().driver; //expand rows where the "driver" data field is true;
+                },
+                dataTreeSelectPropagate: true,
+                printAsHtml: true,
+                printHeader: "<h1>Election Report<h1>",
+                printFooter: "<h2>PUNJAB ELECTION REPORT<h2>",
+                dataTreeChildIndent: 15, //indent child rows by 15 px
+                // dataTreeBranchElement: "<img class='branch-icon' src='/branch.png'/>", //show image for branch element
+                columns: [{
+                        title: "ID",
+                        field: "id",
+                        //width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    }, //never hide this column
+                    {
+                        title: "Name",
+                        field: "name",
+                        //width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    }, //never hide this column
+                    {
+                        title: "D Code",
+                        field: "d_code",
+                        //width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    },
+                ],
+                // table.recalc();
+            });
+
+            table.on("dataTreeRowExpanded", function(row, level) {
+                var rowData = row.getData();
+                console.log(level);
+                var id = rowData.id;
+                var name = rowData.name;
+                var d_code = rowData.d_code;
+                console.log('rowData', rowData);
+                if (level == 0) {
+                    axios.get('/new-dashboard/getAssemblies', {
+                            params: {
+                                id: id
+                            }
+                        })
+                        .then(function(response) {
+                            var resp = response.data;
+                            var childData = resp.data;
+                            if (childData.length > 0) {
+                                var decodedData = he.decode(childData);
+                                var jsonData = JSON.parse(decodedData);
+                                console.log('data', resp.data);
+                                row.update({
+                                    id: id,
+                                    name: name,
+                                    d_code: d_code,
+                                    _children: jsonData
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                        });
+                } else {
+                    axios.get('/new-dashboard/getBooths', {
+                            params: {
+                                id: id
+                            }
+                        })
+                        .then(function(response) {
+                            var resp = response.data;
+                            var childData = resp.data;
+                            if (childData.length > 0) {
+                                var decodedData = he.decode(childData);
+                                var jsonData = JSON.parse(decodedData);
+                                console.log('data', resp.data);
+                                row.update({
+                                    id: id,
+                                    name: name,
+                                    d_code: d_code,
+                                    _children: jsonData
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                        });
+
+                }
+            });
+            //trigger download of data.csv file
+            document.getElementById("download-csv").addEventListener("click", function() {
+                table.download("csv", "data.csv");
+            });
+
+            //trigger download of data.json file
+            document.getElementById("download-json").addEventListener("click", function() {
+                table.download("json", "data.json");
+            });
+
+            //trigger download of data.xlsx file
+            document.getElementById("download-xlsx").addEventListener("click", function() {
+                table.download("xlsx", "data.xlsx", {
+                    sheetName: "My Data"
+                });
+            });
+
+            //trigger download of data.pdf file
+            document.getElementById("download-pdf").addEventListener("click", function() {
+                table.download("pdf", "data.pdf", {
+                    orientation: "portrait", //set page orientation to portrait
+                    title: "Example Report", //add title to report
+                });
+            });
+
+            //trigger download of data.html file
+            document.getElementById("download-html").addEventListener("click", function() {
+                table.download("html", "data.html", {
+                    style: true
+                });
+            });
+
             var ctx = document.getElementById("chart-bars").getContext("2d");
 
             new Chart(ctx, {
@@ -674,184 +739,6 @@
                         },
                     },
                 },
-            });
-
-
-            // var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-            // // new Chart(ctx2, {
-            // //     type: "line",
-            // //     data: {
-            // //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            // //         datasets: [{
-            // //             label: "Mobile apps",
-            // //             tension: 0,
-            // //             borderWidth: 0,
-            // //             pointRadius: 5,
-            // //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            // //             pointBorderColor: "transparent",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderColor: "rgba(255, 255, 255, .8)",
-            // //             borderWidth: 4,
-            // //             backgroundColor: "transparent",
-            // //             fill: true,
-            // //             data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-            // //             maxBarThickness: 6
-
-            // //         }],
-            // //     },
-            // //     options: {
-            // //         responsive: true,
-            // //         maintainAspectRatio: false,
-            // //         plugins: {
-            // //             legend: {
-            // //                 display: false,
-            // //             }
-            // //         },
-            // //         interaction: {
-            // //             intersect: false,
-            // //             mode: 'index',
-            // //         },
-            // //         scales: {
-            // //             y: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: true,
-            // //                     drawOnChartArea: true,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5],
-            // //                     color: 'rgba(255, 255, 255, .2)'
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //             x: {
-            // //                 grid: {
-            // //                     drawBorder: false,
-            // //                     display: false,
-            // //                     drawOnChartArea: false,
-            // //                     drawTicks: false,
-            // //                     borderDash: [5, 5]
-            // //                 },
-            // //                 ticks: {
-            // //                     display: true,
-            // //                     color: '#f8f9fa',
-            // //                     padding: 10,
-            // //                     font: {
-            // //                         size: 14,
-            // //                         weight: 300,
-            // //                         family: "Roboto",
-            // //                         style: 'normal',
-            // //                         lineHeight: 2
-            // //                     },
-            // //                 }
-            // //             },
-            // //         },
-            // //     },
-            // // });
-
-            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-            // new Chart(ctx3, {
-            //     type: "line",
-            //     data: {
-            //         labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            //         datasets: [{
-            //             label: "Mobile apps",
-            //             tension: 0,
-            //             borderWidth: 0,
-            //             pointRadius: 5,
-            //             pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            //             pointBorderColor: "transparent",
-            //             borderColor: "rgba(255, 255, 255, .8)",
-            //             borderWidth: 4,
-            //             backgroundColor: "transparent",
-            //             fill: true,
-            //             data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            //             maxBarThickness: 6
-
-            //         }],
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-            //         plugins: {
-            //             legend: {
-            //                 display: false,
-            //             }
-            //         },
-            //         interaction: {
-            //             intersect: false,
-            //             mode: 'index',
-            //         },
-            //         scales: {
-            //             y: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: true,
-            //                     drawOnChartArea: true,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5],
-            //                     color: 'rgba(255, 255, 255, .2)'
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     padding: 10,
-            //                     color: '#f8f9fa',
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //             x: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: false,
-            //                     drawOnChartArea: false,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5]
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     color: '#f8f9fa',
-            //                     padding: 10,
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //         },
-            //     },
-            // });
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelector('.table_cls').addEventListener('click', function(event) {
-                    if (event.target.classList.contains('toggle')) {
-                        const row = event.target.closest('tr');
-                        const subTable = row.nextElementSibling;
-
-                        if (subTable.classList.contains('sub-table')) {
-                            subTable.style.display = subTable.style.display === 'table' ? 'none' : 'table';
-                        }
-                    }
-                });
             });
         </script>
     @endpush
