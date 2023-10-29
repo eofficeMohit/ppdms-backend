@@ -289,6 +289,7 @@
                         <div class="card-body px-4 pb-4">
                             <div class="table-responsive p-0">
                                 <h1>Live Polling Details</h1>
+
                                 <div class="px-0 pb-4 mt-4">
                                     <button id="print-table">Print Table</button>
                                     <button id="download-csv">Download CSV</button>

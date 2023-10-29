@@ -130,6 +130,7 @@ class CommonApiController extends BaseController
                     return $this->sendResponse($success, 'No, event found.');
                 }
                 $booth_count = Booth::where('user_id', \Auth::id())->count();
+                $jfornbooth_count = Booth::where('user_id', \Auth::id())->count();
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
                         ->where('user_id', \Auth::id())
