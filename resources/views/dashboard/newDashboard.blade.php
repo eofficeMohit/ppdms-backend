@@ -484,47 +484,47 @@
             };
             var tableDataNested = jsonData;
             /*var tableDataNested = [{
-                            name: "Oli Bob",
-                            location: "United Kingdom",
-                            rating: 20,
-                            line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                            bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                            colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
-                            inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                            _children: [
-                                {
-                                    name: "Brendon Philips",
-                                    location: "USA",
-                                    rating: 91,
-                                    line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                    bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                    colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                    inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                    _children: [{
-                                            name: "Margret Marmajuke",
-                                            location: "Canada",
-                                            rating: 99,
-                                            line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                            bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                            colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
-                                            inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    name: "Oli Bob",
+                                    location: "United Kingdom",
+                                    rating: 20,
+                                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    _children: [
+                                        {
+                                            name: "Brendon Philips",
+                                            location: "USA",
+                                            rating: 91,
+                                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            _children: [{
+                                                    name: "Margret Marmajuke",
+                                                    location: "Canada",
+                                                    rating: 99,
+                                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                },
+                                            ]
                                         },
                                     ]
+                					
                                 },
-                            ]
-        					
-                        },
-                        {
-                            name: "Jamie Newhart",
-                            location: "India",
-                            rating: 80,
-                            line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                            bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                            colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
-                            inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                        },
-                    ];
-        			*/
+                                {
+                                    name: "Jamie Newhart",
+                                    location: "India",
+                                    rating: 80,
+                                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
+                                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                },
+                            ];
+                			*/
 
 
             var table = new Tabulator("#example-table", {
