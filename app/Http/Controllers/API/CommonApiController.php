@@ -34,8 +34,7 @@ class CommonApiController extends BaseController
                 $user = User::with(['userAssemblies', 'userState', 'userDistrict'])->find($token->tokenable_id);
                 $assemblyBooths = Booth::where('assigned_to', $token->tokenable_id)
                     ->pluck('booth_no')
-                    ->implode(',');
-
+                    ->implode(','); //where('user_id', $token->tokenable_id)->
                 $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
                 $success['user_name'] = rtrim($user->name, ' ') ?? '';
                 $success['state'] = $user->userState->name ?? '';
@@ -130,7 +129,7 @@ class CommonApiController extends BaseController
                     return $this->sendResponse($success, 'No, event found.');
                 }
                 $booth_count = Booth::where('user_id', \Auth::id())->count();
-                $jfornbooth_count = Booth::where('user_id', \Auth::id())->count();
+
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
                         ->where('user_id', \Auth::id())
