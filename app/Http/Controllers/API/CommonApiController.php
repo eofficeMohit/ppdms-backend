@@ -32,7 +32,7 @@ class CommonApiController extends BaseController
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
                 $user = User::with(['userAssemblies', 'userState', 'userDistrict'])->find($token->tokenable_id);
-                $assemblyBooths = Booth::where('user_id', $user->id)
+                $assemblyBooths = Booth::where('assigned_to', $token->tokenable_id)
                     ->pluck('booth_no')
                     ->implode(',');
 
