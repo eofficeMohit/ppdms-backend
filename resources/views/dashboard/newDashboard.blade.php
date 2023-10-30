@@ -420,7 +420,7 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Last Updated</th>
-                                            </thead>
+                                    </thead>
                                     <tbody>
                                         @if (!$electionInfo->isEmpty())
                                             @foreach ($electionInfo as $key => $election)
@@ -485,23 +485,23 @@
                         </div>
                     </div>
                 </div>
-				<div class="card-body px-4 pb-4">
-                            <div class="table-responsive p-0">
-                                <h1>Live Polling Details</h1>
-                                <div class="px-0 pb-4 mt-4">
-                                    <button id="print-table">Print Table</button>
-                                    <button id="download-csv">Download CSV</button>
-                                    <button id="download-json">Download JSON</button>
-                                    <button id="download-xlsx">Download XLSX</button>
-                                    <button id="download-pdf">Download PDF</button>
-                                    <button id="download-html">Download HTML</button>
-                                </div>
-                                <div>
-
-                                </div>
-                                <div id="example-table"></div>
-                            </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="table-responsive p-0">
+                        <h1>Live Polling Details</h1>
+                        <div class="px-0 pb-4 mt-4">
+                            <button id="print-table">Print Table</button>
+                            <button id="download-csv">Download CSV</button>
+                            <button id="download-json">Download JSON</button>
+                            <button id="download-xlsx">Download XLSX</button>
+                            <button id="download-pdf">Download PDF</button>
+                            <button id="download-html">Download HTML</button>
                         </div>
+                        <div>
+
+                        </div>
+                        <div id="example-table"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -509,13 +509,16 @@
 		$jsonArray = json_encode($district_array);
 		$newArray = json_encode($new_array);
 	@endphp
+    @php
+        $jsonArray = json_encode($district_array);
+    @endphp
     <x-footers.auth></x-footers.auth>
     <x-plugins></x-plugins>
     </div>
     @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
-		<script src="{{ asset('assets/js/piety.js') }}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
+        <script src="{{ asset('assets/js/piety.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
         <script>
 			var districts = "{{ $jsonArray }}";
@@ -526,6 +529,10 @@
 			var graphDecodedData = he.decode(graphData);
 			var graphJsonData = JSON.parse(graphDecodedData);
 			console.log('graphJsonData',graphJsonData);
+            var districts = "{{ $jsonArray }}";
+            var decodedData = he.decode(districts);
+            var jsonData = JSON.parse(decodedData);
+            console.log(jsonData);
             //custom max min header filter
             var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams) {
 
@@ -635,49 +642,49 @@
 
                 return content;
             };
-			var tableDataNested = jsonData;
+            var tableDataNested = jsonData;
             /*var tableDataNested = [{
-                    name: "Oli Bob",
-                    location: "United Kingdom",
-                    rating: 20,
-                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
-                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                    _children: [
-                        {
-                            name: "Brendon Philips",
-                            location: "USA",
-                            rating: 91,
-                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                            _children: [{
-                                    name: "Margret Marmajuke",
-                                    location: "Canada",
-                                    rating: 99,
-                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
-                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    name: "Oli Bob",
+                                    location: "United Kingdom",
+                                    rating: 20,
+                                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                                    _children: [
+                                        {
+                                            name: "Brendon Philips",
+                                            location: "USA",
+                                            rating: 91,
+                                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                                            _children: [{
+                                                    name: "Margret Marmajuke",
+                                                    location: "Canada",
+                                                    rating: 99,
+                                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                                },
+                                            ]
+                                        },
+                                    ]
+                					
                                 },
-                            ]
-                        },
-                    ]
-					
-                },
-                {
-                    name: "Jamie Newhart",
-                    location: "India",
-                    rating: 80,
-                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
-                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                },
-            ];
-			*/
+                                {
+                                    name: "Jamie Newhart",
+                                    location: "India",
+                                    rating: 80,
+                                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
+                                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                },
+                            ];
+                			*/
 
 
             var table = new Tabulator("#example-table", {
@@ -703,14 +710,14 @@
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
-					{
+                    {
                         title: "Name",
                         field: "name",
                         //width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
-					{
+                    {
                         title: "D Code",
                         field: "d_code",
                         //width: 200,
@@ -720,56 +727,66 @@
                 ],
                 // table.recalc();
             });
-			
-			table.on("dataTreeRowExpanded", function(row, level){
-				var rowData = row.getData();
-				console.log(level);
-				var id = rowData.id;
-				var name = rowData.name;
-				var d_code = rowData.d_code;
-				console.log('rowData',rowData);
-				if(level == 0){
-					axios.get('/new-dashboard/getAssemblies', {
-						params: {
-							id: id
-						}
-					})
-					.then(function(response) {
-						var resp = response.data;
-						var childData = resp.data;
-						if (childData.length > 0) {
-							var decodedData = he.decode(childData);
-							var jsonData = JSON.parse(decodedData);
-							console.log('data',resp.data);
-							row.update({id:id, name:name, d_code:d_code,_children: jsonData});
-						}
-					})
-					.catch(function(error) {
-						console.error(error);
-					});
-				} else {
-					axios.get('/new-dashboard/getBooths', {
-						params: {
-							id: id
-						}
-					})
-					.then(function(response) {
-						var resp = response.data;
-						var childData = resp.data;
-						if (childData.length > 0) {
-							var decodedData = he.decode(childData);
-							var jsonData = JSON.parse(decodedData);
-							console.log('data',resp.data);
-							row.update({id:id, name:name, d_code:d_code,_children: jsonData});
-						}
-					})
-					.catch(function(error) {
-						console.error(error);
-					});
 
-				}	
-			});
-			  //trigger download of data.csv file
+            table.on("dataTreeRowExpanded", function(row, level) {
+                var rowData = row.getData();
+                console.log(level);
+                var id = rowData.id;
+                var name = rowData.name;
+                var d_code = rowData.d_code;
+                console.log('rowData', rowData);
+                if (level == 0) {
+                    axios.get('/new-dashboard/getAssemblies', {
+                            params: {
+                                id: id
+                            }
+                        })
+                        .then(function(response) {
+                            var resp = response.data;
+                            var childData = resp.data;
+                            if (childData.length > 0) {
+                                var decodedData = he.decode(childData);
+                                var jsonData = JSON.parse(decodedData);
+                                console.log('data', resp.data);
+                                row.update({
+                                    id: id,
+                                    name: name,
+                                    d_code: d_code,
+                                    _children: jsonData
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                        });
+                } else {
+                    axios.get('/new-dashboard/getBooths', {
+                            params: {
+                                id: id
+                            }
+                        })
+                        .then(function(response) {
+                            var resp = response.data;
+                            var childData = resp.data;
+                            if (childData.length > 0) {
+                                var decodedData = he.decode(childData);
+                                var jsonData = JSON.parse(decodedData);
+                                console.log('data', resp.data);
+                                row.update({
+                                    id: id,
+                                    name: name,
+                                    d_code: d_code,
+                                    _children: jsonData
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                        });
+
+                }
+            });
+            //trigger download of data.csv file
             document.getElementById("download-csv").addEventListener("click", function() {
                 table.download("csv", "data.csv");
             });
@@ -800,7 +817,7 @@
                     style: true
                 });
             });
-			
+
             var ctx = document.getElementById("chart-bars").getContext("2d");
 
             new Chart(ctx, {
@@ -883,7 +900,6 @@
                     },
                 },
             });
-
         </script>
     @endpush
 </x-layout>

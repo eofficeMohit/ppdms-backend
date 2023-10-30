@@ -153,8 +153,7 @@
     </main>
     <x-plugins></x-plugins>
 </x-layout>
-{{-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script> --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     var today = new Date().toISOString().slice(0, 16);
     document.getElementsByClassName("start_date")[0].min = today;
