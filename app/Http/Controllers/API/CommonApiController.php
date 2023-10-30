@@ -366,6 +366,7 @@ class CommonApiController extends BaseController
 
                     return $this->sendResponse($success, 'Event updated successfully.');
                 }
+                return $this->sendError('Message.', ['error' => 'Booths are not alloted. Please contact admin.']);
             }
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         } catch (\Exception $e) {
