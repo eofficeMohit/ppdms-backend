@@ -128,7 +128,7 @@ class CommonApiController extends BaseController
                 if (count($events) == 0) {
                     return $this->sendResponse($success, 'No, event found.');
                 }
-                $booth_count = Booth::where('user_id', \Auth::id())->count();
+                $booth_count = Booth::where('assigned_to', \Auth::id())->count();
 
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
@@ -164,7 +164,6 @@ class CommonApiController extends BaseController
      */
     public function eventUpdate(Request $request): JsonResponse
     {
-        // dd(ElectionInfo::where('event_id',$request->event_id)->where('user_id',\Auth::id())->where('booth_id',$request->booth_id)->where('status',1)->count());
         try {
             if ($request->bearerToken()) {
                 $hashedTooken = $request->bearerToken();
@@ -183,7 +182,7 @@ class CommonApiController extends BaseController
                 if ($validator->fails()) {
                     return $this->sendError('Validation Error.', $validator->errors());
                 }
-                $check_user_booth = Booth::where('user_id', \Auth::id())
+                $check_user_booth = Booth::where('assigned_to', \Auth::id())
                     ->where('id', $request->booth_id)
                     ->exists();
                 $success = [];
