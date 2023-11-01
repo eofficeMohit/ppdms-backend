@@ -9,10 +9,8 @@ use Binafy\LaravelUserMonitoring\Traits\Actionable;
 
 class Booth extends Model
 {
-    use HasFactory,Actionable;
-    protected $fillable = [
-        'booth_no', 'tot_voters', 'booth_name','booth_name_uni','district_id','state_id','assemble_id','user_id','latitude','longitude','status'
-    ];
+    use HasFactory, Actionable;
+    protected $fillable = ['booth_no', 'tot_voters', 'booth_name', 'booth_name_uni', 'district_id', 'state_id', 'assemble_id', 'user_id', 'latitude', 'longitude', 'status', 'assigned_to', 'assigned_by', 'assigned_status'];
     /**
      * Get the assembly that owns the booths
      *
@@ -37,7 +35,5 @@ class Booth extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-
     }
-
 }

@@ -33,6 +33,7 @@ class CommonApiController extends BaseController
 
                 $user = User::with(['userAssemblies', 'userState', 'userDistrict'])->find($token->tokenable_id);
                 $assemblyBooths = Booth::where('assigned_to', $token->tokenable_id)
+                    ->where('assigned_status', 1)
                     ->pluck('booth_no')
                     ->implode(','); //where('user_id', $token->tokenable_id)->
                 $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
@@ -71,7 +72,9 @@ class CommonApiController extends BaseController
                 }
 
                 $user = User::find($token->tokenable_id);
-                $userBooths = Booth::where('assigned_to', $user->id)->get();
+                $userBooths = Booth::where('assigned_to', $user->id)
+                    ->where('assigned_status', 1)
+                    ->get();
                 $success = [];
                 foreach ($userBooths as $userBooth) {
                     $electionInfo = ElectionInfo::with(['electionState', 'electionDistrict', 'electionBooth', 'electionAssembly'])
