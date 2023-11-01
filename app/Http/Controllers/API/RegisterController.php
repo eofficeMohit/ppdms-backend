@@ -51,12 +51,27 @@ class RegisterController extends BaseController
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
+        /*checkUser*/
+        if (User::where('mobile_number', $request->mobile_number)->count() == 0) {
+            // The record exists
+            return $this->sendError('Unauthorised.', ['error' => 'Your account is not yet registered with us. Kindly contact your Concerned RO/ARO']);
+        }
+
+        if (
+            User::where('mobile_number', $request->mobile_number)
+                ->where('status', 0)
+                ->first()
+        ) {
+            // The inactive record exists
+            return $this->sendError('Unauthorised.', ['error' => 'Your account is in-active. Kindly contact your Concerned RO/ARO']);
+        }
+
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
+
         /* Send An OTP */
-        // $userOtp->sendSMS($request->mobile_no);
+
         if ($userOtp) {
-            // dd($userOtp['id']);
             unset($userOtp['id']);
             $success['userOtp'] = $userOtp;
 
@@ -115,6 +130,7 @@ class RegisterController extends BaseController
         $user = User::whereId($request->user_id)
             ->where('status', 1)
             ->first();
+
         if (!empty($user)) {
             $userOtp->update([
                 'expire_at' => now(),
@@ -144,10 +160,9 @@ class RegisterController extends BaseController
      */
     public function generateOtp($mobile_number)
     {
-        $user = User::where('mobile_number', $mobile_number)->first();
-        if (!empty($user)) {
-            return $this->sendError('Unauthorised.', ['error' => 'You are not Register With Us. Kindly contact your Concerned RO/ARO']);
-        }
+        $user = User::where('mobile_number', $mobile_number)
+            ->where('status', 1)
+            ->first();
 
         /* User Does not Have Any Existing OTP */
         $now = now();
