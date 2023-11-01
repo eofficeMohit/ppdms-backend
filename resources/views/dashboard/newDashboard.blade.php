@@ -31,7 +31,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
-                                <h4 class="mb-0">24637</h4>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
                             </div>
                         </div>
                     </div>
@@ -44,12 +44,12 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0">{{ $total_party_reached }}</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Arrrived</strong></p>
+                                <h4 class="mb-0">{{ $total_party_reached ?? 0 }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
-                                <h4 class="mb-0">24637</h4>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
                             </div>
                         </div>
                     </div>
@@ -62,12 +62,12 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
-                                <h4 class="mb-0">{{ $total_mock_poll_started }}</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Setup of Polling Station</strong></p>
+                                <h4 class="mb-0">{{ $total_setup_of_polling_station ?? 0 }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
-                                <h4 class="mb-0">24637</h4>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
                             </div>
                         </div>
                     </div>
@@ -80,19 +80,167 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0">{{ $poll_started }}</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Mock Poll Done</strong></p>
+                                <h4 class="mb-0">{{ $total_mock_poll_done ?? 0 }}</h4>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
-                                <h4 class="mb-0">24637</h4>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row card_event mt-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
+                                <h4 class="mb-0">{{ $total_poll_started ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Voter Turnout</strong></p>
+                                <h4 class="mb-0">{{ $total_voter_turnout ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Voter in Queue at 6 PM</strong></p>
+                                <h4 class="mb-0">{{ $total_voter_in_queue ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Ended</strong></p>
+                                <h4 class="mb-0">{{ $total_poll_ended ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row card_event mt-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>EVM Switched Off</strong></p>
+                                <h4 class="mb-0">{{ $total_machine_closed ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Departed from PS</strong></p>
+                                <h4 class="mb-0">{{ $total_party_departed ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Party Reached at CC</strong></p>
+                                <h4 class="mb-0">{{ $total_party_reached_at_collection_centre ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>EVM Deposited</strong></p>
+                                <h4 class="mb-0">{{ $total_evm_deposited ?? 0 }}</h4>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">{{ $total_booths }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row card_event mt-4">
-                <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+                <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
@@ -101,11 +249,11 @@
                             </div>
                             <div class="text-center pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Votes</strong></p>
-                                <h4 class="mb-0">{{ $tot_booth_votes }}</h4>
+                                <h4 class="mb-0">{{ $tot_booth_votes ?? 0 }}</h4>
                             </div>
                             <div class="text-center pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Votes Polled</strong></p>
-                                <h4 class="mb-0">{{ $polled_booth_votes }}</h4>
+                                <h4 class="mb-0">{{ $polled_booth_votes ?? 0 }}</h4>
                             </div>
                             <div class="text-center pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Votes Polled(%)</strong></p>
@@ -357,6 +505,10 @@
             </div>
         </div>
     </main>
+	@php
+		$jsonArray = json_encode($district_array);
+		$newArray = json_encode($new_array);
+	@endphp
     @php
         $jsonArray = json_encode($district_array);
     @endphp
@@ -369,6 +521,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
         <script>
+			var districts = "{{ $jsonArray }}";
+			var decodedData = he.decode(districts);
+			var jsonData = JSON.parse(decodedData);
+			
+			var graphData = "{{ $newArray }}";
+			var graphDecodedData = he.decode(graphData);
+			var graphJsonData = JSON.parse(graphDecodedData);
+			console.log('graphJsonData',graphJsonData);
             var districts = "{{ $jsonArray }}";
             var decodedData = he.decode(districts);
             var jsonData = JSON.parse(decodedData);

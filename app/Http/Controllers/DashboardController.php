@@ -129,8 +129,18 @@ class DashboardController extends Controller
             ->get();
         $total_party_dispatch = ElectionInfo::where('event_id', 1)->count();
         $total_party_reached = ElectionInfo::where('event_id', 2)->count();
-        $total_mock_poll_started = ElectionInfo::where('event_id', 3)->count();
-        $poll_started = ElectionInfo::where('event_id', 5)->count();
+        $total_setup_of_polling_station = ElectionInfo::where('event_id', 3)->count();
+        $total_mock_poll_done = ElectionInfo::where('event_id', 4)->count();
+        $total_poll_started = ElectionInfo::where('event_id', 5)->count();
+        $total_voter_turnout = ElectionInfo::where('event_id', 6)->count();
+        $total_voter_in_queue = ElectionInfo::where('event_id', 7)->count();
+        $total_poll_ended = ElectionInfo::where('event_id', 8)->count();
+        $total_machine_closed = ElectionInfo::where('event_id', 9)->count();
+        $total_party_departed = ElectionInfo::where('event_id', 10)->count();
+        $total_party_reached_at_collection_centre = ElectionInfo::where('event_id', 11)->count();
+        $total_evm_deposited = ElectionInfo::where('event_id', 12)->count();
+        $total_poll_interuption = ElectionInfo::where('event_id', 13)->count();
+        $total_booths = Booth::select('id')->count();
         $assemblies = Assembly::where('pc_id', 4)->get();
         $new_array = [];
         $tot_booth_votes = 0;
@@ -189,9 +199,6 @@ class DashboardController extends Controller
                 $new_array[$key]['assemblies'][$kk]['booths'] = $booth_array;
             }
         }*/
-
-        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'district_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started', 'district'));
-
-        // return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'new_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started', 'pollInterrupted', 'poll_started', 'district'));
-    }
+        return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'district_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_setup_of_polling_station', 'total_mock_poll_done', 'total_poll_started', 'total_voter_turnout', 'total_voter_in_queue', 'total_poll_ended', 'total_machine_closed', 'total_party_departed', 'total_party_reached_at_collection_centre', 'total_evm_deposited', 'total_booths',  'pollInterrupted','district','new_array'));
+        }
 }

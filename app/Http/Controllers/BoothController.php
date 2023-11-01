@@ -148,7 +148,7 @@ class BoothController extends Controller
         $selectedOfficer = $request->input('selectedOfficer');
         $selectedAssem = $request->input('selectedAssem');
         $unass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_status',0)->orderBy('id')->get();
-        $ass_booths = Booth::where('assemble_id',$selectedAssem)->where('assigned_to',$selectedOfficer)->where('assigned_status',1)->orderBy('id')->get();
+        $ass_booths = Booth::where('assemble_id',$selectedAssem)->where('user_id',$selectedOfficer)->where('assigned_status',1)->orderBy('id')->get();
         $response = array('unass_booths' => $unass_booths, 'ass_booths' => $ass_booths);
         return response()->json($response);
     }
@@ -159,12 +159,14 @@ class BoothController extends Controller
         $assemble_id =  $input['params']['selectedAssem'];
         $booth_id = $input['params']['booth_id'];
         $user_id = auth()->user()->id;
-        $assigned_to = $input['params']['selectedOff'];
+        $selectedOff = $input['params']['selectedOff'];
+        $assigned_to = $input['params']['assigned_to'];
         $assigned_by = $user_id;
         $assigned_status = $input['params']['status'];
         Booth::where('id', $booth_id)
             ->update([
-                'assigned_to' => $assigned_to,
+                'user_id' => $assigned_to,
+                'assigned_to' => $selectedOff,
                 'assigned_by' => $assigned_by,
                 'assigned_status' => $assigned_status,
             ]);
