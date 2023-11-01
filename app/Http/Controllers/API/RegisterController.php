@@ -64,7 +64,7 @@ class RegisterController extends BaseController
             return $this->sendResponse($success, 'Otp generated successfully.');
         }
         else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthorised.', ['error'=>'You are not Register With Us. Kindly contact your Concerned RO/ARO']);
         }
     }
 
@@ -139,7 +139,7 @@ class RegisterController extends BaseController
      * Write code on Method
      *
      * @return response()
-     */
+     */  
      public function generateOtp($mobile_number)
      {
          $user = User::where('mobile_number', $mobile_number)->first();
@@ -151,7 +151,9 @@ class RegisterController extends BaseController
                 return $userOtp;
             }
          }else{
-            $user = User::create(['mobile_number' => $mobile_number]);
+            //$user = User::create(['mobile_number' => $mobile_number]);
+            $userOtp = "";
+            return $userOtp;
          }
 
          /* Create a New OTP */

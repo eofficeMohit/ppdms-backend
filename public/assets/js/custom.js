@@ -78,14 +78,21 @@ jQuery('#so_officer').on('change', function () {
         });
 });
 function map_booth(booth_id, box_type) {
-    var status = 0;
-    if (box_type == "box_div2") {
-        status = 1;
-    } else {
-        status = 0;
-    }
+    
     var selectedAssem = document.getElementById('sel_assembly').value;
     var selectedOff = document.getElementById('so_officer').value;
+    var status = 0;
+    var assigned_to = 1;
+    var msg = "";
+    if (box_type == "box_div2") {
+        status = 1;
+        assigned_to = selectedOff;
+        msg = "Booth mapped successfully.";
+    } else {
+        status = 0;
+        assigned_to = 1;
+        msg = "Booth un-mapped successfully.";
+    }
     // Make an AJAX request
     axios.post('booths/mapOffBooths', {
         params: {
@@ -93,10 +100,15 @@ function map_booth(booth_id, box_type) {
             status: status,
             selectedAssem: selectedAssem,
             selectedOff: selectedOff,
+            assigned_to:assigned_to,
         }
     })
         .then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
+            jQuery('#toast_body_msg').html(msg);
+            let myAlert = document.querySelector('.toast');
+            let bsAlert = new bootstrap.Toast(myAlert);
+            bsAlert.show();
             // Iterate through the response and append data to the container
         })
         .catch(function (error) {
