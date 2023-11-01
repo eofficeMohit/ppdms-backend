@@ -20,22 +20,21 @@ class RegisterController extends BaseController
      */
     public function register(Request $request): JsonResponse
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
+        $success['access_token'] = $user->createToken('auth_token')->plainTextToken;
         $success['token_type'] = 'Bearer';
-        $success['name'] =  $user->name;
+        $success['name'] = $user->name;
         return $this->sendResponse($success, 'User register successfully.');
     }
     /**
@@ -45,26 +44,25 @@ class RegisterController extends BaseController
      */
     public function ValidateMobile(Request $request): JsonResponse
     {
-         /* Validate Login Data */
-         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|numeric|digits:10'
+        /* Validate Login Data */
+        $validator = Validator::make($request->all(), [
+            'mobile_number' => 'required|numeric|digits:10',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
         /* Generate An OTP */
         $userOtp = $this->generateOtp($request->mobile_number);
         /* Send An OTP */
         // $userOtp->sendSMS($request->mobile_no);
-        if($userOtp){
+        if ($userOtp) {
             // dd($userOtp['id']);
             unset($userOtp['id']);
-            $success['userOtp'] =  $userOtp;
+            $success['userOtp'] = $userOtp;
 
             return $this->sendResponse($success, 'Otp generated successfully.');
-        }
-        else{
-            return $this->sendError('Unauthorised.', ['error'=>'You are not Register With Us. Kindly contact your Concerned RO/ARO']);
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'You are not Register With Us. Kindly contact your Concerned RO/ARO']);
         }
     }
 
@@ -85,37 +83,41 @@ class RegisterController extends BaseController
             'login_type' => 'required|in:web,app',
             'device_type' => 'required',
             'device_token' => 'required',
-            'device_mac_address'=>'required|mac_address',
+            'device_mac_address' => 'required|mac_address',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
         /* Login Details */
-       $user_logins= UserLogin::create([
+        $user_logins = UserLogin::create([
             'user_id' => $request->user_id,
-            'latitude'=>$request->latitude,
-            'longitude' =>$request->longitude,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'ip_address' => $request->ip_address,
             'login_type' => $request->login_type,
             'device_type' => $request->device_type,
             'device_token' => $request->device_token,
-            'device_mac_address'=> $request->device_mac_address
+            'device_mac_address' => $request->device_mac_address,
         ]);
 
         /* Validation Logic */
-        $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
+        $userOtp = UserOtp::where('user_id', $request->user_id)
+            ->where('otp', $request->otp)
+            ->first();
         $now = now();
         if (!$userOtp) {
-            return $this->sendError('Unauthorised.', ['error'=>'Your OTP is not correct']);
-        }else if($userOtp && $now->isAfter($userOtp->expire_at)){
-            return $this->sendError('Unauthorised.', ['error'=>'Your OTP has been expired']);
+            return $this->sendError('Unauthorised.', ['error' => 'Your OTP is not correct']);
+        } elseif ($userOtp && $now->isAfter($userOtp->expire_at)) {
+            return $this->sendError('Unauthorised.', ['error' => 'Your OTP has been expired']);
         }
-        $user = User::whereId($request->user_id)->first();
-        if($user){
+        $user = User::whereId($request->user_id)
+            ->where('status', 1)
+            ->first();
+        if (!empty($user)) {
             $userOtp->update([
-                'expire_at' => now()
+                'expire_at' => now(),
             ]);
             $user_logins->update([
                 'status' => 1,
@@ -123,15 +125,15 @@ class RegisterController extends BaseController
             ]);
             Auth::login($user);
             $user = Auth::user();
-            $success['access_token'] =  $user->createToken('auth_token')->plainTextToken;
+            $success['access_token'] = $user->createToken('auth_token')->plainTextToken;
             $success['token_type'] = 'Bearer';
-            $success['mobile_number'] =  $user->mobile_number;
+            $success['mobile_number'] = $user->mobile_number;
             return $this->sendResponse($success, 'User login successfully.');
-        }else{
+        } else {
             $user_logins->update([
-                'status' => 0
+                'status' => 0,
             ]);
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthorised.', ['error' => 'Please, contact admin for activating your account.']);
         }
     }
 
@@ -139,30 +141,35 @@ class RegisterController extends BaseController
      * Write code on Method
      *
      * @return response()
-     */  
-     public function generateOtp($mobile_number)
-     {
-         $user = User::where('mobile_number', $mobile_number)->first();
-         /* User Does not Have Any Existing OTP */
-         $now = now();
-         if(!empty($user)){
-            $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
-            if($userOtp && $now->isBefore($userOtp->expire_at)){
+     */
+    public function generateOtp($mobile_number)
+    {
+        $user = User::where('mobile_number', $mobile_number)->first();
+        if (!empty($user)) {
+            return $this->sendError('Unauthorised.', ['error' => 'You are not Register With Us. Kindly contact your Concerned RO/ARO']);
+        }
+
+        /* User Does not Have Any Existing OTP */
+        $now = now();
+        if (!empty($user)) {
+            $userOtp = UserOtp::where('user_id', $user->id)
+                ->latest()
+                ->first();
+            if ($userOtp && $now->isBefore($userOtp->expire_at)) {
                 return $userOtp;
             }
-         }else{
+        } else {
             //$user = User::create(['mobile_number' => $mobile_number]);
-            $userOtp = "";
+            $userOtp = '';
             return $userOtp;
-         }
+        }
 
-         /* Create a New OTP */
-         return UserOtp::create([
-             'user_id' => $user->id,
-             'mobile_number'=>$mobile_number,
-             'otp' => rand(123456, 999999),
-             'expire_at' => $now->addMinutes(10)
-         ]);
-     }
-
+        /* Create a New OTP */
+        return UserOtp::create([
+            'user_id' => $user->id,
+            'mobile_number' => $mobile_number,
+            'otp' => rand(123456, 999999),
+            'expire_at' => $now->addMinutes(10),
+        ]);
+    }
 }
