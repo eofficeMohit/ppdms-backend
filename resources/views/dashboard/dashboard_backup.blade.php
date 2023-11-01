@@ -5,17 +5,6 @@
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
         <!-- End Navbar -->
-        <style>
-            .table_cls {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            .sub-table {
-                display: none;
-                display: table-row;
-            }
-        </style>
         <div class="container-fluid py-4">
             <div class="row card_event">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -301,7 +290,7 @@
                 </div>
             </div>
 
-            {{-- <div class="row mt-4">
+            <div class="row mt-4">
                 <div class="col-lg-12 col-md-12 mt-4 mb-4">
                     <div class="card z-index-2 ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -313,12 +302,12 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Party Dispatched</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
-                            <hr class="dark horizontal">
+                            {{-- <p class="text-sm ">Last Campaign Performance</p> --}}
+                            {{-- <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <i class="material-icons text-sm my-auto me-1">schedule</i>
                                 <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -384,8 +373,8 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-            {{-- <div class="row mb-4">
+            </div>
+            <div class="row mb-4">
                 <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
                     <div class="card">
                         <div class="card-header pb-0">
@@ -397,7 +386,7 @@
                                         <span class="font-weight-bold ms-1">Latest</span> 20 Election Informations
                                     </p>
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
+                                {{-- <div class="col-lg-6 col-5 my-auto text-end">
                                     <div class="dropdown float-lg-end pe-4">
                                         <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
                                             aria-expanded="false">
@@ -405,17 +394,15 @@
                                         </a>
                                         <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
                                             aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md"
-                                                    href="javascript:;">Action</a>
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
                                             </li>
                                             <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
                                                     action</a></li>
-                                            <li><a class="dropdown-item border-radius-md"
-                                                    href="javascript:;">Something
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
                                                     else here</a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -510,9 +497,27 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card-body px-4 pb-4">
+                            <div class="table-responsive p-0">
+                                <h1>Live Polling Details</h1>
+
+                                <div class="px-0 pb-4 mt-4">
+                                    <button id="print-table">Print Table</button>
+                                    <button id="download-csv">Download CSV</button>
+                                    <button id="download-json">Download JSON</button>
+                                    <button id="download-xlsx">Download XLSX</button>
+                                    <button id="download-pdf">Download PDF</button>
+                                    <button id="download-html">Download HTML</button>
+                                </div>
+                                <div>
+
+                                </div>
+                                <div id="example-table"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                {{-- <div class="col-lg-4 col-md-6">
                     <div class="card h-100">
                         <div class="card-header pb-0">
                             <h6>Orders overview</h6>
@@ -589,179 +594,22 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> --}}
-
-            <div class="row mt-4">
-                <div class="col-lg-12 col-md-12 mt-4 mb-4">
-                    <div class="card z-index-2 ">
-                        <div class="card-header pb-0">
-                            <div class="row">
-                                <div class="col-lg-6 col-7">
-                                    <h4>ELection Live details</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-4 pb-4">
-                            <div class="table-responsive p-0">
-                                <div class="px-0 pb-4 mt-4">
-                                    <button id="print-table">Print Table</button>
-                                    <button id="download-csv">Download CSV</button>
-                                    <button id="download-json">Download JSON</button>
-                                    <button id="download-xlsx">Download XLSX</button>
-                                    <button id="download-pdf">Download PDF</button>
-                                    <button id="download-html">Download HTML</button>
-                                </div>
-                                <div>
-                                </div>
-                                <div id="example-table"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div> --}}
             </div>
-            <div class="row mb-4">
-                <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-                    <div class="card">
-                        <div class="card-header pb-0">
-                            <div class="row">
-                                <div class="col-lg-6 col-7">
-                                    <h6>Poll Interrupted</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                S.NO</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Assembly</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Booth Name</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Booth No.</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Stop Time</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Resume Time </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Reason </th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Last Updated </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (!$pollInterrupted->isEmpty())
-                                            @foreach ($pollInterrupted as $key => $poll)
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="mb-0 text-sm">{{ $poll->id }}</p>
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="mb-0 text-sm">
-                                                                {{ $poll->electionAssembly->asmb_name }}</p>
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="mb-0 text-sm">
-                                                                {{ $poll->electionBooth->booth_name }}</p>
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="mb-0 text-sm">
-                                                                {{ $poll->electionBooth->booth_no }}</p>
-
-                                                        </div>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                        <p class="text-xs text-secondary mb-0">
-                                                            {{ date('h:i a', strtotime($poll->stop_time)) }}
-                                                        </p>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                        <p class="text-xs text-secondary mb-0">
-                                                            {{ date('h:i a', strtotime($poll->resume_time)) }}
-                                                        </p>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                        <p class="text-xs text-secondary mb-0">{{ $poll->remarks }}
-                                                        </p>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                        <p class="text-xs text-secondary mb-0">{{ $poll->updated_at }}
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="3"></td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <div class="d-flex text-center">
-                                                        <div>
-                                                            <p class="mb-0 text-sm">No Record's Found.</p>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-footers.auth></x-footers.auth>
+        </div>
     </main>
-    @php
-        $jsonArray = json_encode($district_array);
-        $newArray = json_encode($new_array);
-    @endphp
-    @php
-        $jsonArray = json_encode($district_array);
-    @endphp
-    <x-footers.auth></x-footers.auth>
     <x-plugins></x-plugins>
-    </div>
     </div>
     @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
-        <script src="{{ asset('assets/js/piety.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
-        <script>
-            var districts = "{{ $jsonArray }}";
-            var decodedData = he.decode(districts);
-            var jsonData = JSON.parse(decodedData);
 
-            var graphData = "{{ $newArray }}";
-            var graphDecodedData = he.decode(graphData);
-            var graphJsonData = JSON.parse(graphDecodedData);
-            console.log('graphJsonData', graphJsonData);
-            var districts = "{{ $jsonArray }}";
-            var decodedData = he.decode(districts);
-            var jsonData = JSON.parse(decodedData);
-            console.log(jsonData);
+        <script src="{{ asset('assets/js/piety.js') }}"></script>
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+
+        <script>
+            // NEsted tables
+
             //custom max min header filter
             var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams) {
 
@@ -871,50 +719,352 @@
 
                 return content;
             };
-            var tableDataNested = jsonData;
-            /*var tableDataNested = [{
-                                    name: "Oli Bob",
-                                    location: "United Kingdom",
-                                    rating: 20,
-                                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
-                                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
-                                    _children: [
-                                        {
-                                            name: "Brendon Philips",
-                                            location: "USA",
-                                            rating: 91,
-                                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
-                                            _children: [{
-                                                    name: "Margret Marmajuke",
-                                                    location: "Canada",
-                                                    rating: 99,
-                                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
-                                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
-                                                },
-                                            ]
-                                        },
-                                    ]
-                					
+            var tableDataNested = [{
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
                                 },
                                 {
-                                    name: "Jamie Newhart",
-                                    location: "India",
-                                    rating: 80,
-                                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
-                                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
-                                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
                                 },
-                            ];
-                			*/
+                            ]
+                        },
+                    ]
+                },
+                {
+                    name: "Jamie Newhart",
+                    location: "India",
+                    //gender: "male",
+                    //col: "green",
+                    //dob: "14/05/1985",
+                    rating: 80,
+                    line: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                    bar: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                    colored: [11, 7, 6, -12, 1 - 13, 11, 10, 9, 6],
+                    inverted: [11, 7, 6, 12, 14, 13, 11, 10, 9, 6],
+                },
+                {
+                    name: "Gemma Jane",
+                    location: "China",
+                    //gender: "female",
+                    //col: "red",
+                    //dob: "22/05/1982",
+                    rating: 45,
+                    line: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    bar: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    colored: [4, 17, 11, -12, 0, 5, 12, -14, 18, 11],
+                    inverted: [4, 17, 11, 12, 0, 5, 12, 14, 18, 11],
+                    _children: [{
+                        name: "Emily Sykes",
+                        location: "South Korea",
+                        //gender: "female",
+                        //col: "maroon",
+                        //dob: "11/11/1970",
+                        rating: 5,
+                        line: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
+                        bar: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
+                        colored: [11, 15, 19, -20, 17, 16, 16, -5, 3, 2],
+                        inverted: [11, 15, 19, 20, 17, 16, 16, 5, 3, 2],
 
+
+                    }, ]
+                },
+                {
+                    name: "James Newman",
+                    location: "Japan",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "22/03/1998",
+                    rating: 66,
+                    line: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+                    bar: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+                    colored: [1, 2, 0, -4, -5, -4, 2, 5, 9, 8],
+                    inverted: [1, 2, 3, 4, 5, 4, 2, 5, 9, 8],
+
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                }, {
+                    name: "Oli Bob",
+                    location: "United Kingdom",
+                    //gender: "male",
+                    //col: "red",
+                    //dob: "14/04/1984",
+                    rating: 20,
+                    line: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    bar: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    colored: [1, 20, -5, -3, 10, 13, 0, 15, 9, 11],
+                    inverted: [1, 20, 5, 3, 10, 13, 17, 15, 9, 11],
+                    _children: [{
+                            name: "Mary May",
+                            location: "Germany",
+                            //gender: "female",
+                            //col: "blue",
+                            //dob: "14/05/1982",
+                            rating: 5,
+                            line: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            bar: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                            colored: [-10, 12, 14, 16, 13, 9, 7, 0, 10, 13],
+                            inverted: [10, 12, 14, 16, 13, 9, 7, 11, 10, 13],
+                        },
+                        {
+                            name: "Christine Lobowski",
+                            location: "France",
+                            //gender: "female",
+                            //col: "green",
+                            //dob: "22/05/1982",
+                            rating: 35,
+                            line: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            bar: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                            colored: [1, 2, 5, 0, 1, 16, 4, 2, 1, 3],
+                            inverted: [1, 2, 5, 4, 1, 16, 4, 2, 1, 3],
+                        },
+                        {
+                            name: "Brendon Philips",
+                            location: "USA",
+                            //gender: "male",
+                            //col: "orange",
+                            //dob: "01/08/1980",
+                            rating: 91,
+                            line: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            bar: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            colored: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            inverted: [3, 7, 9, 1, 4, 8, 2, 6, 4, 2],
+                            _children: [{
+                                    name: "Margret Marmajuke",
+                                    location: "Canada",
+                                    //gender: "female",
+                                    //col: "yellow",
+                                    //dob: "31/01/1999",
+                                    rating: 99,
+                                    line: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    bar: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                    colored: [1, -3, 1, 3, -3, 1, -1, 3, 1, 3],
+                                    inverted: [1, 3, 1, 3, 3, 1, 1, 3, 1, 3],
+                                },
+                                {
+                                    name: "Frank Harbours",
+                                    location: "Russia",
+                                    //gender: "male",
+                                    //col: "red",
+                                    //dob: "12/05/1966",
+                                    rating: 50,
+                                    line: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    bar: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                    colored: [20, 17, 15, 11, 16, -9, 12, 14, 20, 12],
+                                    inverted: [20, 17, 15, 11, 16, 9, 12, 14, 20, 12],
+                                },
+                            ]
+                        },
+                    ]
+                },
+
+            ];
 
             var table = new Tabulator("#example-table", {
                 // height: "311px",
@@ -929,177 +1079,199 @@
                 dataTreeSelectPropagate: true,
                 printAsHtml: true,
                 printHeader: "<h1>Election Report<h1>",
-                printFooter: "<h2>ELECTION REPORT<h2>",
+                printFooter: "<h2>PUNJAB ELECTION REPORT<h2>",
                 dataTreeChildIndent: 15, //indent child rows by 15 px
                 // dataTreeBranchElement: "<img class='branch-icon' src='/branch.png'/>", //show image for branch element
                 columns: [{
-                        title: "ID",
-                        field: "id",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, //never hide this column
-                    {
                         title: "Name",
                         field: "name",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
                     {
-                        title: "D Code",
-                        field: "d_code",
-                        //width: 200,
+                        title: "Location",
+                        field: "location",
                         headerFilter: "input",
+
                         resizable: true
+                    },
+                    // {
+                    //     title: "Gender",
+                    //     field: "gender",
+                    // headerFilter: true,
+                    //     headerFilterParams: {
+                    //         values: {
+                    //             "male": "Male",
+                    //             "female": "Female",
+                    //             "": ""
+                    //         },
+                    //         clearable: true
+                    //     },
+                    //     responsive: 2,
+                    //     resizable: true
+                    // }, //hide this column first
+                    // {
+                    //     title: "Favourite Color",
+                    //     field: "col",
+
+                    //     resizable: true
+                    // },
+                    // {
+                    //     title: "Date Of Birth",
+                    //     field: "dob",
+                    //     hozAlign: "center",
+                    //     bottomCalcParams: {
+                    //         precision: 3
+                    //     },
+                    //     // formatter: "tickCross",
+
+                    //     resizable: true
+                    // },
+                    {
+                        title: "Rating",
+                        field: "rating",
+                        hozAlign: "left",
+                        formatter: "progress",
+                        headerFilter: "number",
+                        headerFilterPlaceholder: "at least...",
+                        headerFilterFunc: ">=",
+                        //   bottomCalc: "avg",
+                        //  topCalc: "count",
+                        // resizable: true
                     }, {
-                        title: "Party Dispatch",
-                        field: "party_dispatch",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Party Reached",
-                        field: "party_reached",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Setup Polling Station",
-                        field: "setup_polling_station",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Mock Poll Done",
-                        field: "mock_poll_done",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Poll Started",
-                        field: "poll_started",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Voter Turnout",
-                        field: "voter_turnout",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Voter_In_Queue",
-                        field: "voter_in_queue",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Poll Ended",
-                        field: "poll_ended",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "EVM Switched 0ff",
-                        field: "EVM_switched_0ff",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Party Departed",
-                        field: "party_departed",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "Party Reached",
-                        field: "party_reached",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
-                        title: "EVM Deposited",
-                        field: "EVM_deposited",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
+                        title: "Line Chart",
+                        field: "line",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "line"
+                        }
+                    },
+                    {
+                        title: "Bar Chart",
+                        field: "bar",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar"
+                        }
+                    },
+                    {
+                        title: "Coloured Bar Chart",
+                        field: "colored",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar",
+                            fill: function(value) {
+                                return value > 0 ? "green" : "red"
+                            }
+                        }
+                    },
+                    {
+                        title: "Inverted Bar Chart",
+                        field: "inverted",
+                        width: 160,
+                        formatter: chartFormatter,
+                        formatterParams: {
+                            type: "bar",
+                            invert: true,
+                            fill: function(_, i, all) {
+                                var g = parseInt((i / all.length) * 255)
+                                return "rgb(255, " + g + ", 0)"
+                            }
+                        }
                     },
                 ],
                 // table.recalc();
             });
 
-            table.on("dataTreeRowExpanded", function(row, level) {
-                var rowData = row.getData();
-                console.log(level);
-                var id = rowData.id;
-                var name = rowData.name;
-                var d_code = rowData.d_code;
-                var party_dispatch = rowData.party_dispatch;
-                var party_reached = rowData.party_reached;
-                var setup_polling_station = rowData.setup_polling_station;
-                var mock_poll_done = rowData.mock_poll_done;
-                var poll_started = rowData.poll_started;
-                var voter_turnout = rowData.voter_turnout;
-                var voter_in_queue = rowData.voter_in_queue;
-                var poll_ended = rowData.poll_ended;
-                var EVM_switched_0ff = rowData.EVM_switched_0ff;
-                var party_departed = rowData.party_departed;
-                var party_reached = rowData.party_reached;
-                var EVM_deposited = rowData.EVM_deposited;
-                console.log('rowData', rowData);
-                if (level == 0) {
-                    axios.get('/new-dashboard/getAssemblies', {
-                            params: {
-                                id: id
-                            }
-                        })
-                        .then(function(response) {
-                            var resp = response.data;
-                            var childData = resp.data;
-                            if (childData.length > 0) {
-                                var decodedData = he.decode(childData);
-                                var jsonData = JSON.parse(decodedData);
-                                console.log('data', resp.data);
-                                row.update({
-                                    id: id,
-                                    name: name,
-                                    d_code: d_code,
-                                    party_dispatch: party_dispatch,
-                                    _children: jsonData
-                                });
-                            }
-                        })
-                        .catch(function(error) {
-                            console.error(error);
-                        });
-                } else {
-                    axios.get('/new-dashboard/getBooths', {
-                            params: {
-                                id: id
-                            }
-                        })
-                        .then(function(response) {
-                            var resp = response.data;
-                            var childData = resp.data;
-                            if (childData.length > 0) {
-                                var decodedData = he.decode(childData);
-                                var jsonData = JSON.parse(decodedData);
-                                console.log('data', resp.data);
-                                row.update({
-                                    id: id,
-                                    name: name,
-                                    d_code: d_code,
-                                    _children: jsonData
-                                });
-                            }
-                        })
-                        .catch(function(error) {
-                            console.error(error);
-                        });
+            //charts
+            var ctx = document.getElementById("chart-bars").getContext("2d");
 
-                }
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Party Dispatch", "Party Reached", "Setup Booth", "Mock Poll", "Poll Started",
+                        "Poll Ended", "EVM Switch Off", "Party Departed from PS", "Party Reached at CC",
+                        "EVM Deposited"
+                    ],
+                    datasets: [{
+                        label: "EVENTS",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        backgroundColor: "rgba(255, 255, 255, .8)",
+                        data: [50, 20, 10, 22, 50, 10, 40],
+                        maxBarThickness: 6
+                    }, ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 500,
+                                beginAtZero: true,
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#fff"
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
             });
+
+
             //trigger download of data.csv file
             document.getElementById("download-csv").addEventListener("click", function() {
                 table.download("csv", "data.csv");
@@ -1132,88 +1304,250 @@
                 });
             });
 
-            // var ctx = document.getElementById("chart-bars").getContext("2d");
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-            // new Chart(ctx, {
-            //     type: "bar",
-            //     data: {
-            //         labels: ["Party Dispatch", "Party Reached", "Setup Booth", "Mock Poll", "Poll Started",
-            //             "Poll Ended", "EVM Switch Off", "Party Departed from PS", "Party Reached at CC",
-            //             "EVM Deposited"
-            //         ],
-            //         datasets: [{
-            //             label: "EVENTS",
-            //             tension: 0.4,
-            //             borderWidth: 0,
-            //             borderRadius: 4,
-            //             borderSkipped: false,
-            //             backgroundColor: "rgba(255, 255, 255, .8)",
-            //             data: [50, 20, 10, 22, 50, 10, 40],
-            //             maxBarThickness: 6
-            //         }, ],
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         maintainAspectRatio: false,
-            //         plugins: {
-            //             legend: {
-            //                 display: false,
-            //             }
-            //         },
-            //         interaction: {
-            //             intersect: false,
-            //             mode: 'index',
-            //         },
-            //         scales: {
-            //             y: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: true,
-            //                     drawOnChartArea: true,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5],
-            //                     color: 'rgba(255, 255, 255, .2)'
-            //                 },
-            //                 ticks: {
-            //                     suggestedMin: 0,
-            //                     suggestedMax: 500,
-            //                     beginAtZero: true,
-            //                     padding: 10,
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                     color: "#fff"
-            //                 },
-            //             },
-            //             x: {
-            //                 grid: {
-            //                     drawBorder: false,
-            //                     display: true,
-            //                     drawOnChartArea: true,
-            //                     drawTicks: false,
-            //                     borderDash: [5, 5],
-            //                     color: 'rgba(255, 255, 255, .2)'
-            //                 },
-            //                 ticks: {
-            //                     display: true,
-            //                     color: '#f8f9fa',
-            //                     padding: 10,
-            //                     font: {
-            //                         size: 14,
-            //                         weight: 300,
-            //                         family: "Roboto",
-            //                         style: 'normal',
-            //                         lineHeight: 2
-            //                     },
-            //                 }
-            //             },
-            //         },
-            //     },
-            // });
+            new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                        maxBarThickness: 6
+
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+            var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+            new Chart(ctx3, {
+                type: "line",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                        maxBarThickness: 6
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: '#f8f9fa',
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+            var ctx4 = document.getElementById("bar-chart-tasks").getContext("2d");
+
+            new Chart(ctx4, {
+                type: "bar",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                        label: "Mobile apps",
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                        maxBarThickness: 6
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: '#f8f9fa',
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
         </script>
     @endpush
 </x-layout>

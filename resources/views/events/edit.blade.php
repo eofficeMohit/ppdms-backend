@@ -182,13 +182,14 @@
             '<div class="col-md-3"><span class="btn btn-danger" onclick="removeTimeSlot(this)" type="button">Remove</span></div>';
         timeSlots.appendChild(newRow);
     }
-    // min="'+now_time+'"
-    // min="'+now_time+'"
+
     function removeTimeSlot(button) {
         const row = button.closest('.row');
         row.remove();
     }
     $(document).ready(function() {
+
+        addTimeSlot();
         $('#myForm').submit(function(e) {
             var form_id = "{{ $event->id }}";
             e.preventDefault();
