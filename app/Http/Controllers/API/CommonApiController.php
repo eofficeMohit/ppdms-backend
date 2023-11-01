@@ -98,7 +98,7 @@ class CommonApiController extends BaseController
                     $success[] = [
                         'id' => $userBooth->id,
                         'booth_no' => $userBooth->booth_no,
-                        'booth_name' => $userBooth->booth_name,
+                        'booth_name' => $userBooth->booth_name ?? '',
                         'assemble_id' => $userBooth->assemble_id,
                         'state_id' => $userBooth->state_id,
                         'district_id' => $userBooth->district_id,
@@ -291,7 +291,7 @@ class CommonApiController extends BaseController
                             }
 
                             $success['events']['assembly_name'] = $user_booth->assembly->asmb_name ?? '';
-                            $success['events']['booth_name'] = $user_booth->booth_name;
+                            $success['events']['booth_name'] = $user_booth->booth_name ?? '';
                             $success['events']['total_voters'] = $user_booth->tot_voters ?? '';
                             $success['events']['last_vote_polled'] = $last_vote_polled ?? '';
                             $success['events']['last_vote_polled_time'] = $date_time_received ?? '';
@@ -326,7 +326,7 @@ class CommonApiController extends BaseController
                             $date_time_received = \Carbon\Carbon::now()->format('h:i a');
                         }
                         $success['events']['assembly_name'] = $user_booth->assembly->asmb_name ?? '';
-                        $success['events']['booth_name'] = $user_booth->booth_name;
+                        $success['events']['booth_name'] = $user_booth->booth_name ?? '';
                         $success['events']['total_voters'] = $user_booth->tot_voters ?? '';
                         $success['events']['votes_polled'] = $total_vote_polled ?? '';
                         $success['events']['remaining_votes'] = $poll_details ? $poll_details->polledBooth->tot_voters - $total_vote_polled : '';

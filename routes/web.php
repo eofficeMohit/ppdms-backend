@@ -55,13 +55,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/poll-details/delete/{id}', [PolledDetailController::class, 'destroy'])->name('poll-details.delete');
     Route::get('/poll-details/edit/{id}', [PolledDetailController::class, 'edit'])->name('poll-details.edit');
     Route::patch('/poll-details/update/{id}', [PolledDetailController::class, 'update'])->name('poll-details.update');
-    
+
     Route::get('/poll-interrupted', [PollInterruptedController::class, 'index'])->name('poll-interrupted');
     Route::get('/poll-interrupted/getdatatabledata', [PollInterruptedController::class, 'getPollInterrupted'])->name('poll-interrupted.getdatatabledata');
     Route::get('/poll-interrupted/delete/{id}', [PollInterruptedController::class, 'destroy'])->name('poll-interrupted.delete');
     Route::get('/poll-interrupted/edit/{id}', [PollInterruptedController::class, 'edit'])->name('poll-interrupted.edit');
     Route::patch('/poll-interrupted/update/{id}', [PollInterruptedController::class, 'update'])->name('poll-interrupted.update');
-    
 
     Route::get('/so-index', [UserController::class, 'soIndex'])->name('so.index');
     Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
@@ -195,6 +194,9 @@ Route::get('/dashboard-stat', [DashboardController::class, 'indexStat'])
 Route::get('/new-dashboard', [DashboardController::class, 'newDashboard'])
     ->middleware('auth')
     ->name('new-dashboard');
+Route::get('/dashboard-backup', [DashboardController::class, 'dashboardBackup'])
+    ->middleware('auth')
+    ->name('dashboard-backup');
 Route::get('/new-dashboard/getAssemblies', [DashboardController::class, 'getAssemblies'])
     ->middleware('auth')
     ->name('new-dashboard.getAssemblies');
@@ -267,8 +269,7 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('user-toast');
 });
 
-Route::get('/web-push', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/save-token', [App\Http\Controllers\HomeController::class, 'saveToken'])->name('save-token');
-Route::post('/send-notification', [App\Http\Controllers\HomeController::class, 'sendNotification'])->name('send.notification');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/web-push', [HomeController::class, 'index'])->name('home');
+Route::post('/save-token', [HomeController::class, 'saveToken'])->name('home');
+Route::post('/send-notification', [HomeController::class, 'sendNotification'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
