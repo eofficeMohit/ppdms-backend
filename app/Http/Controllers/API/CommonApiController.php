@@ -137,7 +137,7 @@ class CommonApiController extends BaseController
 
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
-                        ->where('booth_id', 6)
+                        //  ->where('booth_id', 6)
                         ->where('user_id', \Auth::id())
                         ->where('status', 1)
                         ->count();
@@ -268,7 +268,7 @@ class CommonApiController extends BaseController
                             $dt = new DateTime();
                             $current_time = $dt->format('H:i:s');
 
-                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->end_time) {
+                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
                                 $selected_slot = $timeSlot->end_time;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                             }
