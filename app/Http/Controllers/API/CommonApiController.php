@@ -268,7 +268,7 @@ class CommonApiController extends BaseController
                             $dt = new DateTime();
                             $current_time = $dt->format('H:i:s');
 
-                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->end_time) {
+                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
                                 $selected_slot = $timeSlot->end_time;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                             }
