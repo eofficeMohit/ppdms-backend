@@ -203,7 +203,9 @@ Route::get('/new-dashboard/getAssemblies', [DashboardController::class, 'getAsse
 Route::get('/new-dashboard/getBooths', [DashboardController::class, 'getBooths'])
     ->middleware('auth')
     ->name('new-dashboard.getBooths');
-
+Route::get('/dashboard/getBoothsCount', [DashboardController::class, 'getBoothsCount'])
+    ->middleware('auth')
+    ->name('dashboard.getBoothsCount');
 Route::get('sign-up', [RegisterController::class, 'create'])
     ->middleware('guest')
     ->name('register');

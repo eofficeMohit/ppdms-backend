@@ -49,7 +49,7 @@ class DashboardController extends Controller
         $total_Party_departed = ElectionInfo::where('event_id', 10)
             ->where('status', 1)
             ->count();
-        $total_party_reached = ElectionInfo::where('event_id', 11)
+        $total_party_reached_at_centre = ElectionInfo::where('event_id', 11)
             ->where('status', 1)
             ->count();
         $total_EVM_deposited = ElectionInfo::where('event_id', 12)
@@ -177,7 +177,7 @@ class DashboardController extends Controller
             ->where('status', 1)
             ->get();
 
-        return view('dashboard.index', compact('new_array', 'pollInterrupted', 'electionInfo', 'total_machine_closed_EVM_switched', 'district_array', 'total_EVM_deposited', 'total_party_reached', 'total_Party_departed', 'total_poll_ended', 'total_Voter_in_queue', 'total_voter_turnout', 'total_setup_poll', 'total_poll_started', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('dashboard.index', compact('new_array', 'pollInterrupted', 'electionInfo', 'total_machine_closed_EVM_switched', 'district_array', 'total_EVM_deposited', 'total_party_reached', 'total_Party_departed', 'total_poll_ended', 'total_Voter_in_queue', 'total_voter_turnout', 'total_setup_poll', 'total_poll_started', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached_at_centre', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
     public function indexStat()
     {
@@ -315,5 +315,70 @@ class DashboardController extends Controller
             }
         }*/
         return view('dashboard.newDashboard', compact('tot_booth_votes', 'polled_booth_votes', 'district_array', 'electionInfo', 'total_party_dispatch', 'total_party_reached', 'total_setup_of_polling_station', 'total_mock_poll_done', 'total_poll_started', 'total_voter_turnout', 'total_voter_in_queue', 'total_poll_ended', 'total_machine_closed', 'total_party_departed', 'total_party_reached_at_collection_centre', 'total_evm_deposited', 'total_booths', 'pollInterrupted', 'district', 'new_array'));
+    }
+
+    public function getBoothsCount(Request $request)
+    {
+        $res_arr = array();
+        $total_party_dispatch = ElectionInfo::where('event_id', 1)
+        ->where('status', 1)
+        ->count();
+        $res_arr['total_party_dispatch'] =  $total_party_dispatch;
+        $total_party_reached = ElectionInfo::where('event_id', 2)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_party_reached'] =  $total_party_reached;
+        $total_setup_poll = ElectionInfo::where('event_id', 3)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_setup_poll'] =  $total_setup_poll;
+        $total_mock_poll_started = ElectionInfo::where('event_id', 4)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_mock_poll_started'] =  $total_mock_poll_started;
+        $total_poll_started = ElectionInfo::where('event_id', 5)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_poll_started'] =  $total_poll_started;
+        $total_voter_turnout = ElectionInfo::where('event_id', 6)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_voter_turnout'] =  $total_voter_turnout;
+        $total_Voter_in_queue = ElectionInfo::where('event_id', 7)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_Voter_in_queue'] =  $total_Voter_in_queue;
+        $total_poll_ended = ElectionInfo::where('event_id', 8)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_poll_ended'] =  $total_poll_ended;
+        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 9)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_machine_closed_EVM_switched'] =  $total_machine_closed_EVM_switched;
+        $total_Party_departed = ElectionInfo::where('event_id', 10)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_Party_departed'] =  $total_Party_departed;
+        $total_party_reached_at_centre = ElectionInfo::where('event_id', 11)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_party_reached_at_centre'] =  $total_party_reached_at_centre;
+        $total_EVM_deposited = ElectionInfo::where('event_id', 12)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_EVM_deposited'] =  $total_EVM_deposited;
+        $total_poll_interuption = ElectionInfo::where('event_id', 13)
+            ->where('status', 1)
+            ->count();
+        $res_arr['total_poll_interuption'] =  $total_poll_interuption;
+        $encode_data = json_encode($res_arr);
+        return response()->json(
+            [
+                'success' => true,
+                'data' => $res_arr,
+            ],
+            200,
+        );
     }
 }

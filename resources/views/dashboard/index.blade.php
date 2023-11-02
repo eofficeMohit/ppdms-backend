@@ -27,7 +27,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
-                                <h4 class="mb-0">{{ $total_party_dispatch ?? 0 }}</h4>
+                                <h4 class="mb-0" id="party_dispatch">{{ $total_party_dispatch ?? 0 }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0">{{ $total_party_reached }}</h4>
+                                <h4 class="mb-0" id="party_reached">{{ $total_party_reached }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Setup Polling Station</strong></p>
-                                <h4 class="mb-0">{{ $total_setup_poll }}</h4>
+                                <h4 class="mb-0" id="setup_poll_sat">{{ $total_setup_poll }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
-                                <h4 class="mb-0">{{ $total_mock_poll_started }}</h4>
+                                <h4 class="mb-0" id="mock_poll_start">{{ $total_mock_poll_started }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0">{{ $total_poll_started }}</h4>
+                                <h4 class="mb-0" id="poll_started">{{ $total_poll_started }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -144,7 +144,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Voter Turnout</strong></p>
-                                <h4 class="mb-0">{{ $total_voter_turnout }}</h4>
+                                <h4 class="mb-0" id="voter_turnout">{{ $total_voter_turnout }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Voter In Queue</strong></p>
-                                <h4 class="mb-0">{{ $total_Voter_in_queue }}</h4>
+                                <h4 class="mb-0" id="voter_in_queue">{{ $total_Voter_in_queue }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -190,7 +190,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Poll Ended</strong></p>
-                                <h4 class="mb-0">{{ $total_poll_ended }}</h4>
+                                <h4 class="mb-0" id="total_poll_ended">{{ $total_poll_ended }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -216,7 +216,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong> EVM Switched Off</strong></p>
-                                <h4 class="mb-0">{{ $total_machine_closed_EVM_switched }}</h4>
+                                <h4 class="mb-0"  id="machine_closed">{{ $total_machine_closed_EVM_switched }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -239,7 +239,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Departed</strong></p>
-                                <h4 class="mb-0">{{ $total_Party_departed }}</h4>
+                                <h4 class="mb-0" id="party_departed">{{ $total_Party_departed }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -262,7 +262,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0">{{ $total_party_reached }}</h4>
+                                <h4 class="mb-0" id="total_party_reached">{{ $total_party_reached_at_centre }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -285,7 +285,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>EVM Deposited</strong></p>
-                                <h4 class="mb-0">{{ $total_EVM_deposited }}</h4>
+                                <h4 class="mb-0" id="evm_deposited">{{ $total_EVM_deposited }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -1214,6 +1214,36 @@
             //         },
             //     },
             // });
+			
+			function getEventsCount(){
+				
+				$.ajax({
+					url: "/dashboard/getBoothsCount",
+					type : 'GET',
+					dataType:'json',
+					success : function(response) {   
+						var resp = response.data;
+						jQuery("#party_dispatch").html(resp.total_party_dispatch);
+						jQuery("#party_reached").html(resp.total_party_reached);
+						jQuery("#setup_poll_sat").html(resp.total_setup_poll);
+						jQuery("#mock_poll_start").html(resp.total_mock_poll_started);
+						jQuery("#poll_started").html(resp.total_poll_started);
+						jQuery("#voter_turnout").html(resp.total_voter_turnout);
+						jQuery("#voter_in_queue").html(resp.total_Voter_in_queue);
+						jQuery("#total_poll_ended").html(resp.total_poll_ended);
+						jQuery("#machine_closed").html(resp.total_machine_closed_EVM_switched);
+						jQuery("#party_departed").html(resp.total_Party_departed);
+						jQuery("#total_party_reached").html(resp.total_party_reached_at_centre);
+						jQuery("#evm_deposited").html(resp.total_EVM_deposited);
+						setTimeout(getEventsCount,2000);
+					},
+					error : function(request,error)
+					{
+						alert("Request: "+JSON.stringify(request));
+					}
+				});
+			}
+			setTimeout(getEventsCount,2000); 
         </script>
     @endpush
 </x-layout>

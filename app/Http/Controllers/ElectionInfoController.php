@@ -313,12 +313,6 @@ class ElectionInfoController extends Controller
             }
             if($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='1'){
                 $data['status']=1;
-            }elseif($mock_poll_status=='1' && $evm_cleared_status=='0' && $vvpat_cleared_status=='0'){
-                $data['status']=1;
-            }elseif($mock_poll_status=='1' && $evm_cleared_status=='1' && $vvpat_cleared_status=='0'){
-                $data['status']=2;
-            }elseif($mock_poll_status=='1' && $evm_cleared_status=='0' && $vvpat_cleared_status=='1'){
-                $data['status']=3;
             }else{
                 $data['status']=0;
             }
