@@ -137,7 +137,7 @@ class CommonApiController extends BaseController
 
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
-                        ->where('booth_id', 6)
+                        //  ->where('booth_id', 6)
                         ->where('user_id', \Auth::id())
                         ->where('status', 1)
                         ->count();
