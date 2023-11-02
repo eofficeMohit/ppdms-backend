@@ -189,7 +189,7 @@
     }
     $(document).ready(function() {
 
-        addTimeSlot();
+
         $('#myForm').submit(function(e) {
             var form_id = "{{ $event->id }}";
             e.preventDefault();
