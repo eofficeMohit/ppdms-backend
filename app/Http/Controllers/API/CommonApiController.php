@@ -413,7 +413,7 @@ class CommonApiController extends BaseController
                     return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
                 }
 
-                $get_events_timeslot = EventTimeslot::where('event_id', 6)
+                $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
                     ->where('status', 1)
                     ->get();
 
