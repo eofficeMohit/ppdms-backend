@@ -218,9 +218,9 @@ class CommonApiController extends BaseController
                         $check_previous_event = ElectionInfo::where('event_id', $previous_event_id)
                             ->where('user_id', \Auth::id())
                             ->where('booth_id', $request->booth_id)
-                           ->where('status', 1)
+                            ->where('status', 1)
                             ->exists();
-                            
+
                         if ($check_previous_event === false) {
                             $get_previous_event = Event::where('id', $previous_event_id)
                                 ->where('status', 1)
@@ -276,7 +276,7 @@ class CommonApiController extends BaseController
                             }
                         }
                         $user_booth = Booth::with('assembly')
-                            ->where('user_id', \Auth::id())
+                            ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
                             ->first();
                         $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
@@ -308,7 +308,7 @@ class CommonApiController extends BaseController
 
                     if ($request->has('event_id') && $request->event_id == '7') {
                         $user_booth = Booth::with('assembly')
-                            ->where('user_id', \Auth::id())
+                            ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
                             ->first();
                         $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
