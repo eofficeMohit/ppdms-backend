@@ -218,9 +218,9 @@ class CommonApiController extends BaseController
                         $check_previous_event = ElectionInfo::where('event_id', $previous_event_id)
                             ->where('user_id', \Auth::id())
                             ->where('booth_id', $request->booth_id)
-                            ->where('status', 1)
+                           ->where('status', 1)
                             ->exists();
-
+                            
                         if ($check_previous_event === false) {
                             $get_previous_event = Event::where('id', $previous_event_id)
                                 ->where('status', 1)
