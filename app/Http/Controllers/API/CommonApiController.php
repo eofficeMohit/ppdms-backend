@@ -412,6 +412,18 @@ class CommonApiController extends BaseController
                     return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
                 }
 
+                $get_events_timeslot = EventTimeslot::where('event_id', 6)
+                    ->where('status', 1)
+                    ->get();
+
+                $locking_time_check = '';
+
+                if (!empty($get_events_timeslot)) {
+                    $last_locking_period = $get_events_timeslot[count($get_events_timeslot) - 1];
+                    $locking_time_check = $last_locking_period->locking_time;
+                } else {
+                    $locking_time_check = Carbon::now()->format('H:i:s');
+                }
                 //voter turnout conditions
                 if ($request->has('event_id') && $request->event_id == '6') {
                     $data['date_time_received'] = now();
@@ -427,55 +439,71 @@ class CommonApiController extends BaseController
                     if (!empty($poll_details->date_time_received)) {
                         $date_time_received = date('H:i', strtotime($poll_details->date_time_received));
                     }
-                    if (Carbon::now()->format('H:i:s') > '18:00:00') {
-                        $data['voting'] = $poll_details->vote_polled ?? '';
-                        $data['voting_last_updated'] = $poll_details->date_time_received ?? '';
-                        $data['status'] = 1;
-                        $data = ElectionInfo::create($data);
-                        $success = $data;
-                    } else {
-                        $poll_detail_time = date('H:i', strtotime($date_time_received));
-                        $dt = new DateTime();
-                        $current_time = $dt->format('H:i:s');
-                        $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
-                            ->whereTime('start_time', '<=', $current_time)
-                            ->whereTime('locking_time', '>=', $current_time)
-                            ->where('status', 1)
-                            ->first();
 
-                        if (!empty($get_events_timeslot)) {
-                            $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
-                            $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
-                            $current_slot_locking_time = date('H:i', strtotime($get_events_timeslot->locking_time));
+                    $dt = new DateTime();
+                    $current_time = $dt->format('H:i:s');
 
-                            if ($current_slot_end_time <= Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time) {
-                                if ($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time) {
-                                    $data = [
-                                        'current_slot_start_time' => $current_slot_start_time,
-                                        'current_slot_end_time' => $current_slot_end_time,
-                                        'current_slot_locking_time' => $current_slot_locking_time,
-                                    ];
-                                    return $this->sendResponse($data, 'Details already updated in this slot successfully.');
+                    if (
+                        !ElectionInfo::where('booth_id', $request->booth_id)
+                            ->where('event_id', $request->event_id)
+                            ->exists()
+                    ) {
+                        // dd($locking_time_check);
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check) {
+                            $data['voting'] = $poll_details->vote_polled ?? 0;
+                            $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
+                            $data['status'] = 1;
+                            $data = ElectionInfo::create($data);
+                            $success = $data;
+                        } else {
+                            $poll_detail_time = date('H:i', strtotime($date_time_received));
+                            $dt = new DateTime();
+                            $current_time = $dt->format('H:i:s');
+                            $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
+                                ->whereTime('start_time', '<=', $current_time)
+                                ->whereTime('locking_time', '>=', $current_time)
+                                ->where('status', 1)
+                                ->first();
+                            if (!empty($get_events_timeslot)) {
+                                $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
+                                $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
+                                $current_slot_locking_time = date('H:i', strtotime($get_events_timeslot->locking_time));
+
+                                if ($current_slot_end_time <= Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time) {
+                                    if ($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time) {
+                                        $data = [
+                                            'current_slot_start_time' => $current_slot_start_time,
+                                            'current_slot_end_time' => $current_slot_end_time,
+                                            'current_slot_locking_time' => $current_slot_locking_time,
+                                        ];
+                                        return $this->sendResponse($data, 'Details already updated in this slot successfully.');
+                                    } else {
+                                        $data['vote_polled'] = $request->voting;
+                                        $data = PolledDetail::create($data);
+                                        $success = $data;
+                                    }
                                 } else {
-                                    $data['vote_polled'] = $request->voting;
-                                    $data = PolledDetail::create($data);
-                                    $success = $data;
+                                    return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
                                 }
                             } else {
-                                return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
+                                return $this->sendError('Message.', 'No, Timeslot Avaliable.');
                             }
-                        } else {
-                            return $this->sendError('Message.', 'No, Timeslot Avaliable.');
                         }
+                    } else {
+                        return $this->sendResponse('Message.', 'Already updated voter turnout for current booth.');
                     }
+                    //    } else {
+                    //      return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                    //  }
 
                     return $this->sendResponse($success, 'Detail updated successfully.');
                 }
 
                 if ($request->has('event_id') && $request->event_id == '7') {
                     //check booths
-                    $user_booth = Booth::where('user_id', \Auth::id())
+                    $user_booth = Booth::where('assigned_to', \Auth::id())
                         ->where('id', $request->booth_id)
+                        ->where('assigned_status', 1)
                         ->first();
                     $get_total_votes = $user_booth->tot_voters;
                     $get_voter_turnout_votes_polled = ElectionInfo::where('event_id', 6)
@@ -503,7 +531,7 @@ class CommonApiController extends BaseController
                         ->exists();
 
                     if ($check_voter_in_queqe === false) {
-                        if (Carbon::now()->format('H:i:s') > '18:00:00') {
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check) {
                             $data['voting_last_updated'] = now();
                             $data['status'] = 1;
                             $data = ElectionInfo::create($data);
