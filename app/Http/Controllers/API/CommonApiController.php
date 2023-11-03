@@ -528,7 +528,6 @@ class CommonApiController extends BaseController
                         ->where('user_id', \Auth::id())
                         ->where('booth_id', $request->booth_id)
                         ->where('status', 1)
-                        ->whereDate('created_at', '=', Carbon::today()->toDateString())
                         ->exists();
 
                     if ($check_voter_in_queqe === false) {
