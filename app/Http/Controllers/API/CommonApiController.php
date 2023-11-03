@@ -214,11 +214,13 @@ class CommonApiController extends BaseController
                     //previous event check
                     if ($request->event_id > '1') {
                         $previous_event_id = $request->event_id - 1;
+
                         $check_previous_event = ElectionInfo::where('event_id', $previous_event_id)
                             ->where('user_id', \Auth::id())
                             ->where('booth_id', $request->booth_id)
                             ->where('status', 1)
                             ->exists();
+
                         if ($check_previous_event === false) {
                             $get_previous_event = Event::where('id', $previous_event_id)
                                 ->where('status', 1)
@@ -404,9 +406,8 @@ class CommonApiController extends BaseController
                 $data['user_id'] = \Auth::id();
                 $success[] = [];
 
-                $user_booth = Booth::where('user_id', \Auth::id())
-                    ->where('id', $request->booth_id)
-                    ->first();
+                $user_booth = Booth::where('id', $request->booth_id)->first();
+
                 $get_total_votes = $user_booth->tot_voters;
                 if ($request->voting > $get_total_votes) {
                     return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
