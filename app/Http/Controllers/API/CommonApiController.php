@@ -415,13 +415,13 @@ class CommonApiController extends BaseController
                     return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
                 }
 
-                $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
+                $get_events_timeslot = EventTimeslot::where('event_id', 6)
                     ->where('status', 1)
                     ->get();
 
                 $locking_time_check = '';
 
-                if (!empty($get_events_timeslot)) {
+                if (count($get_events_timeslot) > 0) {
                     $last_locking_period = $get_events_timeslot[count($get_events_timeslot) - 1];
                     $locking_time_check = $last_locking_period->locking_time;
                 } else {
@@ -451,7 +451,7 @@ class CommonApiController extends BaseController
                             ->where('event_id', $request->event_id)
                             ->exists()
                     ) {
-                        // dd($locking_time_check);
+                        //dd($locking_time_check);
                         if (Carbon::now()->format('H:i:s') > $locking_time_check) {
                             $data['voting'] = $poll_details->vote_polled ?? 0;
                             $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
@@ -539,8 +539,6 @@ class CommonApiController extends BaseController
                             $data = ElectionInfo::create($data);
                             $success = $data;
                             return $this->sendResponse($success, 'Voter in Queue has been updated successfully.');
-                        } else {
-                            return $this->sendError('Message.', 'Voter Turnout is not completed yet.');
                         }
                     } else {
                         return $this->sendError('Message.', 'Voter in Queue already updated.');
