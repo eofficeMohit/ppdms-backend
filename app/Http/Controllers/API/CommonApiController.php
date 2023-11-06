@@ -134,7 +134,7 @@ class CommonApiController extends BaseController
                     return $this->sendResponse($success, 'No, event found.');
                 }
                 $get_booth = Booth::where('assigned_to', \Auth::id())
-                    ->where('status', 1)
+                    ->where('assigned_status', 1)
                     ->pluck('id');
 
                 foreach ($events as $event) {
