@@ -133,16 +133,18 @@ class CommonApiController extends BaseController
                 if (count($events) == 0) {
                     return $this->sendResponse($success, 'No, event found.');
                 }
-                $booth_count = Booth::where('assigned_to', \Auth::id())->count();
+                $get_booth = Booth::where('assigned_to', \Auth::id())
+                    ->where('status', 1)
+                    ->pluck('id');
 
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
-                        //  ->where('booth_id', 6)
+                        ->whereIn('booth_id', $get_booth)
                         ->where('user_id', \Auth::id())
                         ->where('status', 1)
                         ->count();
 
-                    $notUpdatedEventCount = $booth_count - $updatedEvents;
+                    $notUpdatedEventCount = count($get_booth) - $updatedEvents;
 
                     $success[] = [
                         'event_id' => $event->id,
