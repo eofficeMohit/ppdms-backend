@@ -458,6 +458,7 @@ class CommonApiController extends BaseController
                             $data['status'] = 1;
                             $data = ElectionInfo::create($data);
                             $success = $data;
+                            return $this->sendResponse($success, 'Voter in queqe updated successfully.');
                         } else {
                             $poll_detail_time = date('H:i', strtotime($date_time_received));
                             $dt = new DateTime();
