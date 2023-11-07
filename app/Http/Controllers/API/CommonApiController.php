@@ -451,47 +451,47 @@ class CommonApiController extends BaseController
                             ->where('event_id', $request->event_id)
                             ->exists()
                     ) {
-                        //dd($locking_time_check);
-                        if (Carbon::now()->format('H:i:s') > $locking_time_check) {
+                        $poll_detail_time = date('H:i', strtotime($date_time_received));
+                        $dt = new DateTime();
+                        $current_time = $dt->format('H:i:s');
+                        $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
+                            ->whereTime('start_time', '<=', $current_time)
+                            ->whereTime('locking_time', '>=', $current_time)
+                            ->where('status', 1)
+                            ->first();
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
                             $data['voting'] = $poll_details->vote_polled ?? 0;
                             $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
                             $data['status'] = 1;
                             $data = ElectionInfo::create($data);
                             $success = $data;
-                            return $this->sendResponse($success, 'Voter in queqe updated successfully.');
-                        } else {
-                            $poll_detail_time = date('H:i', strtotime($date_time_received));
-                            $dt = new DateTime();
-                            $current_time = $dt->format('H:i:s');
-                            $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
-                                ->whereTime('start_time', '<=', $current_time)
-                                ->whereTime('locking_time', '>=', $current_time)
-                                ->where('status', 1)
-                                ->first();
-                            if (!empty($get_events_timeslot)) {
-                                $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
-                                $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
-                                $current_slot_locking_time = date('H:i', strtotime($get_events_timeslot->locking_time));
+                            return $this->sendResponse($success, 'Voter turnout done successfully.');
+                        }
+                        if (!empty($get_events_timeslot)) {
+                            $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
+                            $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
+                            $current_slot_locking_time = date('H:i', strtotime($get_events_timeslot->locking_time));
 
-                                if ($current_slot_end_time <= Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time) {
-                                    if ($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time) {
-                                        $data = [
-                                            'current_slot_start_time' => $current_slot_start_time,
-                                            'current_slot_end_time' => $current_slot_end_time,
-                                            'current_slot_locking_time' => $current_slot_locking_time,
-                                        ];
-                                        return $this->sendResponse($data, 'Details already updated in this slot successfully.');
-                                    } else {
-                                        $data['vote_polled'] = $request->voting;
-                                        $data = PolledDetail::create($data);
-                                        $success = $data;
-                                    }
+                            if ($current_slot_end_time <= Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time) {
+                                if ($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time) {
+                                    $data = [
+                                        'current_slot_start_time' => $current_slot_start_time,
+                                        'current_slot_end_time' => $current_slot_end_time,
+                                        'current_slot_locking_time' => $current_slot_locking_time,
+                                    ];
+                                    return $this->sendResponse($data, 'Details already updated in this slot successfully.');
                                 } else {
-                                    return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
+                                    $data['vote_polled'] = $request->voting;
+                                    $data = PolledDetail::create($data);
+                                    $success = $data;
+
+                                    return $this->sendResponse($success, 'Detail updated successfully.');
                                 }
                             } else {
-                                return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                                return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
                             }
+                        } else {
+                            return $this->sendError('Message.', 'No, Timeslot Avaliable.');
                         }
                     } else {
                         return $this->sendResponse('Message.', 'Already updated voter turnout for current booth.');
@@ -499,8 +499,6 @@ class CommonApiController extends BaseController
                     //    } else {
                     //      return $this->sendError('Message.', 'No, Timeslot Avaliable.');
                     //  }
-
-                    return $this->sendResponse($success, 'Detail updated successfully.');
                 }
 
                 if ($request->has('event_id') && $request->event_id == '7') {
