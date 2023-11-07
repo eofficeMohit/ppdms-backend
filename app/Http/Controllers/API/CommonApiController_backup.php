@@ -66,7 +66,7 @@ class CommonApiController extends BaseController
                 $validator = Validator::make($request->all(), [
                     'event_id' => 'required|numeric|exists:events,id',
                 ]);
-  
+
                 if ($validator->fails()) {
                     return $this->sendError('Validation Error.', $validator->errors());
                 }

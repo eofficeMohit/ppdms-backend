@@ -133,16 +133,18 @@ class CommonApiController extends BaseController
                 if (count($events) == 0) {
                     return $this->sendResponse($success, 'No, event found.');
                 }
-                $booth_count = Booth::where('assigned_to', \Auth::id())->count();
+                $get_booth = Booth::where('assigned_to', \Auth::id())
+                    ->where('assigned_status', 1)
+                    ->pluck('id');
 
                 foreach ($events as $event) {
                     $updatedEvents = ElectionInfo::where('event_id', $event->id)
-                        //  ->where('booth_id', 6)
+                        ->whereIn('booth_id', $get_booth)
                         ->where('user_id', \Auth::id())
                         ->where('status', 1)
                         ->count();
 
-                    $notUpdatedEventCount = $booth_count - $updatedEvents;
+                    $notUpdatedEventCount = count($get_booth) - $updatedEvents;
 
                     $success[] = [
                         'event_id' => $event->id,
@@ -214,11 +216,13 @@ class CommonApiController extends BaseController
                     //previous event check
                     if ($request->event_id > '1') {
                         $previous_event_id = $request->event_id - 1;
+
                         $check_previous_event = ElectionInfo::where('event_id', $previous_event_id)
                             ->where('user_id', \Auth::id())
                             ->where('booth_id', $request->booth_id)
                             ->where('status', 1)
                             ->exists();
+
                         if ($check_previous_event === false) {
                             $get_previous_event = Event::where('id', $previous_event_id)
                                 ->where('status', 1)
@@ -270,11 +274,15 @@ class CommonApiController extends BaseController
 
                             if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
                                 $selected_slot = $timeSlot->end_time;
+                                $locking_slot = $timeSlot->locking_time;
+                                $current_slot = $key++;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                             }
+
+                            // echo key($get_event_timeSlots);
                         }
                         $user_booth = Booth::with('assembly')
-                            ->where('user_id', \Auth::id())
+                            ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
                             ->first();
                         $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
@@ -297,16 +305,22 @@ class CommonApiController extends BaseController
                             $success['events']['last_vote_polled'] = $last_vote_polled ?? '';
                             $success['events']['last_vote_polled_time'] = $date_time_received ?? '';
                             $success['events']['votes_polled_till'] = $selected_slot ?? 'Slot not available';
+                            $success['events']['locking_time'] = $locking_slot ?? 'Locking slot not available';
+                            $success['events']['total_slot'] = count($get_event_timeSlots) ?? 0;
+                            $success['events']['current_slot'] = $current_slot ?? 0;
 
                             return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
                         } else {
+                            if (Carbon::now()->format('H:i:s') >= '18:00:00') {
+                                return $this->sendResponse((object) $success, 'Waiting for the final entry.');
+                            }
                             return $this->sendResponse((object) $success, 'No,slot available.');
                         }
                     }
 
                     if ($request->has('event_id') && $request->event_id == '7') {
                         $user_booth = Booth::with('assembly')
-                            ->where('user_id', \Auth::id())
+                            ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
                             ->first();
                         $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
@@ -404,14 +418,25 @@ class CommonApiController extends BaseController
                 $data['user_id'] = \Auth::id();
                 $success[] = [];
 
-                $user_booth = Booth::where('user_id', \Auth::id())
-                    ->where('id', $request->booth_id)
-                    ->first();
+                $user_booth = Booth::where('id', $request->booth_id)->first();
+
                 $get_total_votes = $user_booth->tot_voters;
                 if ($request->voting > $get_total_votes) {
                     return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
                 }
 
+                $get_events_timeslot = EventTimeslot::where('event_id', 6)
+                    ->where('status', 1)
+                    ->get();
+
+                $locking_time_check = '';
+
+                if (count($get_events_timeslot) > 0) {
+                    $last_locking_period = $get_events_timeslot[count($get_events_timeslot) - 1];
+                    $locking_time_check = $last_locking_period->locking_time;
+                } else {
+                    $locking_time_check = Carbon::now()->format('H:i:s');
+                }
                 //voter turnout conditions
                 if ($request->has('event_id') && $request->event_id == '6') {
                     $data['date_time_received'] = now();
@@ -427,13 +452,15 @@ class CommonApiController extends BaseController
                     if (!empty($poll_details->date_time_received)) {
                         $date_time_received = date('H:i', strtotime($poll_details->date_time_received));
                     }
-                    if (Carbon::now()->format('H:i:s') > '18:00:00') {
-                        $data['voting'] = $poll_details->vote_polled ?? '';
-                        $data['voting_last_updated'] = $poll_details->date_time_received ?? '';
-                        $data['status'] = 1;
-                        $data = ElectionInfo::create($data);
-                        $success = $data;
-                    } else {
+
+                    $dt = new DateTime();
+                    $current_time = $dt->format('H:i:s');
+
+                    if (
+                        !ElectionInfo::where('booth_id', $request->booth_id)
+                            ->where('event_id', $request->event_id)
+                            ->exists()
+                    ) {
                         $poll_detail_time = date('H:i', strtotime($date_time_received));
                         $dt = new DateTime();
                         $current_time = $dt->format('H:i:s');
@@ -442,7 +469,14 @@ class CommonApiController extends BaseController
                             ->whereTime('locking_time', '>=', $current_time)
                             ->where('status', 1)
                             ->first();
-
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
+                            $data['voting'] = $poll_details->vote_polled ?? 0;
+                            $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
+                            $data['status'] = 1;
+                            $data = ElectionInfo::create($data);
+                            $success = $data;
+                            return $this->sendResponse($success, 'Voter turnout done successfully.');
+                        }
                         if (!empty($get_events_timeslot)) {
                             $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
                             $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
@@ -460,6 +494,8 @@ class CommonApiController extends BaseController
                                     $data['vote_polled'] = $request->voting;
                                     $data = PolledDetail::create($data);
                                     $success = $data;
+
+                                    return $this->sendResponse($success, 'Detail updated successfully.');
                                 }
                             } else {
                                 return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
@@ -467,15 +503,19 @@ class CommonApiController extends BaseController
                         } else {
                             return $this->sendError('Message.', 'No, Timeslot Avaliable.');
                         }
+                    } else {
+                        return $this->sendResponse('Message.', 'Already updated voter turnout for current booth.');
                     }
-
-                    return $this->sendResponse($success, 'Detail updated successfully.');
+                    //    } else {
+                    //      return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                    //  }
                 }
 
                 if ($request->has('event_id') && $request->event_id == '7') {
                     //check booths
-                    $user_booth = Booth::where('user_id', \Auth::id())
+                    $user_booth = Booth::where('assigned_to', \Auth::id())
                         ->where('id', $request->booth_id)
+                        ->where('assigned_status', 1)
                         ->first();
                     $get_total_votes = $user_booth->tot_voters;
                     $get_voter_turnout_votes_polled = ElectionInfo::where('event_id', 6)
@@ -499,18 +539,15 @@ class CommonApiController extends BaseController
                         ->where('user_id', \Auth::id())
                         ->where('booth_id', $request->booth_id)
                         ->where('status', 1)
-                        ->whereDate('created_at', '=', Carbon::today()->toDateString())
                         ->exists();
 
                     if ($check_voter_in_queqe === false) {
-                        if (Carbon::now()->format('H:i:s') > '18:00:00') {
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check) {
                             $data['voting_last_updated'] = now();
                             $data['status'] = 1;
                             $data = ElectionInfo::create($data);
                             $success = $data;
                             return $this->sendResponse($success, 'Voter in Queue has been updated successfully.');
-                        } else {
-                            return $this->sendError('Message.', 'Voter Turnout is not completed yet.');
                         }
                     } else {
                         return $this->sendError('Message.', 'Voter in Queue already updated.');

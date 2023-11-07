@@ -9,18 +9,17 @@ use Binafy\LaravelUserMonitoring\Traits\Actionable;
 
 class ElectionInfo extends Model
 {
-    use HasFactory,Actionable;
-     /**
+    use HasFactory, Actionable;
+    /**
      * Write code on Method
      *
      * @return response()
      */
-    protected $fillable = [
-        'assemble_id', 'district_id', 'state_id', 'booth_id','user_id','event_id','pc_no','voting','voting_last_updated','status','mock_poll_status','evm_cleared_status','vvpat_cleared_status','created_at','updated_at'
-    ];
+    protected $fillable = ['assemble_id', 'district_id', 'state_id', 'booth_id', 'user_id', 'event_id', 'pc_no', 'voting', 'voting_last_updated', 'status', 'mock_poll_status', 'evm_cleared_status', 'vvpat_cleared_status', 'created_at', 'updated_at'];
 
     protected $casts = [
         'status' => 'boolean',
+        'voting_last_updated' => 'datetime:Y-m-d h:i:s',
     ];
 
     public function electionState(): BelongsTo
@@ -33,12 +32,10 @@ class ElectionInfo extends Model
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
-
     public function electionBooth(): BelongsTo
     {
         return $this->belongsTo(Booth::class, 'booth_id', 'id');
     }
-
 
     public function electionAssembly(): BelongsTo
     {
@@ -49,8 +46,6 @@ class ElectionInfo extends Model
     {
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
-
-
 
     public function state()
     {
@@ -70,12 +65,10 @@ class ElectionInfo extends Model
     public function booth()
     {
         return $this->belongsTo(Booth::class);
-
     }
 
     public function event()
     {
         return $this->belongsTo(Event::class);
-
     }
 }
