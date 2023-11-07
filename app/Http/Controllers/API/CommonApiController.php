@@ -311,6 +311,9 @@ class CommonApiController extends BaseController
 
                             return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
                         } else {
+                            if (Carbon::now()->format('H:i:s') >= '18:00:00') {
+                                return $this->sendResponse((object) $success, 'Waiting for the final entry.');
+                            }
                             return $this->sendResponse((object) $success, 'No,slot available.');
                         }
                     }
