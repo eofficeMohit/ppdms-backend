@@ -274,8 +274,12 @@ class CommonApiController extends BaseController
 
                             if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
                                 $selected_slot = $timeSlot->end_time;
+                                $locking_slot = $timeSlot->locking_time;
+                                $current_slot = $key++;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
                             }
+
+                            // echo key($get_event_timeSlots);
                         }
                         $user_booth = Booth::with('assembly')
                             ->where('assigned_to', \Auth::id())
@@ -301,6 +305,9 @@ class CommonApiController extends BaseController
                             $success['events']['last_vote_polled'] = $last_vote_polled ?? '';
                             $success['events']['last_vote_polled_time'] = $date_time_received ?? '';
                             $success['events']['votes_polled_till'] = $selected_slot ?? 'Slot not available';
+                            $success['events']['locking_time'] = $locking_slot ?? 'Locking slot not available';
+                            $success['events']['total_slot'] = count($get_event_timeSlots) ?? 0;
+                            $success['events']['current_slot'] = $current_slot ?? 0;
 
                             return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
                         } else {
