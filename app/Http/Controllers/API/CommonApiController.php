@@ -203,6 +203,7 @@ class CommonApiController extends BaseController
                         ->where('booth_id', $request->booth_id)
                         ->where('status', 1)
                         ->exists();
+
                     if ($check_next_event === true) {
                         $get_next_event = ElectionInfo::with('electionEvent')
                             ->where('event_id', $next_event_id)
@@ -248,39 +249,37 @@ class CommonApiController extends BaseController
                         } else {
                             $data['status'] = 0;
                         }
-
-                        // if($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='1'){
-                        //     $data['status']=4;
-                        // }
-                        // elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='0'){
-                        //     $data['status']=1;
-                        // }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='1' && $request->vvpat_cleared_status=='0'){
-                        //     $data['status']=2;
-                        // }elseif($request->mock_poll_status=='1' && $request->evm_cleared_status=='0' && $request->vvpat_cleared_status=='1'){
-                        //     $data['status']=3;
-                        // }
                     }
 
                     if ($request->has('event_id') && $request->event_id == '6') {
                         $selected_slot = '';
+
                         $get_event_timeSlots = EventTimeslot::where('event_id', '6')
                             ->where('status', '1')
                             ->get();
-
+                        dd($get_event_timeSlots);
+                        $last_slot = false;
                         // timeslot occurence
                         foreach ($get_event_timeSlots as $key => $timeSlot) {
                             $dt = new DateTime();
                             $current_time = $dt->format('H:i:s');
 
                             if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
+                                dd('hi');
                                 $selected_slot = $timeSlot->end_time;
                                 $locking_slot = $timeSlot->locking_time;
-                                $current_slot = $key++;
+                                $current_slot = $key + 1;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
+                            } else {
+                            }
+
+                            if (count($get_event_timeSlots) === $key + 1) {
+                                $last_slot = true;
                             }
 
                             // echo key($get_event_timeSlots);
                         }
+                        dd($selected_slot);
                         $user_booth = Booth::with('assembly')
                             ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
@@ -308,6 +307,7 @@ class CommonApiController extends BaseController
                             $success['events']['locking_time'] = $locking_slot ?? 'Locking slot not available';
                             $success['events']['total_slot'] = count($get_event_timeSlots) ?? 0;
                             $success['events']['current_slot'] = $current_slot ?? 0;
+                            $success['events']['last_slot'] = $last_slot ?? 0;
 
                             return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
                         } else {
