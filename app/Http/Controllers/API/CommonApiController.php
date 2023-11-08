@@ -253,11 +253,11 @@ class CommonApiController extends BaseController
 
                     if ($request->has('event_id') && $request->event_id == '6') {
                         $selected_slot = '';
+                        $current_slot = '';
 
                         $get_event_timeSlots = EventTimeslot::where('event_id', '6')
                             ->where('status', '1')
                             ->get();
-                        dd($get_event_timeSlots);
                         $last_slot = false;
                         // timeslot occurence
                         foreach ($get_event_timeSlots as $key => $timeSlot) {
@@ -265,7 +265,7 @@ class CommonApiController extends BaseController
                             $current_time = $dt->format('H:i:s');
 
                             if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
-                                dd('hi');
+                                //   dd('hi');
                                 $selected_slot = $timeSlot->end_time;
                                 $locking_slot = $timeSlot->locking_time;
                                 $current_slot = $key + 1;
@@ -273,13 +273,15 @@ class CommonApiController extends BaseController
                             } else {
                             }
 
-                            if (count($get_event_timeSlots) === $key + 1) {
+                            if (count($get_event_timeSlots) === $current_slot) {
                                 $last_slot = true;
+                            } else {
+                                $last_slot = false;
                             }
 
                             // echo key($get_event_timeSlots);
                         }
-                        dd($selected_slot);
+                        //   dd($selected_slot);
                         $user_booth = Booth::with('assembly')
                             ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
@@ -350,6 +352,18 @@ class CommonApiController extends BaseController
                         return $this->sendResponse($success, 'Event details for voter queue.');
                     }
 
+                    if ($request->has('event_id') && $request->event_id == '9') {
+                        $get_final_votes_polled = ElectionInfo::where('event_id', 8)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', 1)
+                            ->whereNotNull('voting')
+                            ->where('voting', 0)
+                            ->first();
+                        if ($get_final_votes_polled) {
+                            return $this->sendError('Message.', 'Please,enter final votes first.');
+                        }
+                    }
                     $data['user_id'] = \Auth::id();
                     $check_event_exists = ElectionInfo::where('event_id', $request->event_id)
                         ->where('user_id', \Auth::id())
@@ -403,7 +417,7 @@ class CommonApiController extends BaseController
                 /* Validate event Data */
                 $validator = Validator::make($request->all(), [
                     'voting' => 'required|numeric',
-                    'event_id' => 'required|in:6,7',
+                    'event_id' => 'required|in:6,7,8',
                     'state_id' => 'required|numeric|exists:states,id',
                     'district_id' => 'required|numeric|exists:districts,id',
                     'booth_id' => 'required|numeric|exists:booths,id',
@@ -551,6 +565,48 @@ class CommonApiController extends BaseController
                         }
                     } else {
                         return $this->sendError('Message.', 'Voter in Queue already updated.');
+                    }
+                }
+
+                if ($request->has('event_id') && $request->event_id == '8') {
+                    //check booths
+                    /* Validate event Data */
+                    $validator = Validator::make($request->all(), [
+                        'voting' => 'required|numeric',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return $this->sendError('Validation Error.', $validator->errors());
+                    }
+                    //check voter in queqe
+                    $check_total_voters = ElectionInfo::where('event_id', $request->event_id)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('status', 1)
+                        ->exists();
+                    if ($check_total_voters === false) {
+                        return $this->sendError('Message.', 'Please, enter final votes.');
+                    } else {
+                        $check_poll_ended = $check_total_voters = ElectionInfo::where('event_id', 9)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', 1)
+                            ->exists();
+
+                        if (!$check_poll_ended) {
+                            $data['voting_last_updated'] = now();
+                            $data['status'] = 1;
+                            ElectionInfo::where('event_id', 8)
+                                ->where('user_id', \Auth::id())
+                                ->where('booth_id', $request->booth_id)
+                                ->update([
+                                    'voting_last_updated' => now(),
+                                    'status' => 1,
+                                    'voting' => $request->voting,
+                                ]);
+                            $success = $data;
+                            return $this->sendResponse($success, 'Final votes updated successfully.');
+                        }
                     }
                 }
             }
