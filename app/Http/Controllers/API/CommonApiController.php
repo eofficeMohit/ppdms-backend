@@ -492,14 +492,7 @@ class CommonApiController extends BaseController
                             ->whereTime('locking_time', '>=', $current_time)
                             ->where('status', 1)
                             ->first();
-                        if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
-                            $data['voting'] = $poll_details->vote_polled ?? 0;
-                            $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
-                            $data['status'] = 1;
-                            $data = ElectionInfo::create($data);
-                            $success = $data;
-                            return $this->sendResponse($success, 'Voter turnout done successfully.');
-                        }
+
                         if (!empty($get_events_timeslot)) {
                             $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
                             $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
@@ -515,9 +508,16 @@ class CommonApiController extends BaseController
                                     return $this->sendResponse($data, 'Details already updated in this slot successfully.');
                                 } else {
                                     $data['vote_polled'] = $request->voting;
-                                    $data = PolledDetail::create($data);
-                                    $success = $data;
+                                    PolledDetail::create($data);
 
+                                    if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
+                                        $data['voting'] = $poll_details->vote_polled ?? 0;
+                                        $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
+                                        $data['status'] = 1;
+                                        $data = ElectionInfo::create($data);
+                                        $success = $data;
+                                        return $this->sendResponse($success, 'Voter turnout done successfully.');
+                                    }
                                     return $this->sendResponse($success, 'Detail updated successfully.');
                                 }
                             } else {
