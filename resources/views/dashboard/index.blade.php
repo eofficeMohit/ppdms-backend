@@ -935,93 +935,87 @@
                 columns: [{
                         title: "ID",
                         field: "id",
-                        //width: 200,
+                        width: 100,
                         headerFilter: "input",
                         resizable: true
                     }, //never hide this column
                     {
                         title: "Name",
                         field: "name",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
-                    }, //never hide this column
-                    {
-                        title: "D Code",
-                        field: "d_code",
-                        //width: 200,
-                        headerFilter: "input",
-                        resizable: true
-                    }, {
+                    }, //never hide this column 
+					{
                         title: "Party Dispatch",
                         field: "party_dispatch",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Party Reached",
                         field: "party_reached",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Setup Polling Station",
                         field: "setup_polling_station",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Mock Poll Done",
                         field: "mock_poll_done",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Poll Started",
                         field: "poll_started",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Voter Turnout",
                         field: "voter_turnout",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Voter_In_Queue",
                         field: "voter_in_queue",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Poll Ended",
                         field: "poll_ended",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "EVM Switched 0ff",
                         field: "EVM_switched_0ff",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Party Departed",
                         field: "party_departed",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "Party Reached",
                         field: "party_reached",
-                        //width: 200,
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
                         title: "EVM Deposited",
                         field: "EVM_deposited",
-                        //width: 200,
+                        width: 200,
                         headerFilter: "input",
                         resizable: true
                     },
@@ -1035,18 +1029,6 @@
                 var id = rowData.id;
                 var name = rowData.name;
                 var d_code = rowData.d_code;
-                var party_dispatch = rowData.party_dispatch;
-                var party_reached = rowData.party_reached;
-                var setup_polling_station = rowData.setup_polling_station;
-                var mock_poll_done = rowData.mock_poll_done;
-                var poll_started = rowData.poll_started;
-                var voter_turnout = rowData.voter_turnout;
-                var voter_in_queue = rowData.voter_in_queue;
-                var poll_ended = rowData.poll_ended;
-                var EVM_switched_0ff = rowData.EVM_switched_0ff;
-                var party_departed = rowData.party_departed;
-                var party_reached = rowData.party_reached;
-                var EVM_deposited = rowData.EVM_deposited;
                 console.log('rowData', rowData);
                 if (level == 0) {
                     axios.get('/new-dashboard/getAssemblies', {
@@ -1065,7 +1047,6 @@
                                     id: id,
                                     name: name,
                                     d_code: d_code,
-                                    party_dispatch: party_dispatch,
                                     _children: jsonData
                                 });
                             }

@@ -40,23 +40,23 @@ class DashboardController extends Controller
         $total_Voter_in_queue = ElectionInfo::where('event_id', 7)
             ->where('status', 1)
             ->count();
-        $total_poll_ended = ElectionInfo::where('event_id', 8)
+        $total_poll_ended = ElectionInfo::where('event_id', 9)
             ->where('status', 1)
             ->count();
-        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 9)
+        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 10)
             ->where('status', 1)
             ->count();
-        $total_Party_departed = ElectionInfo::where('event_id', 10)
+        $total_Party_departed = ElectionInfo::where('event_id', 11)
             ->where('status', 1)
             ->count();
-        $total_party_reached_at_centre = ElectionInfo::where('event_id', 11)
+        $total_party_reached_at_centre = ElectionInfo::where('event_id', 12)
             ->where('status', 1)
             ->count();
-        $total_EVM_deposited = ElectionInfo::where('event_id', 12)
+        $total_EVM_deposited = ElectionInfo::where('event_id', 13)
             ->where('status', 1)
             ->count();
 
-        $total_poll_interuption = ElectionInfo::where('event_id', 13)
+        $total_poll_interuption = ElectionInfo::where('event_id', 14)
             ->where('status', 1)
             ->count();
         $total_booths = Booth::select('id')->count();
@@ -79,20 +79,20 @@ class DashboardController extends Controller
             ->orderBy('id', 'ASC')
             ->get();
         $district = District::orderBy('created_at', 'desc')->get();
-        $new_district_array = [];
-        $polled_party_dispatch = 0;
-        $polled_party_reached = 0;
-        $setup_polling_station = 0;
-        $mock_poll_done = 0;
-        $poll_started = 0;
-        $voter_turnout = 0;
-        $voter_in_queue = 0;
-        $poll_ended = 0;
-        $EVM_switched_0ff = 0;
-        $party_departed = 0;
-        $party_reached = 0;
-        $EVM_deposited = 0;
+		$new_district_array = [];
         foreach ($district as $key => $value) {
+			$polled_party_dispatch = 0;
+			$polled_party_reached = 0;
+			$setup_polling_station = 0;
+			$mock_poll_done = 0;
+			$poll_started = 0;
+			$voter_turnout = 0;
+			$voter_in_queue = 0;
+			$poll_ended = 0;
+			$EVM_switched_0ff = 0;
+			$party_departed = 0;
+			$party_reached = 0;
+			$EVM_deposited = 0;
             $polled_party_dispatch += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 1)
                 ->where('status', 1)
@@ -128,33 +128,33 @@ class DashboardController extends Controller
                 ->sum('voting');
 
             $poll_ended += ElectionInfo::where('district_id', $value->id)
-                ->where('event_id', 8)
-                ->where('status', 1)
-                ->sum('voting');
-
-            $EVM_switched_0ff += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 9)
                 ->where('status', 1)
-                ->sum('voting');
+                ->count();
 
-            $party_departed += ElectionInfo::where('district_id', $value->id)
+            $EVM_switched_0ff += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 10)
                 ->where('status', 1)
-                ->sum('voting');
+                ->count();
 
-            $party_reached += ElectionInfo::where('district_id', $value->id)
+            $party_departed += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 11)
                 ->where('status', 1)
-                ->sum('voting');
+				->count();
 
-            $EVM_deposited += ElectionInfo::where('district_id', $value->id)
+            $party_reached += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 12)
                 ->where('status', 1)
-                ->sum('voting');
+                ->count();
+
+            $EVM_deposited += ElectionInfo::where('district_id', $value->id)
+                ->where('event_id', 13)
+                ->where('status', 1)
+                ->count();
 
             $new_district_array[$key]['id'] = $value->id;
             $new_district_array[$key]['name'] = $value->name;
-            $new_district_array[$key]['d_code'] = $value->d_code;
+            //$new_district_array[$key]['d_code'] = $value->d_code;
             $new_district_array[$key]['party_dispatch'] = $polled_party_dispatch;
             $new_district_array[$key]['polled_party_reached'] = $polled_party_reached;
             $new_district_array[$key]['setup_polling_station'] = $setup_polling_station;
@@ -195,15 +195,99 @@ class DashboardController extends Controller
         $assembly = Assembly::where('district_id', $id)
             ->orderBy('id', 'ASC')
             ->get();
-        $new_array = [];
-        foreach ($assembly as $kk => $vv) {
-            $new_array[$kk]['id'] = $vv->id;
-            $new_array[$kk]['name'] = $vv->asmb_name;
-            $new_array[$kk]['d_code'] = $vv->ac_type;
-            $new_array[$kk]['row_id'] = '2_' . $id;
-            $new_array[$kk]['_children'] = [];
+		$new_array = [];
+        foreach ($assembly as $key => $value) {
+			$polled_party_dispatch = 0;
+			$polled_party_reached = 0;
+			$setup_polling_station = 0;
+			$mock_poll_done = 0;
+			$poll_started = 0;
+			$voter_turnout = 0;
+			$voter_in_queue = 0;
+			$poll_ended = 0;
+			$EVM_switched_0ff = 0;
+			$party_departed = 0;
+			$party_reached = 0;
+			$EVM_deposited = 0;
+            $polled_party_dispatch += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 1)
+                ->where('status', 1)
+                ->count();
+            $polled_party_reached += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 2)
+                ->where('status', 1)
+                ->count();
+
+            $setup_polling_station += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 3)
+                ->where('status', 1)
+                ->count();
+
+            $mock_poll_done += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 4)
+                ->where('status', 1)
+                ->count();
+
+            $poll_started += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 5)
+                ->where('status', 1)
+                ->count();
+
+            $voter_turnout += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 6)
+                ->where('status', 1)
+                ->sum('voting');
+
+            $voter_in_queue += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 7)
+                ->where('status', 1)
+                ->sum('voting');
+
+            $poll_ended += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 9)
+                ->where('status', 1)
+                ->count();
+
+            $EVM_switched_0ff += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 10)
+                ->where('status', 1)
+                ->count();
+
+            $party_departed += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 11)
+                ->where('status', 1)
+				->count();
+
+            $party_reached += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 12)
+                ->where('status', 1)
+                ->count();
+
+            $EVM_deposited += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 13)
+                ->where('status', 1)
+                ->count();
+
+            $new_array[$key]['id'] = $value->id;
+            $new_array[$key]['name'] = $value->asmb_name;
+            //$new_array[$key]['d_code'] = $value->ac_type;
+            $new_array[$key]['party_dispatch'] = $polled_party_dispatch;
+            $new_array[$key]['polled_party_reached'] = $polled_party_reached;
+            $new_array[$key]['setup_polling_station'] = $setup_polling_station;
+            $new_array[$key]['mock_poll_done'] = $mock_poll_done;
+            $new_array[$key]['poll_started'] = $poll_started;
+            $new_array[$key]['voter_turnout'] = $voter_turnout;
+            $new_array[$key]['voter_in_queue'] = $voter_in_queue;
+            $new_array[$key]['poll_ended'] = $poll_ended;
+            $new_array[$key]['EVM_switched_0ff'] = $EVM_switched_0ff;
+            $new_array[$key]['party_departed'] = $party_departed;
+            $new_array[$key]['party_reached'] = $party_reached;
+            $new_array[$key]['EVM_deposited'] = $EVM_deposited;
+            $new_array[$key]['row_id'] = '1_' . $value->id;
+            $new_array[$key]['_children'] = [];
         }
-        $encode_data = json_encode($new_array);
+        $assemble_array = $new_array;
+        $encode_data = json_encode($assemble_array);
         return response()->json(
             [
                 'success' => true,
@@ -220,13 +304,98 @@ class DashboardController extends Controller
         $booth = Booth::where('assemble_id', $id)
             ->orderBy('id', 'ASC')
             ->get();
-        $booth_array = [];
-        foreach ($booth as $kkk => $vvv) {
-            $booth_array[$kkk]['id'] = $vvv->id;
-            $booth_array[$kkk]['name'] = $vvv->booth_name;
-            $booth_array[$kkk]['d_code'] = $vvv->tot_voters;
+		$new_array = [];
+        foreach ($booth as $key => $value) {
+			$polled_party_dispatch = 0;
+			$polled_party_reached = 0;
+			$setup_polling_station = 0;
+			$mock_poll_done = 0;
+			$poll_started = 0;
+			$voter_turnout = 0;
+			$voter_in_queue = 0;
+			$poll_ended = 0;
+			$EVM_switched_0ff = 0;
+			$party_departed = 0;
+			$party_reached = 0;
+			$EVM_deposited = 0;
+            $polled_party_dispatch += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 1)
+                ->where('status', 1)
+                ->count();
+            $polled_party_reached += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 2)
+                ->where('status', 1)
+                ->count();
+
+            $setup_polling_station += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 3)
+                ->where('status', 1)
+                ->count();
+
+            $mock_poll_done += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 4)
+                ->where('status', 1)
+                ->count();
+
+            $poll_started += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 5)
+                ->where('status', 1)
+                ->count();
+
+            $voter_turnout += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 6)
+                ->where('status', 1)
+                ->sum('voting');
+
+            $voter_in_queue += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 7)
+                ->where('status', 1)
+                ->sum('voting');
+
+            $poll_ended += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 9)
+                ->where('status', 1)
+                ->count();
+
+            $EVM_switched_0ff += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 10)
+                ->where('status', 1)
+                ->count();
+
+            $party_departed += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 11)
+                ->where('status', 1)
+				->count();
+
+            $party_reached += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 12)
+                ->where('status', 1)
+                ->count();
+
+            $EVM_deposited += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 13)
+                ->where('status', 1)
+                ->count();
+
+            $new_array[$key]['id'] = $value->id;
+            $new_array[$key]['name'] = $value->booth_name;
+            //$new_array[$key]['d_code'] = $value->tot_voters;
+            $new_array[$key]['party_dispatch'] = $polled_party_dispatch;
+            $new_array[$key]['polled_party_reached'] = $polled_party_reached;
+            $new_array[$key]['setup_polling_station'] = $setup_polling_station;
+            $new_array[$key]['mock_poll_done'] = $mock_poll_done;
+            $new_array[$key]['poll_started'] = $poll_started;
+            $new_array[$key]['voter_turnout'] = $voter_turnout;
+            $new_array[$key]['voter_in_queue'] = $voter_in_queue;
+            $new_array[$key]['poll_ended'] = $poll_ended;
+            $new_array[$key]['EVM_switched_0ff'] = $EVM_switched_0ff;
+            $new_array[$key]['party_departed'] = $party_departed;
+            $new_array[$key]['party_reached'] = $party_reached;
+            $new_array[$key]['EVM_deposited'] = $EVM_deposited;
+            $new_array[$key]['row_id'] = '1_' . $value->id;
+            $new_array[$key]['_children'] = [];
         }
-        $encode_data = json_encode($booth_array);
+        $encode_data = json_encode($new_array);
         return response()->json(
             [
                 'success' => true,
@@ -249,12 +418,12 @@ class DashboardController extends Controller
         $total_poll_started = ElectionInfo::where('event_id', 5)->count();
         $total_voter_turnout = ElectionInfo::where('event_id', 6)->count();
         $total_voter_in_queue = ElectionInfo::where('event_id', 7)->count();
-        $total_poll_ended = ElectionInfo::where('event_id', 8)->count();
-        $total_machine_closed = ElectionInfo::where('event_id', 9)->count();
-        $total_party_departed = ElectionInfo::where('event_id', 10)->count();
-        $total_party_reached_at_collection_centre = ElectionInfo::where('event_id', 11)->count();
-        $total_evm_deposited = ElectionInfo::where('event_id', 12)->count();
-        $total_poll_interuption = ElectionInfo::where('event_id', 13)->count();
+        $total_poll_ended = ElectionInfo::where('event_id', 9)->count();
+        $total_machine_closed = ElectionInfo::where('event_id', 10)->count();
+        $total_party_departed = ElectionInfo::where('event_id', 11)->count();
+        $total_party_reached_at_collection_centre = ElectionInfo::where('event_id', 12)->count();
+        $total_evm_deposited = ElectionInfo::where('event_id', 13)->count();
+        $total_poll_interuption = ElectionInfo::where('event_id', 14)->count();
         $total_booths = Booth::select('id')->count();
         $assemblies = Assembly::where('pc_id', 4)->get();
         $new_array = [];
@@ -348,27 +517,27 @@ class DashboardController extends Controller
             ->where('status', 1)
             ->count();
         $res_arr['total_Voter_in_queue'] =  $total_Voter_in_queue;
-        $total_poll_ended = ElectionInfo::where('event_id', 8)
+        $total_poll_ended = ElectionInfo::where('event_id', 9)
             ->where('status', 1)
             ->count();
         $res_arr['total_poll_ended'] =  $total_poll_ended;
-        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 9)
+        $total_machine_closed_EVM_switched = ElectionInfo::where('event_id', 10)
             ->where('status', 1)
             ->count();
         $res_arr['total_machine_closed_EVM_switched'] =  $total_machine_closed_EVM_switched;
-        $total_Party_departed = ElectionInfo::where('event_id', 10)
+        $total_Party_departed = ElectionInfo::where('event_id', 11)
             ->where('status', 1)
             ->count();
         $res_arr['total_Party_departed'] =  $total_Party_departed;
-        $total_party_reached_at_centre = ElectionInfo::where('event_id', 11)
+        $total_party_reached_at_centre = ElectionInfo::where('event_id', 12)
             ->where('status', 1)
             ->count();
         $res_arr['total_party_reached_at_centre'] =  $total_party_reached_at_centre;
-        $total_EVM_deposited = ElectionInfo::where('event_id', 12)
+        $total_EVM_deposited = ElectionInfo::where('event_id', 13)
             ->where('status', 1)
             ->count();
         $res_arr['total_EVM_deposited'] =  $total_EVM_deposited;
-        $total_poll_interuption = ElectionInfo::where('event_id', 13)
+        $total_poll_interuption = ElectionInfo::where('event_id', 14)
             ->where('status', 1)
             ->count();
         $res_arr['total_poll_interuption'] =  $total_poll_interuption;

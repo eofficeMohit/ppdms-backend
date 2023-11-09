@@ -232,7 +232,7 @@ class ElectionInfoController extends Controller
         $data['voting']=$voting;
        
        //poll intruption
-         if($event_id =='13'){
+         if($event_id =='14'){
                 $validator = Validator::make($data_res['params'], [
                     'interrupted_type' => 'required|numeric|in:1,2',
                     'stop_time'=>'required',
@@ -277,7 +277,7 @@ class ElectionInfoController extends Controller
                 }
 
         }
-        if($event_id !='13'){
+        if($event_id !='14'){
         //next event check
             $next_event_id=$event_id+1;
             $check_next_event =ElectionInfo::where('event_id',$next_event_id)->where('user_id',$user_id)->where('booth_id',$booth_id)->where('status', 1)->exists();
