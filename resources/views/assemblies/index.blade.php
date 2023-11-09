@@ -136,26 +136,12 @@
                         if (data == 1) {
                             checked = "checked";
                         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        return '<label class="switch"><input data-id="' + full.id +
-                            '" class="toggle_state_cls_assemble" ' + checked +
-                            ' type="checkbox"><span class="slider round"></span></label>';
-            }
-=======
-                        return '<label class="switch"><input data-id="' +
-                            full.id +
-                            '" class="toggle_state_cls_assemble" ' +
-                            checked +
-                            ' type="checkbox"><span class="slider round"></span></label>';
-                    },
->>>>>>> 629fd355fd791450c18533795427a5a124671cc6
-=======
+
                         return '<label class="switch"><input data-id="' + full.id +
                             '" class="toggle_state_cls_assemble" ' + checked +
                             ' type="checkbox"><span class="slider round"></span></label>';
                     }
->>>>>>> 484d9d87ab38136e85a6e77179c30c60de0a0c21
+
                 },
                 {
                     data: 'action',
@@ -163,38 +149,13 @@
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-<<<<<<< HEAD
-<<<<<<< HEAD
                         var confirmation = "'Are you sure you want to delete?'";
-=======
-                        var confirmation =
-                            "'Are you sure you want to delete?'";
->>>>>>> 629fd355fd791450c18533795427a5a124671cc6
-=======
-                        var confirmation = "'Are you sure you want to delete?'";
->>>>>>> 484d9d87ab38136e85a6e77179c30c60de0a0c21
+
                         var btn =
                             '<a rel="tooltip" class="btn btn-info btn-link m-2" href="assemblies/show/' +
                             full.id +
                             '" data-original-title="Show Assembly" title="Show Assembly"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
-<<<<<<< HEAD
-            if (permission_edit == "granted") {
-                btn +=
-                    '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
-                    full.id +
-                    '" data-original-title="Edit Assembly" title="Edit Assembly"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
-            }
-            if (permission_delete == "granted") {
-                btn +=
-                    '<a rel="tooltip" onclick="return confirm(' + confirmation + ')" class="btn btn-danger btn-link m-2" href="assemblies/destroy/' +
-                    full.id +
-                    '" data-original-title="Delete Assembly" title="Delete Assembly"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
-            }
-            return btn;
-        }
-    }
-    , ]
-=======
+
                         if (permission_edit == "granted") {
                             btn +=
                                 '<a rel="tooltip" class="btn btn-success btn-link m-2" href="assemblies/edit/' +
@@ -213,7 +174,6 @@
         });
         table.buttons().container()
             .insertBefore('#empTable_filter');
->>>>>>> 629fd355fd791450c18533795427a5a124671cc6
     });
 
     function openConfirmModal(id) {
