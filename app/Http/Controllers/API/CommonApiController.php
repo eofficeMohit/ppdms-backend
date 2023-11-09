@@ -265,7 +265,6 @@ class CommonApiController extends BaseController
                             $current_time = $dt->format('H:i:s');
 
                             if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
-                                //   dd('hi');
                                 $selected_slot = $timeSlot->end_time;
                                 $locking_slot = $timeSlot->locking_time;
                                 $current_slot = $key + 1;
@@ -313,9 +312,18 @@ class CommonApiController extends BaseController
 
                             return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
                         } else {
+                            $check_voter_turn_out_event = ElectionInfo::where('event_id', 6)
+                                ->where('user_id', \Auth::id())
+                                ->where('booth_id', $request->booth_id)
+                                ->where('status', 1)
+                                ->exists();
+                            if ($check_voter_turn_out_event === true) {
+                                return $this->sendResponse((object) $success, 'Proceed for voter in queqe.');
+                            }
                             if (Carbon::now()->format('H:i:s') >= '18:00:00') {
                                 return $this->sendResponse((object) $success, 'Waiting for the final entry.');
                             }
+
                             return $this->sendResponse((object) $success, 'No,slot available.');
                         }
                     }
