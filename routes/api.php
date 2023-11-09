@@ -15,7 +15,29 @@ use App\Http\Controllers\API\CommonApiController;
 |
 */
 
+// Clear application cache:
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return 'Application cache has been cleared';
+});
 
+//Clear route cache:
+Route::get('/route-cache', function() {
+	Artisan::call('route:cache');
+    return 'Routes cache has been cleared';
+});
+
+//Clear config cache:
+Route::get('/config-cache', function() {
+ 	Artisan::call('config:cache');
+ 	return 'Config cache has been cleared';
+});
+
+// Clear view cache:
+Route::get('/view-clear', function() {
+    Artisan::call('view:clear');
+    return 'View cache has been cleared';
+});
 
 Route::controller(RegisterController::class)->group(function(){
     Route::post('register', 'register');
@@ -31,8 +53,16 @@ Route::middleware('auth:sanctum')->group( function () {
     // Route::resource('users', UsersController::class);
     Route::controller(CommonApiController::class)->group(function(){
         Route::post('user-profile-details', 'userProfile');
-        Route::get('get-user-Booths', 'getBooths');
-        Route::post('party-dispatch', 'partyDispatch');
+        Route::post('user-booths', 'getBooths');
+        Route::get('get-events', 'getEvents');
+        Route::post('event-update', 'eventUpdate');
+        Route::post('update-turnout-queue', 'updateTurnoutAndQueue');
+        Route::post('poll-interrupted', 'pollInterrupted');
+        Route::get('get-poll-interrupted', 'getPollInterrupted');
+
+
+        
+        
     });
 });
 
@@ -47,6 +77,3 @@ Route::get('unauthorized', function () {
                     'data' => []
                 ], 401));
 })->name('unauthorized');
-
-
-

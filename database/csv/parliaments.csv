@@ -1,0 +1,14 @@
+"id","pc_no","pc_name","pc_type","state_id","created_at","updated_at","deleted_at"
+"1","1","Gurdaspur","1","21",NULL,NULL,NULL
+"2","2","Amritsar","1","21",NULL,NULL,NULL
+"3","3","Khadoor Sahib","1","21",NULL,NULL,NULL
+"4","4","Jalandhar","2","21",NULL,NULL,NULL
+"5","5","Hoshiarpur","2","21",NULL,NULL,NULL
+"6","6","Anandpur Sahib","1","21",NULL,NULL,NULL
+"7","7","Ludhiana","1","21",NULL,NULL,NULL
+"8","8","Fatehgarh Sahib","2","21",NULL,NULL,NULL
+"9","9","Faridkot","2","21",NULL,NULL,NULL
+"10","10","Firozpur","1","21",NULL,NULL,NULL
+"11","11","Bathinda","1","21",NULL,NULL,NULL
+"12","12","Sangrur","1","21",NULL,NULL,NULL
+"13","13","Patiala","1","21",NULL,NULL,NULL

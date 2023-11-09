@@ -10,8 +10,7 @@
         </div>
     </div>
     <main class="main-content  mt-0">
-        <div class="page-header align-items-start min-vh-100"
-        style="background-image: url('../assets/img/election_dashboard.jpeg');;">
+        <div class="page-header align-items-start min-vh-100">
             <span class="mask opacity-6"></span>
             <div class="container my-auto">
                 <div class="row">
@@ -66,11 +65,11 @@
                                         <button type="submit"
                                             class="btn bg-gradient-primary w-100 my-4 mb-2">Send</button>
                                     </div>
-                                    <p class="mt-4 text-sm text-center">
+                                    {{-- <p class="mt-4 text-sm text-center">
                                         Don't have an account?
                                         <a href="{{ route('register') }}"
                                             class="text-primary text-gradient font-weight-bold">Sign up</a>
-                                    </p>
+                                    </p> --}}
                                 </form>
                             </div>
                         </div>

@@ -4,15 +4,18 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Laravel\Sanctum\PersonalAccessToken;
-use App\Http\Requests;
 use App\Models\User;
-use App\Models\UserOtp;
 use App\Models\Booth;
-use App\Models\UserLogin;
+use App\Models\Event;
 use App\Models\ElectionInfo;
+use App\Models\EventTimeslot;
+use App\Models\PolledDetail;
+use App\Models\PollInterrupted;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
+use DateTime;
 
 class CommonApiController extends BaseController
 {
@@ -24,56 +27,29 @@ class CommonApiController extends BaseController
     public function userProfile(Request $request): JsonResponse
     {
         try {
-            if($request->bearerToken()){
+            if ($request->bearerToken()) {
                 $hashedTooken = $request->bearerToken();
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
-                $user = User::with(['userAssemblies','userState','userDistrict'])->find($token->tokenable_id);
-                $assemblyBooths =Booth::where('user_id',$user->id)->take(10)->pluck('id')->implode(',');
+                $user = User::with(['userAssemblies', 'userState', 'userDistrict'])->find($token->tokenable_id);
 
-                $success['user_image'] = asset('assets/img/favicon.jpeg') ?? asset('public/assets/img/favicon.jpeg');
-                $success['user_name'] = rtrim($user->name," ");
-                $success['state'] = $user->userState->name;
-                $success['district'] = $user->userDistrict->name;
-                $success['assemblies'] = $user->userAssemblies->asmb_name;
+                $assemblyBooths = Booth::where('assigned_to', $token->tokenable_id)
+                    ->where('assigned_status', 1)
+                    ->pluck('booth_no')
+                    ->implode(',');
+
+                $success['user_image'] = asset('assets/img/next-gen.png') ?? asset('public/assets/img/next-gen.png');
+                $success['user_name'] = rtrim($user->name, ' ') ?? '';
+                $success['state'] = $user->userState->name ?? '';
+                $success['district'] = $user->userDistrict->name ?? '';
+                $success['assemblies'] = $user->userAssemblies->asmb_name ?? '';
                 $success['assembly_booths'] = $assemblyBooths;
                 return $this->sendResponse($success, 'User profile-details.');
             }
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-          } catch (\Exception $e) {
-            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
-          }
-    }
-
-
-     /**
-     * User profile api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getBooths(Request $request): JsonResponse
-    {
-        try {
-            if($request->bearerToken()){
-                $hashedTooken = $request->bearerToken();
-                $token = PersonalAccessToken::findToken($hashedTooken);
-
-                $user = User::with(['userAssemblies','userState','userDistrict'])->find($token->tokenable_id);
-                $userBooths =Booth::where('user_id',$user->id)->get();
-                $success=array();
-                foreach($userBooths as $userBooth){
-                    $success[]=array(
-                        'booth_no'=>$userBooth->booth_no,
-                        'booth_name'=>$userBooth->booth_name,
-                    );
-                }
-
-                return $this->sendResponse($success, 'User all booths.');
-            }
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-          } catch (\Exception $e) {
-            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
-          }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -81,52 +57,656 @@ class CommonApiController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function partyDispatch(Request $request): JsonResponse
+    public function getBooths(Request $request): JsonResponse
     {
         try {
-            if($request->bearerToken()){
+            if ($request->bearerToken()) {
                 $hashedTooken = $request->bearerToken();
                 $token = PersonalAccessToken::findToken($hashedTooken);
 
-                  /* Validate Login Data */
-                    $validator = Validator::make($request->all(), [
-                        'state_id' => 'required|numeric|exists:states,id',
-                        'district_id' => 'required|numeric|exists:districts,id',
-                        'booth_id' => 'required|numeric|exists:booths,id',
-                        'assemble_id' => 'required|numeric|exists:assemblies,id',
-                        'is_party_dispatch' => 'required|in:0,1'
-                    ]);
+                /* Validate event Data */
+                $validator = Validator::make($request->all(), [
+                    'event_id' => 'required|numeric|exists:events,id',
+                ]);
 
-                    if($validator->fails()){
-                        return $this->sendError('Validation Error.', $validator->errors());
-                    }
-
-                $data = $request->all();
-                $data['dispatch_last_updated'] = now();
-
-                $data = ElectionInfo::create($data);
-
-                $electionInfo =ElectionInfo::with(['electionState','electionDistrict','electionBooth','electionAssembly'])->find($data->id);
-
-                $success['access_token']=$hashedTooken;
-                $success['state_name']=$data->electionState->name;
-                $success['district_name']=$data->electionDistrict->name;
-                $success['booth_name']=$data->electionBooth->booth_name;
-                $success['assemble_name']=$data->electionAssembly->asmb_name;
-                if($data->is_party_dispatch == 1){
-                    $success['is_party_dispatch']=  'Yes';
-                }else{
-                    $success['is_party_dispatch']=  'No';
+                if ($validator->fails()) {
+                    return $this->sendError('Validation Error.', $validator->errors());
                 }
-                $success['dispatch_last_updated']=$data->dispatch_last_updated;
-                $success['updated_at']=$data->updated_at;
-                $success['created_at']=$data->created_at;
-                return $this->sendResponse($success, 'Party dispatched successfully.');
+
+                $user = User::find($token->tokenable_id);
+                $userBooths = Booth::where('assigned_to', $user->id)
+                    ->where('assigned_status', 1)
+                    ->get();
+                $success = [];
+                foreach ($userBooths as $userBooth) {
+                    $electionInfo = ElectionInfo::with(['electionState', 'electionDistrict', 'electionBooth', 'electionAssembly'])
+                        ->where('booth_id', $userBooth->id)
+                        ->where('assemble_id', $userBooth->assemble_id)
+                        ->where('state_id', $userBooth->state_id)
+                        ->where('district_id', $userBooth->district_id)
+                        ->where('event_id', $request->event_id)
+                        ->latest()
+                        ->first();
+
+                    if (!empty($electionInfo)) {
+                        $event_id = $electionInfo->event_id;
+                        $event_status = $electionInfo->status;
+                    } else {
+                        $event_id = '';
+                        $event_status = '';
+                    }
+                    $success[] = [
+                        'id' => $userBooth->id,
+                        'booth_no' => $userBooth->booth_no,
+                        'booth_name' => $userBooth->booth_name ?? '',
+                        'assemble_id' => $userBooth->assemble_id,
+                        'state_id' => $userBooth->state_id,
+                        'district_id' => $userBooth->district_id,
+                        'event_id' => $event_id ?? '',
+                        'event_status' => $event_status ?? '',
+                    ];
+                }
+
+                return $this->sendResponse($success, 'User all booths.');
             }
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-          } catch (\Exception $e) {
-            return $this->sendError('Exception.', ['error'=>$e->getMessage()]);
-          }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
     }
 
+    /**
+     * User profile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getEvents(Request $request): JsonResponse
+    {
+        try {
+            if ($request->bearerToken()) {
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                $events = Event::orderby('event_sequence')->get();
+                $success = [];
+
+                if (count($events) == 0) {
+                    return $this->sendResponse($success, 'No, event found.');
+                }
+                $get_booth = Booth::where('assigned_to', \Auth::id())
+                    ->where('assigned_status', 1)
+                    ->pluck('id');
+
+                foreach ($events as $event) {
+                    $updatedEvents = ElectionInfo::where('event_id', $event->id)
+                        ->whereIn('booth_id', $get_booth)
+                        ->where('user_id', \Auth::id())
+                        ->where('status', 1)
+                        ->count();
+
+                    $notUpdatedEventCount = count($get_booth) - $updatedEvents;
+
+                    $success[] = [
+                        'event_id' => $event->id,
+                        'event_name' => $event->event_name,
+                        'event_sequence' => $event->event_sequence,
+                        'status' => $event->status,
+                        'start_date_time' => $event->start_date_time,
+                        'end_date_time' => $event->end_date_time,
+                        'updated_events' => $updatedEvents,
+                        'not_updated_events' => $notUpdatedEventCount,
+                    ];
+                }
+                return $this->sendResponse($success, 'All Events.');
+            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * User profile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function eventUpdate(Request $request): JsonResponse
+    {
+        try {
+            if ($request->bearerToken()) {
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                /* Validate event Data */
+                $validator = Validator::make($request->all(), [
+                    'state_id' => 'required|numeric|exists:states,id',
+                    'district_id' => 'required|numeric|exists:districts,id',
+                    'booth_id' => 'required|numeric|exists:booths,id',
+                    'assemble_id' => 'required|numeric|exists:assemblies,id',
+                    'event_id' => 'required|numeric|exists:events,id',
+                    'status' => 'required|numeric|in:0,1',
+                ]);
+
+                if ($validator->fails()) {
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+                $check_user_booth = Booth::where('assigned_to', \Auth::id())
+                    ->where('id', $request->booth_id)
+                    ->exists();
+                $success = [];
+                if ($check_user_booth === true) {
+                    $data = $request->all();
+                    //next event check
+                    $next_event_id = $request->event_id + 1;
+                    $check_next_event = ElectionInfo::where('event_id', $next_event_id)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('status', 1)
+                        ->exists();
+
+                    if ($check_next_event === true) {
+                        $get_next_event = ElectionInfo::with('electionEvent')
+                            ->where('event_id', $next_event_id)
+                            ->where('user_id', \Auth::id())
+                            ->where('status', 1)
+                            ->first();
+                        $message = $get_next_event->electionEvent->event_name . ' status already updated(yes)!';
+                        return $this->sendError('Warning!', $message);
+                    }
+
+                    //previous event check
+                    if ($request->event_id > '1') {
+                        $previous_event_id = $request->event_id - 1;
+
+                        $check_previous_event = ElectionInfo::where('event_id', $previous_event_id)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', 1)
+                            ->exists();
+
+                        if ($check_previous_event === false) {
+                            $get_previous_event = Event::where('id', $previous_event_id)
+                                ->where('status', 1)
+                                ->first();
+                            $message = $get_previous_event->event_name . ' status not updated(no)!';
+                            return $this->sendError('Warning!', $message);
+                        }
+                    }
+
+                    if ($request->has('event_id') && $request->event_id == '4') {
+                        $validator = Validator::make($request->all(), [
+                            'mock_poll_status' => 'required|numeric|in:0,1',
+                            'evm_cleared_status' => 'required|numeric|in:0,1',
+                            'vvpat_cleared_status' => 'required|numeric|in:0,1',
+                        ]);
+
+                        if ($validator->fails()) {
+                            return $this->sendError('Validation Error.', $validator->errors());
+                        }
+
+                        if ($request->mock_poll_status == '1' && $request->evm_cleared_status == '1' && $request->vvpat_cleared_status == '1') {
+                            $data['status'] = 1;
+                        } else {
+                            $data['status'] = 0;
+                        }
+                    }
+
+                    if ($request->has('event_id') && $request->event_id == '6') {
+                        $selected_slot = '';
+                        $current_slot = '';
+
+                        $get_event_timeSlots = EventTimeslot::where('event_id', '6')
+                            ->where('status', '1')
+                            ->get();
+                        $last_slot = false;
+                        // timeslot occurence
+                        foreach ($get_event_timeSlots as $key => $timeSlot) {
+                            $dt = new DateTime();
+                            $current_time = $dt->format('H:i:s');
+
+                            if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
+                                //   dd('hi');
+                                $selected_slot = $timeSlot->end_time;
+                                $locking_slot = $timeSlot->locking_time;
+                                $current_slot = $key + 1;
+                                // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
+                            } else {
+                            }
+
+                            if (count($get_event_timeSlots) === $current_slot) {
+                                $last_slot = true;
+                            } else {
+                                $last_slot = false;
+                            }
+
+                            // echo key($get_event_timeSlots);
+                        }
+                        //   dd($selected_slot);
+                        $user_booth = Booth::with('assembly')
+                            ->where('assigned_to', \Auth::id())
+                            ->where('id', $request->booth_id)
+                            ->first();
+                        $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('assemble_id', $request->assemble_id)
+                            ->latest()
+                            ->first();
+                        $last_vote_polled = $poll_details->vote_polled ?? 0;
+
+                        if (!empty($selected_slot)) {
+                            $date_time_received = '';
+                            if (!empty($poll_details->date_time_received)) {
+                                $date_time_received = date('H:i', strtotime($poll_details->date_time_received));
+                            }
+
+                            $success['events']['assembly_name'] = $user_booth->assembly->asmb_name ?? '';
+                            $success['events']['booth_name'] = $user_booth->booth_name ?? '';
+                            $success['events']['total_voters'] = $user_booth->tot_voters ?? '';
+                            $success['events']['last_vote_polled'] = $last_vote_polled ?? '';
+                            $success['events']['last_vote_polled_time'] = $date_time_received ?? '';
+                            $success['events']['votes_polled_till'] = $selected_slot ?? 'Slot not available';
+                            $success['events']['locking_time'] = $locking_slot ?? 'Locking slot not available';
+                            $success['events']['total_slot'] = count($get_event_timeSlots) ?? 0;
+                            $success['events']['current_slot'] = $current_slot ?? 0;
+                            $success['events']['last_slot'] = $last_slot ?? 0;
+
+                            return $this->sendResponse($success, 'Event occurs in ' . $selected_slot . ' time slot.');
+                        } else {
+                            if (Carbon::now()->format('H:i:s') >= '18:00:00') {
+                                return $this->sendResponse((object) $success, 'Waiting for the final entry.');
+                            }
+                            return $this->sendResponse((object) $success, 'No,slot available.');
+                        }
+                    }
+
+                    if ($request->has('event_id') && $request->event_id == '7') {
+                        $user_booth = Booth::with('assembly')
+                            ->where('assigned_to', \Auth::id())
+                            ->where('id', $request->booth_id)
+                            ->first();
+                        $poll_details = PolledDetail::with(['polledAssembly', 'polledBooth'])
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('assemble_id', $request->assemble_id)
+                            ->latest()
+                            ->first();
+                        $total_vote_polled = PolledDetail::where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('assemble_id', $request->assemble_id)
+                            ->sum('vote_polled');
+                        $date_time_received = '';
+                        if (!empty($poll_details)) {
+                            $date_time_received = \Carbon\Carbon::parse($poll_details->date_time_received);
+                            $date_time_received = $date_time_received->format('h:i a');
+                        } else {
+                            $date_time_received = \Carbon\Carbon::now()->format('h:i a');
+                        }
+                        $success['events']['assembly_name'] = $user_booth->assembly->asmb_name ?? '';
+                        $success['events']['booth_name'] = $user_booth->booth_name ?? '';
+                        $success['events']['total_voters'] = $user_booth->tot_voters ?? '';
+                        $success['events']['votes_polled'] = $total_vote_polled ?? '';
+                        $success['events']['remaining_votes'] = $poll_details ? $poll_details->polledBooth->tot_voters - $total_vote_polled : '';
+                        $success['events']['last_updated'] = $date_time_received ? $date_time_received : '';
+
+                        return $this->sendResponse($success, 'Event details for voter queue.');
+                    }
+
+                    if ($request->has('event_id') && $request->event_id == '9') {
+                        $get_final_votes_polled = ElectionInfo::where('event_id', 8)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', 1)
+                            ->whereNotNull('voting')
+                            ->where('voting', 0)
+                            ->first();
+                        if ($get_final_votes_polled) {
+                            return $this->sendError('Message.', 'Please,enter final votes first.');
+                        }
+                    }
+                    $data['user_id'] = \Auth::id();
+                    $check_event_exists = ElectionInfo::where('event_id', $request->event_id)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->exists();
+
+                    if ($check_event_exists === true) {
+                        ElectionInfo::where('event_id', $request->event_id)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->update(['status' => $request->status]);
+                        $get_id = ElectionInfo::where('event_id', $request->event_id)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', $request->status)
+                            ->pluck('id')
+                            ->first();
+                    } else {
+                        $data = ElectionInfo::create($data);
+                        $get_id = $data->id;
+                    }
+                    $electionInfo = ElectionInfo::with(['electionState', 'electionDistrict', 'electionBooth', 'electionAssembly', 'electionEvent'])->find($get_id);
+
+                    $success['events']['state_name'] = $electionInfo->electionState->name ?? '';
+                    $success['events']['district_name'] = $electionInfo->electionDistrict->name ?? '';
+                    $success['events']['assemble_name'] = $electionInfo->electionAssembly->asmb_name ?? '';
+                    $success['events']['booth_name'] = $electionInfo->electionBooth->booth_name ?? '';
+                    $success['events']['event_name'] = $electionInfo->electionEvent->event_name ?? '';
+                    $success['events']['event_status'] = $electionInfo->status ?? '';
+                    $success['events']['ac_type'] = $electionInfo->electionAssembly->ac_type ?? '';
+                    $success['events']['st_code'] = $electionInfo->electionState->st_code ?? '';
+                    $success['events']['asmb_code'] = $electionInfo->electionAssembly->asmb_code ?? '';
+
+                    return $this->sendResponse($success, 'Event updated successfully.');
+                }
+                return $this->sendError('Message.', ['error' => 'Booths are not alloted. Please contact admin.']);
+            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function updateTurnoutAndQueue(Request $request): JsonResponse
+    {
+        try {
+            if ($request->bearerToken()) {
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                /* Validate event Data */
+                $validator = Validator::make($request->all(), [
+                    'voting' => 'required|numeric',
+                    'event_id' => 'required|in:6,7,8',
+                    'state_id' => 'required|numeric|exists:states,id',
+                    'district_id' => 'required|numeric|exists:districts,id',
+                    'booth_id' => 'required|numeric|exists:booths,id',
+                    'assemble_id' => 'required|numeric|exists:assemblies,id',
+                ]);
+
+                if ($validator->fails()) {
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
+                $data = $request->all();
+                $data['user_id'] = \Auth::id();
+                $success[] = [];
+
+                $user_booth = Booth::where('id', $request->booth_id)->first();
+
+                $get_total_votes = $user_booth->tot_voters;
+                if ($request->voting > $get_total_votes) {
+                    return $this->sendError('Message.', 'Vote polled cannot exceed total votes.');
+                }
+
+                $get_events_timeslot = EventTimeslot::where('event_id', 6)
+                    ->where('status', 1)
+                    ->get();
+
+                $locking_time_check = '';
+
+                if (count($get_events_timeslot) > 0) {
+                    $last_locking_period = $get_events_timeslot[count($get_events_timeslot) - 1];
+                    $locking_time_check = $last_locking_period->locking_time;
+                } else {
+                    $locking_time_check = Carbon::now()->format('H:i:s');
+                }
+                //voter turnout conditions
+                if ($request->has('event_id') && $request->event_id == '6') {
+                    $data['date_time_received'] = now();
+                    $data['ip_address'] = trim(shell_exec('dig +short myip.opendns.com @resolver1.opendns.com'));
+                    $data['ip_host'] = request()->ip();
+
+                    $poll_details = PolledDetail::where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('assemble_id', $request->assemble_id)
+                        ->latest()
+                        ->first();
+                    $date_time_received = '';
+                    if (!empty($poll_details->date_time_received)) {
+                        $date_time_received = date('H:i', strtotime($poll_details->date_time_received));
+                    }
+
+                    $dt = new DateTime();
+                    $current_time = $dt->format('H:i:s');
+
+                    if (
+                        !ElectionInfo::where('booth_id', $request->booth_id)
+                            ->where('event_id', $request->event_id)
+                            ->exists()
+                    ) {
+                        $poll_detail_time = date('H:i', strtotime($date_time_received));
+                        $dt = new DateTime();
+                        $current_time = $dt->format('H:i:s');
+                        $get_events_timeslot = EventTimeslot::where('event_id', $request->event_id)
+                            ->whereTime('start_time', '<=', $current_time)
+                            ->whereTime('locking_time', '>=', $current_time)
+                            ->where('status', 1)
+                            ->first();
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
+                            $data['voting'] = $poll_details->vote_polled ?? 0;
+                            $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
+                            $data['status'] = 1;
+                            $data = ElectionInfo::create($data);
+                            $success = $data;
+                            return $this->sendResponse($success, 'Voter turnout done successfully.');
+                        }
+                        if (!empty($get_events_timeslot)) {
+                            $current_slot_end_time = date('H:i', strtotime($get_events_timeslot->end_time));
+                            $current_slot_start_time = date('H:i', strtotime($get_events_timeslot->start_time));
+                            $current_slot_locking_time = date('H:i', strtotime($get_events_timeslot->locking_time));
+
+                            if ($current_slot_end_time <= Carbon::now()->format('H:i') && Carbon::now()->format('H:i') <= $current_slot_locking_time) {
+                                if ($poll_detail_time >= $current_slot_end_time && $poll_detail_time <= $current_slot_locking_time) {
+                                    $data = [
+                                        'current_slot_start_time' => $current_slot_start_time,
+                                        'current_slot_end_time' => $current_slot_end_time,
+                                        'current_slot_locking_time' => $current_slot_locking_time,
+                                    ];
+                                    return $this->sendResponse($data, 'Details already updated in this slot successfully.');
+                                } else {
+                                    $data['vote_polled'] = $request->voting;
+                                    $data = PolledDetail::create($data);
+                                    $success = $data;
+
+                                    return $this->sendResponse($success, 'Detail updated successfully.');
+                                }
+                            } else {
+                                return $this->sendError('Message.', 'Current time does not occur in the given locking time.');
+                            }
+                        } else {
+                            return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                        }
+                    } else {
+                        return $this->sendResponse('Message.', 'Already updated voter turnout for current booth.');
+                    }
+                    //    } else {
+                    //      return $this->sendError('Message.', 'No, Timeslot Avaliable.');
+                    //  }
+                }
+
+                if ($request->has('event_id') && $request->event_id == '7') {
+                    //check booths
+                    $user_booth = Booth::where('assigned_to', \Auth::id())
+                        ->where('id', $request->booth_id)
+                        ->where('assigned_status', 1)
+                        ->first();
+                    $get_total_votes = $user_booth->tot_voters;
+                    $get_voter_turnout_votes_polled = ElectionInfo::where('event_id', 6)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('status', 1)
+                        ->whereDate('created_at', '=', Carbon::today()->toDateString())
+                        ->first();
+                    $vote_polled = 0;
+                    if (!empty($get_voter_turnout_votes_polled)) {
+                        $vote_polled = $get_voter_turnout_votes_polled->voting;
+                    }
+                    $vote_remaining = $get_total_votes - $vote_polled;
+
+                    if ($request->voting > $vote_remaining) {
+                        return $this->sendError('Message.', 'Voters in queue cannot exceed voter remaining.');
+                    }
+
+                    //check voter in queqe
+                    $check_voter_in_queqe = ElectionInfo::where('event_id', $request->event_id)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('status', 1)
+                        ->exists();
+
+                    if ($check_voter_in_queqe === false) {
+                        if (Carbon::now()->format('H:i:s') > $locking_time_check) {
+                            $data['voting_last_updated'] = now();
+                            $data['status'] = 1;
+                            $data = ElectionInfo::create($data);
+                            $success = $data;
+                            return $this->sendResponse($success, 'Voter in Queue has been updated successfully.');
+                        }
+                    } else {
+                        return $this->sendError('Message.', 'Voter in Queue already updated.');
+                    }
+                }
+
+                if ($request->has('event_id') && $request->event_id == '8') {
+                    //check booths
+                    /* Validate event Data */
+                    $validator = Validator::make($request->all(), [
+                        'voting' => 'required|numeric',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return $this->sendError('Validation Error.', $validator->errors());
+                    }
+                    //check voter in queqe
+                    $check_total_voters = ElectionInfo::where('event_id', $request->event_id)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->where('status', 1)
+                        ->exists();
+                    if ($check_total_voters === false) {
+                        return $this->sendError('Message.', 'Please, enter final votes.');
+                    } else {
+                        $check_poll_ended = $check_total_voters = ElectionInfo::where('event_id', 9)
+                            ->where('user_id', \Auth::id())
+                            ->where('booth_id', $request->booth_id)
+                            ->where('status', 1)
+                            ->exists();
+
+                        if (!$check_poll_ended) {
+                            $data['voting_last_updated'] = now();
+                            $data['status'] = 1;
+                            ElectionInfo::where('event_id', 8)
+                                ->where('user_id', \Auth::id())
+                                ->where('booth_id', $request->booth_id)
+                                ->update([
+                                    'voting_last_updated' => now(),
+                                    'status' => 1,
+                                    'voting' => $request->voting,
+                                ]);
+                            $success = $data;
+                            return $this->sendResponse($success, 'Final votes updated successfully.');
+                        }
+                    }
+                }
+            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function pollInterrupted(Request $request): JsonResponse
+    {
+        try {
+            if ($request->bearerToken()) {
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                /* Validate Poll Interrupted Data */
+                $validator = Validator::make($request->all(), [
+                    'event_id' => 'required|in:13',
+                    'state_id' => 'required|numeric|exists:states,id',
+                    'district_id' => 'required|numeric|exists:districts,id',
+                    'booth_id' => 'required|numeric|exists:booths,id',
+                    'assemble_id' => 'required|numeric|exists:assemblies,id',
+                    'interrupted_type' => 'required|numeric|in:1,2',
+                    'stop_time' => 'required',
+                    'remarks' => 'required',
+                    'resume_time' => 'nullable',
+                    'old_cu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'old_bu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'new_cu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                    'new_bu' => 'sometimes|nullable|required_if:interrupted_type,2|string',
+                ]);
+
+                if ($validator->fails()) {
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
+                $data = $request->all();
+                $data['user_id'] = \Auth::id();
+                $data['status'] = 1;
+                $success[] = [];
+
+                $check_event_exists = PollInterrupted::where('event_id', $request->event_id)
+                    ->where('interrupted_type', $request->interrupted_type)
+                    ->where('user_id', \Auth::id())
+                    ->where('booth_id', $request->booth_id)
+                    ->exists();
+
+                if ($check_event_exists === true) {
+                    PollInterrupted::where('event_id', $request->event_id)
+                        ->where('interrupted_type', $request->interrupted_type)
+                        ->where('user_id', \Auth::id())
+                        ->where('booth_id', $request->booth_id)
+                        ->update(['status' => $data['status'], 'resume_time' => $request->resume_time]);
+                    return $this->sendResponse('Message', 'Poll Interrupted Updated Successfully.');
+                } else {
+                    $insert_data = PollInterrupted::create($data);
+                    $success = $insert_data;
+                    return $this->sendResponse($success, 'Poll Interrupted added successfully.');
+                }
+            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function getPollInterrupted(Request $request): JsonResponse
+    {
+        try {
+            if ($request->bearerToken()) {
+                $hashedTooken = $request->bearerToken();
+                $token = PersonalAccessToken::findToken($hashedTooken);
+
+                /* Validate Poll Interrupted Data */
+                $validator = Validator::make($request->all(), [
+                    'booth_id' => 'required|numeric|exists:booths,id',
+                    'interrupted_type' => 'required|numeric|in:1,2',
+                ]);
+
+                if ($validator->fails()) {
+                    return $this->sendError('Validation Error.', $validator->errors());
+                }
+
+                $success[] = [];
+                $get_poll_interruptions = PollInterrupted::where('interrupted_type', $request->interrupted_type)
+                    ->where('user_id', \Auth::id())
+                    ->where('booth_id', $request->booth_id)
+                    ->first();
+
+                if (!empty($get_poll_interruptions)) {
+                    $success = $get_poll_interruptions;
+                    return $this->sendResponse($success, 'Poll Interrupted details.');
+                } else {
+                    return $this->sendError('Error.', 'No, Records available for this booth.');
+                }
+            }
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        } catch (\Exception $e) {
+            return $this->sendError('Exception.', ['error' => $e->getMessage()]);
+        }
+    }
 }
