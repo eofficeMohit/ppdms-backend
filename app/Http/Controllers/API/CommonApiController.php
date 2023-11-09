@@ -317,6 +317,7 @@ class CommonApiController extends BaseController
                                 ->where('booth_id', $request->booth_id)
                                 ->where('status', 1)
                                 ->exists();
+                            //  dd($check_voter_turn_out_event === true);
                             if ($check_voter_turn_out_event === true) {
                                 return $this->sendResponse((object) $success, 'Proceed for voter in queqe.');
                             }
