@@ -40,6 +40,9 @@ class DashboardController extends Controller
         $total_Voter_in_queue = ElectionInfo::where('event_id', 7)
             ->where('status', 1)
             ->count();
+		$total_final_counts = ElectionInfo::where('event_id', 8)
+            ->where('status', 1)
+            ->count();
         $total_poll_ended = ElectionInfo::where('event_id', 9)
             ->where('status', 1)
             ->count();
@@ -93,6 +96,8 @@ class DashboardController extends Controller
 			$party_departed = 0;
 			$party_reached = 0;
 			$EVM_deposited = 0;
+			$final_votes = 0;
+			$poll_interrupted = 0;
             $polled_party_dispatch += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 1)
                 ->where('status', 1)
@@ -127,7 +132,11 @@ class DashboardController extends Controller
                 ->where('status', 1)
                 ->sum('voting');
 
-            $poll_ended += ElectionInfo::where('district_id', $value->id)
+            $final_votes += ElectionInfo::where('district_id', $value->id)
+                ->where('event_id', 8)
+                ->where('status', 1)
+                ->count();
+			$poll_ended += ElectionInfo::where('district_id', $value->id)
                 ->where('event_id', 9)
                 ->where('status', 1)
                 ->count();
@@ -151,6 +160,10 @@ class DashboardController extends Controller
                 ->where('event_id', 13)
                 ->where('status', 1)
                 ->count();
+			$poll_interrupted += ElectionInfo::where('district_id', $value->id)
+                ->where('event_id', 14)
+                ->where('status', 1)
+                ->count();
 
             $new_district_array[$key]['id'] = $value->id;
             $new_district_array[$key]['name'] = $value->name;
@@ -162,11 +175,13 @@ class DashboardController extends Controller
             $new_district_array[$key]['poll_started'] = $poll_started;
             $new_district_array[$key]['voter_turnout'] = $voter_turnout;
             $new_district_array[$key]['voter_in_queue'] = $voter_in_queue;
+            $new_district_array[$key]['final_votes'] = $final_votes;
             $new_district_array[$key]['poll_ended'] = $poll_ended;
             $new_district_array[$key]['EVM_switched_0ff'] = $EVM_switched_0ff;
             $new_district_array[$key]['party_departed'] = $party_departed;
             $new_district_array[$key]['party_reached'] = $party_reached;
             $new_district_array[$key]['EVM_deposited'] = $EVM_deposited;
+            $new_district_array[$key]['poll_interrupted'] = $poll_interrupted;
             $new_district_array[$key]['row_id'] = '1_' . $value->id;
             $new_district_array[$key]['_children'] = [];
         }
@@ -176,8 +191,9 @@ class DashboardController extends Controller
         $districtsDetails = District::with('state')
             ->where('status', 1)
             ->get();
+        $total_booths = Booth::select('id')->count();
 
-        return view('dashboard.index', compact('new_array', 'pollInterrupted', 'electionInfo', 'total_machine_closed_EVM_switched', 'district_array', 'total_EVM_deposited', 'total_party_reached', 'total_Party_departed', 'total_poll_ended', 'total_Voter_in_queue', 'total_voter_turnout', 'total_setup_poll', 'total_poll_started', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached_at_centre', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
+        return view('dashboard.index', compact('new_array', 'total_booths', 'pollInterrupted', 'electionInfo', 'total_final_counts', 'total_poll_interuption', 'total_machine_closed_EVM_switched', 'district_array', 'total_EVM_deposited', 'total_party_reached', 'total_Party_departed', 'total_poll_ended', 'total_Voter_in_queue', 'total_voter_turnout', 'total_setup_poll', 'total_poll_started', 'assemblyColumns', 'districtsDetails', 'districtsColumns', 'districtCount', 'total_party_dispatch', 'total_party_reached_at_centre', 'total_mock_poll_started'))->with('i', ($request->input('page', 1) - 1) * 20);
     }
     public function indexStat()
     {
@@ -209,6 +225,8 @@ class DashboardController extends Controller
 			$party_departed = 0;
 			$party_reached = 0;
 			$EVM_deposited = 0;
+			$final_votes = 0;
+			$poll_interrupted = 0;
             $polled_party_dispatch += ElectionInfo::where('assemble_id', $value->id)
                 ->where('event_id', 1)
                 ->where('status', 1)
@@ -242,7 +260,10 @@ class DashboardController extends Controller
                 ->where('event_id', 7)
                 ->where('status', 1)
                 ->sum('voting');
-
+			$final_votes += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 8)
+                ->where('status', 1)
+                ->count();
             $poll_ended += ElectionInfo::where('assemble_id', $value->id)
                 ->where('event_id', 9)
                 ->where('status', 1)
@@ -267,7 +288,10 @@ class DashboardController extends Controller
                 ->where('event_id', 13)
                 ->where('status', 1)
                 ->count();
-
+			$poll_interrupted += ElectionInfo::where('assemble_id', $value->id)
+                ->where('event_id', 14)
+                ->where('status', 1)
+                ->count();
             $new_array[$key]['id'] = $value->id;
             $new_array[$key]['name'] = $value->asmb_name;
             //$new_array[$key]['d_code'] = $value->ac_type;
@@ -278,11 +302,13 @@ class DashboardController extends Controller
             $new_array[$key]['poll_started'] = $poll_started;
             $new_array[$key]['voter_turnout'] = $voter_turnout;
             $new_array[$key]['voter_in_queue'] = $voter_in_queue;
+			$new_array[$key]['final_votes'] = $final_votes;
             $new_array[$key]['poll_ended'] = $poll_ended;
             $new_array[$key]['EVM_switched_0ff'] = $EVM_switched_0ff;
             $new_array[$key]['party_departed'] = $party_departed;
             $new_array[$key]['party_reached'] = $party_reached;
             $new_array[$key]['EVM_deposited'] = $EVM_deposited;
+            $new_array[$key]['poll_interrupted'] = $poll_interrupted;
             $new_array[$key]['row_id'] = '1_' . $value->id;
             $new_array[$key]['_children'] = [];
         }
@@ -318,6 +344,8 @@ class DashboardController extends Controller
 			$party_departed = 0;
 			$party_reached = 0;
 			$EVM_deposited = 0;
+			$final_votes = 0;
+			$poll_interrupted = 0;
             $polled_party_dispatch += ElectionInfo::where('booth_id', $value->id)
                 ->where('event_id', 1)
                 ->where('status', 1)
@@ -351,7 +379,10 @@ class DashboardController extends Controller
                 ->where('event_id', 7)
                 ->where('status', 1)
                 ->sum('voting');
-
+			$final_votes += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 8)
+                ->where('status', 1)
+                ->count();
             $poll_ended += ElectionInfo::where('booth_id', $value->id)
                 ->where('event_id', 9)
                 ->where('status', 1)
@@ -376,7 +407,10 @@ class DashboardController extends Controller
                 ->where('event_id', 13)
                 ->where('status', 1)
                 ->count();
-
+			$poll_interrupted += ElectionInfo::where('booth_id', $value->id)
+                ->where('event_id', 14)
+                ->where('status', 1)
+                ->count();
             $new_array[$key]['id'] = $value->id;
             $new_array[$key]['name'] = $value->booth_name;
             //$new_array[$key]['d_code'] = $value->tot_voters;
@@ -387,11 +421,13 @@ class DashboardController extends Controller
             $new_array[$key]['poll_started'] = $poll_started;
             $new_array[$key]['voter_turnout'] = $voter_turnout;
             $new_array[$key]['voter_in_queue'] = $voter_in_queue;
+			$new_array[$key]['final_votes'] = $final_votes;
             $new_array[$key]['poll_ended'] = $poll_ended;
             $new_array[$key]['EVM_switched_0ff'] = $EVM_switched_0ff;
             $new_array[$key]['party_departed'] = $party_departed;
             $new_array[$key]['party_reached'] = $party_reached;
             $new_array[$key]['EVM_deposited'] = $EVM_deposited;
+            $new_array[$key]['poll_interrupted'] = $poll_interrupted;
             $new_array[$key]['row_id'] = '1_' . $value->id;
             $new_array[$key]['_children'] = [];
         }

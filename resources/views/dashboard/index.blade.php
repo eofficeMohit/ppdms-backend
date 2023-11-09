@@ -27,7 +27,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Dispatched</strong></p>
-                                <h4 class="mb-0" id="party_dispatch">{{ $total_party_dispatch ?? 0 }}</h4>
+                                <h4 class="mb-0"><span id="party_dispatch">{{ $total_party_dispatch ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0" id="party_reached">{{ $total_party_reached }}</h4>
+                                <h4 class="mb-0"><span id="party_reached">{{ $total_party_reached ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Setup Polling Station</strong></p>
-                                <h4 class="mb-0" id="setup_poll_sat">{{ $total_setup_poll }}</h4>
+                                <h4 class="mb-0"><span id="setup_poll_sat">{{ $total_setup_poll ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Mock-Poll Started</strong></p>
-                                <h4 class="mb-0" id="mock_poll_start">{{ $total_mock_poll_started }}</h4>
+                                <h4 class="mb-0"><span id="mock_poll_start">{{ $total_mock_poll_started ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Poll Started</strong></p>
-                                <h4 class="mb-0" id="poll_started">{{ $total_poll_started }}</h4>
+                                <h4 class="mb-0"><span id="poll_started">{{ $total_poll_started ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -144,7 +144,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Voter Turnout</strong></p>
-                                <h4 class="mb-0" id="voter_turnout">{{ $total_voter_turnout }}</h4>
+                                <h4 class="mb-0"><span id="voter_turnout">{{ $total_voter_turnout ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Voter In Queue</strong></p>
-                                <h4 class="mb-0" id="voter_in_queue">{{ $total_Voter_in_queue }}</h4>
+                                <h4 class="mb-0"><span id="voter_in_queue">{{ $total_Voter_in_queue ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -181,16 +181,16 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
-                                class="icon icon-lg icon-shape bg-gradient-secondary shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl mt-n4 position-absolute">
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Ended</strong></p>
-                                <h4 class="mb-0" id="total_poll_ended">{{ $total_poll_ended }}</h4>
+                                <p class="text-sm mb-0 text-capitalize"><strong>Final Votes</strong></p>
+                                <h4 class="mb-0"><span id="final_votes">{{ $total_final_counts ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -207,6 +207,29 @@
             </div>
 
             <div class="row mt-4">
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-secondary shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Ended</strong></p>
+                                <h4 class="mb-0"><span id="total_poll_ended">{{ $total_party_reached ?? 0 }}</span> / {{ $total_booths }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
@@ -216,7 +239,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong> EVM Switched Off</strong></p>
-                                <h4 class="mb-0"  id="machine_closed">{{ $total_machine_closed_EVM_switched }}</h4>
+                                <h4 class="mb-0"><span id="machine_closed">{{ $total_machine_closed_EVM_switched ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -239,7 +262,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Departed</strong></p>
-                                <h4 class="mb-0" id="party_departed">{{ $total_Party_departed }}</h4>
+                                <h4 class="mb-0"><span id="party_departed">{{ $total_party_reached ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -262,7 +285,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Party Reached</strong></p>
-                                <h4 class="mb-0" id="total_party_reached">{{ $total_party_reached_at_centre }}</h4>
+                                <h4 class="mb-0"><span id="total_party_reached">{{ $total_party_reached_at_centre ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -275,8 +298,10 @@
                                 lask week</p>
                         </div> --}}
                     </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                </div>	
+            </div>
+			<div class="row mt-4">
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
@@ -285,7 +310,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>EVM Deposited</strong></p>
-                                <h4 class="mb-0" id="evm_deposited">{{ $total_EVM_deposited }}</h4>
+                                <h4 class="mb-0"><span id="evm_deposited">{{ $total_EVM_deposited ?? 0 }}</span> / {{ $total_booths }}</h4>
                             </div>
                             {{-- <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
@@ -299,8 +324,30 @@
                         </div> --}}
                     </div>
                 </div>
-            </div>
-
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Poll Interruption</strong></p>
+                                <h4 class="mb-0"><span id="poll_intruption">{{ $total_poll_interuption ?? 0 }}</span> / {{ $total_booths }}</h4>
+                            </div>
+                            {{-- <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"><strong>Total Booths</strong></p>
+                                <h4 class="mb-0">24637</h4>
+                            </div> --}}
+                        </div>
+                        {{-- <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p>
+                        </div> --}}
+                    </div>
+                </div>
+			</div>
             {{-- <div class="row mt-4">
                 <div class="col-lg-12 col-md-12 mt-4 mb-4">
                     <div class="card z-index-2 ">
@@ -983,9 +1030,15 @@
                         headerFilter: "input",
                         resizable: true
                     }, {
-                        title: "Voter_In_Queue",
+                        title: "Voter In Queue",
                         field: "voter_in_queue",
                         width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    }, {
+                        title: "Final Votes",
+                        field: "final_votes",
+                        width: 150,
                         headerFilter: "input",
                         resizable: true
                     }, {
@@ -1015,6 +1068,12 @@
                     }, {
                         title: "EVM Deposited",
                         field: "EVM_deposited",
+                        width: 200,
+                        headerFilter: "input",
+                        resizable: true
+                    },{
+                        title: "Poll Interrupted",
+                        field: "poll_interrupted",
                         width: 200,
                         headerFilter: "input",
                         resizable: true

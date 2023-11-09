@@ -18,7 +18,7 @@
                         @can('election_info-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('election-info.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New E-Info</a>
+                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Manage E-Info</a>
                         </div>
                         @endcan
                         <div class="cus_msg_div">
@@ -119,7 +119,7 @@
                             var confirmation = "'Are you sure you want to delete?'";
                             var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="election-info/show/'+full.id+'" data-original-title="Show E-Info" title="Show E-Info"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
                             if(permission_edit == "granted"){
-                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="election-info/edit/'+full.id+'" data-original-title="Edit E-Info" title="Edit E-Info"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                                //btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="election-info/edit/'+full.id+'" data-original-title="Edit E-Info" title="Edit E-Info"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
                             }
                             if(permission_delete == "granted"){
                                 btn += '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete E-Info" title="Delete E-Info"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';

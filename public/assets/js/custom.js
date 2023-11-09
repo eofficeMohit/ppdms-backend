@@ -512,7 +512,7 @@ jQuery(document).on('change', '.toggle_state_cls_election_info', function () {
         } else {
             update_election_info(id, assemble_id, so_user, booth_id, state_id, district_id, status, mock_poll_status, evm_cleared_status, vvpat_cleared_status, voting, interruption_type, stop_time, resume_time, remarks, old_cu, old_bu, new_cu, new_bu);
         }
-    } else if (id == 13) {
+    } else if (id == 14) {
         console.log('here');
         if (status == 1) {
             checkIsPollIntrupped(so_user, booth_id);
@@ -662,8 +662,8 @@ function update_election_info(id, assemble_id, so_user, booth_id, state_id, dist
                     jQuery('#event_' + last_id).prop('disabled', false);
                     const timeSlots = document.getElementById('add-fields');
                     const newRow = document.createElement('div');
-                    newRow.className = 'row mb-2';
-                    newRow.innerHTML = '<div class="col-md-12"><strong>' + value.name + '</strong><br><label class="switch"><input ' + disabled + ' data-id="' + value.id + '" id="event_' + value.id + '" class="toggle_state_cls_election_info form-control" ' + checked + ' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_' + value.id + '"></span></div>';
+                    newRow.className = 'col-xs-4 col-sm-4 col-md-4';
+                    newRow.innerHTML = '<strong>' + value.name + '</strong><br><label class="switch"><input ' + disabled + ' data-id="' + value.id + '" id="event_' + value.id + '" class="toggle_state_cls_election_info form-control" ' + checked + ' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_' + value.id + '"></span>';
                     timeSlots.appendChild(newRow);
                 });
             })
@@ -701,7 +701,7 @@ jQuery(document).on('click', '.mark_as_read', function () {
 });
 
 function submit_poll_interrupted() {
-    var id = 13;
+    var id = 14;
     var assemble_id = $('#assemble_id :selected').val();
     var so_user = $('#so_user_id :selected').val();
     var booth_id = $('#booth_id :selected').val();
@@ -780,11 +780,11 @@ function checkIsPollIntrupped(so_user, booth_id) {
             if (response.data.is_party_dispatch === true && response.data.is_poll_ended === false) {
                 $('#myModalPollInterrupted').modal('show');
             } else if (response.data.is_party_dispatch === false) {
-                jQuery('#error_13').html("<p style='color:red; font-size:15px;'>Party is not dispatched yet.</p>");
-                jQuery("#event_13").prop('checked', false);
+                jQuery('#error_14').html("<p style='color:red; font-size:15px;'>Party is not dispatched yet.</p>");
+                jQuery("#event_14").prop('checked', false);
             } else if (response.data.is_poll_ended === true) {
-                jQuery('#error_13').html("<p style='color:red; font-size:15px;'>Poll is already ended.</p>");
-                jQuery("#event_13").prop('checked', false);
+                jQuery('#error_14').html("<p style='color:red; font-size:15px;'>Poll is already ended.</p>");
+                jQuery("#event_14").prop('checked', false);
             } else {
 
             }

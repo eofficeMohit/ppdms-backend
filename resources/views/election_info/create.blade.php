@@ -87,9 +87,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div id="add-fields">
-                                    </div>
+                                <div class="row mb-4 mt-4" id="add-fields">
                                 </div>
                                 <div class="clearfix">
                                 </div>
@@ -346,6 +344,8 @@
                 console.log(response.data);
                 jQuery('#add-fields').empty();
                 // Iterate through the response and append data to the container
+				var data = "";
+				var i = 1;
                 response.data.forEach(function(value) {
                     var checked = "";
                     var disabled = "";
@@ -360,9 +360,9 @@
                     jQuery('#event_' + last_id).prop('disabled', false);
                     const timeSlots = document.getElementById('add-fields');
                     const newRow = document.createElement('div');
-                    newRow.className = 'row mb-2';
-                    newRow.innerHTML = '<div class="col-md-12"><strong>' + value.name + '</strong><br><label class="switch"><input ' + disabled + ' data-id="' + value.id + '" id="event_' + value.id + '" class="toggle_state_cls_election_info form-control" ' + checked + ' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_' + value.id + '"></span></div>';
-                    timeSlots.appendChild(newRow);
+                    newRow.className = 'col-xs-4 col-sm-4 col-md-4';
+					newRow.innerHTML ='<strong>' + value.name + '</strong><br><label class="switch"><input ' + disabled + ' data-id="' + value.id + '" id="event_' + value.id + '" class="toggle_state_cls_election_info form-control" ' + checked + ' type="checkbox"><span class="slider round"></span></label><span class="error_toggle_cls" id="error_' + value.id + '"></span>'; 
+					timeSlots.appendChild(newRow);
                 });
             })
             .catch(function(error) {
@@ -382,7 +382,7 @@
 
     function close_poll_interrupted_modal() {
         $('#myModalPollInterrupted').modal('hide');
-        jQuery("#event_13").prop('checked', false);
+        jQuery("#event_14").prop('checked', false);
     }
     $('input[type=radio][name=interruption_type]').change(function() {
         console.log(this.value);
