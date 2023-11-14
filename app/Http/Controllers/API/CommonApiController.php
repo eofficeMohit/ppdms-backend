@@ -269,7 +269,6 @@ class CommonApiController extends BaseController
                                 $locking_slot = $timeSlot->locking_time;
                                 $current_slot = $key + 1;
                                 // echo 'Event occur in '.($timeSlot->end_time).' slot.</br>';
-                            } else {
                             }
 
                             if (count($get_event_timeSlots) === $current_slot) {
@@ -277,10 +276,8 @@ class CommonApiController extends BaseController
                             } else {
                                 $last_slot = false;
                             }
-
-                            // echo key($get_event_timeSlots);
                         }
-                        //   dd($selected_slot);
+
                         $user_booth = Booth::with('assembly')
                             ->where('assigned_to', \Auth::id())
                             ->where('id', $request->booth_id)
@@ -507,10 +504,33 @@ class CommonApiController extends BaseController
                                     ];
                                     return $this->sendResponse($data, 'Details already updated in this slot successfully.');
                                 } else {
+                                    $selected_slot = '';
+                                    $current_slot = '';
+
+                                    $get_event_timeSlots = EventTimeslot::where('event_id', '6')
+                                        ->where('status', '1')
+                                        ->get();
+                                    $last_slot = false;
+                                    // timeslot occurence
+                                    foreach ($get_event_timeSlots as $key => $timeSlot) {
+                                        $dt = new DateTime();
+                                        $current_time = $dt->format('H:i:s');
+
+                                        if ($timeSlot->start_time <= $current_time && $current_time <= $timeSlot->locking_time) {
+                                            $current_slot = $key + 1;
+                                        }
+
+                                        if (count($get_event_timeSlots) === $current_slot) {
+                                            $last_slot = true;
+                                        } else {
+                                            $last_slot = false;
+                                        }
+                                    }
+
                                     $data['vote_polled'] = $request->voting;
                                     PolledDetail::create($data);
 
-                                    if (Carbon::now()->format('H:i:s') > $locking_time_check && empty($get_events_timeslot)) {
+                                    if ($last_slot === true) {
                                         $data['voting'] = $poll_details->vote_polled ?? 0;
                                         $data['voting_last_updated'] = $poll_details->date_time_received ?? now();
                                         $data['status'] = 1;
@@ -618,8 +638,6 @@ class CommonApiController extends BaseController
                         }
                     }
                 }
-            }
-            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         } catch (\Exception $e) {
             return $this->sendError('Exception.', ['error' => $e->getMessage()]);
         }
