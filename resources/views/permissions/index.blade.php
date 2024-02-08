@@ -15,19 +15,16 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
+                        @can('permission-create')
                         <div class=" me-3 my-3 text-end">
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('permissions.create') }}"><i
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                     Permission</a>
                         </div>
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
-                        @endif
-                        <div class="card-body px-0 pb-2">
+                        @endcan
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -44,49 +41,8 @@
                                             <th class="text-secondary text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($permissions as $key => $permission)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $permission->name }}</h6>
 
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $permission->created_at }}</span>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('permissions.show',$permission->id) }}" data-original-title="show Permission"
-                                                title="show User">
-                                                <i class="material-icons">visibility</i>
-                                                <div class="ripple-container"></div>
-                                                 </a>
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('permissions.edit',$permission->id) }}" data-original-title="Edit Permission"
-                                                    title="Edit User">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $permissions->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -96,6 +52,60 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>
-
+@if ($message = Session::get('success'))
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
+@endif
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('permission-delete') }}";
+    var permission_edit = "{{ checkPermission('permission-edit') }}";
+    $(function () {
+        var table = $('#empTable').DataTable({
+                dom: 'Blfrtip',
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
+                processing: true,
+                serverSide: true,
+                pageLength: 25,
+                ajax: "{{ route('permission.getdatatabledata') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'created_at', name: 'created_at'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            var confirmation = "'Are you sure you want to delete?'";
+                            var btn = '<a rel="tooltip" class="btn btn-info btn-link m-2" href="permissions/'+full.id+'" data-original-title="Show Permission" title="Show Permission"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                            if(permission_edit == "granted"){
+                                btn += '<a rel="tooltip" class="btn btn-success btn-link m-2" href="permissions/'+full.id+'/edit" data-original-title="Edit Permission" title="Edit Permission"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                            }
+                            if(permission_delete == "granted"){
+                                btn += '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete Permission" title="Delete Permission"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                            }
+                            return btn;
+                        }
+                    },
+                ]
+            });
+            table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+        });
+        function openConfirmModal(id){
+            var btn_html = '<a href="/permission/delete/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+            jQuery('#mod_btn_div').html(btn_html);
+            jQuery('#modalConfirmDelete').modal('show');
+        }
+        function closeConfirmModal(){
+            jQuery('#modalConfirmDelete').modal('hide');
+        }
+   </script>

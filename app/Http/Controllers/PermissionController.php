@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
 class PermissionController extends Controller
 {
     /**
@@ -25,10 +26,19 @@ class PermissionController extends Controller
      */
     public function index(Request $request): View
     {
-        $permissions = Permission::orderBy('id','DESC')->paginate(5);
-        return view('permissions.index',compact('permissions'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return view('permissions.index');
     }
+
+    public function getPermissionsData(){
+        $permissions = Permission::orderBy('created_at', 'desc');
+        return Datatables::eloquent($permissions)
+             ->addIndexColumn()
+             ->addColumn('created_at', function($row){
+                $created_at = date('Y-m-d H:i:s', strtotime( $row->created_at));
+                return $created_at;
+            })
+             ->make();
+     }
     /**
      * Show the form for creating a new resource.
      *

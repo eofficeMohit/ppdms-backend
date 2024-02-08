@@ -15,19 +15,18 @@
                                         functional!</strong></h6>
                             </div>
                         </div>
-                        {{-- <div class=" me-3 my-3 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
-                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                Booth</a>
-                        </div> --}}
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
+                        @can('booth-create')
+                            <div class=" me-3 my-3 text-end">
+                                <a class="btn bg-gradient-dark mb-0" href="{{ route('booth.create') }}"><i
+                                        class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
+                                    Booth</a>
                             </div>
-                        @endif
-                        <div class="card-body px-0 pb-2">
+                        @endcan
+                        <div class="cus_msg_div">
+                        </div>
+                        <div class="card-body px-4 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="empTable">
                                     <thead>
                                         <tr>
                                             <th
@@ -36,121 +35,29 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Booth Number</th>
+                                                Assembly </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Total Votars</th>
+                                                Total Voters</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Booth Name</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Latitude</th>
-                                                <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Longitude</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    @if(! $data->isEmpty())
-                                        @foreach ($data as $key => $booth)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <p class="mb-0 text-sm">{{ ++$i }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_no }}</h6>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs text-secondary mb-0">{{ $booth->tot_voters }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->booth_name }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            {{-- <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ $booth->booth_name }}
-                                                </p>
-                                            </td> --}}
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->latitude }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                    <h6 class="mb-0 text-sm">{{ $booth->longitude }}</h6>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                @if($booth->status ==1)
-                                                    <span class=" text-xs font-weight-bold badge bg-success">Active</span>
-                                                @else
-                                                     <span class=" text-xs font-weight-bold badge bg-warning">In-Active</span>
-                                                @endif
-                                            </td>
-                                            <td class="align-middle">
-                                                <p class="badge bg-danger">Under Progress....</p>
-                                                {{-- <a rel="tooltip" class="btn btn-info btn-link"
-                                                href="{{ route('booth.show',$booth->id) }}" data-original-title="show booth"
-                                                title="Show Assembly">
-                                                <i class="material-icons">visibility</i>
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                                <a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="{{ route('booth.edit',$booth->id) }}" data-original-title="Edit booth"
-                                                    title="Edit Assembly">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE','route' => ['booth.destroy', $booth->id],'style'=>'display:inline']) !!}
-                                                    {!! Form::button('<i class="material-icons">close</i>', ['type'=>'submit','class' => 'btn btn-danger btn-link']) !!}
-                                                {!! Form::close() !!} --}}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3"></td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex text-center">
-                                                    <div>
-                                                    <p class="mb-0 text-sm">No Record's Found.</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center">
-                                    {!! $data->links() !!}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -160,5 +67,105 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>
+@if ($message = Session::get('success'))
+    <script>
+        var message = "{{ $message }}";
+        jQuery('#toast_body_msg').html(message); 
+        let myAlert = document.querySelector('.toast');
+        let bsAlert = new  bootstrap.Toast(myAlert);
+        bsAlert.show();
+    </script>
+@endif
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    var permission_delete = "{{ checkPermission('booth-delete') }}";
+    var permission_edit = "{{ checkPermission('booth-edit') }}";
+    $(function() {
+        var table = $('#empTable').DataTable({
+            dom: 'Blfrtip',
+            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print', 'colvis' ],
+            processing: true,
+            serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 25,
+            ajax: "{{ route('booth.getdatatabledata') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'asmb_name',
+                    name: 'asmb_name'
+                },
+                {
+                    data: 'tot_voters',
+                    name: 'tot_voters'
+                },
+                {
+                    data: 'booth_name',
+                    name: 'booth_name'
+                },
+                {
+                    data: 'latitude',
+                    name: 'latitude'
+                },
+                {
+                    data: 'longitude',
+                    name: 'longitude'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: true,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var checked = "";
+                        if (data == 1) {
+                            checked = "checked";
+                        }
+                        return '<label class="switch"><input data-id="' + full.id +
+                            '" class="toggle_state_cls_booth" ' + checked +
+                            ' type="checkbox"><span class="slider round"></span></label>';
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        var confirmation = "'Are you sure you want to delete?'";
+                        var btn =
+                            '<a rel="tooltip" class="btn btn-info btn-link m-2" href="booth/show/' +
+                            full.id +
+                            '" data-original-title="Show Booth" title="Show Booth"><i class="material-icons">visibility</i><div class="ripple-container"></div></a>';
+                        if (permission_edit == "granted") {
+                            btn +=
+                                '<a rel="tooltip" class="btn btn-success btn-link m-2" href="booth/edit/' +
+                                full.id +
+                                '" data-original-title="Edit Booth" title="Edit Booth"><i class="material-icons">edit</i><div class="ripple-container"></div></a>';
+                        }
+                        if (permission_delete == "granted") {
+                            btn +=
+                                '<a rel="tooltip" onclick="openConfirmModal('+full.id+')" class="btn btn-danger btn-link m-2" data-original-title="Delete Booth" title="Delete Booth"><i class="material-icons">delete</i><div class="ripple-container"></div></a>';
+                        }
+                        return btn;
+                    }
+                },
+            ]
+        });
+        table.buttons().container()
+                 .insertBefore( '#empTable_filter' );
+    });
+    function openConfirmModal(id){
+        var btn_html = '<a href="/booth/destroy/'+id+'" class="btn  btn-outline-danger">Yes</a><a type="button" class="btn  btn-danger waves-effect" onclick="closeConfirmModal()">No</a>';
+        jQuery('#mod_btn_div').html(btn_html);
+        jQuery('#modalConfirmDelete').modal('show');
+    }
+    function closeConfirmModal(){
+        jQuery('#modalConfirmDelete').modal('hide');
+    }
+</script>

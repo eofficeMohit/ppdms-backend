@@ -99,10 +99,10 @@ return [
     | have failed. You may change them to any database / table you wish.
     |
     */
-
+     
     'failed' => [
-        'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
-        'database' => env('DB_CONNECTION', 'mysql'),
+        'driver' => 'database',
+        'database' => 'pgsql',
         'table' => 'failed_jobs',
     ],
 

@@ -7,6 +7,8 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use DataTables;
+
 class RoleController extends Controller
 {
     /**
@@ -28,9 +30,17 @@ class RoleController extends Controller
      */
     public function index(Request $request): View
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return view('roles.index');
+    }
+    public function getUserRoleData(){
+        $roles = Role::orderBy('created_at', 'desc');
+        return Datatables::eloquent($roles)
+            ->addIndexColumn() 
+            ->addColumn('created_at', function($row){
+                $created_at = date('Y-m-d H:i:s', strtotime( $row->created_at));
+                return $created_at;
+            })
+            ->make();
     }
     /**
      * Show the form for creating a new resource.
